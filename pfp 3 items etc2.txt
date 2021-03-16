@@ -1,0 +1,93 @@
+// PFP 3
+
+
+// Object list + values (for determining what boxes they fit in)
+// EXAMPLE:  https://mdbootstrap.com/education/javascript/chapter-2-lesson-6/
+var packingItem = {
+	lds075  	:	,
+	lds100		:	,
+	lds125		:	,
+	lds150		:	,
+	lds200		:	,
+	lds250		:	,
+	lds300		:	,
+	
+	scv075  	:	,
+	scv100		:	,
+	scv125		:	,
+	scv150		:	,
+	scv200		:	,
+	scv250		:	,
+	scv300		:	,
+	
+	cp		:	1.5,
+	api		:	2,
+	pold		:	1,
+	recirc		:	6,
+	fourHour	:	6,
+	
+	juncBox		:	36,
+	insPouch	:	6,  // Defaults to an additional Medium Shipper
+	backflowBag	:	,
+	ssr		:	,
+	psu12V		:	,
+	psu24V		:	,
+	
+	power50ft	:	,
+	power100ft	:	,
+	
+	rope2ft		:	0.5,
+	rope5ft		:	1,
+	rope10ft	:	1,
+	
+	hiddenWire	:	4.5,
+	
+	
+	
+	//BOXES
+	// Shipper(19x12x7) = 12 (For .75-1.5" systems only)
+	boxLds		:	12,
+	// Medium Shipper(20x12x8) = 6 (Used for 2" systems or Insulated Pouch only)
+	boxLdsMedium	:	6,
+	// 18x18x14 = 18 (Used only for 2.5" and 3" systems)
+	boxLdsLarge	:	18,
+	
+	// Panel Box(10x7x3) = 6
+	boxCp		:	6,
+	// 14x14x14 = 48 (Use only if EJB is included or if Point total is greater than or equal to 49)
+	box14x14	:	48,
+	// Recirc/4 hr Box(9x4x3) = 6 (Only to be used for single Recircp Pump Switch or 4hr Timer)
+	boxRecirc	:	6,
+	// Accessory Box(13x10x5) = 12
+	boxAccessories	:	12,
+	// Mailer(11x9x1) = 2.5 (Use for shippments of accesory only)
+	bubbleMailer	:	2.5,
+	
+	
+	
+	
+	
+
+
+
+	// template to copy/paste if more elements are needed
+	lds075  	:	,
+	lds100		:	,
+	lds125		:	,
+	lds150		:	,
+	lds200		:	,
+	lds250		:	,
+	lds300		:	,
+		
+	
+/* Order of Priority:
+Panel, SCV, Hidden Wire and Pam1 always in Box 1
+1. API
+2. POLD
+3. Recirc Pump Switch
+4. 4hr Time
+5. Enclosures (Pouch + EJB)
+Solid State Relays included with box carrying most POLDs
+*/
+
+};

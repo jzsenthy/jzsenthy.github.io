@@ -1,0 +1,93 @@
+Add the rest of the calculation logic.
+
+
+
+QUESTIONS FOR BRYCE:
+
+What's the default box for POLD-Only systems? Normal shipper? (define around line 612). // FUNCTION:  If LDS is 0 (POLD-Only)
+
+(I guess accessories box is default extra box?)
+
+// 14x14x14 = 48 (Use only if EJB is included or if Point total is greater than or equal to 49) -Bryce
+// I'm guessing this is the overflow box and not the primary box -Jake
+
+
+// Four Hour Timer
+// Does this always go in a 4hrtimer box or does it go in standard boxes like Shipper or 14x14?
+
+
+// I'm assuming the four hour timer box is only used if a single timer or recirc switch is sent, but if both are sent, 
+// then they'll be in something else?
+if ((valueFourHour == 1 || valueRecirc == 1) && (totalValueTotal == 6)) {
+
+
+Add LDS power wire?
+
+Add split system stuff?
+
+
+
+
+
+
+
+Add Mailer "if case" for replacement or shipping of single accessory:
+Mailer(11x9x1) = 2.5 (Use for shipments of accesory only)
+
+
+// TODO:  Highlight selected button (LDS) on load
+
+Separate buttons on top row.
+
+Hide more acessories if POLD-Only is selected? (API, Recirc, FourHour, SSR, PAM-1, Junction, Insulated)?
+
+Make the system toggles on top indicate something on the sheet (like make them a header on the report?).
+
+Put accessory inputs on shared line to take up less vertical room.
+
+Add section titles, and collapsible "Uncommon Accessories" sections?
+
+Maybe format as important/common things on left, uncommon/default things on right column.
+
+Hide extraPold section if POLDs goes back to 0.
+
+
+Need to make a loop for assigning POLDs one at a time to a box, storing the value of which box has the most, 
+then at the end, assign SSRs to that box as well (with value of 0 I guess).
+"Solid State Relays included with box carrying most POLDs"
+
+
+
+
+
+
+---
+Icons or images beside each accessory box.
+
+Add logo of shelled peanut halfway out of an open box (flaps 45 degrees up/out, corner facing us). Use as favicon too.
+
+Put version/revision number on page (bottom right).
+
+Wizard design? Where things show up after clicking the previous thing (to filter options by LDS/POLD only/accessories only/replacement/custom/all/etc).
+
+Auto generate & print packing label (packing list sticker on box, not fedex label or actual packing list). (Maybe create a new window at 4x6, or a text file on server side or something).
+
+Bigger up/down number buttons?
+
+Show up/down number buttons by default, before entering anything?
+
+
+
+
+
+
+
+---------------------------------
+DONE
+---------------------------------
+Add dark mode.
+
+Add vertical spacing/padding/gutter/gap between div elements.
+
+Change accordians to rows that start hidden until you click a button, so its one seamless block. (Just have many blocks already created, and only show the relevant ones as you press buttons.
+
