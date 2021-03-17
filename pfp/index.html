@@ -22,8 +22,26 @@
 
     <!-- My CSS -->
     <style>
+        /* Hide these until shown (at end, upon submit) */
         #expandPold {
             display: none;
+        }
+        #resultsBoxContainer {
+            display: none;
+        }
+
+        /*  Defines colors for printing as white background, black text */
+        /*  HISTORY:  It was printing with gray text as default */
+        /*  HISTORY:  Color was not working on <pre> text until i changed .pre to pre (duh, it's not a class) */
+        @media print {
+            .resultsBoxContainer {
+                color: black;
+                background-color: white;
+            }
+            pre {
+                color: black;
+                background-color: white;
+            }
         }
     </style>
 
@@ -38,9 +56,55 @@
     <div class="container">
 
         <!-- Header -->
-        <div class="row">
+        <div class="row" id="pageTitle">
             <div class="col-md my-3">
                 <h1 class="text-center">Packing for Peanuts</h1>
+            </div>
+        </div>
+        <!--   -->
+
+
+
+        <!-- FUNCTION:  Show results upon form submit (and hide rest of page) -->
+        <!-- Start hidden, only show after hitting submit  -->
+        <!-- TITLE:  Results box -->
+        <div class="resultsBoxContainer" id="resultsBoxContainer">
+            <!-- Don't show title during print -->
+            <div class="row resultsBoxTitle d-print-none" id="resultsBoxTitle">
+                <div class="col-md my-3">
+                    <h2>Packing Results:</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md mb-3 resultsBox" id="resultsBox">
+                    Sample
+                </div>
+            </div>
+            <!-- TIP:  Boostrap class  .d-print-none  hides this during printing-->
+            <!-- REFERENCE:  https://stackoverflow.com/a/36352263 -->
+            <!-- REFERENCE:  https://getbootstrap.com/docs/5.0/utilities/display/#display-in-print -->
+            <div class="row d-print-none">
+                <form id="resultsForm">
+                    <!-- FORM FOOTER -->
+                    <div class="row mb-3">
+                        <div class="col">
+                            <!-- FUNCTION:  This "submit" button isn't actually submitting anything, but it refreshes the page on submit, which is the goal  -->
+                            <!-- TIP:  Align right with float-end -->
+                            <button type="submit" class="btn btn-warning mb-5 submitButton"
+                                id="resultsSubmitButton">Start Over</button>
+                        </div>
+
+                        <div class="col">
+                            <!-- FUNCTION:  Print button -->
+                            <!-- TIP:  Align right with float-end or float-right-->
+                            <input type="button"  class="btn btn-primary mb-5 float-right printButton" id="printButton" value="Print" onClick="window.print()">
+                        </div>
+                    </div>
+                    </div>
+
+
+
+                </form>
             </div>
         </div>
         <!--   -->
@@ -66,7 +130,11 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
         <!-- BEHAVIOR:  onclick, it runs the javascript function  collapseGroup, and sends the name of the group/class to expand as an argument -->
         <!-- TIP:  Add a class name (like groupLds) to every element in a group you want shown (when clicking a header button), since comma-separated IDs didn't work -->
 
-        <form>
+        <!-- BEHAVIOR:  onsubmit="return false"  was added to prevent the page refresh on submit, so I can show the results -->
+        <!-- REFERENCE:  https://stackoverflow.com/a/57226770 -->
+        <!-- TODO:  Add a Reset/Continue/Clear/Start Over button to the results (as well as a Print button, defaulting to 4x6 and zebra printer) -->
+
+        <form id="mainForm" onsubmit="return false">
             <div id="wizard1">
                 <div class="row mb-4">
                     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
@@ -397,22 +465,25 @@ Solid State Relays included with box carrying most POLDs
             //  window.alert("yo boxLdsMedium = " + packingItem.boxLdsMedium);
 
 
-            // GET FORM VALUES
-            // FUNCTION:  Store form values in variables (to use for calculations)
-            // TODO:  Convert to array or object, to sum total easier
 
-            // SUBMIT BUTTON (using addEventListener instead of onclick)
+
+
+            /// GET FORM VALUES
+            /// FUNCTION:  Store form values in variables (to use for calculations)
+            /// TODO:  Convert to array or object, to sum total easier
+
+            /// SUBMIT BUTTON (using addEventListener instead of onclick)
             document.getElementById("finalSubmitButton").addEventListener("click", function () {
                 // document.getElementById("demo").innerHTML = "Hello World";
                 // window.alert("finalSubmitButton was pressed");
 
 
-                // ITEMS  (values entered by user)
-                // Don't add lds to value total
-                // TIP:  To always show 2 decimel places:  Number(x).toFixed(2);
-                // REFERENCE:  https://stackoverflow.com/a/13292833
+                /// ITEMS  (values entered by user)
+                /// Don't add lds to value total
+                /// TIP:  To always show 2 decimel places:  Number(x).toFixed(2);
+                /// REFERENCE:  https://stackoverflow.com/a/13292833
                 var valueLds = Number(document.getElementById("selectLds").value).toFixed(2);
-                //window.alert("yo valueLds = " + valueLds);
+                ///window.alert("yo valueLds = " + valueLds);
 
                 // Add this group to value total
                 // TIP:  Use parseInt() or parseFloat() or Number() since it thinks these are strings and not adding properly (Number() does floats too [numbers with decimels])
@@ -479,6 +550,9 @@ Solid State Relays included with box carrying most POLDs
 
 
 
+
+                // TITLE:  Alert function
+                // HISTORY:  Didn't work so I just used a hidden div and rewriting the innerHTML after form submit
                 // TODO:  Get this custom alert function working so I can title the 'popup'
                 // FUNCTION:  Create custom window.alert popup function so I can retitle it
                 // SOURCE:  https://stackoverflow.com/a/13411862
@@ -486,6 +560,11 @@ Solid State Relays included with box carrying most POLDs
                 //    var myElementToShow = document.getElementById("someElementId");
                 //    myElementToShow.innerHTML = title + "</br>" + message; 
                 //}
+                //// My rewrite attempt:
+                //window.alert = function(message){
+                //   var myElementToShow = document.getElementById("resultsBox");
+                //  myElementToShow.innerHTML = message; 
+                // }
 
 
 
@@ -537,9 +616,9 @@ Solid State Relays included with box carrying most POLDs
                 // QUESTION:  Is the normal shipper the default box for POLD-Only? Or is it 14x14 or something? (Change/define here)
                 // TODO:  Maybe add:  || valueLds == '' || valueLds == 'undefined'
                 else if (valueLds == 0) {
-                    window.alert("POLD-Only system\n valueLds = " + valueLds);
+                    //window.alert("POLD-Only system\n valueLds = " + valueLds);
                     // FUNCTION:  Call function to build list of all items and what boxes they go in (displayed later through alert)
-                    var outputStringFunc = buildOutputString("--POLD-Only system--\nAccessory Box (13x10x5)", packingItem.boxAccessories);
+                    var outputStringFunc = buildOutputString("-- POLD System --\n\nAccessory Box (13x10x5)", packingItem.boxAccessories);
                 }
                 else {
                     window.alert("yo something is wrong with the LDS value.\n valueLds = " + valueLds);
@@ -549,8 +628,46 @@ Solid State Relays included with box carrying most POLDs
 
 
 
-                // FUNCTION:  List all items &  boxes they go in (outputStringFunc is the return string value from calling buildOutputString function below, from above)
+
+
+
+
+                ///////////////////////////
+                // FINAL COMMAND THAT RUNS:
+                ///////////////////////////
+
+                // FUNCTION:  List all items & boxes they go in (outputStringFunc is the return string value from calling buildOutputString function below, from above)
                 window.alert(outputStringFunc);
+
+                // FUNCTION:  Hide form
+                var elementToToggle = document.getElementById("mainForm");
+                elementToToggle.style.display = "none";
+
+                // FUNCTION:  Hide pageTitle
+                var elementToToggle = document.getElementById("pageTitle");
+                elementToToggle.style.display = "none";
+
+                // FUNCTION:  Show results div
+                var elementToToggle = document.getElementById("resultsBoxContainer");
+                elementToToggle.style.display = "block";
+
+
+                // FUNCTION:  Show text output in results div
+                // TIP:  Add <pre> HTML tag to maintain line breaks ("preformatted text")
+                // TIP:  You could also replace the \n with <br> if you want HTML formatted line breaks
+                // TODO:  Change from <pre> text to something better (can't really format it)
+                //var outputStringFuncParsed = JSON.parse(outputStringFunc);
+                //document.getElementById("resultsBox").innerHTML = outputStringFuncParsed;
+                document.getElementById("resultsBox").innerHTML = "<pre>" + outputStringFunc + "</pre>";
+
+
+
+
+
+
+
+
+
 
 
 
@@ -560,18 +677,19 @@ Solid State Relays included with box carrying most POLDs
 
 
                 // FUNCTION:  Function to build list of items to pack, and show in a popup (to use in each LDS size condition below)
+                // NOT THE FINAL THING THAT RUNS
                 function buildOutputString(initialBox, boxValue) {
                     // FUNCTION:  List all items and what boxes they go in
                     // TODO:  Change valueLds to number/amount of LDS entered, then add valueLdsSize for each valve size?
-                    var outputString = initialBox + " box: \n";
+                    var outputString = initialBox + " Box: \n";
 
                     // Add "Replacement" header if checkbox is checked
                     if (valueReplacement > 0) {
-                        var outputString = "--Replacement--\n" + initialBox + " box: \n";
+                        var outputString = "-- Replacement --\n\n" + initialBox + " Box: \n";
                         // window.alert("valueReplacement = " + valueReplacement);
                     }
                     else {
-                        var outputString = initialBox + " box: \n";
+                        var outputString = initialBox + " Box: \n";
                         // window.alert("valueReplacement = " + valueReplacement);
                     }
                     // window.alert("valueReplacement = " + valueReplacement);
@@ -888,6 +1006,7 @@ Solid State Relays included with box carrying most POLDs
                 }
 
 
+                // THE FINAL CODE RUN TO SHOW RESULTS OUTPUT IS IN THE BLOCK ABOVE/BEFORE THIS FUNCTION, NOT HERE
 
 
 
