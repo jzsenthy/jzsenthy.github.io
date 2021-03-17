@@ -280,7 +280,6 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
 
 
 
-            // TESTING;
             // Change checkboxes from On/NaN to 1 or 0
             // SOURCE:  https://stackoverflow.com/questions/18295811/checkbox-value-0-or-1
             // SOURCE:  https://stackoverflow.com/a/63962842
@@ -338,6 +337,7 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
             // FUNCTION:  Define Object list + values  (for determining what boxes they fit in)
             // EXAMPLE:  https://mdbootstrap.com/education/javascript/chapter-2-lesson-6/
             var packingItem = {
+                lds: 0,
                 lds075: 0,
                 lds100: 0,
                 lds125: 0,
@@ -406,7 +406,7 @@ Solid State Relays included with box carrying most POLDs
                 // window.alert("finalSubmitButton was pressed");
 
 
-                // ITEMS
+                // ITEMS  (values entered by user)
                 // Don't add lds to value total
                 // TIP:  To always show 2 decimel places:  Number(x).toFixed(2);
                 // REFERENCE:  https://stackoverflow.com/a/13292833
@@ -444,12 +444,15 @@ Solid State Relays included with box carrying most POLDs
 
 
                 // FUNCTION:  Find the total items added into the form
+                // Didn't include LDS because it's not a frequency but a size.
                 var valueTotal = valueScv + valueCp + valuePold + valueLeakRope5ft + valueLeakRope10ft + valueApi + valueRecirc + valueFourHour + valueSsr + valueJuncBox + valueInsulPouch + valueHiddenWire;
 
                 //window.alert("yo valueTotal (form input)= " + valueTotal);
 
 
-                // FUNCTION:  Multiply the number of each item in the form with the value of the item, to find packing size value
+                // FUNCTION:  Multiply the number of each item in the form with the value of the item, to find packing size value. (values for size/space)
+                // Can break this out by lds size later if we want
+                var totalValueLds = valueLds * packingItem.lds;
                 var totalValueScv = valueScv * packingItem.scv;
                 // window.alert("yo totalValueScv = " + totalValueScv);
                 var totalValueCp = valueCp * packingItem.cp;
@@ -468,7 +471,7 @@ Solid State Relays included with box carrying most POLDs
 
 
                 // FUNCTION:  Find the total packing space required by adding all values of number of items multiplied by their space taken
-                var totalValueTotal = totalValueScv + totalValueCp + totalValuePold + totalValueLeakRope2ft + totalValueLeakRope5ft + totalValueLeakRope10ft + totalValueApi + totalValueRecirc + totalValueFourHour + totalValueSsr + totalValueJuncBox + totalValueInsulPouch + totalValueHiddenWire;
+                var totalValueTotal = totalValueLds + totalValueScv + totalValueCp + totalValuePold + totalValueLeakRope2ft + totalValueLeakRope5ft + totalValueLeakRope10ft + totalValueApi + totalValueRecirc + totalValueFourHour + totalValueSsr + totalValueJuncBox + totalValueInsulPouch + totalValueHiddenWire;
 
 
                 //window.alert("yo totalValueTotal () = " + totalValueTotal);
@@ -545,7 +548,7 @@ Solid State Relays included with box carrying most POLDs
 
 
 
-                // FUNCTION:  List all items and what boxes they go in (outputStringFunc is the return string value from calling buildOutputString function from above)
+                // FUNCTION:  List all items &  boxes they go in (outputStringFunc is the return string value from calling buildOutputString function below, from above)
                 window.alert(outputStringFunc);
 
 

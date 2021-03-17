@@ -1,0 +1,335 @@
+VSCODE auto-indent:  Alt+Shift+F
+Brackets auto-indent: Ctrl+Alt+I
+
+https://www.reddit.com/r/vscode/comments/6c1uk8/how_do_you_auto_indent_your_code/
+This drove me nuts too. I ended up using the Beautify plugin by Hooky QR and set it to format the file on save.
+https://marketplace.visualstudio.com/items?itemName=HookyQR.beautify
+
+
+
+VSCODE Live Preview (html+javascript) and debugging:  Debugger for Chrome
+https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome
+
+
+
+If global variable is not working within a function, it's because you're modifying the variable within the function, which creates a duplicate variable, overwriting the global variable.
+I can't find a way to access and modify the global variable within a function (this.variable doesn't work, redefining at the top doesn't work).
+You just have to use a different variable (don't declare with var or modify the global one within a function), or you have to initialize it to the value you want within the function instead of outside it.
+
+Oh maybe it's not working correctly because I defined it in a function upon submit?:
+document.getElementById("finalSubmitButton").addEventListener("click", function () {
+
+
+
+If it's not working and not giving you an error, turn on breakpoints on the bottom left after running, and enable caught and uncaught exceptions.
+
+
+
+
+
+
+
+--------------------
+Javascript:
+Single line comments start with //
+Multi-line comments start with /* and end with */
+
+
+
+
+
+            // Change checkboxes from On/NaN to 1 or 0
+            // SOURCE:  https://stackoverflow.com/questions/18295811/checkbox-value-0-or-1
+            // SOURCE:  https://stackoverflow.com/a/63962842
+             document.addEventListener('DOMContentLoaded', e => {
+                for (let checkbox of document.querySelectorAll('input[type=checkbox]')) {
+                    checkbox.value = checkbox.checked ? 1 : 0;
+                    checkbox.addEventListener('change', e => {
+                        e.target.value = e.target.checked ? 1 : 0;
+                    });
+                }
+            });
+
+
+
+
+
+
+
+getElementById
+document.getElementById("exercise").innerHTML = "Hello";
+
+
+
+String = 'single' or "double quotes"
+	(You can use quotes inside a string, as long as they don't match the quotes surrounding the string.)
+
+
+
+Arrays = square bremember my namerackets (zero-based).
+	var cars = ["Saab", "Volvo", "BMW"];
+
+	Spaces and line breaks are not important. A declaration can span multiple lines.
+	Do not put the comma after the last element in the array.
+
+
+
+Objects are written with curly braces {}.
+	var person = {  firstName : "John",  lastName  : "Doe",
+	  age     : 50,
+	  eyeColor  : "blue"
+	};
+
+
+
+
+
+
+
+
+Switch statement
+https://mdbootstrap.com/education/javascript/chapter-3-lesson-6/
+
+switch(expression) {
+  case x:
+    // code block
+    break;
+  case y:
+    // code block
+    break;
+  default:
+    // code block
+}
+
+
+
+
+
+Loops
+https://mdbootstrap.com/education/javascript/chapter-3-lesson-7/
+	for - loops through a block of code a number of times
+	for/in - loops through the properties of an object
+	while - loops through a block of code while a specified condition is true
+	do/while - also loops through a block of code while a specified condition is true
+
+
+
+
+
+
+
+
+typeof operator finds the type of a variable.
+alert(typeof x);   // Returns "string"
+	(The typeof operator returns object for both objects, arrays, and null.)
+
+
+
+Empty Values
+var car = "";    // The value is "", the typeof is "string"
+
+
+
+Null is "nothing". It is supposed to be something that doesn't exist.
+  You can empty an object by setting it to null:
+	var person = {firstName:"John", lastName:"Doe", age:50, eyeColor:"blue"};
+	person = null;    // Now value is null, but type is still an object
+
+
+
+
+
+Function example:
+<!-- Just an empty paragraph, where the result of the calculation of the following function will appear -->
+ <p id="demo"></p>
+
+ <script>
+     // This is a function that calculates the multiplication of two variables
+     function myFunction(p1, p2) {
+         return p1 * p2;
+     }
+
+     // After calculation we invoke the function and place its result into a paragraph with id = "demo"
+     document.getElementById("demo").innerHTML = myFunction(4, 3);
+ </script>
+
+
+
+
+The () Operator Invokes the Function
+	myFunction returns the function definition, and myFunction() returns the function result.
+
+
+	Local variables are created when a function starts, and deleted when the function is completed.
+
+
+Accessing Object Properties
+objectName.propertyName
+person.firstName
+
+objectName["propertyName"]
+person["firstName"]
+
+
+
+
+
+
+
+Accessing Object Methods
+
+You access an object method with the following syntax:
+
+objectName.methodName()
+or
+name = person.fullName();
+
+
+
+
+
+
+
+
+
+
+
+
+onclick example:
+<!-- Button with an ID "button-test" -->
+<button id="button-test" type="button">Click me!</button>
+
+<!-- Empty paragraph with an ID "example-1" -->
+<p id="example-1"></p>
+
+<script>
+    // This instruction says "If you click button with ID 'button-test' run myFunction"
+    document.getElementById("button-test").onclick = function () {
+        myFunction()
+    };
+
+    // This instruction says "Put this text into a paragraph with an ID "example-1"
+    function myFunction() {
+        document.getElementById("example-1").innerHTML = "WOW, YOU CLICKED ME!";
+    }
+</script>
+
+
+
+
+EXAMPLE onclick alert:
+<button id="button-ex-1" type="button">Click me!</button>
+
+<script>
+    document.getElementById("button-ex-1").onclick = function () {
+        alert("hello");
+    };
+</script>
+
+
+
+
+EXAMPLE div element that changes background color when mouse moves over it:
+HTML
+<div id="example-3">Example div</div>
+
+<script>
+    document.getElementById("example-3").onmouseover = function () {
+        document.getElementById("example-3").style.backgroundColor = 'red';
+    };
+</script>
+
+
+
+
+Common HTML Events
+Event	Description
+onchange	An HTML element has been changed
+onclick	The user clicks an HTML element
+onmouseover	The user moves the mouse over an HTML element
+onmouseout	The user moves the mouse away from an HTML element
+onkeydown	The user pushes a keyboard key
+onload	The browser has finished loading the page
+
+
+
+
+
+Search() vs indexof():
+https://mdbootstrap.com/education/javascript/chapter-2-lesson-8/
+
+The search() method cannot take a second start position argument.
+The indexOf() method cannot take powerful search values (regular expressions).
+
+
+
+
+Extracting String Parts
+https://mdbootstrap.com/education/javascript/chapter-2-lesson-8/
+
+slice(start, end)
+substring(start, end)
+substr(start, length)
+
+
+
+
+
+
+Comparison Operators
+https://mdbootstrap.com/education/javascript/chapter-3-lesson-3/
+
+Given that x = 5:
+Operator	Description			Comparing	Returns
+==		equal to			x == 8		false
+						x == 5		true
+						x == "5"	true
+===		equal value and equal type	x === 5		true
+						x === "5"	false
+!=		not equal			x != 8		true
+!==		not equal value or type		x !== 5		false
+						x !== "5"	true
+						x !== 8		true
+>		greater than			x > 8		false
+<		less than			x < 8		true
+>=		greater than or equal to	x >= 8		false
+<=		less than or equal to		x <= 8		true
+
+
+
+Logical Operators
+
+Given that x = 6 and y = 3:
+Operator	Description	Example
+&&		and		(x < 10 && y > 1) is true
+||		or		(x == 5 || y == 5) is false
+!		not		!(x == y) is true
+
+
+
+Comparing Different Types
+	When comparing a string with a number, JavaScript will convert the string to a number when doing the comparison. An empty string converts to 0. A non-numeric string converts to NaN which is always false.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------
+alert(person.firstname);
+
+var person = {name:"john",age:50};
+alert(person.name+" is "+person.age);
+
+
