@@ -33,6 +33,15 @@ If it's not working and not giving you an error, turn on breakpoints on the bott
 
 
 
+Github commits
+jzsenthy
+73659347+jzsenthy @users.noreply.github.com__________
+
+
+
+
+
+
 
 
 
@@ -45,19 +54,49 @@ Multi-line comments start with /* and end with */
 
 
 
-            // Change checkboxes from On/NaN to 1 or 0
-            // SOURCE:  https://stackoverflow.com/questions/18295811/checkbox-value-0-or-1
-            // SOURCE:  https://stackoverflow.com/a/63962842
-             document.addEventListener('DOMContentLoaded', e => {
-                for (let checkbox of document.querySelectorAll('input[type=checkbox]')) {
-                    checkbox.value = checkbox.checked ? 1 : 0;
-                    checkbox.addEventListener('change', e => {
-                        e.target.value = e.target.checked ? 1 : 0;
-                    });
-                }
-            });
+// Change checkboxes from On/NaN to 1 or 0
+// SOURCE:  https://stackoverflow.com/questions/18295811/checkbox-value-0-or-1
+// SOURCE:  https://stackoverflow.com/a/63962842
+ document.addEventListener('DOMContentLoaded', e => {
+    for (let checkbox of document.querySelectorAll('input[type=checkbox]')) {
+        checkbox.value = checkbox.checked ? 1 : 0;
+        checkbox.addEventListener('change', e => {
+            e.target.value = e.target.checked ? 1 : 0;
+        });
+    }
+});
 
 
+
+
+<!-- BEHAVIOR:  onsubmit="return false"  was added to prevent the page refresh on submit, so I can show the results -->
+<!-- REFERENCE:  https://stackoverflow.com/a/57226770 -->
+<form onsubmit="return false">
+
+
+
+
+
+HIDE ELEMENT DURING PRINT:
+<!-- TIP:  Boostrap class  .d-print-none  hides this during printing-->
+<!-- REFERENCE:  https://stackoverflow.com/a/36352263 -->
+<!-- REFERENCE:  https://getbootstrap.com/docs/5.0/utilities/display/#display-in-print -->
+<div class="row d-print-none">
+
+Native CSS:
+
+@media print {
+  .hidden-class-for-print {
+    display: none !important;
+  }
+}
+
+
+
+
+
+Troubleshooting:
+If you lost the margin/padding on your stuff, you probably have one extra </div> closing tag somewhere (mine was in new code at the top).
 
 
 

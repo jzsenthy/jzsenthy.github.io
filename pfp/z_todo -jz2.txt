@@ -2,6 +2,8 @@ Add the rest of the calculation logic.
 
 Change  totalValuePold   to 1 item at a time, until  totalValuePold  hits 0
 
+Only include SCV if LDS is > 0
+
 
 Add an extra variable, for boxValueLeft/boxSpaceLeft
 Line 582
@@ -22,6 +24,10 @@ loadItemIntoBox(valueItem,spaceItem,totalValueItem,totalValueCurrent,boxValueLef
 
 Change alert box to something else.
 (Javascript alert box truncated after 24 lines (or some amount of characters)).
+
+
+
+<!-- TODO:  Add a Reset/Continue/Clear/Start Over button to the results (as well as a Print button, defaulting to 4x6 and zebra printer) -->
 
 
 

@@ -90,8 +90,7 @@
                         <div class="col">
                             <!-- FUNCTION:  This "submit" button isn't actually submitting anything, but it refreshes the page on submit, which is the goal  -->
                             <!-- TIP:  Align right with float-end -->
-                            <button type="submit" class="btn btn-warning mb-5 submitButton"
-                                id="resultsSubmitButton">Start Over</button>
+                            <button type="submit" class="btn btn-warning mb-5 submitButton" id="resultsSubmitButton">Start Over</button>
                         </div>
 
                         <div class="col">
@@ -100,10 +99,6 @@
                             <input type="button"  class="btn btn-primary mb-5 float-right printButton" id="printButton" value="Print" onClick="window.print()">
                         </div>
                     </div>
-                    </div>
-
-
-
                 </form>
             </div>
         </div>
@@ -637,7 +632,8 @@ Solid State Relays included with box carrying most POLDs
                 ///////////////////////////
 
                 // FUNCTION:  List all items & boxes they go in (outputStringFunc is the return string value from calling buildOutputString function below, from above)
-                window.alert(outputStringFunc);
+                // HISTORY:  Old method was to show an alert. I'm now showing a full page printable list.
+                //window.alert(outputStringFunc);
 
                 // FUNCTION:  Hide form
                 var elementToToggle = document.getElementById("mainForm");
@@ -777,7 +773,7 @@ Solid State Relays included with box carrying most POLDs
                         else {
                             // Change current box to accessory box (or whatever box is next, like 14x14)
                             // DEBUGGING (1 line)
-                            var outputString = outputString + "\n last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
+                            var outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
                             var boxValue = nextBoxValue;
                             var boxValueLeft = boxValue;
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
@@ -801,7 +797,7 @@ Solid State Relays included with box carrying most POLDs
                         else {
                             // Change current box to accessory box (or whatever box is next, like 14x14)
                             // DEBUGGING (1 line)
-                            var outputString = outputString + "\n last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
+                            var outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
                             var boxValue = nextBoxValue;
                             var boxValueLeft = boxValue;
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
@@ -835,7 +831,7 @@ Solid State Relays included with box carrying most POLDs
                         else {
                             // Change current box to accessory box (or whatever box is next, like 14x14)
                             // DEBUGGING (1 line)
-                            var outputString = outputString + "\n last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
+                            var outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
                             var boxValue = nextBoxValue;
                             var boxValueLeft = boxValue;
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
@@ -859,7 +855,7 @@ Solid State Relays included with box carrying most POLDs
                         else {
                             // Change current box to accessory box (or whatever box is next, like 14x14)
                             // DEBUGGING (1 line)
-                            var outputString = outputString + "\n last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
+                            var outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
                             var boxValue = nextBoxValue;
                             var boxValueLeft = boxValue;
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
@@ -883,7 +879,7 @@ Solid State Relays included with box carrying most POLDs
                         else {
                             // Change current box to accessory box (or whatever box is next, like 14x14)
                             // DEBUGGING (1 line)
-                            var outputString = outputString + "\n last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
+                            var outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
                             var boxValue = nextBoxValue;
                             var boxValueLeft = boxValue;
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
@@ -907,7 +903,7 @@ Solid State Relays included with box carrying most POLDs
                         else {
                             // Change current box to accessory box (or whatever box is next, like 14x14)
                             // DEBUGGING (1 line)
-                            var outputString = outputString + "\n last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
+                            var outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
                             var boxValue = nextBoxValue;
                             var boxValueLeft = boxValue;
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
@@ -931,7 +927,7 @@ Solid State Relays included with box carrying most POLDs
                         else {
                             // Change current box to accessory box (or whatever box is next, like 14x14)
                             // DEBUGGING (1 line)
-                            var outputString = outputString + "\n last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
+                            var outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
                             var boxValue = nextBoxValue;
                             var boxValueLeft = boxValue;
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
@@ -955,7 +951,7 @@ Solid State Relays included with box carrying most POLDs
                         else {
                             // Change current box to accessory box (or whatever box is next, like 14x14)
                             // DEBUGGING (1 line)
-                            var outputString = outputString + "\n last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
+                            var outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
                             var boxValue = nextBoxValue;
                             var boxValueLeft = boxValue;
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
@@ -979,7 +975,7 @@ Solid State Relays included with box carrying most POLDs
                         else {
                             // Change current box to accessory box (or whatever box is next, like 14x14)
                             // DEBUGGING (1 line)
-                            var outputString = outputString + "\n last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
+                            var outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
                             var boxValue = nextBoxValue;
                             var boxValueLeft = boxValue;
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
@@ -999,8 +995,8 @@ Solid State Relays included with box carrying most POLDs
 
 
                     // For debugging
-                    var outputString = outputString + "\n last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
-                    var outputString = outputString + "\n totalValueTotal = " + totalValueTotal + ".  totalValueCurrent = " + totalValueCurrent;
+                    var outputString = outputString + "\n\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft;
+                    var outputString = outputString + "\n DEBUGGING INFO: totalValueTotal = " + totalValueTotal + ".  totalValueCurrent = " + totalValueCurrent;
 
                     return outputString;
                 }
