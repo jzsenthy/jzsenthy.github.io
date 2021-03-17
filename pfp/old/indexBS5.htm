@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+        <title>Hello, world!</title>
+    </head>
+    <body>
+
+
+
+
+        <h1 class="text-center">Hello, world!</h1>
+        <div class="container">
+            <!-- Header -->
+            <div class="row">
+                <div class="col-md">
+                    <h1 class="text-center">Packing For Peanuts</h1>
+                </div>
+            </div>
+            <!--   -->
+
+            <!--
+To make other sections collapse when one expands:
+For Bootstrap5      Add the  data-bs-parent="#customParentID"  attribute to the collapse elements instead of the button.
+https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-when-one-is-expanded
+-->
+
+            <!--  Adding gap on parent div requires me to click a button twice for it to show content the first time... -->
+            <div id="wizard1">
+                <div class="row">
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+
+                        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off"  data-bs-toggle="collapse" data-bs-target="#ldsBox" aria-expanded="false" aria-controls="ldsBox">
+                        <label class="btn btn-outline-primary" for="btnradio1">System:&nbsp;  LDS Valve</label>
+
+                        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off"  data-bs-toggle="collapse" data-bs-target="#poldOnlyBox" aria-expanded="false" aria-controls="poldOnlyBox">
+                        <label class="btn btn-outline-primary" for="btnradio2">System:&nbsp;  POLD-Only</label>
+
+                        <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off"  data-bs-toggle="collapse" data-bs-target="#accessoriesBox" aria-expanded="false" aria-controls="accessoriesBox">
+                        <label class="btn btn-outline-primary" for="btnradio3">Acessories Only</label>
+                    </div>
+                </div>
+
+
+                <!-- TODO:  Change class collapse.show to collapse to hide by default after programming/testing is done -->
+                <div class="row collapse.show ldsBox" id="ldsBox" data-bs-parent="#wizard1">
+
+                    <!-- TODO:  form class="mx-3" but make it actually work to shrink the box on the right end as well instead of overflow -->
+                    <!-- Example from:  https://getbootstrap.com/docs/5.0/forms/overview/ -->
+                    <form>
+                        <div class="my-4">
+                            <label for="inputPold" class="form-label">LDS Valve Size</label>
+                            <!-- Auto-include SCV of same size -->
+                            <!-- Auto-include CP, 12V PSU -->
+                            <select class="form-select" id="selectLds">
+                                <option selected></option>
+                                <option value="1">0.75"</option>
+                                <option value="2">1.00"</option>
+                                <option value="3">1.25"</option>
+                                <option value="4">1.50"</option>
+                                <option value="5">1.75"</option>
+                                <option value="6">2.00"</option>
+                                <option value="7">2.50"</option>
+                                <option value="8">3.00"</option>
+                            </select>
+                        </div>
+                        <!-- font-weight-bold isn't working... -->
+                        <div class="mt-3 mb-3 font-weight-bold"><b>Enter the amount of each accessory:</b></div>
+                        <!-- div class mb-3 is margin-bottom -->
+                        <div class="mb-3">
+                            <!-- Default to 1, with min and max -->
+                            <label for="inputPold" class="form-label">POLDs</label>
+                            <input type="number" class="form-control" id="inputPold" min="0" max="30" aria-describedby="poldHelp">
+                            <div id="poldHelp" class="form-text">Maximum of 30. If requesting more than 15, contact shipping department.</div>
+                        </div>
+                        <div class="mb-3">
+                            <!-- value="1" to default to 1. With min and max -->
+                            <label for="inputApi" class="form-label">APIs</label>
+                            <input type="number" class="form-control" id="inputApi" min="0" max="50" aria-describedby="apiHelp">
+                            <div id="apiHelp" class="form-text">Maximum of 3. If requesting more than 3, contact shipping department.</div>
+                        </div>
+                        <div class="mb-3">
+                            <!-- Default to 1, with min and max -->
+                            <label for="inputRecirc" class="form-label">Recirculation Pump Switch</label>
+                            <input type="number" class="form-control" id="inputRecirc" min="0" max="30">
+                        </div>
+
+                        
+                            <!-- TODO: Expand to show extra input fields like zoho link, device id, details/comment box to help person preparing -->
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">Replacement for existing system/accessory</label>
+                        </div>
+
+                        <!-- align right -->
+                        <button type="submit" class="btn btn-primary">Submit</button>
+
+
+
+                        <!-- Initial idea -->
+                        <!-- 
+<div class="row">
+<b>LDS Valve Size</b>
+<!-- Auto-include SCV of same size --
+<!-- Auto-include CP, 12V PSU --
+<select class="form-select" aria-label="Default select example">
+<option selected>LDS Valve Size</option>
+<option value="1">0.75"</option>
+<option value="2">1.00"</option>
+<option value="3">1.25"</option>
+<option value="4">1.50"</option>
+<option value="5">1.75"</option>
+<option value="6">2.00"</option>
+<option value="7">2.50"</option>
+<option value="8">3.00"</option>
+</select>
+</div>
+-->
+
+
+                        <div class="row">
+                        </div>
+                        <div class="row">
+                        </div>
+                        <div class="row">
+                        </div>
+                        <div class="row">
+                        </div>
+                        <div class="row">
+                        </div>
+                        <div class="row">
+                        </div>
+                        <div class="row">
+                        </div>
+                        <div class="row">
+                        </div>
+                        <div class="row">
+                        </div>
+                        <div class="row">
+                        </div>
+
+                    </form>
+                </div>
+
+                <div class="row collapse poldOnlyBox" id="poldOnlyBox" data-bs-parent="#wizard1">
+                    <strong>This is the second item's accordion body.</strong> It is hidden by default,
+                    until the collapse plugin adds the appropriate classes that we use to style each
+                    element. These classes control the overall appearance, as well as the showing and
+                    hiding via CSS transitions. You can modify any of this with custom CSS or
+                    overriding our default variables. It's also worth noting that just about any HTML
+                    can go within the <strong>.row</strong>, though the transition does limit
+                    overflow.
+                </div>
+                <div class="row collapse accessoriesBox" id="accessoriesBox" data-bs-parent="#wizard1">
+                    <strong>This is the third item's accordion body.</strong> It is hidden by default,
+                    until the collapse plugin adds the appropriate classes that we use to style each
+                    element. These classes control the overall appearance, as well as the showing and
+                    hiding via CSS transitions. You can modify any of this with custom CSS or
+                    overriding our default variables. It's also worth noting that just about any HTML
+                    can go within the <strong>.row</strong>, though the transition does limit
+                    overflow.
+                </div>
+            </div>
+
+
+
+
+
+            <!-- Bootstrap Bundle with Popper -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+            <!-- Custom scripts -->
+            <script type="text/javascript">
+
+            </script>
+
+            </body>
+        </html>

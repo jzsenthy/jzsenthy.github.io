@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Packing for Peanuts 3</title>
+
+        <!-- Bootstrap CSS (light mode) -->
+        <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">  -->
+
+        <!-- DARK MODE -->
+        <!-- SOURCE:  https://github.com/vinorodrigues/bootstrap-dark-5 -->
+        <!-- Bootstrap CSS (dark mode) -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-dark-5@0.1/dist/css/bootstrap-night.min.css" rel="stylesheet">
+
+        <!-- The page supports only a dark color schemes -->
+        <meta name="color-scheme" content="dark">
+
+
+
+        <!-- My CSS -->
+        <style>
+            #expandPold {
+                display: none;
+            }
+
+
+
+        </style>
+
+
+
+    </head>
+    <body>
+
+
+
+        <div class="container">
+            <!-- Header -->
+            <div class="row">
+                <div class="col-md my-3">
+                    <h1 class="text-center">Packing For Peanuts</h1>
+                </div>
+            </div>
+            <!--   -->
+
+            <!-- 
+To make other sections collapse when one expands:
+For Bootstrap5      Add the  data-bs-parent="#customParentID"  attribute to the collapse elements instead of the button.
+https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-when-one-is-expanded
+-->
+
+            <!-- To toggle a class of divs shown/hidden (without issues), use html (actually this had the same issue as bootstrap .collapse toggles):
+data-bs-toggle="true" onclick="functionName()"
+<!--   and javascript:
+function functionName() {
+var collapseElementList = [].slice.call(document.querySelectorAll('.groupLds'))
+var collapseList = collapseElementList.map(function (collapseEl) {
+return new bootstrap.Collapse(collapseEl)
+})
+}
+-->
+
+            <!-- TIP:  class="collapse"  to start hidden,  class="collapse.show"  to start shown -->
+
+            <!-- TODO:  Hide/collapse all of this group before showing parts of the group. might need to remove data bs toggle true and parent -->
+            <!-- BUG:  Adding gap on parent div requires me to click a button twice for it to show content the first time... -->
+            <!-- HISTORY:  I was trying to use the bootstrap 5 collapse command, but it wouldn't let me hide everything i want before showing only what I want -->
+            <!--  it would only toggle states, so half of the ones you want to show would disappear if there was overlap and you clicked a different button -->
+            <!--  so I switched to HTML+Javascript  display='none'  and display=''  (to reset it to showing)  -->
+            <!--  (might have to invert this if i don't want everything showing at the start. maybe set it to block or inline instead of ''?) -->
+
+            <!-- BEHAVIOR:  onclick, it runs the javascript function  collapseGroup, and sends the name of the group/class to expand as an argument -->
+            <!-- TIP:  Add a class name (like groupLds) to every element in a group you want shown (when clicking a header button), since comma-separated IDs didn't work -->
+
+            <form>
+                <div id="wizard1">
+                    <div class="row mb-4">
+                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" data-bs-toggle="false" onclick="collapseGroup('groupLds')"  autocomplete="off" aria-expanded="false" aria-controls=".groupLds">
+                            <label class="btn btn-primary" for="btnradio1">System:&nbsp;  LDS Valve</label>
+
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" data-bs-toggle="false" onclick="collapseGroup('groupPoldOnly')"  autocomplete="off" aria-expanded="false" aria-controls=".groupPoldOnly">
+                            <label class="btn btn-primary" for="btnradio2">System:&nbsp;  POLD-Only</label>
+
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" data-bs-toggle="false" onclick="collapseGroup('groupAccessories')"  autocomplete="off" aria-expanded="false" aria-controls=".groupAccessories">
+                            <label class="btn btn-primary" for="btnradio3">Accessories Only</label>
+                        </div>
+                    </div>
+
+
+
+                    <!-- SYSTEM: LDS -->
+                    <!-- TODO:  Change class collapse.show to collapse to hide by default after programming/testing is done -->
+                    <div class="row collapse.show groupWizard1 ldsBox groupLds" id="ldsBox">
+
+                        <!-- TODO:  form class="mx-3" but make it actually work to shrink the box on the right end as well instead of overflow -->
+                        <!-- Example from:  https://getbootstrap.com/docs/5.0/forms/overview/ -->
+
+
+                        <div class="row mb-2">
+                            <div class="col">
+                                <label for="selectLds" class="form-label">LDS Valve Size</label>
+                                <!-- Auto-include SCV of same size -->
+                                <!-- Auto-include CP, 12V PSU -->
+                                <select class="form-select" id="selectLds">
+                                    <option selected></option>
+                                    <option value="0.75">0.75"</option>
+                                    <option value="1.00">1.00"</option>
+                                    <option value="1.25">1.25"</option>
+                                    <option value="1.50">1.50"</option>
+                                    <option value="1.75">1.75"</option>
+                                    <option value="2.00">2.00"</option>
+                                    <option value="2.50">2.50"</option>
+                                    <option value="3.00">3.00"</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="inputScv" class="form-label"><i>Spring Check Valve</i></label>
+                                <input type="number" class="form-control" id="inputScv" value="1" aria-describedby="scvHelp">
+                                <div id="scvHelp" class="form-text"><i>1 is included by default.</i></div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- SYSTEM: POLD-ONLY -->
+                    <div class="row collapse.show groupWizard1 poldOnlyBox groupLds groupPoldOnly" id="poldOnlyBox">
+                        <div class="mb-4">
+                            <label for="inputCp" class="form-label">Control Panel</label>
+                            <input type="number" class="form-control" id="inputCp" value="1">
+                        </div>
+                    </div>
+
+
+                    <!-- ACCESSORIES -->
+                    <div class="row collapse.show groupWizard1 accessoriesBox groupLds groupPoldOnly groupAccessories" id="accessoriesBox">
+
+
+                        <!-- font-weight-bold isn't working... -->
+                        <div class="mt-3 mb-3 font-weight-bold"><b>Enter the amount of each accessory:</b></div>
+                        <!-- div class mb-3 is margin-bottom -->
+                        <div class="mb-3">
+                            <label for="inputPold" class="form-label">POLDs</label>
+                            <input type="number" class="form-control" id="inputPold" min="0" max="30" aria-describedby="poldHelp">
+                            <div id="poldHelp" class="form-text"><i>Maximum of 30. If requesting more than 15, contact shipping department.</i></div>
+                        </div>
+                        <!-- Maybe have a "leak rope? Y/N popup before the options show up. or a Probes/LeakRope selector, defaulting to probes.) -->
+                        <div class="card m-3 expandPold" id="expandPold">
+                            <div class="m-3">
+                                <label for="inputLeakRope5ft" class="form-label">Leak Rope (5ft)</label>
+                                <input type="number" class="form-control" id="inputLeakRope5ft" min="0" max="30">
+                            </div>
+                            <div class="m-3">
+                                <label for="inputLeakRope10ft" class="form-label">Leak Rope (10ft)</label>
+                                <input type="number" class="form-control" id="inputLeakRope10ft" min="0" max="30">
+                            </div>
+                        </div>
+                        <div class="mb-5">
+                            <!-- value="1" to default to 1. With min and max -->
+                            <label for="inputApi" class="form-label">APIs</label>
+                            <input type="number" class="form-control" id="inputApi" min="0" max="50" aria-describedby="apiHelp">
+                            <div id="apiHelp" class="form-text"><i>Maximum of 3. If requesting more than 3, contact shipping department.</i></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputRecirc" class="form-label">Recirculation Pump Switch</label>
+                            <input type="number" class="form-control" id="inputRecirc" value="0">
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputFourHour" class="form-label">Four Hour Timer</label>
+                            <input type="number" class="form-control" id="inputFourHour" value="0">
+                        </div>
+                        <div class="mb-5">
+                            <label for="inputSsr" class="form-label">Solid State Relay</label>
+                            <input type="number" class="form-control" id="inputSsr" value="0">
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputJuncBox" class="form-label">Junction Box</label>
+                            <input type="number" class="form-control" id="inputJuncBox">
+                        </div>
+                        <div class="mb-5">
+                            <label for="inputInsulPouch" class="form-label">Insulated Pouch</label>
+                            <input type="number" class="form-control" id="inputInsulPouch">
+                        </div>
+                        <div class="mb-4">
+                            <label for="inputHiddenWire" class="form-label">Hidden Power Wire (Control Panel)</label>
+                            <input type="number" class="form-control" id="inputHiddenWire">
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- FORM FOOTER -->
+                    <div class="row collapse.show groupWizard1 formFooterBox groupLds groupPoldOnly groupAccessories" id="formFooterBox">
+                        <!-- font-weight-bold isn't working... -->
+                        <!-- TODO: Expand to show extra input fields like zoho link, device id, details/comment box to help person preparing (and maybe auto copy to zoho and packing list/label?) -->
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input float-end mx-3" id="checkReplacement">
+                            <label class="form-check-label float-end" for="checkReplacement">Replacement for existing system/accessory?</label>
+                        </div>
+
+
+                        <div class="row mb-2">
+                            <div class="col">
+                                <button class="btn btn-danger btn-sm" type="reset" value="Reset">Reset</button>
+                            </div>
+                            <div class="col">
+                                <!-- FUNCTION:  Submit button -->
+                                <!-- TIP:  Align right with float-end -->
+                                <button type="submit" class="btn btn-primary mb-5 float-end submitButton" id="finalSubmitButton">Submit</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </form>
+            <!--
+<div class="row">
+</div>
+<div class="row">
+</div>
+<div class="row">
+</div>
+<div class="row">
+</div>
+<div class="row">
+</div>
+-->
+
+
+            <!-- Bootstrap Bundle with Popper -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+
+
+            <!-- Custom scripts -->
+            <script type="text/javascript">
+
+
+                // HISTORY:  Had to abandon bootstrap .collapse method and just hide all then show what i want (so it wouldn't toggle things incorrectly)
+                // TIP: Can replace  (document.querySelectorAll('.groupLds'))  with  (document.querySelectorAll(`.${groupClass}`))  
+                //      '.groupLds'  to  `.${groupClass}`  (a literal) to insert variable groupClass with string . in front of it (or any other string)
+                function collapseGroup(groupClass) {
+
+                    // Hide everything first
+                    elements = document.getElementsByClassName("groupWizard1");
+                    for (var i = 0; i < elements.length; i++) {
+                        elements[i].style.display = elements[i].style.display = 'none';
+                    }
+                    // Show what you want
+                    elements = document.getElementsByClassName(`${groupClass}`);
+                    for (var i = 0; i < elements.length; i++) {
+                        elements[i].style.display = elements[i].style.display = '';
+                    }
+                }
+
+                // NON-WORKING ATTEMPTS
+                //  collapseGroup fails (bootstrap is toggling overlapping sections off/on instead of only showing what i want):
+                // Example:  https://getbootstrap.com/docs/5.0/components/collapse/#via-javascript
+
+                // HIDE (all)
+                //   var collapseElementList = [].slice.call(document.querySelectorAll('.collapse'))
+                //   var collapseList = collapseElementList.map(function (collapseEl) {
+                //       new bootstrap.Collapse(collapseEl)
+                //   })
+
+                // SHOW (specific)
+                //   var collapseElementList = [].slice.call(document.querySelectorAll(`.${groupClass}`))
+                //   var collapseList = collapseElementList.map(function (collapseEl) {
+                //       return new bootstrap.Collapse.show(collapseEl)
+                //   })
+
+
+                // NOT WORKIMG (SYNTAX?) 
+                // var myCollapse = document.getElementsByClassName('collapse')
+                // var bsCollapse = new bootstrap.Collapse(myCollapse, {
+                //      hide: true
+                //  })
+
+                //  var myCollapse = document.getElementsByClassName('collapse')
+                //  var bsCollapse = new bootstrap.Collapse(myCollapse, {
+                //      show: true
+                //  })
+
+                // style.display == 'inline' ? 'none' : 'inline';
+                // I'm guessing this means if inline is true, change to none. if false, set to inline (basically toggle).
+
+                //  elements = document.getElementsByClassName("groupWizard1");
+                //  for (var i = 0; i < elements.length; i++) {
+                //      elements[i].style.display = elements[i].style.display == 'inline' ? 'none' : 'inline';
+                //  }
+
+                //  if (1 === 1) {
+                //     x.style.display = "none";
+                //  }
+
+                // TOGGLE (specific)
+                //  var collapseElementList = [].slice.call(document.querySelectorAll(`.${groupClass}`))
+                //  var collapseList = collapseElementList.map(function (collapseEl) {
+                //      return new bootstrap.Collapse(collapseEl)
+                //  })
+
+                //                 function collapseGroupLds() {
+                //                     var collapseElementList = [].slice.call(document.querySelectorAll('.groupLds'))
+                //                     var collapseList = collapseElementList.map(function (collapseEl) {
+                //                        return new bootstrap.Collapse(collapseEl)
+                //                     })
+                //                     }
+
+
+
+                // Show extra POLD section if POLDs are present
+                // TODO:  Hide section if POLDs goes back to 0
+                // SAMPLE:  https://www.w3schools.com/jsref/event_oninput.asp
+                // SAMPLE:  https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_oninput_dom
+                document.getElementById("inputPold").oninput = function() {showPoldExtra()};
+                function showPoldExtra() {
+                    var elementPold =  document.getElementById("expandPold");
+                    elementPold.style.display = "block";;
+                }
+
+
+
+
+
+
+
+                //  START BOX CALCULATIONS (FROM FORMS)
+
+                // FUNCTION:  Define Object list + values  (for determining what boxes they fit in)
+                // EXAMPLE:  https://mdbootstrap.com/education/javascript/chapter-2-lesson-6/
+                var packingItem = {
+                    lds075  	:	0,
+                    lds100		:	0,
+                    lds125		:	0,
+                    lds150		:	0,
+                    lds200		:	0,
+                    lds250		:	0,
+                    lds300		:	0,
+
+                    scv       	:	0,
+                    ssr       	:	0,
+                    cp			:	1.5,
+                    api			:	2,
+                    pold		:	1,
+                    recirc		:	6,
+                    fourHour	:	6,
+
+                    juncBox		:	36,
+                    insulPouch	:	6,  // Defaults to an additional Medium Shipper
+                    leakRope2ft		:	0.5,
+                    leakRope5ft		:	1,
+                    leakRope10ft	:	1,
+                    hiddenWire	:	4.5,
+
+
+                    //BOXES
+                    // Shipper(19x12x7) = 12 (For .75-1.5" systems only)
+                    boxLds		    :	12,
+                    // Medium Shipper(20x12x8) = 6 (Used for 2" systems or Insulated Pouch only)
+                    boxLdsMedium	:	6,
+                    // 18x18x14 = 18 (Used only for 2.5" and 3" systems)
+                    boxLdsLarge 	:	18,
+
+                    // Panel Box(10x7x3) = 6
+                    boxCp		     :	6,
+                    // 14x14x14 = 48 (Use only if EJB is included or if Point total is greater than or equal to 49)
+                    box14x14       	:	48,
+                    // Recirc/4 hr Box(9x4x3) = 6 (Only to be used for single Recircp Pump Switch or 4hr Timer)
+                    boxRecirc	      :	6,
+                    // Accessory Box(13x10x5) = 12
+                    boxAccessories	:	12,
+                    // Mailer(11x9x1) = 2.5 (Use for shippments of accesory only)
+                    bubbleMailer	:	2.5,
+                };
+                /* 
+                        Order of Priority:
+Panel, SCV, Hidden Wire and Pam1 always in Box 1
+1. API
+2. POLD
+3. Recirc Pump Switch
+4. 4hr Time
+5. Enclosures (Pouch + EJB)
+Solid State Relays included with box carrying most POLDs
+*/
+
+                //  window.alert("yo boxLdsMedium = " + packingItem.boxLdsMedium);
+
+
+                // GET FORM VALUES
+                // FUNCTION:  Store form values in variables (to use for calculations)
+                // TODO:  Convert to array or object, to sum total easier
+
+                // SUBMIT BUTTON (using addEventListener instead of onclick)
+                document.getElementById("finalSubmitButton").addEventListener("click", function() {
+                    // document.getElementById("demo").innerHTML = "Hello World";
+                    // window.alert("finalSubmitButton was pressed");
+
+
+                    // ITEMS
+                    // Don't add lds to value total
+                    var valueLds = Number(document.getElementById("selectLds").value);
+                    //window.alert("yo valueLds = " + valueLds);
+
+                    // Add this group to value total
+                    // TIP:  Use parseInt() or parseFloat() or Number() since it thinks these are strings and not adding properly (Number() does floats too [numbers with decimels])
+                    // REFERENCE:  https://stackoverflow.com/q/4564158
+                    var valueScv = Number(document.getElementById("inputScv").value);
+                    // window.alert("yo valueScv = " + valueScv);
+                    var valueCp = Number(document.getElementById("inputCp").value);
+                    var valuePold = Number(document.getElementById("inputPold").value);
+                    var valueLeakRope5ft = Number(document.getElementById("inputLeakRope5ft").value);
+                    var valueLeakRope10ft = Number(document.getElementById("inputLeakRope10ft").value);
+                    var valueApi = Number(document.getElementById("inputApi").value);
+                    var valueRecirc = Number(document.getElementById("inputRecirc").value);
+                    var valueFourHour = Number(document.getElementById("inputFourHour").value);
+                    var valueSsr = Number(document.getElementById("inputSsr").value);
+                    var valueJuncBox = Number(document.getElementById("inputJuncBox").value);
+                    var valueInsulPouch = Number(document.getElementById("inputInsulPouch").value);
+                    var valueHiddenWire = Number(document.getElementById("inputHiddenWire").value);
+
+                    // Don't add on/off to value total. Use this to trigger something else (undecided what)
+                    var valueReplacement = document.getElementById("checkReplacement").value;
+
+
+                    // TIP:  If nothing beyond here works, you have a typo or referenced the wrong ID above somewhere (idk why it doesn't error)
+
+                    // window.alert("yo boxLdsMedium3 = " + packingItem.boxLdsMedium);
+
+
+                    // FUNCTION:  Find the total items added into the form
+                    var valueTotal = valueScv + valueCp + valuePold + valueLeakRope5ft + valueLeakRope10ft + valueApi + valueRecirc + valueFourHour + valueSsr + valueJuncBox + valueInsulPouch + valueHiddenWire;
+
+                    //window.alert("yo valueTotal (form input)= " + valueTotal);
+
+
+                    // FUNCTION:  Multiply the number of each item in the form with the value of the item, to find packing size value
+                    var totalValueScv = valueScv * packingItem.scv;
+                    // window.alert("yo totalValueScv = " + totalValueScv);
+                    var totalValueCp = valueCp * packingItem.cp;
+                    var totalValuePold = valuePold * packingItem.pold;
+                    var totalValueLeakRope5ft = valueLeakRope5ft * packingItem.leakRope5ft;
+                    var totalValueLeakRope10ft = valueLeakRope10ft * packingItem.leakRope10ft;
+                    var totalValueApi = valueApi * packingItem.api;
+                    var totalValueRecirc = valueRecirc * packingItem.recirc;
+                    var totalValueFourHour = valueFourHour * packingItem.fourHour;
+                    var totalValueSsr = valueSsr * packingItem.ssr;
+                    var totalValueJuncBox = valueJuncBox * packingItem.juncBox;
+                    var totalValueInsulPouch = valueInsulPouch * packingItem.insulPouch;
+                    var totalValueHiddenWire = valueHiddenWire * packingItem.hiddenWire;
+
+
+                    // FUNCTION:  Find the total packing space required by adding all values of number of items multiplied by their space taken
+                    var totalValueTotal = totalValueScv + totalValueCp + totalValuePold + totalValueLeakRope5ft + totalValueLeakRope10ft + totalValueApi + totalValueRecirc + totalValueFourHour + totalValueSsr + totalValueJuncBox + totalValueInsulPouch + totalValueHiddenWire;
+
+                    //window.alert("yo totalValueTotal () = " + totalValueTotal);
+
+
+
+                    // TODO:  Get this custom alert function working so I can title it
+                    // Create custom window.alert popup function so I can retitle it
+                    // SOURCE:  https://stackoverflow.com/a/13411862
+                    //window.alert = function(title, message){
+                    //    var myElementToShow = document.getElementById("someElementId");
+                    //    myElementToShow.innerHTML = title + "</br>" + message; 
+                    //}
+
+
+
+                    // FUNCTION:  Function to build list of items to pack, and show in a popup (to use in each LDS size condition below)
+                   // function buildOutputString() {
+                    //    var elementPold =  document.getElementById("expandPold");
+                   //     elementPold.style.display = "block";;
+                   // }
+
+
+                    // FUNCTION:  Start with LDS size to determine which primary box to start with
+                    // Shipper(19x12x7)  (For .75-1.5" systems only)
+                    // TODO:  Maybe shorthand the code like this, if it works:  if valueLds <= 1.5 && > 0
+                    // TODO:  Export text file (node.js?) (do browsers even allow it?) then display that text in browser or print file
+                    if (valueLds <= 1.5 && valueLds > 0) {
+
+                        
+                        //var outputStringFunc = buildOutputString();
+                        
+                        // FUNCTION:  List all items and what boxes they go in
+                        // TODO:  Put this in a function so I can run it for each LDS size
+                        var outputString = "Shipper box: \n";
+                        var outputString = outputString + "*  " + valueLds + " LDS\n";
+
+                        if (valueCp > 0) {
+                            var outputString = outputString + "*  " + valueCp + " CP\n";
+                        }
+                        if (valueScv > 0) {
+                            var outputString = outputString + "*  " + valueScv + " SCV\n";
+                        }
+                        if (valueHiddenWire > 0) {
+                            var outputString = outputString + "*  " + valueHiddenWire + " Hidden Wire\n";
+                        }
+
+                        window.alert(outputString);
+                        //window.alert("you need a standard shipper box yo (19x12x7).\n totalValueTotal = " + totalValueTotal);
+
+                    }
+                    // Medium Shipper(20x12x8)  (Used for 2" systems or Insulated Pouch only)
+                    else if (valueLds == 2) {
+
+                    }
+                    // 18x18x14 = 18 (Used only for 2.5" and 3" systems)
+                    else if (valueLds == 2.5 || valueLds == 3) {
+
+                    }
+                    else {
+                        window.alert("yo something is wrong with the LDS value.\n oh i guess it could be a pold-only system.\n valueLds = " + valueLds);
+                    }
+
+                    // 14x14x14 = 48 (Use only if EJB is included or if Point total is greater than or equal to 49)
+                    if (totalValueTotal >= 49) {
+                        window.alert("you need a big box yo. totalValueTotal = " + totalValueTotal);
+                    }
+
+                });
+
+
+
+
+
+
+            </script>
+
+            </body>
+        </html>
