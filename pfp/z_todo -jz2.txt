@@ -5,6 +5,7 @@ Line 582
 
 Subtract item value from each box. (is only subtracting from the total and comparing)
 
+Fix checkbox not being able to be checked.
 
 Hidden wire should just be length entry (ft).
 (maybe default it to 1 wire, or a checkbox which evaluates to 0 or 1).
