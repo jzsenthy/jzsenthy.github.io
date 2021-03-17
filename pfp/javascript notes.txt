@@ -7,6 +7,13 @@ https://marketplace.visualstudio.com/items?itemName=HookyQR.beautify
 
 
 
+VSCODE Command Palette (to find commands):
+Menu: VS Code / View / Command Palette...
+Keyboard: CMD / CTRL + SHIFT + P
+https://stackoverflow.com/a/58126404
+
+
+
 VSCODE Live Preview (html+javascript) and debugging:  Debugger for Chrome
 https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome
 
@@ -51,6 +58,11 @@ Multi-line comments start with /* and end with */
             });
 
 
+
+
+
+
+Javascript alert box truncated after 24 lines (or some amount of characters)
 
 
 

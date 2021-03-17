@@ -1,5 +1,8 @@
 Add the rest of the calculation logic.
 
+Change  totalValuePold   to 1 item at a time, until  totalValuePold  hits 0
+
+
 Add an extra variable, for boxValueLeft/boxSpaceLeft
 Line 582
 
@@ -11,6 +14,14 @@ Hidden wire should just be length entry (ft).
 (maybe default it to 1 wire, or a checkbox which evaluates to 0 or 1).
 
 
+
+Function/loop to replace if/else statements for loading group of items into box:
+loadItemIntoBox(valueItem,spaceItem,totalValueItem,totalValueCurrent,boxValueLeft,boxValue,currentBox,nextBox,currentBoxValue,nextBoxValue)
+
+
+
+Change alert box to something else.
+(Javascript alert box truncated after 24 lines (or some amount of characters)).
 
 
 
@@ -56,7 +67,7 @@ Hide extraPold section if POLDs goes back to 0.
 
 
 Split POLDs between boxes.
-Need to make a loop for assigning POLDs one at a time to a box, storing the value of which box has the most, 
+Need to make a loop for assigning POLDs one at a time to a box, storing the value of which box has the most, (loop/function variables defined at top)
 then at the end, assign SSRs to that box as well (with value of 0 I guess).
 "Solid State Relays included with box carrying most POLDs"
 
