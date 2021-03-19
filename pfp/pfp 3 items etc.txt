@@ -20,8 +20,8 @@ var packingItem = {
 	scv250		:	,
 	scv300		:	,
 	
-	cp		:	1.5,
-	api		:	2,
+	cp		:	1,
+	api		:	3,
 	pold		:	1,
 	recirc		:	6,
 	fourHour	:	6,

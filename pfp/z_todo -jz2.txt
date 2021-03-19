@@ -1,5 +1,41 @@
 Add the rest of the calculation logic.
 
+
+
+///////////////////////////////////////
+// CURRENTLY WORKING ON   (variables are showing up as undefined, probably because they aren't global)
+///////////////////////////////////////
+
+// API v2
+
+
+
+
+
+When something won't fit in a box, it's currently putting it in the next box whether it fits or not.
+Change it to:
+
+function fitInBox {
+var loopCount = 0;
+while (loopCount < 6) {
+ if (it fits) {
+  put in box;
+  subtract value from box;
+  break;
+ }
+ else {
+  change box
+  loopCount++;
+  if (loopCount == 6) {
+  window.alert("I can't fit " + itemName + " in any box, after trying " + loopCount + " times.")
+  break;
+  }
+ }
+}
+
+
+
+
 Change  totalValuePold   to 1 item at a time, until  totalValuePold  hits 0
 
 Only include SCV if LDS is > 0
@@ -83,6 +119,8 @@ then at the end, assign SSRs to that box as well (with value of 0 I guess).
 
 
 ---
+Change page title on sumbit/print to a good filename (maybe even a client name entry box?) like 2021-04-17 ClientName (maybe with a random string of numbers at the end or timestamp, so there aren't duplicate filenames) or 2021-04-17 0223p ClientName  or  2021-04-17 1422 ClientName
+
 Icons or images beside each accessory box.
 
 Add logo of shelled peanut halfway out of an open box (flaps 45 degrees up/out, corner facing us). Use as favicon too.
@@ -110,6 +148,10 @@ Show up/down number buttons by default, before entering anything?
 ---------------------------------
 DONE
 ---------------------------------
+
+<!-- TODO:  Highlight left/selected button by default (default to True)-->
+
+
 Checkboxes should default to 0 or 1, not on or undefined.
 
 

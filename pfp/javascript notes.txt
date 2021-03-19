@@ -39,6 +39,28 @@ jzsenthy
 
 
 
+VSCODE  (didn't help with breakpoints becoming unbound though)
+https://medium.com/young-coder/setting-up-javascript-debugging-in-visual-studio-code-6c5005529987
+One final trick for debugging inline JavaScript
+The debugging approach you just learned works on any JavaScript file. But if you have a block of JavaScript code inside an HTML file, you’re more limited. Ordinarily, Visual Studio won’t let you set any breakpoints in HTML files. It’s picky that way.
+If you run into this problem, there’s a simple workaround:
+Choose File→Preferences→Settings.
+Type “breakpoints” into the search box.
+Switch on the “Allow setting breakpoints in any file” setting.
+
+
+
+VSCODE  (breakpoints becoming unbound when trying to run and debug)
+I installed the chrome debugger first, which works to preview your files, but marked breakpoints become unbound when you click Run & Debug:
+https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome
+(there's troubleshooting tips on this page we could look at)
+
+Install the live server instead:
+https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer
+
+Settings are defined here: (like which browser to launch etc)
+\.vscode\launch.json
+\.vscode\settings.json
 
 
 
@@ -46,9 +68,28 @@ jzsenthy
 
 
 --------------------
+
+
+COMMENTS FORMATTING: 
+
+HTML:
+<!--  -->
+
+CSS:
+/*  */
+
 Javascript:
-Single line comments start with //
+Single line comments:
+//
 Multi-line comments start with /* and end with */
+/*  */
+
+
+
+
+
+// Add this line to add a breakpoint:
+debugger
 
 
 

@@ -137,23 +137,22 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
         <form id="mainForm" onsubmit="return false">
             <div id="wizard1">
                 <div class="row mb-4">
-                    <div class="btn-group" role="group" aria-label="Select type of system being sent">
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
 
-                        <!-- HISTORY:  To set one to default true/active, add  checked  somewhere. Adding  class="active"  didn't work -->
-                        <!-- REFERENCE:  https://getbootstrap.com/docs/5.0/components/button-group/#checkbox-and-radio-button-groups -->
-                        <input type="radio" class="btn-check active" name="btnradio" id="btnradio1"
-                            data-bs-toggle="true" checked onclick="collapseGroup('groupLds')" autocomplete="off"
-                            aria-expanded="true" aria-controls=".groupLds">
+                        <!-- TODO:  Highlight left/selected button by default (default to True)-->
+                        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" data-bs-toggle="true"
+                            onclick="collapseGroup('groupLds')" autocomplete="off" aria-expanded="true"
+                            aria-controls=".groupLds">
                         <label class="btn btn-primary" for="btnradio1">System:&nbsp; LDS Valve</label>
 
                         <input type="radio" class="btn-check" name="btnradio" id="btnradio2" data-bs-toggle="false"
-                            onclick="collapseGroup('groupPoldOnly'); setLds(0);" autocomplete="off"
-                            aria-expanded="false" aria-controls=".groupPoldOnly">
+                            onclick="collapseGroup('groupPoldOnly')" autocomplete="off" aria-expanded="false"
+                            aria-controls=".groupPoldOnly">
                         <label class="btn btn-primary" for="btnradio2">System:&nbsp; POLD-Only</label>
 
                         <input type="radio" class="btn-check" name="btnradio" id="btnradio3" data-bs-toggle="false"
-                            onclick="collapseGroup('groupAccessories'); setLds(0);" autocomplete="off"
-                            aria-expanded="false" aria-controls=".groupAccessories">
+                            onclick="collapseGroup('groupAccessories')" autocomplete="off" aria-expanded="false"
+                            aria-controls=".groupAccessories">
                         <label class="btn btn-primary" for="btnradio3">Accessories Only</label>
                     </div>
                 </div>
@@ -187,8 +186,9 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                         </div>
                         <div class="col">
                             <label for="inputScv" class="form-label"><i>Spring Check Valve</i></label>
-                            <input type="number" class="form-control" id="inputScv" aria-describedby="scvHelp">
-                            <div id="scvHelp" class="form-text"><i>1 is included with an LDS by default.</i></div>
+                            <input type="number" class="form-control" id="inputScv" value="1"
+                                aria-describedby="scvHelp">
+                            <div id="scvHelp" class="form-text"><i>1 is included by default.</i></div>
                         </div>
                     </div>
 
@@ -200,7 +200,7 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                 <div class="row collapse.show groupWizard1 poldOnlyBox groupLds groupPoldOnly" id="poldOnlyBox">
                     <div class="mb-4">
                         <label for="inputCp" class="form-label">Control Panel</label>
-                        <input type="number" class="form-control" id="inputCp">
+                        <input type="number" class="form-control" id="inputCp" value="1">
                     </div>
                 </div>
 
@@ -236,28 +236,28 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                         </div>
                     </div>
                     <div class="mb-5">
-                        <!-- value="1" to default to 1. min="0" max="50" for min and max -->
+                        <!-- value="1" to default to 1. With min and max -->
                         <label for="inputApi" class="form-label">APIs</label>
-                        <input type="number" class="form-control" id="inputApi" min="0" max="50" value="3"
+                        <input type="number" class="form-control" id="inputApi" min="0" max="50"
                             aria-describedby="apiHelp">
                         <div id="apiHelp" class="form-text"><i>Maximum of 3. If requesting more than 3, contact shipping
                                 department.</i></div>
                     </div>
                     <div class="mb-3">
                         <label for="inputRecirc" class="form-label">Recirculation Pump Switch</label>
-                        <input type="number" class="form-control" id="inputRecirc">
+                        <input type="number" class="form-control" id="inputRecirc" value="0">
                     </div>
                     <div class="mb-3">
                         <label for="inputFourHour" class="form-label">Four Hour Timer</label>
-                        <input type="number" class="form-control" id="inputFourHour">
+                        <input type="number" class="form-control" id="inputFourHour" value="0">
                     </div>
                     <div class="mb-3">
                         <label for="inputSsr" class="form-label">Solid State Relay</label>
-                        <input type="number" class="form-control" id="inputSsr">
+                        <input type="number" class="form-control" id="inputSsr" value="0">
                     </div>
                     <div class="mb-5">
                         <label for="inputPam1" class="form-label">PAM-1 Relay</label>
-                        <input type="number" class="form-control" id="inputPam1">
+                        <input type="number" class="form-control" id="inputPam1" value="0">
                     </div>
                     <div class="mb-3">
                         <label for="inputJuncBox" class="form-label">Junction Box</label>
@@ -391,57 +391,7 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
             document.getElementById("inputPold").oninput = function () { showPoldExtra() };
             function showPoldExtra() {
                 var elementPold = document.getElementById("expandPold");
-                elementPold.style.display = "block";
-            }
-
-
-
-            // Set SCV = 1 if an LDS is selected
-            // TODO:  Maybe change  var elementId  to a unique var
-            // HISTORY:  Changed to  addEventListener  so it could run two functions from one  onchange
-            // SAMPLE:  https://www.w3schools.com/jsref/event_onchange.asp
-            document.getElementById("selectLds").addEventListener("change", setScv);
-            //document.getElementById("selectLds").onchange = function () { setScv() };
-            function setScv() {
-                var valueLds = document.getElementById("selectLds");
-                if (valueLds.value > 0) {
-                    var elementId = document.getElementById("inputScv");
-                    elementId.value = "1";
-                }
-                else if (valueLds.value == 0) {
-                    var elementId = document.getElementById("inputScv");
-                    elementId.value = "0";
-                }
-            }
-
-            // Set CP = 1 if an LDS is selected
-            // TODO:  Maybe change  var elementId  to a unique var
-            // HISTORY:  Changed to  addEventListener  so it could run two functions from one  onchange
-            // SAMPLE:  https://www.w3schools.com/jsref/event_onchange.asp
-            document.getElementById("selectLds").addEventListener("change", setCp);
-            //document.getElementById("selectLds").onchange = function () { setCp() };
-            function setCp() {
-                var valueLds = document.getElementById("selectLds");
-                if (valueLds.value > 0) {
-                    var elementId = document.getElementById("inputCp");
-                    elementId.value = "1";
-                }
-                else if (valueLds.value == 0) {
-                    var elementId = document.getElementById("inputCp");
-                    elementId.value = "0";
-                }
-            }
-
-
-            // Set LDS = 0 if POLD-Only is selected
-            // TODO:  Maybe change  var elementId  to a unique var
-            // SAMPLE:  https://www.w3schools.com/jsref/event_onchange.asp
-            function setLds(ldsValueToSet) {
-                var elementId = document.getElementById("selectLds");
-                elementId.value = ldsValueToSet;
-                // Set SCV value to 0 as well (the function will choose 0 when it evaluates that LDS is zero)
-                setScv();
-                setCp();
+                elementPold.style.display = "block";;
             }
 
 
@@ -729,15 +679,6 @@ Solid State Relays included with box carrying most POLDs
                 // FUNCTION:  Function to build list of items to pack, and show in a popup (to use in each LDS size condition below)
                 // NOT THE FINAL THING THAT RUNS
                 function buildOutputString(initialBox, boxValue) {
-
-                    // DEBUGGING
-                    window.alert("function buildOutputString(initialBox, boxValue) {   boxValue\n" + " " + boxValue);
-
-                    var boxValue = boxValue;
-                    // DEBUGGING
-                    window.alert("var boxValue = boxValue;   boxValue\n" + " " + boxValue);
-
-                    
                     // FUNCTION:  List all items and what boxes they go in
                     // TODO:  Change valueLds to number/amount of LDS entered, then add valueLdsSize for each valve size?
                     var outputString = initialBox + " Box: \n";
@@ -762,8 +703,6 @@ Solid State Relays included with box carrying most POLDs
                     // window.alert("totalValueCurrent = " + totalValueCurrent);
                     // window.alert("valueLds = " + valueLds);
 
-                    // Add this line to add a breakpoint
-                    //debugger
 
                     // Currently just hard defining this group of items as always going in the first box (not checking if they fit) (according to Bryce rules)
                     // TODO:  Maybe change this group into a loop/function since it's basically repeated code (just assign a variable for which current item it's evaluating)
@@ -826,8 +765,8 @@ Solid State Relays included with box carrying most POLDs
                     }
 
 
-                    // API v1
-                    /* if (valueApi > 0) {
+                    // API
+                    if (valueApi > 0) {
                         if (totalValueApi <= boxValueLeft) {
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
                             var totalValueCurrent = totalValueCurrent - totalValueApi;
@@ -848,104 +787,7 @@ Solid State Relays included with box carrying most POLDs
                             var outputString = outputString + "\n" + nextBox + ": \n";
                             var outputString = outputString + "• " + valueApi + " API\n";
                         }
-                    } */
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    ///////////////////////////////////////
-                    // CURRENTLY WORKING ON   (variables are showing up as undefined, probably because they aren't global)
-                    ///////////////////////////////////////
-
-
-
-                    // API v2
-                    putInBox(valueApi, packingItem.api, totalValueApi, "API");
-                    //function putInBox(valueCurrentItem, spaceSingleCurrentItem, totalValueCurrentItem, currentItemName) {
-                    function putInBox(valueApi, spaceSingleCurrentItem, totalValueApi, currentItemName) {
-
-                    // DEBUGGING
-                    window.alert("function putInBox(valueApi, spaceSingleCurrentItem, totalValueApi, currentItemName) {   boxValue\n" + " " + boxValue);
-
-                    var boxValue = boxValue;
-                    // DEBUGGING
-                    window.alert("function putInBox(valueApi, spaceSingleCurrentItem, totalValueApi, currentItemName) {\n var boxValue = boxValue;   boxValue\n" + " " + boxValue);
-
-                        // DEBUGGING
-                        window.alert("function putInBox(   valueApi, spaceSingleCurrentItem, totalValueApi, currentItemName\n" + " " + valueApi + " " + spaceSingleCurrentItem + " " + totalValueApi + " " + currentItemName);
-                        window.alert("function putInBox(   totalValueCurrent, boxValueLeft, nextBox, nextBoxValue\n" + " " + totalValueCurrent + " " + boxValueLeft + " " + nextBox + " " + nextBoxValue);
-
-                        // VARIABLES DECLARED IN THE PARENT FUNCTION. REPEATING HERE FOR TESTING (could maybe reference them somehow if I make them global first)
-                        // It didn't work to access & modify this variable if it was declared outside the function, so I declared it inside
-                        var totalValueCurrent = totalValueTotal;
-                        // Initialze a variable to track how much space is left in each box, so once it hits a low number, it moves on to next box
-                        var boxValueLeft = boxValue;
-                        // The following items will fit in current box or create a new box (accessories box is default extra)
-                        // Define the accessory box as the next box to overlow items into, unless there's a junction box or total >= 49
-                        var nextBox = "Accessory Box (13x10x5)";
-                        var nextBoxValue = packingItem.boxAccessories;
-
-                        if (valueApi > 0) {
-
-                            // DEBUGGING
-                            window.alert("if (valueApi > 0)   valueApi, spaceSingleCurrentItem, totalValueApi, currentItemName\n" + " " + valueApi + " " + spaceSingleCurrentItem + " " + totalValueApi + " " + currentItemName);
-                            window.alert("if (valueApi > 0)   totalValueCurrent, boxValueLeft, nextBox, nextBoxValue\n" + " " + totalValueCurrent + " " + boxValueLeft + " " + nextBox + " " + nextBoxValue);
-                            var loopCount = 0;
-                            while (loopCount < 6) {
-                                if (totalValueApi <= boxValueLeft) {
-                                    // DEBUGGING
-                                    window.alert("if (totalValueApi <= boxValueLeft)   valueApi, spaceSingleCurrentItem, totalValueApi, currentItemName\n" + " " + valueApi + " " + spaceSingleCurrentItem + " " + totalValueApi + " " + currentItemName);
-                                    window.alert("if (totalValueApi <= boxValueLeft)   totalValueCurrent, boxValueLeft, nextBox, nextBoxValue\n" + " " + totalValueCurrent + " " + boxValueLeft + " " + nextBox + " " + nextBoxValue);
-                                    // Subtract value from box  (Subtract item value as it's added to a box, to figure out if there's items/overflow value left over)
-                                    var totalValueCurrent = totalValueCurrent - totalValueApi;
-                                    var boxValueLeft = boxValueLeft - totalValueApi;
-                                    // Put in box  (Add item to string to be displayed at the end for what to pack
-                                    var outputString = outputString + "• " + valueApi + " API\n";
-                                    break;
-                                }
-                                else {
-                                    // Change current box to accessory box (or whatever box is next, like 14x14)
-                                    // DEBUGGING (1 line)
-                                    var outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
-                                    var boxValue = nextBoxValue;
-                                    var boxValueLeft = boxValue;
-                                    var totalValueCurrent = totalValueCurrent - totalValueApi;
-                                    var boxValueLeft = boxValueLeft - totalValueApi;
-                                    // Add item to string to be displayed at the end for what to pack
-                                    var outputString = outputString + "\n" + nextBox + ": \n";
-                                    var outputString = outputString + "• " + valueApi + " API\n";
-
-                                    loopCount++;
-                                    // DEBUGGING
-                                    window.alert("else {   valueApi, spaceSingleCurrentItem, totalValueApi, currentItemName\n" + " " + valueApi + " " + spaceSingleCurrentItem + " " + totalValueApi + " " + currentItemName);
-                                    window.alert("else {   totalValueCurrent, boxValueLeft, nextBox, nextBoxValue\n" + " " + totalValueCurrent + " " + boxValueLeft + " " + nextBox + " " + nextBoxValue);
-                                    if (loopCount == 6) {
-                                        //window.alert("I can't fit " + itemName + " in any box, after trying " + loopCount + " times.");
-                                        window.alert("I can't fit " + currentItemName + " in any box, after trying " + loopCount + " times.\nvalueApi, spaceSingleCurrentItem, totalValueApi, currentItemName\n" + " " + valueApi + " " + spaceSingleCurrentItem + " " + totalValueApi + " " + currentItemName);
-                                        window.alert("totalValueCurrent, boxValueLeft, nextBox, nextBoxValue\n" + " " + totalValueCurrent + " " + boxValueLeft + " " + nextBox + " " + nextBoxValue);
-                                        break;
-                                    }
-                                }
-                            }
-                        }
                     }
-
-
-
-
-
-
-
-
                     // POLD
                     // TODO:  POLDS are currently being assigned all to one box instead of separated. Might need to change that.
                     if (valuePold > 0) {
@@ -1151,7 +993,7 @@ Solid State Relays included with box carrying most POLDs
 
                     if (totalValueCurrent > 0) {
                         // Add item to string to be displayed at the end for what to pack
-                        var outputString = outputString + "\n Hmm there seems to be something left over. Did I forget something in my calculations?\n Contact jake and tell him you'll give him an ice cream if he fixes it.\n DEBUGGING INFO (for leftovers): totalValueTotal = " + totalValueTotal + ". totalValueCurrent = " + totalValueCurrent;
+                        var outputString = outputString + "\n Hmm there seems to be something left over. Did I forget something in my calculations? Contact jake and tell him you'll give him an ice cream if he fixes it.\n totalValueTotal = " + totalValueTotal + ". totalValueCurrent = " + totalValueCurrent;
                     }
 
 

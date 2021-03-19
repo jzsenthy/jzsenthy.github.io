@@ -1,0 +1,43 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch Chrome",
+            "request": "launch",
+            "type": "pwa-chrome",
+            "sourceMaps":true,
+            //"breakOnLoad":true,
+            "url": "http://localhost:8080",
+            "file": "c:\\Ayato\\Work\\programming\\javascript\\PFP\\jzsenthy.github.io\\pfp\\index.html"
+            //"webRoot": "${workspaceFolder}"
+        },
+        {
+            "name": "Open index.html",
+            "type": "pwa-chrome",
+            "request": "launch",
+            "sourceMaps":true,
+            //"breakOnLoad":true,
+            "file": "c:\\Ayato\\Work\\programming\\javascript\\PFP\\jzsenthy.github.io\\pfp\\index.html"
+        },
+        {
+            "name": "Launch Chrome Webserver",
+            "request": "launch",
+            "type": "pwa-chrome",
+            "url": "http://127.0.0.1:4500/pfp/index.html",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "name": "Launch Chrome Webserver2",
+            "request": "launch",
+            "type": "pwa-chrome",
+            "sourceMaps":true,
+            "url": "http://127.0.0.1:4500/pfp/index.html",
+            "webRoot": "${workspaceFolder}"
+        },
+    ]
+}
+//"file": "c:\\Ayato\\Work\\programming\\javascript\\PFP\\jzsenthy.github.io\\pfp\\index.html"
+//"file": "c:\\Ayato\\Work\\programming\\javascript\\PFP\\jzsenthy.github.io\\pfp\\index.html"
