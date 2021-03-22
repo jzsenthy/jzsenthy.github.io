@@ -1,83 +1,25 @@
 Add the rest of the calculation logic.
 
-declare all variables outside functions and
-delete all extraneous "var" declarations. (dont redeclare/modify variables as  var variable = variable2;)
+
+
+QUESTION:  What do we do if we're sending multiple insulated pouches? multiple medium shippers, or a bigger box?
+// Insulated Pouch
+if (valueInsulPouch > 0) {
+
+
+QUESTION:  If we have other accessories, should we fit an insulated pouch in an accessory box, or keep it in its own medium shipper?
 
 
 
-
-///////////////////////////////////////
-// CURRENTLY WORKING ON   (variables are showing up as undefined, probably because they aren't global)
-///////////////////////////////////////
-
-// API v2
-
-
-
-
-
-When something won't fit in a box, it's currently putting it in the next box whether it fits or not.
-Change it to:
-
-function fitInBox {
-var loopCount = 0;
-while (loopCount < 6) {
- if (it fits) {
-  put in box;
-  subtract value from box;
-  break;
- }
- else {
-  change box
-  loopCount++;
-  if (loopCount == 6) {
-  window.alert("I can't fit " + itemName + " in any box, after trying " + loopCount + " times.")
-  break;
-  }
- }
-}
-
-
-
-
-Change  totalValuePold   to 1 item at a time, until  totalValuePold  hits 0
-
-Only include SCV if LDS is > 0
-
-
-Add an extra variable, for boxValueLeft/boxSpaceLeft
-Line 582
-
-Subtract item value from each box. (is only subtracting from the total and comparing)
-
-Fix checkbox not being able to be checked.
 
 Hidden wire should just be length entry (ft).
 (maybe default it to 1 wire, or a checkbox which evaluates to 0 or 1).
 
 
 
-Function/loop to replace if/else statements for loading group of items into box:
-loadItemIntoBox(valueItem,spaceItem,totalValueItem,totalValueCurrent,boxValueLeft,boxValue,currentBox,nextBox,currentBoxValue,nextBoxValue)
-
-
-
-Change alert box to something else.
-(Javascript alert box truncated after 24 lines (or some amount of characters)).
-
-
-
-<!-- TODO:  Add a Reset/Continue/Clear/Start Over button to the results (as well as a Print button, defaulting to 4x6 and zebra printer) -->
-
-
-
 
 if recirc or 4hr is the only overflow item, put in recirc box instead of accessory
 
-
-// Four Hour Timer
-// Does this always go in a 4hrtimer box or does it go in standard boxes like Shipper or 14x14?
---goes in shipper or accessory box with other stuff unless its the only other item
 
 
 Add LDS power wire?
@@ -95,13 +37,10 @@ Add Mailer "if case" for replacement or shipping of single accessory:
 Mailer(11x9x1) = 2.5 (Use for shipments of accesory only)
 
 
-// TODO:  Highlight selected button (LDS) on load
 
 Separate buttons on top row.
 
 Hide more acessories if POLD-Only is selected? (API, Recirc, FourHour, SSR, PAM-1, Junction, Insulated)?
-
-Make the system toggles on top indicate something on the sheet (like make them a header on the report?).
 
 Put accessory inputs on shared line to take up less vertical room.
 
@@ -123,6 +62,14 @@ then at the end, assign SSRs to that box as well (with value of 0 I guess).
 
 
 ---
+Add a button to show debugging information (to show hidden divs with printed debugging text under each line printed from the packing function loop). 
+Would require breaking the results text into separate strings and putting into separate divs though...
+Maybe I could make a toggle before submitting, that runs or doesn't run the debugging lines (and keep them all in the same string).
+
+Might wanna print each box results on a different page, to put sticker on each box.
+
+Might wanna change bullets to blank spaces for checkmarks.
+
 Change page title on sumbit/print to a good filename (maybe even a client name entry box?) like 2021-04-17 ClientName (maybe with a random string of numbers at the end or timestamp, so there aren't duplicate filenames) or 2021-04-17 0223p ClientName  or  2021-04-17 1422 ClientName
 
 Icons or images beside each accessory box.
@@ -152,6 +99,83 @@ Show up/down number buttons by default, before entering anything?
 ---------------------------------
 DONE
 ---------------------------------
+
+
+
+
+
+
+
+Make the system toggles on top indicate something on the sheet (like make them a header on the report?).
+
+
+// Four Hour Timer
+// Does this always go in a 4hrtimer box or does it go in standard boxes like Shipper or 14x14?
+--goes in shipper or accessory box with other stuff unless its the only other item
+
+
+// TODO:  Highlight selected button (LDS) on load
+
+
+Function/loop to replace if/else statements for loading group of items into box:
+loadItemIntoBox(valueItem,spaceItem,totalValueItem,totalValueCurrent,boxValueLeft,boxValue,currentBox,nextBox,currentBoxValue,nextBoxValue)
+
+
+Change alert box to something else.
+(Javascript alert box truncated after 24 lines (or some amount of characters)).
+
+
+<!-- TODO:  Add a Reset/Continue/Clear/Start Over button to the results (as well as a Print button, defaulting to 4x6 and zebra printer) -->
+
+
+declare all variables outside functions and
+delete all extraneous "var" declarations. (dont redeclare/modify variables as  var variable = variable2;)
+ (this worked, solved the issue)
+
+
+
+// API v2
+///////////////////////////////////////
+// CURRENTLY WORKING ON   (variables are showing up as undefined, probably because they aren't global. actually because i kept redeclaring them as  var variable, so it created duplicates)
+///////////////////////////////////////
+
+
+
+When something won't fit in a box, it's currently putting it in the next box whether it fits or not.
+Change it to:
+
+function fitInBox {
+var loopCount = 0;
+while (loopCount < 6) {
+ if (it fits) {
+  put in box;
+  subtract value from box;
+  break;
+ }
+ else {
+  change box
+  loopCount++;
+  if (loopCount == 6) {
+  window.alert("I can't fit " + itemName + " in any box, after trying " + loopCount + " times.")
+  break;
+  }
+ }
+}
+
+
+
+Change  totalValuePold   to 1 item at a time, until  totalValuePold  hits 0
+
+Only include SCV if LDS is > 0
+
+
+Add an extra variable, for boxValueLeft/boxSpaceLeft
+Line 582
+
+Subtract item value from each box. (is only subtracting from the total and comparing)
+
+Fix checkbox not being able to be checked.
+
 
 <!-- TODO:  Highlight left/selected button by default (default to True)-->
 
