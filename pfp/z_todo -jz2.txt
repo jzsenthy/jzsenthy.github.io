@@ -1,7 +1,7 @@
 Add the rest of the calculation logic.
 
 declare all variables outside functions and
-dont redeclare/modify variables as  var variable = variable2;
+delete all extraneous "var" declarations. (dont redeclare/modify variables as  var variable = variable2;)
 
 
 

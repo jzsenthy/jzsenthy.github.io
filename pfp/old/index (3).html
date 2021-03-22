@@ -634,8 +634,6 @@ Solid State Relays included with box carrying most POLDs
 
 
 
-                var outputString;
-                var outputStringFunc;
 
 
                 // FUNCTION:  Start with LDS size to determine which primary box to start with
@@ -646,20 +644,20 @@ Solid State Relays included with box carrying most POLDs
 
                     // FUNCTION:  Call function to build list of all items and what boxes they go in (displayed later through alert)
                     // Pass the box name as a function argument (list of items is returned, and stored as the variable)
-                    outputStringFunc = buildOutputString("Shipper", packingItem.boxLds);
+                    var outputStringFunc = buildOutputString("Shipper", packingItem.boxLds);
 
                     //window.alert("you need a standard shipper box yo (19x12x7).\n totalValueTotal = " + totalValueTotal);
                 }
                 // Medium Shipper(20x12x8)  (Used for 2" systems or Insulated Pouch only) -Bryce
                 else if (valueLds == 2 || valueInsulPouch > 0) {
                     // FUNCTION:  Call function to build list of all items and what boxes they go in (displayed later through alert)
-                    outputStringFunc = buildOutputString("Medium Shipper (20x12x8)", packingItem.boxLdsMedium);
+                    var outputStringFunc = buildOutputString("Medium Shipper (20x12x8)", packingItem.boxLdsMedium);
 
                 }
                 // 18x18x14 = 18 (Used only for 2.5" and 3" systems) -Bryce
                 else if (valueLds == 2.5 || valueLds == 3) {
                     // FUNCTION:  Call function to build list of all items and what boxes they go in (displayed later through alert)
-                    outputStringFunc = buildOutputString("18x18x14", packingItem.boxLdsLarge);
+                    var outputStringFunc = buildOutputString("18x18x14", packingItem.boxLdsLarge);
 
                 }
 
@@ -669,12 +667,12 @@ Solid State Relays included with box carrying most POLDs
                 else if (valueLds == 0) {
                     //window.alert("POLD-Only system\n valueLds = " + valueLds);
                     // FUNCTION:  Call function to build list of all items and what boxes they go in (displayed later through alert)
-                    outputStringFunc = buildOutputString("-- POLD System --\n\nAccessory Box (13x10x5)", packingItem.boxAccessories);
+                    var outputStringFunc = buildOutputString("-- POLD System --\n\nAccessory Box (13x10x5)", packingItem.boxAccessories);
                 }
                 else {
                     window.alert("yo something is wrong with the LDS value.\n valueLds = " + valueLds);
                     // FUNCTION:  Call function to build list of all items and what boxes they go in (displayed later through alert)
-                    outputStringFunc = buildOutputString("Accessory Box (13x10x5)", packingItem.boxAccessories);
+                    var outputStringFunc = buildOutputString("Accessory Box (13x10x5)", packingItem.boxAccessories);
                 }
 
 
@@ -733,20 +731,24 @@ Solid State Relays included with box carrying most POLDs
                 function buildOutputString(initialBox, boxValue) {
 
                     // DEBUGGING
-                    // window.alert("function buildOutputString(initialBox, boxValue) {   boxValue\n" + " " + boxValue);
+                    window.alert("function buildOutputString(initialBox, boxValue) {   boxValue\n" + " " + boxValue);
 
+                    var boxValue = boxValue;
+                    // DEBUGGING
+                    window.alert("var boxValue = boxValue;   boxValue\n" + " " + boxValue);
 
+                    
                     // FUNCTION:  List all items and what boxes they go in
                     // TODO:  Change valueLds to number/amount of LDS entered, then add valueLdsSize for each valve size?
-                    outputString = initialBox + " Box: \n";
+                    var outputString = initialBox + " Box: \n";
 
                     // Add "Replacement" header if checkbox is checked
                     if (valueReplacement > 0) {
-                        outputString = "-- Replacement --\n\n" + initialBox + " Box: \n";
+                        var outputString = "-- Replacement --\n\n" + initialBox + " Box: \n";
                         // window.alert("valueReplacement = " + valueReplacement);
                     }
                     else {
-                        outputString = initialBox + " Box: \n";
+                        var outputString = initialBox + " Box: \n";
                         // window.alert("valueReplacement = " + valueReplacement);
                     }
                     // window.alert("valueReplacement = " + valueReplacement);
@@ -767,37 +769,37 @@ Solid State Relays included with box carrying most POLDs
                     // TODO:  Maybe change this group into a loop/function since it's basically repeated code (just assign a variable for which current item it's evaluating)
                     if (valueLds > 0) {
                         // Add item to string to be displayed at the end for what to pack
-                        outputString = outputString + "• LDS (" + valueLds + "\") \n";
+                        var outputString = outputString + "• LDS (" + valueLds + "\") \n";
                         // Don't subtract LDS value as of now, since it's actually the pipe size and not space taken, plus it equals 0 anyway. 
                         // (We have cases to define which box each LDS size goes in anyway)
                     }
                     if (valueCp > 0) {
                         // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
-                        totalValueCurrent = totalValueCurrent - totalValueCp;
-                        boxValueLeft = boxValueLeft - totalValueCp;
+                        var totalValueCurrent = totalValueCurrent - totalValueCp;
+                        var boxValueLeft = boxValueLeft - totalValueCp;
                         // Add item to string to be displayed at the end for what to pack
-                        outputString = outputString + "• " + valueCp + " Control Panel\n";
+                        var outputString = outputString + "• " + valueCp + " Control Panel\n";
                     }
                     if (valueScv > 0) {
                         // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
-                        totalValueCurrent = totalValueCurrent - totalValueScv;
-                        boxValueLeft = boxValueLeft - totalValueScv;
+                        var totalValueCurrent = totalValueCurrent - totalValueScv;
+                        var boxValueLeft = boxValueLeft - totalValueScv;
                         // Add item to string to be displayed at the end for what to pack
-                        outputString = outputString + "• " + valueScv + " Spring Check Valve (SCV)\n";
+                        var outputString = outputString + "• " + valueScv + " Spring Check Valve (SCV)\n";
                     }
                     if (valueHiddenWire > 0) {
                         // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
-                        totalValueCurrent = totalValueCurrent - totalValueHiddenWire;
-                        boxValueLeft = boxValueLeft - totalValueHiddenWire;
+                        var totalValueCurrent = totalValueCurrent - totalValueHiddenWire;
+                        var boxValueLeft = boxValueLeft - totalValueHiddenWire;
                         // Add item to string to be displayed at the end for what to pack
-                        outputString = outputString + "• " + valueHiddenWire + " Hidden Wire\n";
+                        var outputString = outputString + "• " + valueHiddenWire + " Hidden Wire\n";
                     }
                     if (valuePam1 > 0) {
                         // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
-                        totalValueCurrent = totalValueCurrent - totalValuePam1;
-                        boxValueLeft = boxValueLeft - totalValuePam1;
+                        var totalValueCurrent = totalValueCurrent - totalValuePam1;
+                        var boxValueLeft = boxValueLeft - totalValuePam1;
                         // Add item to string to be displayed at the end for what to pack
-                        outputString = outputString + "• " + valuePam1 + " PAM-1 Relay\n";
+                        var outputString = outputString + "• " + valuePam1 + " PAM-1 Relay\n";
                     }
                     // All items above always go into box 1 (according to Bryce)
 
@@ -812,15 +814,15 @@ Solid State Relays included with box carrying most POLDs
                     // 14x14x14 = 48 (Use only if EJB is included or if point total is greater than or equal to 49) -Bryce
                     // This is the overflow box and not the primary box
                     if (totalValueTotal >= 49 || valueJuncBox > 0) {
-                        nextBox = "14x14x14";
-                        nextBoxValue = packingItem.box14x14;
+                        var nextBox = "14x14x14";
+                        var nextBoxValue = packingItem.box14x14;
                     }
                     // The four hour timer box is only used if a single timer or recirc switch is sent, or it's the only overflow item,
                     // but if both are sent, then they'll be in an accessory box like any other scenario
                     // TODO:  Make case for determining if this is the only overflow item
                     if ((valueFourHour == 1 || valueRecirc == 1) && (totalValueTotal == 6)) {
-                        nextBox = "Recirc/Four Hour Box (9x4x3)";
-                        nextBoxValue = packingItem.boxRecirc;
+                        var nextBox = "Recirc/Four Hour Box (9x4x3)";
+                        var nextBoxValue = packingItem.boxRecirc;
                     }
 
 
@@ -828,23 +830,23 @@ Solid State Relays included with box carrying most POLDs
                     /* if (valueApi > 0) {
                         if (totalValueApi <= boxValueLeft) {
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
-                            totalValueCurrent = totalValueCurrent - totalValueApi;
-                            boxValueLeft = boxValueLeft - totalValueApi;
+                            var totalValueCurrent = totalValueCurrent - totalValueApi;
+                            var boxValueLeft = boxValueLeft - totalValueApi;
                             // Add item to string to be displayed at the end for what to pack
-                            outputString = outputString + "• " + valueApi + " API\n";
+                            var outputString = outputString + "• " + valueApi + " API\n";
                         }
                         else {
                             // Change current box to accessory box (or whatever box is next, like 14x14)
                             // DEBUGGING (1 line)
-                            outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
-                            boxValue = nextBoxValue;
-                            boxValueLeft = boxValue;
+                            var outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
+                            var boxValue = nextBoxValue;
+                            var boxValueLeft = boxValue;
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
-                            totalValueCurrent = totalValueCurrent - totalValueApi;
-                            boxValueLeft = boxValueLeft - totalValueApi;
+                            var totalValueCurrent = totalValueCurrent - totalValueApi;
+                            var boxValueLeft = boxValueLeft - totalValueApi;
                             // Add item to string to be displayed at the end for what to pack
-                            outputString = outputString + "\n" + nextBox + ": \n";
-                            outputString = outputString + "• " + valueApi + " API\n";
+                            var outputString = outputString + "\n" + nextBox + ": \n";
+                            var outputString = outputString + "• " + valueApi + " API\n";
                         }
                     } */
 
@@ -866,82 +868,73 @@ Solid State Relays included with box carrying most POLDs
 
 
 
-                    // // API v2
-                    // putInBox(valueApi, packingItem.api, totalValueApi, "API");
-                    // //function putInBox(valueCurrentItem, spaceSingleCurrentItem, totalValueCurrentItem, currentItemName) {
-                    // function putInBox(valueApi, spaceSingleCurrentItem, totalValueApi, currentItemName) {
-
-                    //     if (valueApi > 0) {
-
-                    //         var loopCount = 0;
-                    //         while (loopCount < 6) {
-                    //             if (totalValueApi <= boxValueLeft) {
-                    //                 // Subtract value from box  (Subtract item value as it's added to a box, to figure out if there's items/overflow value left over)
-                    //                 totalValueCurrent = totalValueCurrent - totalValueApi;
-                    //                 boxValueLeft = boxValueLeft - totalValueApi;
-                    //                 // Put in box  (Add item to string to be displayed at the end for what to pack
-                    //                 outputString = outputString + "• " + valueApi + " API\n";
-                    //                 break;
-                    //             }
-                    //             else {
-                    //                 // Change current box to accessory box (or whatever box is next, like 14x14)
-                    //                 // DEBUGGING (1 line)
-                    //                 outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
-                    //                 boxValue = nextBoxValue;
-                    //                 boxValueLeft = boxValue;
-                    //                 totalValueCurrent = totalValueCurrent - totalValueApi;
-                    //                 boxValueLeft = boxValueLeft - totalValueApi;
-                    //                 // Add item to string to be displayed at the end for what to pack
-                    //                 outputString = outputString + "\n" + nextBox + ": \n";
-                    //                 outputString = outputString + "• " + valueApi + " API\n";
-
-                    //                 loopCount++;
-                    //                 if (loopCount == 6) {
-                    //                     break;
-                    //                 }
-                    //                 break;
-                    //             }
-                    //             break;
-                    //         }
-                    //     }
-                    // }
-
-                    // FUNCTION:  PACK ITEM FUNCTION
+                    // API v2
                     putInBox(valueApi, packingItem.api, totalValueApi, "API");
-                    function putInBox(valueCurrentItem, spaceSingleCurrentItem, totalValueCurrentItem, currentItemName) {
-                    // function putInBox(valueApi, spaceSingleCurrentItem, totalValueApi, currentItemName) {
+                    //function putInBox(valueCurrentItem, spaceSingleCurrentItem, totalValueCurrentItem, currentItemName) {
+                    function putInBox(valueApi, spaceSingleCurrentItem, totalValueApi, currentItemName) {
 
-                        if (valueCurrentItem > 0) {
+                    // DEBUGGING
+                    window.alert("function putInBox(valueApi, spaceSingleCurrentItem, totalValueApi, currentItemName) {   boxValue\n" + " " + boxValue);
 
+                    var boxValue = boxValue;
+                    // DEBUGGING
+                    window.alert("function putInBox(valueApi, spaceSingleCurrentItem, totalValueApi, currentItemName) {\n var boxValue = boxValue;   boxValue\n" + " " + boxValue);
+
+                        // DEBUGGING
+                        window.alert("function putInBox(   valueApi, spaceSingleCurrentItem, totalValueApi, currentItemName\n" + " " + valueApi + " " + spaceSingleCurrentItem + " " + totalValueApi + " " + currentItemName);
+                        window.alert("function putInBox(   totalValueCurrent, boxValueLeft, nextBox, nextBoxValue\n" + " " + totalValueCurrent + " " + boxValueLeft + " " + nextBox + " " + nextBoxValue);
+
+                        // VARIABLES DECLARED IN THE PARENT FUNCTION. REPEATING HERE FOR TESTING (could maybe reference them somehow if I make them global first)
+                        // It didn't work to access & modify this variable if it was declared outside the function, so I declared it inside
+                        var totalValueCurrent = totalValueTotal;
+                        // Initialze a variable to track how much space is left in each box, so once it hits a low number, it moves on to next box
+                        var boxValueLeft = boxValue;
+                        // The following items will fit in current box or create a new box (accessories box is default extra)
+                        // Define the accessory box as the next box to overlow items into, unless there's a junction box or total >= 49
+                        var nextBox = "Accessory Box (13x10x5)";
+                        var nextBoxValue = packingItem.boxAccessories;
+
+                        if (valueApi > 0) {
+
+                            // DEBUGGING
+                            window.alert("if (valueApi > 0)   valueApi, spaceSingleCurrentItem, totalValueApi, currentItemName\n" + " " + valueApi + " " + spaceSingleCurrentItem + " " + totalValueApi + " " + currentItemName);
+                            window.alert("if (valueApi > 0)   totalValueCurrent, boxValueLeft, nextBox, nextBoxValue\n" + " " + totalValueCurrent + " " + boxValueLeft + " " + nextBox + " " + nextBoxValue);
                             var loopCount = 0;
                             while (loopCount < 6) {
-                                if (totalValueCurrentItem <= boxValueLeft) {
+                                if (totalValueApi <= boxValueLeft) {
+                                    // DEBUGGING
+                                    window.alert("if (totalValueApi <= boxValueLeft)   valueApi, spaceSingleCurrentItem, totalValueApi, currentItemName\n" + " " + valueApi + " " + spaceSingleCurrentItem + " " + totalValueApi + " " + currentItemName);
+                                    window.alert("if (totalValueApi <= boxValueLeft)   totalValueCurrent, boxValueLeft, nextBox, nextBoxValue\n" + " " + totalValueCurrent + " " + boxValueLeft + " " + nextBox + " " + nextBoxValue);
                                     // Subtract value from box  (Subtract item value as it's added to a box, to figure out if there's items/overflow value left over)
-                                    totalValueCurrent = totalValueCurrent - totalValueCurrentItem;
-                                    boxValueLeft = boxValueLeft - totalValueCurrentItem;
+                                    var totalValueCurrent = totalValueCurrent - totalValueApi;
+                                    var boxValueLeft = boxValueLeft - totalValueApi;
                                     // Put in box  (Add item to string to be displayed at the end for what to pack
-                                    outputString = outputString + "• " + valueCurrentItem + " " + currentItemName + "\n";
+                                    var outputString = outputString + "• " + valueApi + " API\n";
                                     break;
                                 }
                                 else {
                                     // Change current box to accessory box (or whatever box is next, like 14x14)
                                     // DEBUGGING (1 line)
-                                    outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
-                                    boxValue = nextBoxValue;
-                                    boxValueLeft = boxValue;
-                                    totalValueCurrent = totalValueCurrent - totalValueCurrentItem;
-                                    boxValueLeft = boxValueLeft - totalValueCurrentItem;
+                                    var outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
+                                    var boxValue = nextBoxValue;
+                                    var boxValueLeft = boxValue;
+                                    var totalValueCurrent = totalValueCurrent - totalValueApi;
+                                    var boxValueLeft = boxValueLeft - totalValueApi;
                                     // Add item to string to be displayed at the end for what to pack
-                                    outputString = outputString + "\n" + nextBox + ": \n";
-                                    outputString = outputString + "• " + valueCurrentItem + " " + currentItemName + "\n";
+                                    var outputString = outputString + "\n" + nextBox + ": \n";
+                                    var outputString = outputString + "• " + valueApi + " API\n";
 
                                     loopCount++;
+                                    // DEBUGGING
+                                    window.alert("else {   valueApi, spaceSingleCurrentItem, totalValueApi, currentItemName\n" + " " + valueApi + " " + spaceSingleCurrentItem + " " + totalValueApi + " " + currentItemName);
+                                    window.alert("else {   totalValueCurrent, boxValueLeft, nextBox, nextBoxValue\n" + " " + totalValueCurrent + " " + boxValueLeft + " " + nextBox + " " + nextBoxValue);
                                     if (loopCount == 6) {
+                                        //window.alert("I can't fit " + itemName + " in any box, after trying " + loopCount + " times.");
+                                        window.alert("I can't fit " + currentItemName + " in any box, after trying " + loopCount + " times.\nvalueApi, spaceSingleCurrentItem, totalValueApi, currentItemName\n" + " " + valueApi + " " + spaceSingleCurrentItem + " " + totalValueApi + " " + currentItemName);
+                                        window.alert("totalValueCurrent, boxValueLeft, nextBox, nextBoxValue\n" + " " + totalValueCurrent + " " + boxValueLeft + " " + nextBox + " " + nextBoxValue);
                                         break;
                                     }
-                                    break;
                                 }
-                                break;
                             }
                         }
                     }
@@ -958,23 +951,23 @@ Solid State Relays included with box carrying most POLDs
                     if (valuePold > 0) {
                         if (totalValuePold <= boxValueLeft) {
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
-                            totalValueCurrent = totalValueCurrent - totalValuePold;
-                            boxValueLeft = boxValueLeft - totalValuePold;
+                            var totalValueCurrent = totalValueCurrent - totalValuePold;
+                            var boxValueLeft = boxValueLeft - totalValuePold;
                             // Add item to string to be displayed at the end for what to pack
-                            outputString = outputString + "• " + valuePold + " POLD\n";
+                            var outputString = outputString + "• " + valuePold + " POLD\n";
                         }
                         else {
                             // Change current box to accessory box (or whatever box is next, like 14x14)
                             // DEBUGGING (1 line)
-                            outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
-                            boxValue = nextBoxValue;
-                            boxValueLeft = boxValue;
+                            var outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
+                            var boxValue = nextBoxValue;
+                            var boxValueLeft = boxValue;
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
-                            totalValueCurrent = totalValueCurrent - totalValuePold;
-                            boxValueLeft = boxValueLeft - totalValuePold;
+                            var totalValueCurrent = totalValueCurrent - totalValuePold;
+                            var boxValueLeft = boxValueLeft - totalValuePold;
                             // Add item to string to be displayed at the end for what to pack
-                            outputString = outputString + "\n" + nextBox + ": \n";
-                            outputString = outputString + "• " + valuePold + " POLD\n";
+                            var outputString = outputString + "\n" + nextBox + ": \n";
+                            var outputString = outputString + "• " + valuePold + " POLD\n";
                         }
                     }
                     // Solid State Relay
@@ -982,33 +975,33 @@ Solid State Relays included with box carrying most POLDs
                     // TODO:  Might need to change this to put SSR in box with the most POLDs.
                     if (valueSsr > 0) {
                         // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
-                        totalValueCurrent = totalValueCurrent - totalValueSsr;
-                        boxValueLeft = boxValueLeft - totalValueSsr;
+                        var totalValueCurrent = totalValueCurrent - totalValueSsr;
+                        var boxValueLeft = boxValueLeft - totalValueSsr;
                         // Add item to string to be displayed at the end for what to pack
-                        outputString = outputString + "• " + valueSsr + " Solid State Relay\n";
+                        var outputString = outputString + "• " + valueSsr + " Solid State Relay\n";
                     }
                     // Leak Rope (2ft)
                     // TODO:  May need to change this to make POLDs with leak rope one item/value instead of separate
                     if (valueLeakRope2ft > 0) {
                         if (totalValueLeakRope2ft <= boxValueLeft) {
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
-                            totalValueCurrent = totalValueCurrent - totalValueLeakRope2ft;
-                            boxValueLeft = boxValueLeft - totalValueLeakRope2ft;
+                            var totalValueCurrent = totalValueCurrent - totalValueLeakRope2ft;
+                            var boxValueLeft = boxValueLeft - totalValueLeakRope2ft;
                             // Add item to string to be displayed at the end for what to pack
-                            outputString = outputString + "• " + valueLeakRope2ft + " Leak Rope (2ft)\n";
+                            var outputString = outputString + "• " + valueLeakRope2ft + " Leak Rope (2ft)\n";
                         }
                         else {
                             // Change current box to accessory box (or whatever box is next, like 14x14)
                             // DEBUGGING (1 line)
-                            outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
-                            boxValue = nextBoxValue;
-                            boxValueLeft = boxValue;
+                            var outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
+                            var boxValue = nextBoxValue;
+                            var boxValueLeft = boxValue;
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
-                            totalValueCurrent = totalValueCurrent - totalValueLeakRope2ft;
-                            boxValueLeft = boxValueLeft - totalValueLeakRope2ft;
+                            var totalValueCurrent = totalValueCurrent - totalValueLeakRope2ft;
+                            var boxValueLeft = boxValueLeft - totalValueLeakRope2ft;
                             // Add item to string to be displayed at the end for what to pack
-                            outputString = outputString + "\n" + nextBox + ": \n";
-                            outputString = outputString + "• " + valueLeakRope2ft + " Leak Rope (2ft)\n";
+                            var outputString = outputString + "\n" + nextBox + ": \n";
+                            var outputString = outputString + "• " + valueLeakRope2ft + " Leak Rope (2ft)\n";
                         }
                     }
                     // Leak Rope (5ft)
@@ -1016,23 +1009,23 @@ Solid State Relays included with box carrying most POLDs
                     if (valueLeakRope5ft > 0) {
                         if (totalValueLeakRope5ft <= boxValueLeft) {
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
-                            totalValueCurrent = totalValueCurrent - totalValueLeakRope5ft;
-                            boxValueLeft = boxValueLeft - totalValueLeakRope5ft;
+                            var totalValueCurrent = totalValueCurrent - totalValueLeakRope5ft;
+                            var boxValueLeft = boxValueLeft - totalValueLeakRope5ft;
                             // Add item to string to be displayed at the end for what to pack
-                            outputString = outputString + "• " + valueLeakRope5ft + " Leak Rope (5ft)\n";
+                            var outputString = outputString + "• " + valueLeakRope5ft + " Leak Rope (5ft)\n";
                         }
                         else {
                             // Change current box to accessory box (or whatever box is next, like 14x14)
                             // DEBUGGING (1 line)
-                            outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
-                            boxValue = nextBoxValue;
-                            boxValueLeft = boxValue;
+                            var outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
+                            var boxValue = nextBoxValue;
+                            var boxValueLeft = boxValue;
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
-                            totalValueCurrent = totalValueCurrent - totalValueLeakRope5ft;
-                            boxValueLeft = boxValueLeft - totalValueLeakRope5ft;
+                            var totalValueCurrent = totalValueCurrent - totalValueLeakRope5ft;
+                            var boxValueLeft = boxValueLeft - totalValueLeakRope5ft;
                             // Add item to string to be displayed at the end for what to pack
-                            outputString = outputString + "\n" + nextBox + ": \n";
-                            outputString = outputString + "• " + valueLeakRope5ft + " Leak Rope (5ft)\n";
+                            var outputString = outputString + "\n" + nextBox + ": \n";
+                            var outputString = outputString + "• " + valueLeakRope5ft + " Leak Rope (5ft)\n";
                         }
                     }
                     // Leak Rope (5ft)
@@ -1040,22 +1033,22 @@ Solid State Relays included with box carrying most POLDs
                     if (valueLeakRope10ft > 0) {
                         if (totalValueLeakRope10ft <= boxValueLeft) {
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
-                            totalValueCurrent = totalValueCurrent - totalValueLeakRope10ft;
-                            boxValueLeft = boxValueLeft - totalValueLeakRope10ft;
+                            var totalValueCurrent = totalValueCurrent - totalValueLeakRope10ft;
+                            var boxValueLeft = boxValueLeft - totalValueLeakRope10ft;
                             // Add item to string to be displayed at the end for what to pack
-                            outputString = outputString + "• " + valueLeakRope10ft + " Leak Rope (10ft)\n";
+                            var outputString = outputString + "• " + valueLeakRope10ft + " Leak Rope (10ft)\n";
                         }
                         else {
                             // Change current box to accessory box (or whatever box is next, like 14x14)
                             // DEBUGGING (1 line)
-                            outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
-                            boxValue = nextBoxValue;
-                            boxValueLeft = boxValue;
+                            var outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
+                            var boxValue = nextBoxValue;
+                            var boxValueLeft = boxValue;
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
-                            totalValueCurrent = totalValueCurrent - totalValueLeakRope10ft;
+                            var totalValueCurrent = totalValueCurrent - totalValueLeakRope10ft;
                             // Add item to string to be displayed at the end for what to pack
-                            outputString = outputString + "\n" + nextBox + ": \n";
-                            outputString = outputString + "• " + valueLeakRope10ft + " Leak Rope (10ft)\n";
+                            var outputString = outputString + "\n" + nextBox + ": \n";
+                            var outputString = outputString + "• " + valueLeakRope10ft + " Leak Rope (10ft)\n";
                         }
                     }
                     // Recirc Pump Switch
@@ -1064,23 +1057,23 @@ Solid State Relays included with box carrying most POLDs
                     if (valueRecirc > 0) {
                         if (totalValueRecirc <= boxValueLeft) {
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
-                            totalValueCurrent = totalValueCurrent - totalValueRecirc;
-                            boxValueLeft = boxValueLeft - totalValueRecirc;
+                            var totalValueCurrent = totalValueCurrent - totalValueRecirc;
+                            var boxValueLeft = boxValueLeft - totalValueRecirc;
                             // Add item to string to be displayed at the end for what to pack
-                            outputString = outputString + "• " + valueRecirc + " Recirc Pump Switch\n";
+                            var outputString = outputString + "• " + valueRecirc + " Recirc Pump Switch\n";
                         }
                         else {
                             // Change current box to accessory box (or whatever box is next, like 14x14)
                             // DEBUGGING (1 line)
-                            outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
-                            boxValue = nextBoxValue;
-                            boxValueLeft = boxValue;
+                            var outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
+                            var boxValue = nextBoxValue;
+                            var boxValueLeft = boxValue;
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
-                            totalValueCurrent = totalValueCurrent - totalValueRecirc;
-                            boxValueLeft = boxValueLeft - totalValueRecirc;
+                            var totalValueCurrent = totalValueCurrent - totalValueRecirc;
+                            var boxValueLeft = boxValueLeft - totalValueRecirc;
                             // Add item to string to be displayed at the end for what to pack
-                            outputString = outputString + "\n" + nextBox + ": \n";
-                            outputString = outputString + "• " + valueRecirc + " Recirc Pump Switch\n";
+                            var outputString = outputString + "\n" + nextBox + ": \n";
+                            var outputString = outputString + "• " + valueRecirc + " Recirc Pump Switch\n";
                         }
                     }
                     // Four Hour Timer
@@ -1088,23 +1081,23 @@ Solid State Relays included with box carrying most POLDs
                     if (valueFourHour > 0) {
                         if (totalValueFourHour <= boxValueLeft) {
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
-                            totalValueCurrent = totalValueCurrent - totalValueFourHour;
-                            boxValueLeft = boxValueLeft - totalValueFourHour;
+                            var totalValueCurrent = totalValueCurrent - totalValueFourHour;
+                            var boxValueLeft = boxValueLeft - totalValueFourHour;
                             // Add item to string to be displayed at the end for what to pack
-                            outputString = outputString + "• " + valueFourHour + " Four Hour Timer\n";
+                            var outputString = outputString + "• " + valueFourHour + " Four Hour Timer\n";
                         }
                         else {
                             // Change current box to accessory box (or whatever box is next, like 14x14)
                             // DEBUGGING (1 line)
-                            outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
-                            boxValue = nextBoxValue;
-                            boxValueLeft = boxValue;
+                            var outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
+                            var boxValue = nextBoxValue;
+                            var boxValueLeft = boxValue;
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
-                            totalValueCurrent = totalValueCurrent - totalValueFourHour;
-                            boxValueLeft = boxValueLeft - totalValueFourHour;
+                            var totalValueCurrent = totalValueCurrent - totalValueFourHour;
+                            var boxValueLeft = boxValueLeft - totalValueFourHour;
                             // Add item to string to be displayed at the end for what to pack
-                            outputString = outputString + "\n" + nextBox + ": \n";
-                            outputString = outputString + "• " + valueFourHour + " Four Hour Timer\n";
+                            var outputString = outputString + "\n" + nextBox + ": \n";
+                            var outputString = outputString + "• " + valueFourHour + " Four Hour Timer\n";
                         }
                     }
                     // Junction Box
@@ -1112,23 +1105,23 @@ Solid State Relays included with box carrying most POLDs
                     if (valueJuncBox > 0) {
                         if (totalValueJuncBox <= boxValueLeft) {
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
-                            totalValueCurrent = totalValueCurrent - totalValueJuncBox;
-                            boxValueLeft = boxValueLeft - totalValueJuncBox;
+                            var totalValueCurrent = totalValueCurrent - totalValueJuncBox;
+                            var boxValueLeft = boxValueLeft - totalValueJuncBox;
                             // Add item to string to be displayed at the end for what to pack
-                            outputString = outputString + "• " + valueJuncBox + " Junction Box\n";
+                            var outputString = outputString + "• " + valueJuncBox + " Junction Box\n";
                         }
                         else {
                             // Change current box to accessory box (or whatever box is next, like 14x14)
                             // DEBUGGING (1 line)
-                            outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
-                            boxValue = nextBoxValue;
-                            boxValueLeft = boxValue;
+                            var outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
+                            var boxValue = nextBoxValue;
+                            var boxValueLeft = boxValue;
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
-                            totalValueCurrent = totalValueCurrent - totalValueJuncBox;
-                            boxValueLeft = boxValueLeft - totalValueJuncBox;
+                            var totalValueCurrent = totalValueCurrent - totalValueJuncBox;
+                            var boxValueLeft = boxValueLeft - totalValueJuncBox;
                             // Add item to string to be displayed at the end for what to pack
-                            outputString = outputString + "\n" + nextBox + ": \n";
-                            outputString = outputString + "• " + valueJuncBox + " Junction Box\n";
+                            var outputString = outputString + "\n" + nextBox + ": \n";
+                            var outputString = outputString + "• " + valueJuncBox + " Junction Box\n";
                         }
                     }
                     // Insulated Pouch
@@ -1136,36 +1129,36 @@ Solid State Relays included with box carrying most POLDs
                     if (valueInsulPouch > 0) {
                         if (totalValueInsulPouch <= boxValueLeft) {
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
-                            totalValueCurrent = totalValueCurrent - totalValueInsulPouch;
-                            boxValueLeft = boxValueLeft - totalValueInsulPouch;
+                            var totalValueCurrent = totalValueCurrent - totalValueInsulPouch;
+                            var boxValueLeft = boxValueLeft - totalValueInsulPouch;
                             // Add item to string to be displayed at the end for what to pack
-                            outputString = outputString + "• " + valueInsulPouch + " Insulated Pouch\n";
+                            var outputString = outputString + "• " + valueInsulPouch + " Insulated Pouch\n";
                         }
                         else {
                             // Change current box to accessory box (or whatever box is next, like 14x14)
                             // DEBUGGING (1 line)
-                            outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
-                            boxValue = nextBoxValue;
-                            boxValueLeft = boxValue;
+                            var outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
+                            var boxValue = nextBoxValue;
+                            var boxValueLeft = boxValue;
                             // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
-                            totalValueCurrent = totalValueCurrent - totalValueInsulPouch;
-                            boxValueLeft = boxValueLeft - totalValueInsulPouch;
+                            var totalValueCurrent = totalValueCurrent - totalValueInsulPouch;
+                            var boxValueLeft = boxValueLeft - totalValueInsulPouch;
                             // Add item to string to be displayed at the end for what to pack
-                            outputString = outputString + "\n" + nextBox + ": \n";
-                            outputString = outputString + "• " + valueInsulPouch + " Insulated Pouch\n";
+                            var outputString = outputString + "\n" + nextBox + ": \n";
+                            var outputString = outputString + "• " + valueInsulPouch + " Insulated Pouch\n";
                         }
                     }
 
                     if (totalValueCurrent > 0) {
                         // Add item to string to be displayed at the end for what to pack
-                        outputString = outputString + "\n Hmm there seems to be something left over. Did I forget something in my calculations?\n Contact jake and tell him you'll give him an ice cream if he fixes it.\n DEBUGGING INFO (for leftovers): totalValueTotal = " + totalValueTotal + ". totalValueCurrent = " + totalValueCurrent;
+                        var outputString = outputString + "\n Hmm there seems to be something left over. Did I forget something in my calculations?\n Contact jake and tell him you'll give him an ice cream if he fixes it.\n DEBUGGING INFO (for leftovers): totalValueTotal = " + totalValueTotal + ". totalValueCurrent = " + totalValueCurrent;
                     }
 
 
 
                     // For debugging
-                    outputString = outputString + "\n\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft;
-                    outputString = outputString + "\n DEBUGGING INFO: totalValueTotal = " + totalValueTotal + ".  totalValueCurrent = " + totalValueCurrent;
+                    var outputString = outputString + "\n\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft;
+                    var outputString = outputString + "\n DEBUGGING INFO: totalValueTotal = " + totalValueTotal + ".  totalValueCurrent = " + totalValueCurrent;
 
                     return outputString;
                 }

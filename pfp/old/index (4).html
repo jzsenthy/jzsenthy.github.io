@@ -866,61 +866,45 @@ Solid State Relays included with box carrying most POLDs
 
 
 
-                    // // API v2
-                    // putInBox(valueApi, packingItem.api, totalValueApi, "API");
-                    // //function putInBox(valueCurrentItem, spaceSingleCurrentItem, totalValueCurrentItem, currentItemName) {
-                    // function putInBox(valueApi, spaceSingleCurrentItem, totalValueApi, currentItemName) {
-
-                    //     if (valueApi > 0) {
-
-                    //         var loopCount = 0;
-                    //         while (loopCount < 6) {
-                    //             if (totalValueApi <= boxValueLeft) {
-                    //                 // Subtract value from box  (Subtract item value as it's added to a box, to figure out if there's items/overflow value left over)
-                    //                 totalValueCurrent = totalValueCurrent - totalValueApi;
-                    //                 boxValueLeft = boxValueLeft - totalValueApi;
-                    //                 // Put in box  (Add item to string to be displayed at the end for what to pack
-                    //                 outputString = outputString + "• " + valueApi + " API\n";
-                    //                 break;
-                    //             }
-                    //             else {
-                    //                 // Change current box to accessory box (or whatever box is next, like 14x14)
-                    //                 // DEBUGGING (1 line)
-                    //                 outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
-                    //                 boxValue = nextBoxValue;
-                    //                 boxValueLeft = boxValue;
-                    //                 totalValueCurrent = totalValueCurrent - totalValueApi;
-                    //                 boxValueLeft = boxValueLeft - totalValueApi;
-                    //                 // Add item to string to be displayed at the end for what to pack
-                    //                 outputString = outputString + "\n" + nextBox + ": \n";
-                    //                 outputString = outputString + "• " + valueApi + " API\n";
-
-                    //                 loopCount++;
-                    //                 if (loopCount == 6) {
-                    //                     break;
-                    //                 }
-                    //                 break;
-                    //             }
-                    //             break;
-                    //         }
-                    //     }
-                    // }
-
-                    // FUNCTION:  PACK ITEM FUNCTION
+                    // API v2
                     putInBox(valueApi, packingItem.api, totalValueApi, "API");
-                    function putInBox(valueCurrentItem, spaceSingleCurrentItem, totalValueCurrentItem, currentItemName) {
-                    // function putInBox(valueApi, spaceSingleCurrentItem, totalValueApi, currentItemName) {
+                    //function putInBox(valueCurrentItem, spaceSingleCurrentItem, totalValueCurrentItem, currentItemName) {
+                    function putInBox(valueApi, spaceSingleCurrentItem, totalValueApi, currentItemName) {
 
-                        if (valueCurrentItem > 0) {
+                        // DEBUGGING
+                        // window.alert("function putInBox(valueApi, spaceSingleCurrentItem, totalValueApi, currentItemName) {   boxValue\n" + " " + boxValue);
 
+
+                        // DEBUGGING
+                        // window.alert("function putInBox(   valueApi, spaceSingleCurrentItem, totalValueApi, currentItemName\n" + " " + valueApi + " " + spaceSingleCurrentItem + " " + totalValueApi + " " + currentItemName);
+                        // window.alert("function putInBox(   totalValueCurrent, boxValueLeft, nextBox, nextBoxValue\n" + " " + totalValueCurrent + " " + boxValueLeft + " " + nextBox + " " + nextBoxValue);
+
+                        // // VARIABLES DECLARED IN THE PARENT FUNCTION. REPEATING HERE FOR TESTING (could maybe reference them somehow if I make them global first)
+                        // // It didn't work to access & modify this variable if it was declared outside the function, so I declared it inside
+                        // totalValueCurrent = totalValueTotal;
+                        // // Initialze a variable to track how much space is left in each box, so once it hits a low number, it moves on to next box
+                        // boxValueLeft = boxValue;
+                        // // The following items will fit in current box or create a new box (accessories box is default extra)
+                        // // Define the accessory box as the next box to overlow items into, unless there's a junction box or total >= 49
+                        // var nextBox = "Accessory Box (13x10x5)";
+                        // var nextBoxValue = packingItem.boxAccessories;
+
+                        if (valueApi > 0) {
+
+                            // DEBUGGING
+                            // window.alert("if (valueApi > 0)   valueApi, spaceSingleCurrentItem, totalValueApi, currentItemName\n" + " " + valueApi + " " + spaceSingleCurrentItem + " " + totalValueApi + " " + currentItemName);
+                            // window.alert("if (valueApi > 0)   totalValueCurrent, boxValueLeft, nextBox, nextBoxValue\n" + " " + totalValueCurrent + " " + boxValueLeft + " " + nextBox + " " + nextBoxValue);
                             var loopCount = 0;
                             while (loopCount < 6) {
-                                if (totalValueCurrentItem <= boxValueLeft) {
+                                if (totalValueApi <= boxValueLeft) {
+                                    // DEBUGGING
+                                    // window.alert("if (totalValueApi <= boxValueLeft)   valueApi, spaceSingleCurrentItem, totalValueApi, currentItemName\n" + " " + valueApi + " " + spaceSingleCurrentItem + " " + totalValueApi + " " + currentItemName);
+                                    // window.alert("if (totalValueApi <= boxValueLeft)   totalValueCurrent, boxValueLeft, nextBox, nextBoxValue\n" + " " + totalValueCurrent + " " + boxValueLeft + " " + nextBox + " " + nextBoxValue);
                                     // Subtract value from box  (Subtract item value as it's added to a box, to figure out if there's items/overflow value left over)
-                                    totalValueCurrent = totalValueCurrent - totalValueCurrentItem;
-                                    boxValueLeft = boxValueLeft - totalValueCurrentItem;
+                                    totalValueCurrent = totalValueCurrent - totalValueApi;
+                                    boxValueLeft = boxValueLeft - totalValueApi;
                                     // Put in box  (Add item to string to be displayed at the end for what to pack
-                                    outputString = outputString + "• " + valueCurrentItem + " " + currentItemName + "\n";
+                                    outputString = outputString + "• " + valueApi + " API\n";
                                     break;
                                 }
                                 else {
@@ -929,14 +913,20 @@ Solid State Relays included with box carrying most POLDs
                                     outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
                                     boxValue = nextBoxValue;
                                     boxValueLeft = boxValue;
-                                    totalValueCurrent = totalValueCurrent - totalValueCurrentItem;
-                                    boxValueLeft = boxValueLeft - totalValueCurrentItem;
+                                    totalValueCurrent = totalValueCurrent - totalValueApi;
+                                    boxValueLeft = boxValueLeft - totalValueApi;
                                     // Add item to string to be displayed at the end for what to pack
                                     outputString = outputString + "\n" + nextBox + ": \n";
-                                    outputString = outputString + "• " + valueCurrentItem + " " + currentItemName + "\n";
+                                    outputString = outputString + "• " + valueApi + " API\n";
 
                                     loopCount++;
+                                    // DEBUGGING
+                                    // window.alert("else {   valueApi, spaceSingleCurrentItem, totalValueApi, currentItemName\n" + " " + valueApi + " " + spaceSingleCurrentItem + " " + totalValueApi + " " + currentItemName);
+                                    // window.alert("else {   totalValueCurrent, boxValueLeft, nextBox, nextBoxValue\n" + " " + totalValueCurrent + " " + boxValueLeft + " " + nextBox + " " + nextBoxValue);
                                     if (loopCount == 6) {
+                                        //window.alert("I can't fit " + itemName + " in any box, after trying " + loopCount + " times.");
+                                        // window.alert("I can't fit " + currentItemName + " in any box, after trying " + loopCount + " times.\nvalueApi, spaceSingleCurrentItem, totalValueApi, currentItemName\n" + " " + valueApi + " " + spaceSingleCurrentItem + " " + totalValueApi + " " + currentItemName);
+                                        // window.alert("totalValueCurrent, boxValueLeft, nextBox, nextBoxValue\n" + " " + totalValueCurrent + " " + boxValueLeft + " " + nextBox + " " + nextBoxValue);
                                         break;
                                     }
                                     break;

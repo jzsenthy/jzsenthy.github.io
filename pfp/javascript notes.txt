@@ -140,6 +140,8 @@ Troubleshooting:
 If you lost the margin/padding on your stuff, you probably have one extra </div> closing tag somewhere (mine was in new code at the top).
 
 
+My variables were showing up as undefined because i was using  var  everytime i modified a variable, like  var variable = variable + variable2;  even after it was declared. var  should only be used the first time the variable is declared, then after that just start with the variable name, like  variable = variable + variable2;
+
 
 
 Javascript alert box truncated after 24 lines (or some amount of characters)
