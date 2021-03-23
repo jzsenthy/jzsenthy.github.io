@@ -2,14 +2,6 @@ Add the rest of the calculation logic.
 
 
 
-QUESTION:  What do we do if we're sending multiple insulated pouches? multiple medium shippers, or a bigger box?
-// Insulated Pouch
-if (valueInsulPouch > 0) {
-
-
-QUESTION:  If we have other accessories, should we fit an insulated pouch in an accessory box, or keep it in its own medium shipper?
-
-
 
 
 Hidden wire should just be length entry (ft).
@@ -62,6 +54,8 @@ then at the end, assign SSRs to that box as well (with value of 0 I guess).
 
 
 ---
+Maybe have a "back" button to go back from the results to the form without resetting it, instead of clearing out the entries, for easier testing.
+
 Add a button to show debugging information (to show hidden divs with printed debugging text under each line printed from the packing function loop). 
 Would require breaking the results text into separate strings and putting into separate divs though...
 Maybe I could make a toggle before submitting, that runs or doesn't run the debugging lines (and keep them all in the same string).
@@ -96,6 +90,12 @@ Show up/down number buttons by default, before entering anything?
 
 
 
+
+
+
+
+
+
 ---------------------------------
 DONE
 ---------------------------------
@@ -104,6 +104,17 @@ DONE
 
 
 
+
+
+
+QUESTION:  What do we do if we're sending multiple insulated pouches? multiple medium shippers, or a bigger box?
+ANSWER:  Insulated Pouch will always only fit into the medium shipper. -Bryce
+// Insulated Pouch
+if (valueInsulPouch > 0) {
+
+
+QUESTION:  If we have other accessories, should we fit an insulated pouch in an accessory box, or keep it in its own medium shipper?
+ANSWER:  Insulated Pouch will always only fit into the medium shipper. -Bryce
 
 
 Make the system toggles on top indicate something on the sheet (like make them a header on the report?).
