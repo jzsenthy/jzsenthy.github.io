@@ -22,12 +22,11 @@
 
     <!-- My CSS -->
     <style>
-        /* Hide these until shown (at end, upon submit) */
-        #expandPold {
-            display: none;
-        }
-
-        #resultsBoxContainer {
+        /* Hide these until shown */
+        #expandPold,
+        #resultsBoxContainer,
+        #inputHiddenWireLength,
+        #hiddenWireHelp {
             display: none;
         }
 
@@ -238,7 +237,7 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                     <div class="mb-5">
                         <!-- value="1" to default to 1. min="0" max="50" for min and max -->
                         <label for="inputApi" class="form-label">APIs</label>
-                        <input type="number" class="form-control" id="inputApi" min="0" max="50" value="3"
+                        <input type="number" class="form-control" id="inputApi" min="0" max="50"
                             aria-describedby="apiHelp">
                         <div id="apiHelp" class="form-text"><i>Maximum of 30.</i></div>
                     </div>
@@ -270,13 +269,14 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                         <label for="inputHiddenWire" class="form-label">Hidden Power Wire (Control Panel)</label>
                         <input type="number" class="form-control" id="inputHiddenWire">
                     </div> -->
-                    <!-- Supposed to have  form-check  on parent div, but that puts checkbox on left -->
+                    <!-- Supposed to have  form-check  class on parent div, but that puts checkbox on left -->
                     <!-- <div class="mb-4" form-check> -->
-                    <div class="mb-4">
-                        <label for="checkHiddenWire" class="form-label">Hidden Power Wire (Control Panel)</label>
+                    <div class="mb-4 form-check">
+                        <label for="checkHiddenWire" class="form-label mx-3">Hidden Power Wire (Control Panel)</label>
                         <!-- TODO:  Align checkbox right (keeping text and div section on left) -->
-                        <input type="checkbox" class="form-check-input mx-3" id="checkHiddenWire">
-                        <input type="number" class="form-control" id="inputHiddenWireLength">
+                        <input type="checkbox" class="form-check-input mx-1" id="checkHiddenWire">
+                        <input type="number" class="form-control" value="10" id="inputHiddenWireLength">
+                        <div id="hiddenWireHelp" class="form-text"><i>Ft.</i></div>
                     </div>
 
                 </div>
@@ -407,6 +407,28 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
             }
 
 
+            // FUNCTION:  Show extra Hidden Wire section if present
+            // HISTORY:  I'm not sure why it's reversed. Maybe it's checking the value on click, instead of seeing what it changes to
+            // SAMPLE:  https://www.w3schools.com/jsref/event_onchange.asp
+            document.getElementById("checkHiddenWire").addEventListener("click", setHiddenWire);
+                        function setHiddenWire() {
+                var idHiddenWire = document.getElementById("checkHiddenWire");
+                if (idHiddenWire.value == 0) {
+                    var elementHiddenWire = document.getElementById("inputHiddenWireLength");
+                    elementHiddenWire.style.display = "block";
+                    var elementHiddenWire = document.getElementById("hiddenWireHelp");
+                    elementHiddenWire.style.display = "block";
+                    // window.alert("idHiddenWire.value == 0  " + idHiddenWire.value);
+                }
+                else if (idHiddenWire.value > 0) {
+                    var elementHiddenWire = document.getElementById("inputHiddenWireLength");
+                    elementHiddenWire.style.display = "none";
+                    var elementHiddenWire = document.getElementById("hiddenWireHelp");
+                    elementHiddenWire.style.display = "none";
+                    // window.alert("idHiddenWire.value > 0  " + idHiddenWire.value);
+                }
+            }
+    
 
             // Set SCV = 1 if an LDS is selected
             // TODO:  Maybe change  var elementId  to a unique var
@@ -808,7 +830,7 @@ Solid State Relays included with box carrying most POLDs
                         totalValueCurrent = totalValueCurrent - totalValueHiddenWire;
                         boxValueLeft = boxValueLeft - totalValueHiddenWire;
                         // Add item to string to be displayed at the end for what to pack
-                        outputString = outputString + "• " + valueHiddenWire + " Hidden Wire\n";
+                        outputString = outputString + "• " + valueHiddenWire + " Hidden Wire (" + valueHiddenWireLength + "ft)\n";
                     }
                     if (valuePam1 > 0) {
                         // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over

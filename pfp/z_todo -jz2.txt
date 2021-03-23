@@ -12,7 +12,14 @@ Hidden wire should just be length entry (ft).
 <input type="checkbox" class="form-check-input" id="checkHiddenWire">
 
 
+
+--------------
 Include hidden wire length in results text.
+--------------
+
+
+
+
 
 Style the hidden wire length entry differently (card style?) and include ft as a designator/description.
 
