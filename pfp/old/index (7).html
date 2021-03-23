@@ -266,17 +266,9 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                         <label for="inputInsulPouch" class="form-label">Insulated Pouch</label>
                         <input type="number" class="form-control" id="inputInsulPouch">
                     </div>
-                    <!-- <div class="mb-4">
+                    <div class="mb-4">
                         <label for="inputHiddenWire" class="form-label">Hidden Power Wire (Control Panel)</label>
                         <input type="number" class="form-control" id="inputHiddenWire">
-                    </div> -->
-                    <!-- Supposed to have  form-check  on parent div, but that puts checkbox on left -->
-                    <!-- <div class="mb-4" form-check> -->
-                    <div class="mb-4">
-                        <label for="checkHiddenWire" class="form-label">Hidden Power Wire (Control Panel)</label>
-                        <!-- TODO:  Align checkbox right (keeping text and div section on left) -->
-                        <input type="checkbox" class="form-check-input mx-3" id="checkHiddenWire">
-                        <input type="number" class="form-control" id="inputHiddenWireLength">
                     </div>
 
                 </div>
@@ -296,8 +288,7 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                     </div>
                     <div class="mb-3 form-check">
                         <input type="checkbox" class="form-check-input float-end mx-3" id="checkDebug">
-                        <label class="form-check-label float-end" for="checkDebug"><i>[Enable debugging
-                                text]</i></label>
+                        <label class="form-check-label float-end" for="checkDebug">Enable debugging text</label>
                     </div>
 
 
@@ -563,9 +554,7 @@ Solid State Relays included with box carrying most POLDs
                 var valuePam1 = Number(document.getElementById("inputPam1").value);
                 var valueJuncBox = Number(document.getElementById("inputJuncBox").value);
                 var valueInsulPouch = Number(document.getElementById("inputInsulPouch").value);
-                // Changed inputHiddenWire to checkHiddenWire and added a new input inputHiddenWireLength, and a new variable valueHiddenWireLength
-                var valueHiddenWire = Number(document.getElementById("checkHiddenWire").value);
-                var valueHiddenWireLength = Number(document.getElementById("inputHiddenWireLength").value);
+                var valueHiddenWire = Number(document.getElementById("inputHiddenWire").value);
 
                 // Don't add on/off to value total. Use this to trigger something else (undecided what)
                 // Convert  On / Undefined  to  1 / 0  by wrapping in Number();

@@ -8,9 +8,15 @@ Hidden wire should just be length entry (ft).
 (maybe default it to 1 wire, or a checkbox which evaluates to 0 or 1).
 
 
+<!-- TODO:  Align checkbox right (keeping text and div section on left) -->
+<input type="checkbox" class="form-check-input" id="checkHiddenWire">
 
 
-if recirc or 4hr is the only overflow item, put in recirc box instead of accessory
+Include hidden wire length in results text.
+
+Style the hidden wire length entry differently (card style?) and include ft as a designator/description.
+
+
 
 
 
@@ -96,6 +102,12 @@ Show up/down number buttons by default, before entering anything?
 
 
 
+
+
+
+
+
+
 ---------------------------------
 DONE
 ---------------------------------
@@ -105,6 +117,11 @@ DONE
 
 
 
+
+
+
+
+if recirc or 4hr is the only overflow item, put in recirc box instead of accessory
 
 
 QUESTION:  What do we do if we're sending multiple insulated pouches? multiple medium shippers, or a bigger box?
