@@ -1,18 +1,14 @@
 ---
 TODO
 ---
-Align checkboxes near top
-
-
-Reset button not fully working (doesn't activate LDS tab or hide the hidden wire length entry).
-
-After resetting, you have to click checkboxes a couple times to get them working again.
-
-Change the reset button to a submit button, to actually refresh the page?
-
 
 Format print output to put each box in a 4x6 square or add page breaks if that's possible, to print on separate pages.
 
+Put accessory inputs on shared line to take up less vertical room.
+
+"Solid State Relays included with box carrying most POLDs"
+Need to make a loop for assigning POLDs one at a time to a box, storing the value of which box has the most, (loop/function variables defined at top)
+then at the end, assign SSRs to that box as well (with value of 0 I guess).
 
 Add LDS power wire?
 include (value 0) in shipper. number entry (5ft increments, default 10ft)
@@ -21,18 +17,9 @@ Add more separation to buttons on top row.
 
 Hide more acessories if POLD-Only is selected? (API, Recirc, FourHour, SSR, PAM-1, Junction, Insulated)?
 
-Put accessory inputs on shared line to take up less vertical room.
-
 Add section titles, and collapsible "Uncommon Accessories" sections?
 
 Maybe format as important/common things on left, uncommon/default things on right column.
-
-Hide extraPold section if POLDs goes back to 0.
-
-
-"Solid State Relays included with box carrying most POLDs"
-Need to make a loop for assigning POLDs one at a time to a box, storing the value of which box has the most, (loop/function variables defined at top)
-then at the end, assign SSRs to that box as well (with value of 0 I guess).
 
 
 
@@ -42,6 +29,8 @@ then at the end, assign SSRs to that box as well (with value of 0 I guess).
 ---
 MAYBE DO
 ---
+
+Align checkboxes that are near the top
 
 Number the boxes like Box 1, Box 2.
 
@@ -53,10 +42,6 @@ Mailer(11x9x1) = 2.5 (Use for shipments of accesory only)
 Checkboxes aren't working with chrome dark mode extension. (might be an issue with the bootstrap dark version fork i'm using?)
 
 Maybe have a "back" button to go back from the results to the form without resetting it, instead of clearing out the entries, for easier testing.
-
-Add a button to show debugging information (to show hidden divs with printed debugging text under each line printed from the packing function loop). 
-Would require breaking the results text into separate strings and putting into separate divs though...
-Maybe I could make a toggle before submitting, that runs or doesn't run the debugging lines (and keep them all in the same string).
 
 Might wanna print each box results on a different page, to put sticker on each box.
 
@@ -72,13 +57,14 @@ Put version/revision number on page (bottom right).
 
 Wizard design? Where things show up after clicking the previous thing (to filter options by LDS/POLD only/accessories only/replacement/custom/all/etc).
 
-Auto generate & print packing label (packing list sticker on box, not fedex label or actual packing list). (Maybe create a new window at 4x6, or a text file on server side or something).
-
 Bigger up/down number buttons?
 
 Show up/down number buttons by default, before entering anything?
 
-
+// Currently just hard defining this group of items as always going in the first box (not checking if they fit) (according to Bryce rules)
+// Maybe change this if there are enough cases to break it, like multiple control panels or something.
+"Panel, SCV, Hidden Wire and Pam1 always in Box 1"
+                   
 
 
 
@@ -117,8 +103,20 @@ DONE
 
 
 
+Reset button not fully working (doesn't activate LDS tab or hide the hidden wire length entry).
+
+After resetting, you have to click checkboxes a couple times to get them working again.
+
+Change the reset button to a submit button, to actually refresh the page?
 
 
+<!-- Maybe have a "leak rope? Y/N popup before the options show up. or a Probes/LeakRope selector, defaulting to probes.) -->
+
+Hide extraPold section if POLDs goes back to 0.
+
+Add a button to show debugging information (to show hidden divs with printed debugging text under each line printed from the packing function loop). 
+Would require breaking the results text into separate strings and putting into separate divs though...
+Maybe I could make a toggle before submitting, that runs or doesn't run the debugging lines (and keep them all in the same string).
 
 Add split system stuff?
 checkbox for b1 and b2, no real change. b3 needs a bit more logic.
@@ -151,32 +149,27 @@ Make the system toggles on top indicate something on the sheet (like make them a
 // Does this always go in a 4hrtimer box or does it go in standard boxes like Shipper or 14x14?
 --goes in shipper or accessory box with other stuff unless its the only other item
 
+Auto generate & print packing label (packing list sticker on box, not fedex label or actual packing list). (Maybe create a new window at 4x6, or a text file on server side or something).
 
 Highlight selected button (LDS) on load
-
 
 Function/loop to replace if/else statements for loading group of items into box:
 loadItemIntoBox(valueItem,spaceItem,totalValueItem,totalValueCurrent,boxValueLeft,boxValue,currentBox,nextBox,currentBoxValue,nextBoxValue)
 
-
 Change alert box to something else.
 (Javascript alert box truncated after 24 lines (or some amount of characters)).
 
-
 Add a Reset/Continue/Clear/Start Over button to the results (as well as a Print button, defaulting to 4x6 and zebra printer)
-
 
 declare all variables outside functions and
 delete all extraneous "var" declarations. (dont redeclare/modify variables as  var variable = variable2;)
  (this worked, solved the issue)
 
 
-
 // API v2
 ///////////////////////////////////////
 // CURRENTLY WORKING ON   (variables are showing up as undefined, probably because they aren't global. actually because i kept redeclaring them as  var variable, so it created duplicates)
 ///////////////////////////////////////
-
 
 
 When something won't fit in a box, it's currently putting it in the next box whether it fits or not.
@@ -201,11 +194,9 @@ while (loopCount < 6) {
 }
 
 
-
 Change  totalValuePold   to 1 item at a time, until  totalValuePold  hits 0
 
 Only include SCV if LDS is > 0
-
 
 Add an extra variable, for boxValueLeft/boxSpaceLeft
 Line 582
@@ -214,12 +205,9 @@ Subtract item value from each box. (is only subtracting from the total and compa
 
 Fix checkbox not being able to be checked.
 
-
 Highlight left/selected button by default (default to True)
 
-
 Checkboxes should default to 0 or 1, not on or undefined.
-
 
 Add Replacement text on top of dialog box.
 
@@ -235,7 +223,6 @@ What's the default box for POLD-Only systems? Normal shipper? (define around lin
 // 14x14x14 = 48 (Use only if EJB is included or if Point total is greater than or equal to 49) -Bryce
 // I'm guessing this is the overflow box and not the primary box -Jake
 ya
-
 
 // I'm assuming the four hour timer box is only used if a single timer or recirc switch is sent, but if both are sent, 
 // then they'll be in something else?
