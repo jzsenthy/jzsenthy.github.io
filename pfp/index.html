@@ -22,11 +22,14 @@
 
     <!-- My CSS -->
     <style>
-        /* Hide these until shown */
+        /* Hide these (ids) until shown */
+        /* I'm also adding a class to these, to default them to hidden when Reset is pressed */
+        .startHidden,
         #expandPold,
         #resultsBoxContainer,
         #inputHiddenWireLength,
-        #hiddenWireHelp {
+        #hiddenWireHelp,
+        #selectSplitSystem {
             display: none;
         }
 
@@ -69,7 +72,7 @@
         <!-- FUNCTION:  Show results upon form submit (and hide rest of page) -->
         <!-- Start hidden, only show after hitting submit  -->
         <!-- TITLE:  Results box -->
-        <div class="resultsBoxContainer" id="resultsBoxContainer">
+        <div class="startHidden resultsBoxContainer" id="resultsBoxContainer">
             <!-- Don't show title during print -->
             <div class="row resultsBoxTitle d-print-none" id="resultsBoxTitle">
                 <div class="col-md my-3">
@@ -167,7 +170,7 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                     <!-- Example from:  https://getbootstrap.com/docs/5.0/forms/overview/ -->
 
 
-                    <div class="row mb-2">
+                    <div class="row">
                         <div class="col">
                             <!--  TODO:  Change valueLds to number of LDS, then add valueLdsSize for size? (hardcoded to 1 LDS in scripts) -->
                             <label for="selectLds" class="form-label">LDS Valve Size</label>
@@ -187,12 +190,47 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                         <div class="col">
                             <label for="inputScv" class="form-label"><i>Spring Check Valve</i></label>
                             <input type="number" class="form-control" id="inputScv" aria-describedby="scvHelp">
-                            <div id="scvHelp" class="form-text"><i>1 is included with an LDS by default.</i></div>
                         </div>
                     </div>
 
 
+                    <div class="row">
+                        <div class="col mt-1">
+                            <!-- Split system checkbox -->
+                            <!-- Supposed to have  form-check  class on parent div, but that puts checkbox on left. Remove if you want checkbox on right -->
+                            <div class="form-check">
+                                <label for="checkSplitSystem" class="form-label mx-3">Split System</label>
+                                <!-- TODO:  Align checkbox right (keeping text and div section on left) -->
+                                <input type="checkbox" class="form-check-input mx-1" id="checkSplitSystem">
+                            </div>
+                        </div>
+                        <!-- Spring Check Valve description -->
+                        <div class="col">
+                            <div id="scvHelp" class="form-text"><i>1 is included with an LDS by default.</i></div>
+                        </div>
+                    </div>
+
+                    <!-- Split system selector -->
+                    <div class="row mb-4">
+                        <div class="col">
+                            <!--  TODO:  Change valueLds to number of LDS, then add valueLdsSize for size? (hardcoded to 1 LDS in scripts) -->
+                            <!-- <label for="selectSplitSystem" class="form-label">Split System Size</label> -->
+                            <!-- Auto-include SCV of same size -->
+                            <!-- Auto-include CP, 12V PSU -->
+                            <select class="form-select startHidden" id="selectSplitSystem">
+                                <option selected></option>
+                                <option value="1">B1</option>
+                                <option value="2">B2</option>
+                                <option value="3">B3</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                        </div>
+                    </div>
+
                 </div>
+
+
 
 
                 <!-- SYSTEM: POLD-ONLY -->
@@ -202,6 +240,20 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                         <input type="number" class="form-control" id="inputCp">
                     </div>
                 </div>
+
+                <!-- TODO:  Checkbox checked state not visible when using chrome dark mode extension -->
+                <!-- Supposed to have  form-check  class on parent div, but that puts checkbox on left. Remove if you want checkbox on right -->
+                <div class="row mb-4">
+                    <div class="mb-4 form-check">
+                        <label for="checkHiddenWire" class="form-label mx-3">Hidden Power Wire (Control
+                            Panel)</label>
+                        <!-- TODO:  Align checkbox right (keeping text and div section on left) -->
+                        <input type="checkbox" class="form-check-input mx-1" id="checkHiddenWire">
+                        <input type="number" class="form-control startHidden" value="10" id="inputHiddenWireLength">
+                        <div id="hiddenWireHelp" class="form-text startHidden"><i>Ft.</i></div>
+                    </div>
+                </div>
+
 
 
                 <!-- ACCESSORIES -->
@@ -216,11 +268,12 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                         <label for="inputPold" class="form-label">POLDs</label>
                         <input type="number" class="form-control" id="inputPold" min="0" max="30"
                             aria-describedby="poldHelp">
-                        <div id="poldHelp" class="form-text"><i>Maximum of 30. If requesting more than 15, send list of
+                        <div id="poldHelp" class="form-text"><i>Maximum of 30. If requesting more than 15, send list
+                                of
                                 zones.</i></div>
                     </div>
                     <!-- Maybe have a "leak rope? Y/N popup before the options show up. or a Probes/LeakRope selector, defaulting to probes.) -->
-                    <div class="card m-3 expandPold" id="expandPold">
+                    <div class="card m-3 startHidden expandPold" id="expandPold">
                         <div class="m-3">
                             <label for="inputLeakRope2ft" class="form-label">Leak Rope (2ft)</label>
                             <input type="number" class="form-control" id="inputLeakRope2ft" min="0" max="30">
@@ -265,19 +318,6 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                         <label for="inputInsulPouch" class="form-label">Insulated Pouch</label>
                         <input type="number" class="form-control" id="inputInsulPouch">
                     </div>
-                    <!-- <div class="mb-4">
-                        <label for="inputHiddenWire" class="form-label">Hidden Power Wire (Control Panel)</label>
-                        <input type="number" class="form-control" id="inputHiddenWire">
-                    </div> -->
-                    <!-- Supposed to have  form-check  class on parent div, but that puts checkbox on left -->
-                    <!-- <div class="mb-4" form-check> -->
-                    <div class="mb-4 form-check">
-                        <label for="checkHiddenWire" class="form-label mx-3">Hidden Power Wire (Control Panel)</label>
-                        <!-- TODO:  Align checkbox right (keeping text and div section on left) -->
-                        <input type="checkbox" class="form-check-input mx-1" id="checkHiddenWire">
-                        <input type="number" class="form-control" value="10" id="inputHiddenWireLength">
-                        <div id="hiddenWireHelp" class="form-text"><i>Ft.</i></div>
-                    </div>
 
                 </div>
 
@@ -299,11 +339,16 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                         <label class="form-check-label float-end" for="checkDebug"><i>[Enable debugging
                                 text]</i></label>
                     </div>
+                    <div class="mb-3">
+                        <a href="z_todo.txt" class="float-end mx-3" ><i>[Known issues]</i></label>
+                    </div>
 
 
                     <div class="row mb-2">
                         <div class="col">
-                            <button class="btn btn-danger btn-sm" type="reset" value="Reset">Reset</button>
+                            <!-- HISTORY:  Wasn't fully resetting the form, so I'm manually hiding shown divs as well with  onclick="resetHidden()" -->
+                            <button class="btn btn-danger btn-sm" type="reset" id="mainResetButton" 
+                            onclick="resetHidden()" value="Reset">Reset</button>
                         </div>
                         <div class="col">
                             <!-- FUNCTION:  Submit button -->
@@ -316,7 +361,6 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                 </div>
 
 
-            </div>
         </form>
 
 
@@ -395,6 +439,25 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
 
 
 
+            
+            // FUNCTION:  Hide the  startHidden  divs when pressing the Reset button
+            function resetHidden(groupClass) {
+                // Hide everything first
+                // elements = document.getElementsByClassName(`${groupClass}`);
+                elements = document.getElementsByClassName("startHidden");
+                for (var i = 0; i < elements.length; i++) {
+                    elements[i].style.display = elements[i].style.display = 'none';
+                }
+                // Show default LDS group  (lds top button defaults to active anyway, so it fits)
+                // TODO:  Maybe change this to just clicking the button (so it's active as well)
+                elements = document.getElementsByClassName("groupLds");
+                for (var i = 0; i < elements.length; i++) {
+                    elements[i].style.display = elements[i].style.display = '';
+                }
+            }
+
+
+
 
             // Show extra POLD section if POLDs are present
             // TODO:  Hide section if POLDs goes back to 0
@@ -410,25 +473,47 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
             // FUNCTION:  Show extra Hidden Wire section if present
             // HISTORY:  I'm not sure why it's reversed. Maybe it's checking the value on click, instead of seeing what it changes to
             // SAMPLE:  https://www.w3schools.com/jsref/event_onchange.asp
-            document.getElementById("checkHiddenWire").addEventListener("click", setHiddenWire);
-                        function setHiddenWire() {
+            document.getElementById("checkHiddenWire").addEventListener("change", setHiddenWire);
+            function setHiddenWire() {
                 var idHiddenWire = document.getElementById("checkHiddenWire");
+                var elementHiddenWire;
                 if (idHiddenWire.value == 0) {
-                    var elementHiddenWire = document.getElementById("inputHiddenWireLength");
+                    elementHiddenWire = document.getElementById("inputHiddenWireLength");
                     elementHiddenWire.style.display = "block";
-                    var elementHiddenWire = document.getElementById("hiddenWireHelp");
+                    elementHiddenWire = document.getElementById("hiddenWireHelp");
                     elementHiddenWire.style.display = "block";
                     // window.alert("idHiddenWire.value == 0  " + idHiddenWire.value);
                 }
                 else if (idHiddenWire.value > 0) {
-                    var elementHiddenWire = document.getElementById("inputHiddenWireLength");
+                    elementHiddenWire = document.getElementById("inputHiddenWireLength");
                     elementHiddenWire.style.display = "none";
-                    var elementHiddenWire = document.getElementById("hiddenWireHelp");
+                    elementHiddenWire = document.getElementById("hiddenWireHelp");
                     elementHiddenWire.style.display = "none";
                     // window.alert("idHiddenWire.value > 0  " + idHiddenWire.value);
                 }
             }
-    
+
+
+
+            // FUNCTION:  Show Split System dropdown selector if checked
+            // HISTORY:  I'm not sure why it's reversed. Maybe it's checking the value on click, instead of seeing what it changes to
+            // SAMPLE:  https://www.w3schools.com/jsref/event_onchange.asp
+            document.getElementById("checkSplitSystem").addEventListener("change", setSplitSystem);
+            function setSplitSystem() {
+                var idSplitSystem = document.getElementById("checkSplitSystem");
+                if (idSplitSystem.value == 0) {
+                    var elementSplitSystem = document.getElementById("selectSplitSystem");
+                    elementSplitSystem.style.display = "block";
+                    // window.alert("idSplitSystem.value == 0  " + idSplitSystem.value);
+                }
+                else if (idSplitSystem.value > 0) {
+                    var elementSplitSystem = document.getElementById("selectSplitSystem");
+                    elementSplitSystem.style.display = "none";
+                    // window.alert("idSplitSystem.value > 0  " + idSplitSystem.value);
+                }
+            }
+
+
 
             // Set SCV = 1 if an LDS is selected
             // TODO:  Maybe change  var elementId  to a unique var
@@ -497,6 +582,11 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                 lds200: 0,
                 lds250: 0,
                 lds300: 0,
+
+                splitSystem: 0,
+                splitSystemB1: 0,
+                splitSystemB2: 0,
+                splitSystemB3: 0,
 
                 scv: 0,
                 ssr: 0,
@@ -568,6 +658,10 @@ Solid State Relays included with box carrying most POLDs
                 var valueLds = Number(document.getElementById("selectLds").value).toFixed(2);
                 ///window.alert("yo valueLds = " + valueLds);
 
+                // Split System stuff (that we're not really using)
+                var valueSplitSystemCheck = Number(document.getElementById("checkSplitSystem").value);
+                var valueSplitSystemSelect = Number(document.getElementById("selectSplitSystem").value);
+
                 // Add this group to value total
                 // TIP:  Use parseInt() or parseFloat() or Number() since it thinks these are strings and not adding properly (Number() does floats too [numbers with decimels])
                 // REFERENCE:  https://stackoverflow.com/q/4564158
@@ -604,7 +698,7 @@ Solid State Relays included with box carrying most POLDs
 
                 // FUNCTION:  Find the total items added into the form
                 // Didn't include LDS because it's not a frequency but a size.
-                var valueTotal = valueScv + valueCp + valuePold + valueLeakRope5ft + valueLeakRope10ft + valueApi + valueRecirc + valueFourHour + valueSsr + valueJuncBox + valueInsulPouch + valueHiddenWire;
+                var valueTotal = valueSplitSystemCheck + valueScv + valueCp + valuePold + valueLeakRope5ft + valueLeakRope10ft + valueApi + valueRecirc + valueFourHour + valueSsr + valueJuncBox + valueInsulPouch + valueHiddenWire;
 
                 //window.alert("yo valueTotal (form input)= " + valueTotal);
 
@@ -612,6 +706,9 @@ Solid State Relays included with box carrying most POLDs
                 // FUNCTION:  Multiply the number of each item in the form with the value of the item, to find packing size value. (values for size/space)
                 // Can break this out by lds size later if we want
                 var totalValueLds = valueLds * packingItem.lds;
+                var totalValueSplitSystemCheck = valueSplitSystemCheck * packingItem.splitSystem;
+                // Can break split system out by type later if we want
+                // var totalValueSplitSystemSelect = valueSplitSystemSelect * packingItem.splitSystemB1;
                 var totalValueScv = valueScv * packingItem.scv;
                 // window.alert("yo totalValueScv = " + totalValueScv);
                 var totalValueCp = valueCp * packingItem.cp;
@@ -630,31 +727,10 @@ Solid State Relays included with box carrying most POLDs
 
 
                 // FUNCTION:  Find the total packing space required by adding all values of number of items multiplied by their space taken
-                var totalValueTotal = totalValueLds + totalValueScv + totalValueCp + totalValuePold + totalValueLeakRope2ft + totalValueLeakRope5ft + totalValueLeakRope10ft + totalValueApi + totalValueRecirc + totalValueFourHour + totalValueSsr + totalValueJuncBox + totalValueInsulPouch + totalValueHiddenWire;
+                var totalValueTotal = totalValueSplitSystemCheck + totalValueLds + totalValueScv + totalValueCp + totalValuePold + totalValueLeakRope2ft + totalValueLeakRope5ft + totalValueLeakRope10ft + totalValueApi + totalValueRecirc + totalValueFourHour + totalValueSsr + totalValueJuncBox + totalValueInsulPouch + totalValueHiddenWire;
 
 
                 //window.alert("yo totalValueTotal () = " + totalValueTotal);
-
-
-
-
-                // TITLE:  Alert function
-                // HISTORY:  Didn't work so I just used a hidden div and rewriting the innerHTML after form submit
-                // TODO:  Get this custom alert function working so I can title the 'popup'
-                // FUNCTION:  Create custom window.alert popup function so I can retitle it
-                // SOURCE:  https://stackoverflow.com/a/13411862
-                //window.alert = function(title, message){
-                //    var myElementToShow = document.getElementById("someElementId");
-                //    myElementToShow.innerHTML = title + "</br>" + message; 
-                //}
-                //// My rewrite attempt:
-                //window.alert = function(message){
-                //   var myElementToShow = document.getElementById("resultsBox");
-                //  myElementToShow.innerHTML = message; 
-                // }
-
-
-
 
                 /*                Order of Priority:
                 Panel, SCV, Hidden Wire and Pam1 always in Box 1
@@ -806,8 +882,16 @@ Solid State Relays included with box carrying most POLDs
                     // Currently just hard defining this group of items as always going in the first box (not checking if they fit) (according to Bryce rules)
                     // TODO:  Maybe change this group into a loop/function since it's basically repeated code (just assign a variable for which current item it's evaluating)
                     if (valueLds > 0) {
-                        // Add item to string to be displayed at the end for what to pack
-                        outputString = outputString + "• LDS (" + valueLds + "\") \n";
+                        // If split system, add that info
+                        if (valueSplitSystemCheck > 0) {
+                            // Add item to string to be displayed at the end for what to pack
+                            outputString = outputString + "• LDS (" + valueLds + "\") (Split-System B" + valueSplitSystemSelect + ")\n";
+                        }
+                        // Otherwise output the normal LDS size info string
+                        else {
+                            // Add item to string to be displayed at the end for what to pack
+                            outputString = outputString + "• LDS (" + valueLds + "\") \n";
+                        }
                         // Don't subtract LDS value as of now, since it's actually the pipe size and not space taken, plus it equals 0 anyway. 
                         // (We have cases to define which box each LDS size goes in anyway)
                     }
