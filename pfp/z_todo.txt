@@ -2,6 +2,10 @@
 TODO
 ---
 
+When you click the POLD-Only header, only set cp to 0 if its more than 0. (therefore otherwise it will be blank)
+
+Form validation for calculating the right number of polds when adding leak rope etc.
+
 Format print output to put each box in a 4x6 square or add page breaks if that's possible, to print on separate pages.
 
 Put accessory inputs on shared line to take up less vertical room.
@@ -23,6 +27,9 @@ Maybe format as important/common things on left, uncommon/default things on righ
 
 Maybe change the <pre> text output to normal text and convert \n to <br>
 https://stackoverflow.com/questions/19438895/add-a-new-line-in-innerhtml
+
+
+// TODO:  "Solid State Relays included with box carrying most POLDs"  (although putting it in the last box a pold or leak rope went into is a lot easier)
 
 
 

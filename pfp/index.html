@@ -269,22 +269,24 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                     <!-- font-weight-bold isn't working... -->
                     <div class="mt-3 mb-3 font-weight-bold"><b>Enter the amount of each accessory:</b></div>
 
+
                     <!-- POLDs -->
                     <!-- div class mb-3 is margin-bottom -->
                     <div class="mb-2">
-                        <label for="inputPold" class="form-label">POLDs</label>
+                        <label for="inputPold" class="form-label" id="inputPoldLabel">POLDs</label>
                         <input type="number" class="form-control" id="inputPold" min="0" max="30"
                             aria-describedby="poldHelp">
                         <div id="poldHelp" class="form-text"><i>Maximum of 30. If requesting more than 15, send list
-                                of zones.</i></div>
+                                of zones.</i>
+                        </div>
                     </div>
 
                     <!-- Leak Rope -->
                     <div class="row">
                         <div class="col mt-0">
-                            <!-- Split system checkbox -->
+                            <!-- Leak Rope checkbox -->
                             <div class="form-check">
-                                <!-- Supposed to have  form-check  class on parent div, but that puts checkbox on left. Remove if you want checkbox on right -->
+                                <!-- Supposed to have (bootstrap)  form-check  class on parent div, but that puts checkbox on left. Remove if you want checkbox on right -->
                                 <label for="checkLeakRope" class="form-label mx-3">Leak Rope</label>
                                 <!-- TODO:  Align checkbox right (keeping text and div section on left) -->
                                 <input type="checkbox" class="form-check-input mx-1" id="checkLeakRope">
@@ -295,109 +297,141 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                         </div>
                     </div>
                     <!-- Leak rope options -->
-                    <div class="row mb-1">
+                    <div class="row mx-1 mt-2">
+                        <div class="col mx-1 mb-2 startHidden expandPold" id="expandPold1">
+                            <label for="inputPoldProbe" class="form-label">POLDs with probes</label>
+                            <input type="number" class="form-control" id="inputPoldProbe" min="0" max="30">
+                        </div>
+                        <!-- Extra column for the heck of it -->
                         <div class="col">
-                            <div class="card m-3 startHidden expandPold" id="expandPold">
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <!-- POLD with Leak Rope -->
+                        <div class="col startHidden expandPold" id="expandPold2">
+                            <div class="card m-3">
                                 <div class="m-3">
-                                    <label for="inputLeakRope2ft" class="form-label">Leak Rope (2ft)</label>
+                                    <label for="inputPoldLeakRope2ft" class="form-label">POLDs with Leak Rope
+                                        (2ft)</label>
+                                    <input type="number" class="form-control" id="inputPoldLeakRope2ft" min="0"
+                                        max="30">
+                                </div>
+                                <div class="m-3">
+                                    <label for="inputPoldLeakRope5ft" class="form-label">POLDs with Leak Rope
+                                        (5ft)</label>
+                                    <input type="number" class="form-control" id="inputPoldLeakRope5ft" min="0"
+                                        max="30">
+                                </div>
+                                <div class="m-3">
+                                    <label for="inputPoldLeakRope10ft" class="form-label">POLDs with Leak Rope
+                                        (10ft)</label>
+                                    <input type="number" class="form-control" id="inputPoldLeakRope10ft" min="0"
+                                        max="30">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Just Leak Rope -->
+                        <div class="col startHidden expandPold" id="expandPold3">
+                            <div class="card m-3">
+                                <div class="m-3">
+                                    <label for="inputLeakRope2ft" class="form-label">Just Leak Rope (2ft)</label>
                                     <input type="number" class="form-control" id="inputLeakRope2ft" min="0" max="30">
                                 </div>
                                 <div class="m-3">
-                                    <label for="inputLeakRope5ft" class="form-label">Leak Rope (5ft)</label>
+                                    <label for="inputLeakRope5ft" class="form-label">Just Leak Rope (5ft)</label>
                                     <input type="number" class="form-control" id="inputLeakRope5ft" min="0" max="30">
                                 </div>
                                 <div class="m-3">
-                                    <label for="inputLeakRope10ft" class="form-label">Leak Rope (10ft)</label>
+                                    <label for="inputLeakRope10ft" class="form-label">Just Leak Rope (10ft)</label>
                                     <input type="number" class="form-control" id="inputLeakRope10ft" min="0" max="30">
                                 </div>
                             </div>
                         </div>
-                        <div class="col">
-                        </div>
                     </div>
-
-
-
-
-
-                    <div class="mb-5">
-                        <!-- value="1" to default to 1. min="0" max="50" for min and max -->
-                        <label for="inputApi" class="form-label">APIs</label>
-                        <input type="number" class="form-control" id="inputApi" min="0" max="50"
-                            aria-describedby="apiHelp">
-                        <div id="apiHelp" class="form-text"><i>Maximum of 30.</i></div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="inputRecirc" class="form-label">Recirculation Pump Switch</label>
-                        <input type="number" class="form-control" id="inputRecirc">
-                    </div>
-                    <div class="mb-3">
-                        <label for="inputFourHour" class="form-label">Four Hour Timer</label>
-                        <input type="number" class="form-control" id="inputFourHour">
-                    </div>
-                    <div class="mb-3">
-                        <label for="inputSsr" class="form-label">Solid State Relay</label>
-                        <input type="number" class="form-control" id="inputSsr">
-                    </div>
-                    <div class="mb-5">
-                        <label for="inputPam1" class="form-label">PAM-1 Relay</label>
-                        <input type="number" class="form-control" id="inputPam1">
-                    </div>
-                    <div class="mb-3">
-                        <label for="inputJuncBox" class="form-label">Junction Box</label>
-                        <input type="number" class="form-control" id="inputJuncBox">
-                    </div>
-                    <div class="mb-5">
-                        <label for="inputInsulPouch" class="form-label">Insulated Pouch</label>
-                        <input type="number" class="form-control" id="inputInsulPouch">
-                    </div>
-
                 </div>
 
 
 
-                <!-- FORM FOOTER -->
-                <div class="row collapse.show groupWizard1 formFooterBox groupLds groupPoldOnly groupAccessories"
-                    id="formFooterBox">
-                    <!-- font-weight-bold isn't working... -->
-                    <!-- TODO: Expand to show extra input fields like zoho link, device id, details/comment box to help person preparing (and maybe auto copy to zoho and packing list/label?) -->
-
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input float-end mx-3" id="checkReplacement">
-                        <label class="form-check-label float-end" for="checkReplacement">Replacement for existing
-                            system/accessory?</label>
-                    </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input float-end mx-3" id="checkDebug">
-                        <label class="form-check-label float-end" for="checkDebug"><i>[Enable debugging
-                                text]</i></label>
-                    </div>
-                    <div class="mb-3">
-                        <a href="z_todo.txt" class="float-end mx-3"><i>[Known issues]</i></label>
-                    </div>
 
 
-                    <div class="row mb-2">
-                        <div class="col">
-                            <!-- HISTORY:  Wasn't fully resetting the form, so I switched to just refreshing the page on click -->
-                            <!-- REFERENCE:  https://stackoverflow.com/a/20740876/1263035 -->
-                            <!-- Also added scrolling back to top of page -->
-                            <!-- REFERENCE:  https://stackoverflow.com/a/66789888/1263035 -->
-                            <button class="btn btn-danger btn-sm" type="reset" id="mainResetButton"
-                                onclick="window.scrollTo(0,0); window.location.reload();" value="Reset">Reset</button>
-                            <!-- Wasn't fully resetting the form, so I was manually hiding shown divs as well with  onclick="resetHidden()" but now just refreshing page -->
-                            <!-- <button class="btn btn-danger btn-sm" type="reset" id="mainResetButton"
+                <div class="mb-5">
+                    <!-- value="1" to default to 1. min="0" max="50" for min and max -->
+                    <label for="inputApi" class="form-label">APIs</label>
+                    <input type="number" class="form-control" id="inputApi" min="0" max="50" aria-describedby="apiHelp">
+                    <div id="apiHelp" class="form-text"><i>Maximum of 30.</i></div>
+                </div>
+                <div class="mb-3">
+                    <label for="inputRecirc" class="form-label">Recirculation Pump Switch</label>
+                    <input type="number" class="form-control" id="inputRecirc">
+                </div>
+                <div class="mb-3">
+                    <label for="inputFourHour" class="form-label">Four Hour Timer</label>
+                    <input type="number" class="form-control" id="inputFourHour">
+                </div>
+                <div class="mb-3">
+                    <label for="inputSsr" class="form-label">Solid State Relay</label>
+                    <input type="number" class="form-control" id="inputSsr">
+                </div>
+                <div class="mb-5">
+                    <label for="inputPam1" class="form-label">PAM-1 Relay</label>
+                    <input type="number" class="form-control" id="inputPam1">
+                </div>
+                <div class="mb-3">
+                    <label for="inputJuncBox" class="form-label">Junction Box</label>
+                    <input type="number" class="form-control" id="inputJuncBox">
+                </div>
+                <div class="mb-5">
+                    <label for="inputInsulPouch" class="form-label">Insulated Pouch</label>
+                    <input type="number" class="form-control" id="inputInsulPouch">
+                </div>
+
+            </div>
+
+
+
+            <!-- FORM FOOTER -->
+            <div class="row collapse.show groupWizard1 formFooterBox groupLds groupPoldOnly groupAccessories"
+                id="formFooterBox">
+                <!-- font-weight-bold isn't working... -->
+                <!-- TODO: Expand to show extra input fields like zoho link, device id, details/comment box to help person preparing (and maybe auto copy to zoho and packing list/label?) -->
+
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input float-end mx-3" id="checkReplacement">
+                    <label class="form-check-label float-end" for="checkReplacement">Replacement for existing
+                        system/accessory?</label>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input float-end mx-3" id="checkDebug">
+                    <label class="form-check-label float-end" for="checkDebug"><i>[Enable debugging
+                            text]</i></label>
+                </div>
+                <div class="mb-3">
+                    <a href="z_todo.txt" class="float-end mx-3"><i>[Known issues]</i></label>
+                </div>
+
+
+                <div class="row mb-2">
+                    <div class="col">
+                        <!-- HISTORY:  Wasn't fully resetting the form, so I switched to just refreshing the page on click -->
+                        <!-- REFERENCE:  https://stackoverflow.com/a/20740876/1263035 -->
+                        <!-- Also added scrolling back to top of page -->
+                        <!-- REFERENCE:  https://stackoverflow.com/a/66789888/1263035 -->
+                        <button class="btn btn-danger btn-sm" type="reset" id="mainResetButton"
+                            onclick="window.scrollTo(0,0); window.location.reload();" value="Reset">Reset</button>
+                        <!-- Wasn't fully resetting the form, so I was manually hiding shown divs as well with  onclick="resetHidden()" but now just refreshing page -->
+                        <!-- <button class="btn btn-danger btn-sm" type="reset" id="mainResetButton"
                                     onclick="resetHidden()" value="Reset">Reset</button> -->
-                        </div>
-                        <div class="col">
-                            <!-- FUNCTION:  Submit button -->
-                            <!-- TIP:  Align right with float-end -->
-                            <button type="submit" class="btn btn-primary mb-5 float-end submitButton"
-                                id="finalSubmitButton">Submit</button>
-                        </div>
                     </div>
-
+                    <div class="col">
+                        <!-- FUNCTION:  Submit button -->
+                        <!-- TIP:  Align right with float-end -->
+                        <button type="submit" class="btn btn-primary mb-5 float-end submitButton"
+                            id="finalSubmitButton">Submit</button>
+                    </div>
                 </div>
+
+            </div>
 
 
         </form>
@@ -531,12 +565,22 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                 var idLeakRope = document.getElementById("checkLeakRope");
                 var elementLeakRope;
                 if (idLeakRope.value == 0) {
-                    elementLeakRope = document.getElementById("expandPold");
+                    elementLeakRope = document.getElementById("expandPold1");
                     elementLeakRope.style.display = "block";
+                    elementLeakRope = document.getElementById("expandPold2");
+                    elementLeakRope.style.display = "block";
+                    elementLeakRope = document.getElementById("expandPold3");
+                    elementLeakRope.style.display = "block";
+                    document.getElementById("inputPoldLabel").innerHTML = "POLDs (total)";
                 }
                 else if (idLeakRope.value > 0) {
-                    elementLeakRope = document.getElementById("expandPold");
+                    elementLeakRope = document.getElementById("expandPold1");
                     elementLeakRope.style.display = "none";
+                    elementLeakRope = document.getElementById("expandPold2");
+                    elementLeakRope.style.display = "none";
+                    elementLeakRope = document.getElementById("expandPold3");
+                    elementLeakRope.style.display = "none";
+                    document.getElementById("inputPoldLabel").innerHTML = "POLDs";
                 }
             }
 
@@ -647,20 +691,26 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                 splitSystemB3: 0,
 
                 scv: 0,
-                ssr: 0,
-                pam1: 0,
-                cp: 1,
+                cp: 0,
                 api: 3,
                 pold: 1,
-                recirc: 6,
-                fourHour: 6,
 
-                juncBox: 36,
-                insulPouch: 6,  // Defaults to an additional Medium Shipper
+                poldProbe: 1,
+                poldLeakRope2ft: 1.5,
+                poldLeakRope5ft: 2,
+                poldLeakRope10ft: 2,
                 leakRope2ft: 0.5,
                 leakRope5ft: 1,
                 leakRope10ft: 1,
-                hiddenWire: 4.5,
+
+                recirc: 6,
+                fourHour: 6,
+                ssr: 0,
+                pam1: 0,
+
+                juncBox: 36,
+                insulPouch: 6,  // Defaults to an additional Medium Shipper
+                hiddenWire: 3,
 
 
                 //BOXES
@@ -704,10 +754,12 @@ Solid State Relays included with box carrying most POLDs
             /// TODO:  Convert to array or object, to sum total easier
 
             /// SUBMIT BUTTON (using addEventListener instead of onclick)
-            document.getElementById("finalSubmitButton").addEventListener("click", function () {
+            document.getElementById("finalSubmitButton").addEventListener("click", functionOnSubmit);
+
+
+            function functionOnSubmit() {
                 // document.getElementById("demo").innerHTML = "Hello World";
                 // window.alert("finalSubmitButton was pressed");
-
 
                 /// ITEMS  (values entered by user)
                 /// Don't add lds to value total
@@ -727,6 +779,12 @@ Solid State Relays included with box carrying most POLDs
                 // window.alert("yo valueScv = " + valueScv);
                 var valueCp = Number(document.getElementById("inputCp").value);
                 var valuePold = Number(document.getElementById("inputPold").value);
+                var valuePoldProbe = Number(document.getElementById("inputPoldProbe").value);
+                // Not an item to be added to total, just a checkmark indicator
+                var valueLeakRopeCheck = Number(document.getElementById("checkLeakRope").value);
+                var valuePoldLeakRope2ft = Number(document.getElementById("inputPoldLeakRope2ft").value);
+                var valuePoldLeakRope5ft = Number(document.getElementById("inputPoldLeakRope5ft").value);
+                var valuePoldLeakRope10ft = Number(document.getElementById("inputPoldLeakRope10ft").value);
                 var valueLeakRope2ft = Number(document.getElementById("inputLeakRope2ft").value);
                 var valueLeakRope5ft = Number(document.getElementById("inputLeakRope5ft").value);
                 var valueLeakRope10ft = Number(document.getElementById("inputLeakRope10ft").value);
@@ -756,7 +814,8 @@ Solid State Relays included with box carrying most POLDs
 
                 // FUNCTION:  Find the total items added into the form
                 // Didn't include LDS because it's not a frequency but a size.
-                var valueTotal = valueSplitSystemCheck + valueScv + valueCp + valuePold + valueLeakRope5ft + valueLeakRope10ft + valueApi + valueRecirc + valueFourHour + valueSsr + valueJuncBox + valueInsulPouch + valueHiddenWire;
+                // totalValuePold not included. Just copy value over to totalValuePoldProbe if no leak rope
+                var valueTotal = valueSplitSystemCheck + valueScv + valueCp + valuePoldProbe + valuePoldLeakRope2ft + valuePoldLeakRope5ft + valuePoldLeakRope10ft + valueLeakRope2ft + valueLeakRope5ft + valueLeakRope10ft + valueApi + valueRecirc + valueFourHour + valueSsr + valueJuncBox + valueInsulPouch + valueHiddenWire;
 
                 //window.alert("yo valueTotal (form input)= " + valueTotal);
 
@@ -771,6 +830,12 @@ Solid State Relays included with box carrying most POLDs
                 // window.alert("yo totalValueScv = " + totalValueScv);
                 var totalValueCp = valueCp * packingItem.cp;
                 var totalValuePold = valuePold * packingItem.pold;
+                var totalValuePoldProbe = valuePoldProbe * packingItem.poldProbe;
+                // Not a real thing (not an item, so no space value to multiply with)
+                // var totalValueLeakRopeCheck ;
+                var totalValuePoldLeakRope2ft = valuePoldLeakRope2ft * packingItem.poldLeakRope2ft;
+                var totalValuePoldLeakRope5ft = valuePoldLeakRope5ft * packingItem.poldLeakRope5ft;
+                var totalValuePoldLeakRope10ft = valuePoldLeakRope10ft * packingItem.poldLeakRope10ft;
                 var totalValueLeakRope2ft = valueLeakRope2ft * packingItem.leakRope2ft;
                 var totalValueLeakRope5ft = valueLeakRope5ft * packingItem.leakRope5ft;
                 var totalValueLeakRope10ft = valueLeakRope10ft * packingItem.leakRope10ft;
@@ -785,7 +850,8 @@ Solid State Relays included with box carrying most POLDs
 
 
                 // FUNCTION:  Find the total packing space required by adding all values of number of items multiplied by their space taken
-                var totalValueTotal = totalValueSplitSystemCheck + totalValueLds + totalValueScv + totalValueCp + totalValuePold + totalValueLeakRope2ft + totalValueLeakRope5ft + totalValueLeakRope10ft + totalValueApi + totalValueRecirc + totalValueFourHour + totalValueSsr + totalValueJuncBox + totalValueInsulPouch + totalValueHiddenWire;
+                // totalValuePold not included. Just copy value over to totalValuePoldProbe if no leak rope
+                var totalValueTotal = totalValueSplitSystemCheck + totalValueLds + totalValueScv + totalValueCp + totalValuePoldProbe + totalValuePoldLeakRope2ft + totalValuePoldLeakRope5ft + totalValuePoldLeakRope10ft + totalValueLeakRope2ft + totalValueLeakRope5ft + totalValueLeakRope10ft + totalValueApi + totalValueRecirc + totalValueFourHour + totalValueSsr + totalValueJuncBox + totalValueInsulPouch + totalValueHiddenWire;
 
 
                 //window.alert("yo totalValueTotal () = " + totalValueTotal);
@@ -861,32 +927,58 @@ Solid State Relays included with box carrying most POLDs
                 // FINAL COMMAND THAT RUNS:
                 ///////////////////////////
 
+                formValidation();
+                function formValidation() {
+                    // Form validation for number of POLDs
+                    // Only validate the number of polds if you're dealing with leak rope, otherwise it's fine
+                    if (valueLeakRopeCheck == 1) {
+                        var totalPoldInputCalculated = valuePoldProbe + valuePoldLeakRope2ft + valuePoldLeakRope5ft + valuePoldLeakRope10ft;
+                        if (valuePold == totalPoldInputCalculated) {
+                            // window.alert("You chose wisely.\nvaluePold, totalPoldInputCalculated\n" + valuePold + ", " + totalPoldInputCalculated);
+                            // Form validation passed, so go to the function for packing everything
+                            resultsOutput();
+                        }
+                        else {
+                            window.alert("POLD values are incorrect. \n\nMake sure the number of POLDs (with probes) and number of POLDs (with leak rope) matches the total number of POLDs.");
+                            //\nvaluePold, totalPoldInputCalculated\n" + valuePold + ", " + totalPoldInputCalculated
+                            // Form validation failed, so it doesn't launch the resultsOutput
+                        }
+                    }
+                    // Not needed. Code continues executing after this function anyway
+                    // else {
+                    //     // No form validation needed, so go to the function for packing everything
+                    //     // Break? Return?
+                    //     break;
+                    //     return;
+                    // }
+                }
+
                 // FUNCTION:  List all items & boxes they go in (outputStringFunc is the return string value from calling buildOutputString function below, from above)
                 // HISTORY:  Old method was to show an alert. I'm now showing a full page printable list.
-                //window.alert(outputStringFunc);
+                function resultsOutput() {
+                    //window.alert(outputStringFunc);
 
-                // FUNCTION:  Hide form
-                var elementToToggle = document.getElementById("mainForm");
-                elementToToggle.style.display = "none";
+                    // FUNCTION:  Hide form
+                    var elementToToggle = document.getElementById("mainForm");
+                    elementToToggle.style.display = "none";
 
-                // FUNCTION:  Hide pageTitle
-                var elementToToggle = document.getElementById("pageTitle");
-                elementToToggle.style.display = "none";
+                    // FUNCTION:  Hide pageTitle
+                    var elementToToggle = document.getElementById("pageTitle");
+                    elementToToggle.style.display = "none";
 
-                // FUNCTION:  Show results div
-                var elementToToggle = document.getElementById("resultsBoxContainer");
-                elementToToggle.style.display = "block";
-
-
-                // FUNCTION:  Show text output in results div
-                // TIP:  Add <pre> HTML tag to maintain line breaks ("preformatted text")
-                // TIP:  You could also replace the \n with <br> if you want HTML formatted line breaks
-                // TODO:  Change from <pre> text to something better (can't really format it)
-                //var outputStringFuncParsed = JSON.parse(outputStringFunc);
-                //document.getElementById("resultsBox").innerHTML = outputStringFuncParsed;
-                document.getElementById("resultsBox").innerHTML = "<pre>" + outputStringFunc + "</pre>";
+                    // FUNCTION:  Show results div
+                    var elementToToggle = document.getElementById("resultsBoxContainer");
+                    elementToToggle.style.display = "block";
 
 
+                    // FUNCTION:  Show text output in results div
+                    // TIP:  Add <pre> HTML tag to maintain line breaks ("preformatted text")
+                    // TIP:  You could also replace the \n with <br> if you want HTML formatted line breaks
+                    // TODO:  Change from <pre> text to something better (can't really format it)
+                    //var outputStringFuncParsed = JSON.parse(outputStringFunc);
+                    //document.getElementById("resultsBox").innerHTML = outputStringFuncParsed;
+                    document.getElementById("resultsBox").innerHTML = "<pre>" + outputStringFunc + "</pre>";
+                }
 
 
 
@@ -1126,20 +1218,37 @@ Solid State Relays included with box carrying most POLDs
                     // Pack  API
                     putInBox(valueApi, packingItem.api, totalValueApi, "API");
 
-                    // Pack  POLD
-                    putInBox(valuePold, packingItem.pold, totalValuePold, "POLD");
 
-                    // Pack  Solid State Relay
-                    putInBox(valueSsr, packingItem.ssr, totalValueSsr, "Solid State Relay");
+                    // Pack  POLD (w/probe)
+                    // Use normal POLD input value (valuePold), if no leak rope
+                    if (valueLeakRopeCheck == 0) {
+                        putInBox(valuePold, packingItem.pold, totalValuePold, "POLD");
+                    }
+                    // Use POLD with probes input value (valuePoldProbe), if leak rope
+                    else if (valueLeakRopeCheck == 1) {
+                        putInBox(valuePoldProbe, packingItem.poldProbe, totalValuePoldProbe, "POLD (with probes)");
+                    }
+                    else {
+                        window.alert("The value for the leak rope checkbox is not 1 or 0, so no POLDs or leak rope got packed. Gotta fix this IF statement or the function that changes checkbox value to 1 or 0.\nvalueLeakRopeCheck = " + valueLeakRopeCheck)
+                    }
+
+                    // Pack  POLD with Leak Rope (2ft)
+                    putInBox(valuePoldLeakRope2ft, packingItem.poldLeakRope2ft, totalValuePoldLeakRope2ft, "POLD with Leak Rope (2ft)");
+                    // Pack  POLD with Leak Rope (5ft)
+                    putInBox(valuePoldLeakRope5ft, packingItem.poldLeakRope5ft, totalValuePoldLeakRope5ft, "POLD with Leak Rope (5ft)");
+                    // Pack  POLD with Leak Rope (10ft)
+                    putInBox(valuePoldLeakRope10ft, packingItem.poldLeakRope10ft, totalValuePoldLeakRope10ft, "POLD with Leak Rope (10ft)");
 
                     // Pack  Leak Rope (2ft)
                     putInBox(valueLeakRope2ft, packingItem.leakRope2ft, totalValueLeakRope2ft, "Leak Rope (2ft)");
-
                     // Pack  Leak Rope (5ft)
                     putInBox(valueLeakRope5ft, packingItem.leakRope5ft, totalValueLeakRope5ft, "Leak Rope (5ft)");
-
-                    // Pack  Leak Rope (5ft)
+                    // Pack  Leak Rope (10ft)
                     putInBox(valueLeakRope10ft, packingItem.leakRope10ft, totalValueLeakRope10ft, "Leak Rope (10ft)");
+
+                    // Pack  Solid State Relay
+                    // TODO:  "Solid State Relays included with box carrying most POLDs"  (although putting it in the last box a pold or leak rope went into is a lot easier)
+                    putInBox(valueSsr, packingItem.ssr, totalValueSsr, "Solid State Relay");
 
                     // Pack  Recirc Pump Switch
                     if (valueRecirc > 0) {
@@ -1294,7 +1403,7 @@ Solid State Relays included with box carrying most POLDs
 
 
 
-            });
+            }
 
 
 
