@@ -21,6 +21,9 @@ Add section titles, and collapsible "Uncommon Accessories" sections?
 
 Maybe format as important/common things on left, uncommon/default things on right column.
 
+Maybe change the <pre> text output to normal text and convert \n to <br>
+https://stackoverflow.com/questions/19438895/add-a-new-line-in-innerhtml
+
 
 
 
@@ -64,7 +67,7 @@ Show up/down number buttons by default, before entering anything?
 // Currently just hard defining this group of items as always going in the first box (not checking if they fit) (according to Bryce rules)
 // Maybe change this if there are enough cases to break it, like multiple control panels or something.
 "Panel, SCV, Hidden Wire and Pam1 always in Box 1"
-                   
+
 
 
 
