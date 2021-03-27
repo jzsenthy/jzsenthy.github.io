@@ -69,6 +69,11 @@
 
 
 
+
+
+
+
+
         <!-- FUNCTION:  Show results upon form submit (and hide rest of page) -->
         <!-- Start hidden, only show after hitting submit  -->
         <!-- TITLE:  Results box -->
@@ -92,15 +97,19 @@
                 <form id="resultsForm">
                     <!-- FORM FOOTER -->
                     <div class="row mb-3">
-                        <div class="col">
+                        <div class="col-4">
+                            <!-- FUNCTION:  Back button (calls the showMainPage function which inverts the display of elements shown/hidden by the showResults function) -->
+                            <!-- TIP:  Align right with float-end -->
+                            <button type="button" class="btn btn-secondary mb-5 backButton" id="backButton">Go
+                                Back</button>
                             <!-- FUNCTION:  This "submit" button isn't actually submitting anything, but it refreshes the page on submit, which is the goal  -->
                             <!-- TODO:  Maybe change this from a submit button to a refresh page button (like my custom reset button). No real reason to as of now though -->
                             <!-- TIP:  Align right with float-end -->
-                            <button type="submit" class="btn btn-warning mb-5 submitButton"
+                            <button type="submit" class="btn btn-warning mb-5 float-left submitButton"
                                 id="resultsSubmitButton">Start Over</button>
                         </div>
 
-                        <div class="col">
+                        <div class="col-8">
                             <!-- FUNCTION:  Print button -->
                             <!-- TIP:  Align right with float-end or float-right-->
                             <input type="button" class="btn btn-primary mb-5 float-right printButton" id="printButton"
@@ -111,6 +120,16 @@
             </div>
         </div>
         <!--   -->
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -299,8 +318,8 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                     <!-- Leak rope options -->
                     <div class="row mx-1 mt-2">
                         <div class="col mx-1 mb-2 startHidden expandPold" id="expandPold1">
-                            <label for="inputPoldProbe" class="form-label">POLDs with probes</label>
-                            <input type="number" class="form-control" id="inputPoldProbe" min="0" max="30">
+                            <label for="inputPoldPin" class="form-label">POLDs with pins</label>
+                            <input type="number" class="form-control" id="inputPoldPin" min="0" max="30">
                         </div>
                         <!-- Extra column for the heck of it -->
                         <div class="col">
@@ -370,13 +389,16 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                     <input type="number" class="form-control" id="inputFourHour">
                 </div>
                 <div class="mb-3">
-                    <label for="inputSsr" class="form-label">Solid State Relay</label>
-                    <input type="number" class="form-control" id="inputSsr">
-                </div>
-                <div class="mb-5">
                     <label for="inputPam1" class="form-label">PAM-1 Relay</label>
                     <input type="number" class="form-control" id="inputPam1">
                 </div>
+                <div class="mb-5">
+                    <label for="inputSsr" class="form-label">Solid State Relay</label>
+                    <!-- If you want to constrain to even numbers and fail validation if not:  step="2" -->
+                    <input type="number" class="form-control" id="inputSsr" step="2">
+                    <div id="ssrHelp" class="form-text"><i>Typically sent in multiples of 2.</i></div>
+                </div>
+
                 <div class="mb-3">
                     <label for="inputJuncBox" class="form-label">Junction Box</label>
                     <input type="number" class="form-control" id="inputJuncBox">
@@ -403,11 +425,11 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                 </div>
                 <div class="mb-3 form-check">
                     <input type="checkbox" class="form-check-input float-end mx-3" id="checkDebug">
-                    <label class="form-check-label float-end" for="checkDebug"><i>[Enable debugging
-                            text]</i></label>
+                    <label class="form-check-label float-end text-muted" for="checkDebug"><i>[Debugging
+                            mode]</i></label>
                 </div>
                 <div class="mb-3">
-                    <a href="z_todo.txt" class="float-end mx-3"><i>[Known issues]</i></label>
+                    <a href="z_todo.txt" class="float-end mx-3"><i>[Known issues]</i></a>
                 </div>
 
 
@@ -418,7 +440,7 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                         <!-- Also added scrolling back to top of page -->
                         <!-- REFERENCE:  https://stackoverflow.com/a/66789888/1263035 -->
                         <button class="btn btn-danger btn-sm" type="reset" id="mainResetButton"
-                            onclick="window.scrollTo(0,0); window.location.reload();" value="Reset">Reset</button>
+                            value="Reset">Reset</button>
                         <!-- Wasn't fully resetting the form, so I was manually hiding shown divs as well with  onclick="resetHidden()" but now just refreshing page -->
                         <!-- <button class="btn btn-danger btn-sm" type="reset" id="mainResetButton"
                                     onclick="resetHidden()" value="Reset">Reset</button> -->
@@ -429,6 +451,11 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                         <button type="submit" class="btn btn-primary mb-5 float-end submitButton"
                             id="finalSubmitButton">Submit</button>
                     </div>
+                </div>
+                <!-- Version number -->
+                <!-- Text is not aligning right and idk why -->
+                <div class="mb-0">
+                    <p class="text-muted text-right"><i>Version 3.0.3</i></p>
                 </div>
 
             </div>
@@ -631,7 +658,7 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                 }
                 else if (valueLds.value == 0) {
                     var elementId = document.getElementById("inputScv");
-                    elementId.value = "0";
+                    elementId.value = "";
                 }
             }
 
@@ -649,7 +676,7 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                 }
                 else if (valueLds.value == 0) {
                     var elementId = document.getElementById("inputCp");
-                    elementId.value = "0";
+                    elementId.value = "";
                 }
             }
 
@@ -695,7 +722,7 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                 api: 3,
                 pold: 1,
 
-                poldProbe: 1,
+                poldPin: 1,
                 poldLeakRope2ft: 1.5,
                 poldLeakRope5ft: 2,
                 poldLeakRope10ft: 2,
@@ -749,6 +776,76 @@ Solid State Relays included with box carrying most POLDs
 
 
 
+
+
+
+            document.getElementById("backButton").addEventListener("click", showMainPage);
+
+            // FUNCTION:  Go back to form input from results page, if you want to modify more
+            function showMainPage() {
+
+                // FUNCTION:  Show form
+                var elementToToggle = document.getElementById("mainForm");
+                elementToToggle.style.display = "block";
+
+                // FUNCTION:  Show pageTitle
+                var elementToToggle = document.getElementById("pageTitle");
+                elementToToggle.style.display = "block";
+
+                // FUNCTION:  Hide results div
+                var elementToToggle = document.getElementById("resultsBoxContainer");
+                elementToToggle.style.display = "none";
+
+            }
+
+
+
+
+
+
+
+            document.getElementById("mainResetButton").addEventListener("click", resetPage1);
+
+            // FUNCTION:  Scroll to top and refresh the page (to reset all form elements and checkboxes)
+            // TODO: Figure out why scrolling to top isn't working in chrome on my work computer (debug view). (Working in firefox and on chrome at home)
+            function resetPage1() {
+                window.scrollTo(0, 0);
+                window.location.reload();
+            }
+
+            // Alternate attepts to get a refresh working, by sleeping the code for a few seconds to wait for it to finish. Not working
+
+            // document.addEventListener('DOMContentLoaded', resetPage0);
+            // function resetPage0() {
+            //     window.scrollTo(0, 0);
+            // }
+            // document.getElementById("mainResetButton").addEventListener("click", resetPage1);
+            // function resetPage1() {
+            //     window.scrollTo(0, 0);
+            // }
+            // document.getElementById("mainResetButton").addEventListener("click", resetPage2);
+            // function resetPage2() {
+            //     window.location.reload();
+            // }
+            
+            // document.getElementById("mainResetButton").addEventListener("click", resetPage1);
+            // function resetPage1() {
+            //     setTimeout(resetPage3, 5000);
+            //     function resetPage3 {
+            //         window.scrollTo(0, 0);
+            //     }
+            //     setTimeout(resetPage2, 5000);
+            //     function resetPage2() {
+            //         window.location.reload();
+            //     }
+            // }
+
+
+
+
+
+
+
             /// GET FORM VALUES
             /// FUNCTION:  Store form values in variables (to use for calculations)
             /// TODO:  Convert to array or object, to sum total easier
@@ -779,7 +876,7 @@ Solid State Relays included with box carrying most POLDs
                 // window.alert("yo valueScv = " + valueScv);
                 var valueCp = Number(document.getElementById("inputCp").value);
                 var valuePold = Number(document.getElementById("inputPold").value);
-                var valuePoldProbe = Number(document.getElementById("inputPoldProbe").value);
+                var valuePoldPin = Number(document.getElementById("inputPoldPin").value);
                 // Not an item to be added to total, just a checkmark indicator
                 var valueLeakRopeCheck = Number(document.getElementById("checkLeakRope").value);
                 var valuePoldLeakRope2ft = Number(document.getElementById("inputPoldLeakRope2ft").value);
@@ -814,8 +911,11 @@ Solid State Relays included with box carrying most POLDs
 
                 // FUNCTION:  Find the total items added into the form
                 // Didn't include LDS because it's not a frequency but a size.
-                // totalValuePold not included. Just copy value over to totalValuePoldProbe if no leak rope
-                var valueTotal = valueSplitSystemCheck + valueScv + valueCp + valuePoldProbe + valuePoldLeakRope2ft + valuePoldLeakRope5ft + valuePoldLeakRope10ft + valueLeakRope2ft + valueLeakRope5ft + valueLeakRope10ft + valueApi + valueRecirc + valueFourHour + valueSsr + valueJuncBox + valueInsulPouch + valueHiddenWire;
+                // totalValuePold not included. Just copy value over to totalValuePoldPin if no leak rope
+                if (valueLeakRopeCheck == 0) {
+                    valuePoldPin = valuePold
+                }
+                var valueTotal = valueSplitSystemCheck + valueScv + valueCp + valuePoldPin + valuePoldLeakRope2ft + valuePoldLeakRope5ft + valuePoldLeakRope10ft + valueLeakRope2ft + valueLeakRope5ft + valueLeakRope10ft + valueApi + valueRecirc + valueFourHour + valueSsr + valueJuncBox + valueInsulPouch + valueHiddenWire;
 
                 //window.alert("yo valueTotal (form input)= " + valueTotal);
 
@@ -830,7 +930,7 @@ Solid State Relays included with box carrying most POLDs
                 // window.alert("yo totalValueScv = " + totalValueScv);
                 var totalValueCp = valueCp * packingItem.cp;
                 var totalValuePold = valuePold * packingItem.pold;
-                var totalValuePoldProbe = valuePoldProbe * packingItem.poldProbe;
+                var totalValuePoldPin = valuePoldPin * packingItem.poldPin;
                 // Not a real thing (not an item, so no space value to multiply with)
                 // var totalValueLeakRopeCheck ;
                 var totalValuePoldLeakRope2ft = valuePoldLeakRope2ft * packingItem.poldLeakRope2ft;
@@ -850,8 +950,11 @@ Solid State Relays included with box carrying most POLDs
 
 
                 // FUNCTION:  Find the total packing space required by adding all values of number of items multiplied by their space taken
-                // totalValuePold not included. Just copy value over to totalValuePoldProbe if no leak rope
-                var totalValueTotal = totalValueSplitSystemCheck + totalValueLds + totalValueScv + totalValueCp + totalValuePoldProbe + totalValuePoldLeakRope2ft + totalValuePoldLeakRope5ft + totalValuePoldLeakRope10ft + totalValueLeakRope2ft + totalValueLeakRope5ft + totalValueLeakRope10ft + totalValueApi + totalValueRecirc + totalValueFourHour + totalValueSsr + totalValueJuncBox + totalValueInsulPouch + totalValueHiddenWire;
+                // totalValuePold not included. Just copy value over to totalValuePoldPin if no leak rope
+                if (valueLeakRopeCheck == 0) {
+                    totalValuePoldPin = totalValuePold
+                }
+                var totalValueTotal = totalValueSplitSystemCheck + totalValueLds + totalValueScv + totalValueCp + totalValuePoldPin + totalValuePoldLeakRope2ft + totalValuePoldLeakRope5ft + totalValuePoldLeakRope10ft + totalValueLeakRope2ft + totalValueLeakRope5ft + totalValueLeakRope10ft + totalValueApi + totalValueRecirc + totalValueFourHour + totalValueSsr + totalValueJuncBox + totalValueInsulPouch + totalValueHiddenWire;
 
 
                 //window.alert("yo totalValueTotal () = " + totalValueTotal);
@@ -927,31 +1030,69 @@ Solid State Relays included with box carrying most POLDs
                 // FINAL COMMAND THAT RUNS:
                 ///////////////////////////
 
+
+
+
+                // FORM VALIDATION
+
+                // I don't think this is called specifically from pressing submit, but it just calls itself within a larger function called upon submit
                 formValidation();
                 function formValidation() {
                     // Form validation for number of POLDs
                     // Only validate the number of polds if you're dealing with leak rope, otherwise it's fine
                     if (valueLeakRopeCheck == 1) {
-                        var totalPoldInputCalculated = valuePoldProbe + valuePoldLeakRope2ft + valuePoldLeakRope5ft + valuePoldLeakRope10ft;
+                        var totalPoldInputCalculated = valuePoldPin + valuePoldLeakRope2ft + valuePoldLeakRope5ft + valuePoldLeakRope10ft;
                         if (valuePold == totalPoldInputCalculated) {
+                            // Leak rope validation passed, so go to the next validation function
                             // window.alert("You chose wisely.\nvaluePold, totalPoldInputCalculated\n" + valuePold + ", " + totalPoldInputCalculated);
-                            // Form validation passed, so go to the function for packing everything
-                            resultsOutput();
+                            formValidation2();
                         }
                         else {
-                            window.alert("POLD values are incorrect. \n\nMake sure the number of POLDs (with probes) and number of POLDs (with leak rope) matches the total number of POLDs.");
+                            // Form validation failed, so it doesn't go to the next form validation function
+                            window.alert("POLD values are incorrect. \n\nMake sure the number of POLDs (with pins) and number of POLDs (with leak rope) matches the total number of POLDs.");
                             //\nvaluePold, totalPoldInputCalculated\n" + valuePold + ", " + totalPoldInputCalculated
-                            // Form validation failed, so it doesn't launch the resultsOutput
                         }
                     }
-                    // Not needed. Code continues executing after this function anyway
-                    // else {
-                    //     // No form validation needed, so go to the function for packing everything
-                    //     // Break? Return?
-                    //     break;
-                    //     return;
-                    // }
+                    // If valueLeakRopeCheck == 0 (no leak rope)
+                    else {
+                        // No POLD form validation needed, so go to the next function
+                        formValidation2();
+                    }
+
+                    // Form validation for number of SSRs
+                    function formValidation2() {
+                        // Only validate the number of SSRs if you have more than 0
+                        if (valueSsr > 0) {
+                            // If amount of SSR is even
+                            if (valueSsr % 2 == 0) {
+                                // window.alert("Nice");
+                                resultsOutput();
+                            }
+                            // If amount of SSR is odd
+                            else {
+                                // FUNCTION:  Shows an Ok/Cancel popup
+                                // SOURCE:  https://stackoverflow.com/a/9334679
+                                var answer = window.confirm("Alert:\nSolid State Relays (SSR) are typically sent in groups of 2.\nAre you sure you want to send an odd number of SSR?");
+                                // If they click Ok
+                                if (answer) {
+                                    resultsOutput();
+                                }
+                                // If they click Cancel
+                                else {
+                                    // Nothing happens. Doesn't continue to resultsOutput()
+                                }
+                            }
+                        }
+                        // If valueSsr == 0 (no ssr)
+                        else {
+                            // No ssr form validation needed, so go to the next function
+                            resultsOutput();
+                        }
+                    }
                 }
+
+
+
 
                 // FUNCTION:  List all items & boxes they go in (outputStringFunc is the return string value from calling buildOutputString function below, from above)
                 // HISTORY:  Old method was to show an alert. I'm now showing a full page printable list.
@@ -979,6 +1120,9 @@ Solid State Relays included with box carrying most POLDs
                     //document.getElementById("resultsBox").innerHTML = outputStringFuncParsed;
                     document.getElementById("resultsBox").innerHTML = "<pre>" + outputStringFunc + "</pre>";
                 }
+
+
+
 
 
 
@@ -1219,14 +1363,14 @@ Solid State Relays included with box carrying most POLDs
                     putInBox(valueApi, packingItem.api, totalValueApi, "API");
 
 
-                    // Pack  POLD (w/probe)
+                    // Pack  POLD (w/pin)
                     // Use normal POLD input value (valuePold), if no leak rope
                     if (valueLeakRopeCheck == 0) {
                         putInBox(valuePold, packingItem.pold, totalValuePold, "POLD");
                     }
-                    // Use POLD with probes input value (valuePoldProbe), if leak rope
+                    // Use POLD with pins input value (valuePoldPin), if leak rope
                     else if (valueLeakRopeCheck == 1) {
-                        putInBox(valuePoldProbe, packingItem.poldProbe, totalValuePoldProbe, "POLD (with probes)");
+                        putInBox(valuePoldPin, packingItem.poldPin, totalValuePoldPin, "POLD (with pins)");
                     }
                     else {
                         window.alert("The value for the leak rope checkbox is not 1 or 0, so no POLDs or leak rope got packed. Gotta fix this IF statement or the function that changes checkbox value to 1 or 0.\nvalueLeakRopeCheck = " + valueLeakRopeCheck)

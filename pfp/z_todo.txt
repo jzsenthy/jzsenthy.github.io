@@ -2,9 +2,12 @@
 TODO
 ---
 
-When you click the POLD-Only header, only set cp to 0 if its more than 0. (therefore otherwise it will be blank)
 
-Form validation for calculating the right number of polds when adding leak rope etc.
+
+
+Make scrollTo work again to scroll to top from Reset button.
+
+Add SO# entry box on top, to keep track of orders printed.
 
 Format print output to put each box in a 4x6 square or add page breaks if that's possible, to print on separate pages.
 
@@ -108,9 +111,23 @@ DONE
 
 
 
+Added version number on bottom.
 
+Back button from print screen in case they don't want to start over
 
+POLD "pins" instead of "probes. -david
 
+SSR in increments of 2. -david
+
+When you click the POLD-Only header, only set cp to 0 if its more than 0. (so otherwise it will be blank)
+
+Form validation for calculating the right number of polds when adding leak rope etc.
+
+Made leak rope as an option to be attached to the pold by default, so they're packed together.
+
+Modified a couple point values from bryce request:
+Control Panel = 0  (changed from 1)
+Hidden Wire = 3  (changed from 4.5)
 
 
 Reset button not fully working (doesn't activate LDS tab or hide the hidden wire length entry).
