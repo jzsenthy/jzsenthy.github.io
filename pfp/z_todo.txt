@@ -3,8 +3,6 @@ TODO
 ---
 
 
-Firefox printing centered, with a narrow word wrap area. Might have to reset page size setting or something. Or maybe i have to define my div larger.
-
 Add SO# entry box on top, to keep track of orders printed.
 
 Keep revision number on bottom of results page
@@ -127,6 +125,25 @@ Show up/down number buttons by default, before entering anything?
 ---------------------------------
 DONE
 ---------------------------------
+
+
+
+
+
+
+3.0.5 ---
+Fixed/Improved print output (color/margin/padding).
+
+Changed negative margin to 0 margin, because it works in every browser. 
+(TEST PRINTING IN IE/EDGE. That might be the real exception needed, not firefox. Use negative margin if Edge, otherwise 0 print page margin to hide default added header/footer on print.
+Firefox printing centered, with a narrow word wrap area. Might have to reset page size setting or something. Or maybe i have to define my div larger.) 
+
+Changed div margin to padding to fix black padding issue.
+
+Added more CSS target divs to force dark mode to light mode for print.
+
+
+
 
 3.0.4 ---
 
