@@ -23,7 +23,7 @@
     <!-- My CSS -->
     <style>
         /* Hide these (ids) until shown */
-        /* I'm also adding a class to these, to default them to hidden when Reset is pressed, and so I don't have to keep adding each id */
+        /* I'm also adding a class to these, to default them to hidden when Reset is pressed */
         .startHidden,
         #expandPold,
         #resultsBoxContainer,
@@ -46,47 +46,6 @@
                 color: black;
                 background-color: white;
             }
-
-
-            /* Page break after each new box */
-            .newBox {
-                page-break-before: always;
-            }
-
-
-            /* FUNCTION:  Hide the added header/footer page details that get printed by browser */
-            /* This is done by making a 0 or negative margin on the print version of the page,
-            which overrides the headers/footers added in the margins by the browser,
-            you then add margin back to the html element.
-            The downside is pages beyond the first won't be styled correctly, 
-            so i added margin on my divs specific to the results box */
-            /* SOURCE:  https://stackoverflow.com/a/38506980 */
-            @page {
-                margin: 0 -6cm
-            }
-
-            html {
-                margin: 0cm 6cm
-            }
-
-            /* Margin added to results divs to make pages after the first not hit the edge of page */
-            .resultsBoxContainer {
-                /* margin: 2cm 2cm; */
-                margin-top: 20px;
-                /* margin-right: 20px; */
-                /* margin-bottom: 20px; */
-                margin-left: 20px;
-            }
-
-            /* Margin added to results divs to make pages after the first not hit the edge of page */
-            .newBox {
-                /* margin: 2cm 2cm; */
-                margin-top: 20px;
-                /* margin-right: 20px; */
-                /* margin-bottom: 20px; */
-                /* margin-left: 20px; */
-            }
-
         }
     </style>
 
@@ -127,7 +86,6 @@
             </div>
             <div class="row">
                 <!-- NOTE:  The text sent here from javascript is contained within the <pre> tag to maintain \n linebreaks, so it's unformatted monospace text -->
-                <!-- TODO:  Change \n to <br /> -->
                 <div class="col-md mb-3 resultsBox" id="resultsBox">
                     Sample
                 </div>
@@ -207,17 +165,17 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                         <!-- REFERENCE:  https://getbootstrap.com/docs/5.0/components/button-group/#checkbox-and-radio-button-groups -->
                         <input type="radio" class="btn-check active" name="btnradio" id="btnradio1"
                             data-bs-toggle="true" checked onclick="collapseGroup('groupLds')" autocomplete="off"
-                            aria-expanded="true" aria-controls=".groupLds" value="1">
+                            aria-expanded="true" aria-controls=".groupLds">
                         <label class="btn btn-primary" for="btnradio1">System:&nbsp; LDS Valve</label>
 
                         <input type="radio" class="btn-check" name="btnradio" id="btnradio2" data-bs-toggle="false"
                             onclick="collapseGroup('groupPoldOnly'); setLds(0);" autocomplete="off"
-                            aria-expanded="false" aria-controls=".groupPoldOnly" value="2">
+                            aria-expanded="false" aria-controls=".groupPoldOnly">
                         <label class="btn btn-primary" for="btnradio2">System:&nbsp; POLD-Only</label>
 
                         <input type="radio" class="btn-check" name="btnradio" id="btnradio3" data-bs-toggle="false"
                             onclick="collapseGroup('groupAccessories'); setLds(0);" autocomplete="off"
-                            aria-expanded="false" aria-controls=".groupAccessories" value="3">
+                            aria-expanded="false" aria-controls=".groupAccessories">
                         <label class="btn btn-primary" for="btnradio3">Accessories Only</label>
                     </div>
                 </div>
@@ -497,7 +455,7 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                 <!-- Version number -->
                 <!-- Text is not aligning right and idk why -->
                 <div class="mb-0">
-                    <p class="text-muted text-right"><i>Version 3.0.4</i></p>
+                    <p class="text-muted text-right"><i>Version 3.0.3</i></p>
                 </div>
 
             </div>
@@ -541,9 +499,6 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
 
         <!-- Custom scripts -->
         <script type="text/javascript">
-
-
-
 
 
 
@@ -872,7 +827,7 @@ Solid State Relays included with box carrying most POLDs
             // function resetPage2() {
             //     window.location.reload();
             // }
-
+            
             // document.getElementById("mainResetButton").addEventListener("click", resetPage1);
             // function resetPage1() {
             //     setTimeout(resetPage3, 5000);
@@ -902,21 +857,6 @@ Solid State Relays included with box carrying most POLDs
             function functionOnSubmit() {
                 // document.getElementById("demo").innerHTML = "Hello World";
                 // window.alert("finalSubmitButton was pressed");
-
-                var boxNumber = 1;
-                var boxTotal = 1;
-
-
-                /// Top 3 button system type selector
-                // Not working
-                // Working reference, used later:  https://stackoverflow.com/a/1423783
-                // var valueSystemLds = document.getElementById("btnradio1").value;
-                // window.alert("btnradio1 " + valueSystemLds);
-                // var valueSystemPold = document.getElementById("btnradio2").value;
-                // window.alert("btnradio2 " + valueSystemPold);
-                // var valueSystemAccessory = document.getElementById("btnradio3").value;
-                // window.alert("btnradio3 " + valueSystemAccessory);
-
 
                 /// ITEMS  (values entered by user)
                 /// Don't add lds to value total
@@ -1034,6 +974,7 @@ Solid State Relays included with box carrying most POLDs
 
 
 
+
                 var outputString;
                 var outputStringFunc;
 
@@ -1066,18 +1007,17 @@ Solid State Relays included with box carrying most POLDs
                 }
 
                 // FUNCTION:  If LDS is 0 (POLD-Only).
-                // NOTE: Accessory box is the default primary box for POLD-Only -Bryce
-                // TODO:  Don't show the accessory box if it's empty and your first box is medium shipper for 1 Insulated Pouch or something
+                // NOTE: Accessory box it the default primary box for POLD-Only -Bryce
                 // TODO:  Maybe add:  || valueLds == '' || valueLds == 'undefined'
                 else if (valueLds == 0) {
                     //window.alert("POLD-Only system\n valueLds = " + valueLds);
                     // FUNCTION:  Call function to build list of all items and what boxes they go in (displayed later through hidden div)
-                    outputStringFunc = buildOutputString("Accessory (13x10x5)", packingItem.boxAccessories);
+                    outputStringFunc = buildOutputString("-- POLD System --\n\nAccessory Box (13x10x5)", packingItem.boxAccessories);
                 }
                 else {
                     window.alert("yo something is wrong with the LDS value.\n valueLds = " + valueLds);
                     // FUNCTION:  Call function to build list of all items and what boxes they go in (displayed later through hidden div)
-                    outputStringFunc = buildOutputString("Accessory (13x10x5)", packingItem.boxAccessories);
+                    outputStringFunc = buildOutputString("Accessory Box (13x10x5)", packingItem.boxAccessories);
                 }
 
 
@@ -1153,9 +1093,6 @@ Solid State Relays included with box carrying most POLDs
 
 
 
-                ///////////////////////////
-                // FINAL COMMAND THAT RUNS:
-                ///////////////////////////
 
                 // FUNCTION:  List all items & boxes they go in (outputStringFunc is the return string value from calling buildOutputString function below, from above)
                 // HISTORY:  Old method was to show an alert. I'm now showing a full page printable list.
@@ -1181,38 +1118,7 @@ Solid State Relays included with box carrying most POLDs
                     // TODO:  Change from <pre> text to something better (can't really format it)
                     //var outputStringFuncParsed = JSON.parse(outputStringFunc);
                     //document.getElementById("resultsBox").innerHTML = outputStringFuncParsed;
-                    // With <pre> tag surrounding it
-                    //document.getElementById("resultsBox").innerHTML = "<pre>" + outputStringFunc + "</pre>";
-                    // With <p> tag surrounding it
-                    //document.getElementById("resultsBox").innerHTML = "<p>" + outputStringFunc + "</p>";
-                    // WIth no tag surrounding it (besides the one already there in the html up at the top)
-                    document.getElementById("resultsBox").innerHTML = outputStringFunc;
-
-
-
-                    // FUNCTION:  Replace the innerhtml of boxTotal class spans with the actual boxTotal
-                    // Otherwise the boxTotal would be increasing every time I output a line to the OutputString i'm building (and not be accurate), 
-                    // so i output a placeholder first, in a boxTotal div, then at the end, replace the contents of those divs with the actual final boxTotal value
-                    // SOURCE:  https://stackoverflow.com/a/7409497/1263035  (modified a bit to remove ids)
-                    var divs = document.getElementsByClassName('boxTotal');
-                    [].slice.call(divs).forEach(function (div) {
-                        div.innerHTML = " of " + boxTotal;
-                    });
-
-                    // Using innerHTML with querySelectorAll (possible alternative method, not using or tried because I saw no point)
-                    // SOURCE:  https://stackoverflow.com/a/27983501/1263035
-                    // var x = document.querySelectorAll(".boxTotal");
-                    // var i;
-                    // for (i = 0; i < x.length; i++) {
-                    //     x[i].innerHTML = "";
-                    // }
-
-
-
-                    // Scroll results window back to top (for if there's lots of boxes)
-                    window.scrollTo(0, 0);
-
-
+                    document.getElementById("resultsBox").innerHTML = "<pre>" + outputStringFunc + "</pre>";
                 }
 
 
@@ -1242,34 +1148,17 @@ Solid State Relays included with box carrying most POLDs
 
                     // FUNCTION:  List all items and what boxes they go in
                     // TODO:  Change valueLds to number/amount of LDS entered, then add valueLdsSize for each valve size?
-
-                    // TODO:  This line isn't really needed
-                    // (This string gets overwritten by the next if/else statement (outputString = ...))
-                    outputString = " ";
-
+                    outputString = initialBox + " Box: \n";
 
                     // Add "Replacement" header if checkbox is checked
                     if (valueReplacement > 0) {
-                        outputString = outputString + "-- Replacement --<br><br>";
+                        outputString = "-- Replacement --\n\n" + initialBox + " Box: \n";
+                        // window.alert("valueReplacement = " + valueReplacement);
                     }
-
-                    // Add "-- POLD System --" header if radio checkbox button selected
-                    // SOURCE:  https://stackoverflow.com/a/1423783
-                    if (document.getElementById('btnradio2').checked) {
-                        outputString = outputString + "-- POLD System --<br><br>";
+                    else {
+                        outputString = initialBox + " Box: \n";
+                        // window.alert("valueReplacement = " + valueReplacement);
                     }
-                    // if (valueSystemPold > 0) {
-                    //     outputString = outputString + "-- POLD System --<br><br>";
-                    // }
-
-                    // Add "-- Accessories Only --" header if radio checkbox button selected
-                    if (document.getElementById('btnradio3').checked) {
-                        outputString = outputString + "-- Accessories Only --<br><br>";
-                    }
-
-                    // Add the first box name, and current/total box numbers
-                    // TODO:  Might want to change this to only display once things are packed in this box (maybe show later in the packing function/loop)
-                    outputString = outputString + "<b>" + initialBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i><br>";
                     // window.alert("valueReplacement = " + valueReplacement);
 
 
@@ -1291,12 +1180,12 @@ Solid State Relays included with box carrying most POLDs
                         // If split system, add that info
                         if (valueSplitSystemCheck > 0) {
                             // Add item to string to be displayed at the end for what to pack
-                            outputString = outputString + "• LDS (" + valueLds + "\") (Split-System B" + valueSplitSystemSelect + ")<br>";
+                            outputString = outputString + "• LDS (" + valueLds + "\") (Split-System B" + valueSplitSystemSelect + ")\n";
                         }
                         // Otherwise output the normal LDS size info string
                         else {
                             // Add item to string to be displayed at the end for what to pack
-                            outputString = outputString + "• LDS (" + valueLds + "\") <br>";
+                            outputString = outputString + "• LDS (" + valueLds + "\") \n";
                         }
                         // Don't subtract LDS value as of now, since it's actually the pipe size and not space taken, plus it equals 0 anyway. 
                         // (We have cases to define which box each LDS size goes in anyway)
@@ -1306,28 +1195,28 @@ Solid State Relays included with box carrying most POLDs
                         totalValueCurrent = totalValueCurrent - totalValueCp;
                         boxValueLeft = boxValueLeft - totalValueCp;
                         // Add item to string to be displayed at the end for what to pack
-                        outputString = outputString + "• " + valueCp + " Control Panel<br>";
+                        outputString = outputString + "• " + valueCp + " Control Panel\n";
                     }
                     if (valueScv > 0) {
                         // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
                         totalValueCurrent = totalValueCurrent - totalValueScv;
                         boxValueLeft = boxValueLeft - totalValueScv;
                         // Add item to string to be displayed at the end for what to pack
-                        outputString = outputString + "• " + valueScv + " Spring Check Valve (SCV)<br>";
+                        outputString = outputString + "• " + valueScv + " Spring Check Valve (SCV)\n";
                     }
                     if (valueHiddenWire > 0) {
                         // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
                         totalValueCurrent = totalValueCurrent - totalValueHiddenWire;
                         boxValueLeft = boxValueLeft - totalValueHiddenWire;
                         // Add item to string to be displayed at the end for what to pack
-                        outputString = outputString + "• " + valueHiddenWire + " Hidden Wire (" + valueHiddenWireLength + "ft)<br>";
+                        outputString = outputString + "• " + valueHiddenWire + " Hidden Wire (" + valueHiddenWireLength + "ft)\n";
                     }
                     if (valuePam1 > 0) {
                         // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
                         totalValueCurrent = totalValueCurrent - totalValuePam1;
                         boxValueLeft = boxValueLeft - totalValuePam1;
                         // Add item to string to be displayed at the end for what to pack
-                        outputString = outputString + "• " + valuePam1 + " PAM-1 Relay<br>";
+                        outputString = outputString + "• " + valuePam1 + " PAM-1 Relay\n";
                     }
                     // All items above always go into box 1 (according to Bryce)
 
@@ -1336,7 +1225,7 @@ Solid State Relays included with box carrying most POLDs
 
                     // The following items will fit in current box or create a new box (accessories box is default extra)
                     // Define the accessory box as the next box to overlow items into, unless there's a junction box or total >= 49
-                    var nextBox = "Accessory (13x10x5)";
+                    var nextBox = "Accessory Box (13x10x5)";
                     var nextBoxValue = packingItem.boxAccessories;
 
                     // HISTORY:  Medium shipper condition for insulated pouch was moved to the section where it checks if there's an insulated pouch and sends it to be packed 
@@ -1403,18 +1292,18 @@ Solid State Relays included with box carrying most POLDs
 
                                     // DEBUGGING to show info every time a single item is packed (1 line)
                                     if (valueDebug == 1) {
-                                        outputString = outputString + "<br> DEBUGGING INFO: totalValueCurrent = " + totalValueCurrent + ".  boxValueLeft = " + boxValueLeft + ".  totalValueCurrentItem = " + totalValueCurrentItem + ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem + "<br>";
+                                        outputString = outputString + "\n DEBUGGING INFO: totalValueCurrent = " + totalValueCurrent + ".  boxValueLeft = " + boxValueLeft + ".  totalValueCurrentItem = " + totalValueCurrentItem + ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem + "\n";
                                     }
                                 }
                                 else {
                                     // Display how many of this item has been packed into the current box, before switching boxes (if there are 1 or more in there)
                                     if (currentItemCountInBoxOfCurrentItem >= 1) {
-                                        outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
+                                        outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "\n";
                                     }
 
                                     // DEBUGGING
                                     if (valueDebug == 1) {
-                                        outputString = outputString + "<br> DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "<br>";
+                                        outputString = outputString + "\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + "\n";
                                     }
 
                                     // Change current box to accessory box (or whatever box is next, like 14x14)
@@ -1431,12 +1320,9 @@ Solid State Relays included with box carrying most POLDs
                                     valueCurrentItem = valueCurrentItem - 1;
                                     // Keep count of how many of the current item has been packed into the box (reset the count to 1 when changing boxes).
                                     currentItemCountInBoxOfCurrentItem = 1;
-                                    // Add 1 to the boxTotal and boxNumber
-                                    boxNumber++;
-                                    boxTotal++;
                                     // Add item to string to be displayed at the end for what to pack
-                                    outputString = outputString + "<br><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
-                                    // outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
+                                    outputString = outputString + "\n" + nextBox + ": \n";
+                                    // outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "\n";
 
                                     // HISTORY:  This breaks using the 14x14 when you have a lot of items, so I'm removing it. Medium should be working better now.
                                     // // To work with the Medium Shipper, after using one extra box, define the next extra box to use as the default accessory box (so we don't get multiple medium shippers)
@@ -1446,13 +1332,13 @@ Solid State Relays included with box carrying most POLDs
 
                                     // DEBUGGING to show info every time a single item is packed (1 line)
                                     if (valueDebug == 1) {
-                                        outputString = outputString + "<br> DEBUGGING INFO: totalValueCurrent = " + totalValueCurrent + ".  boxValueLeft = " + boxValueLeft + ".  totalValueCurrentItem = " + totalValueCurrentItem + ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem + "<br>";
+                                        outputString = outputString + "\n DEBUGGING INFO: totalValueCurrent = " + totalValueCurrent + ".  boxValueLeft = " + boxValueLeft + ".  totalValueCurrentItem = " + totalValueCurrentItem + ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem + "\n";
                                     }
 
                                     loopCount++;
                                     loopCountElse++;
-                                    if (loopCountElse >= 60) {
-                                        outputString = outputString + "<br><b><span style='color:red;'>WARNING:</span> I tried packing this item into a new box " + loopCount + " different times and gave up </b><br>(Actually what might be happening is this loop just stops after packing " + loopCount + " boxes with the same item, to avoid getting stuck in a possible infinite loop. If you really need this many boxes, just increase the value for this IF statement condition.)<br>";
+                                    if (loopCountElse >= 6) {
+                                        outputString = outputString + "\n DEBUGGING INFO: I tried packing this item into a new box 6 different times and gave up \n";
                                         break;
                                     }
                                     // break;
@@ -1461,7 +1347,7 @@ Solid State Relays included with box carrying most POLDs
                                 // break;
                             }
                             // Display how many of this item has been packed into the box, before exiting while loop
-                            outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
+                            outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "\n";
                         }
                     }
 
@@ -1525,20 +1411,16 @@ Solid State Relays included with box carrying most POLDs
                             boxValue = nextBoxValue;
                             // Resets the space remaining in the box to the full total of the new empty box
                             boxValueLeft = boxValue;
-                            // Add 1 to the boxTotal and boxNumber
-
-                            boxNumber++;
-                            boxTotal++;
                             // Add item to string to be displayed at the end for what to pack
-                            outputString = outputString + "<br><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
-                            // outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
+                            outputString = outputString + "\n" + nextBox + ": \n";
+                            // outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "\n";
 
 
                             // Pack the item (call the function)
                             putInBox(valueRecirc, packingItem.recirc, totalValueRecirc, "Recirc Pump Switch");
 
                             // Reset nextBox back to accessory box for other items
-                            nextBox = "Accessory (13x10x5)";
+                            nextBox = "Accessory Box (13x10x5)";
                             nextBoxValue = packingItem.boxAccessories;
                         }
                         // Otherwise pack it as normal
@@ -1567,19 +1449,16 @@ Solid State Relays included with box carrying most POLDs
                             boxValue = nextBoxValue;
                             // Resets the space remaining in the box to the full total of the new empty box
                             boxValueLeft = boxValue;
-                            // Add 1 to the boxTotal and boxNumber
-                            boxNumber++;
-                            boxTotal++;
                             // Add item to string to be displayed at the end for what to pack
-                            outputString = outputString + "<br><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
-                            // outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
+                            outputString = outputString + "\n" + nextBox + ": \n";
+                            // outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "\n";
 
 
                             // Pack the item (call the function)
                             putInBox(valueFourHour, packingItem.fourHour, totalValueFourHour, "Four Hour Timer");
 
                             // Reset nextBox back to accessory box for other items
-                            nextBox = "Accessory (13x10x5)";
+                            nextBox = "Accessory Box (13x10x5)";
                             nextBoxValue = packingItem.boxAccessories;
                         }
                         // Otherwise pack it as normal
@@ -1603,7 +1482,7 @@ Solid State Relays included with box carrying most POLDs
                         putInBox(valueJuncBox, packingItem.juncBox, totalValueJuncBox, "Junction Box");
 
                         // Reset nextBox back to accessory box for other items
-                        nextBox = "Accessory (13x10x5)";
+                        nextBox = "Accessory Box (13x10x5)";
                         nextBoxValue = packingItem.boxAccessories;
                     }
 
@@ -1624,19 +1503,16 @@ Solid State Relays included with box carrying most POLDs
                         boxValue = nextBoxValue;
                         // Resets the space remaining in the box to the full total of the new empty box
                         boxValueLeft = boxValue;
-                        // Add 1 to the boxTotal and boxNumber
-                        boxNumber++;
-                        boxTotal++;
                         // Add item to string to be displayed at the end for what to pack
-                        outputString = outputString + "<br><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
-                        // outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
+                        outputString = outputString + "\n" + nextBox + ": \n";
+                        // outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "\n";
 
 
                         // Pack the item (call the function)
                         putInBox(valueInsulPouch, packingItem.insulPouch, totalValueInsulPouch, "Insulated Pouch");
 
                         // Reset nextBox back to accessory box for other items
-                        nextBox = "Accessory (13x10x5)";
+                        nextBox = "Accessory Box (13x10x5)";
                         nextBoxValue = packingItem.boxAccessories;
                     }
 
@@ -1649,17 +1525,16 @@ Solid State Relays included with box carrying most POLDs
 
                     if (totalValueCurrent > 0) {
                         // Add item to string to be displayed at the end for what to pack
-                        outputString = outputString + "<br> <b><span style='color:red;'>WARNING: </span>Hmm there seems to be something left over.</b> Did I forget something in my calculations?<br> Contact jake and tell him you'll give him an ice cream if he fixes it.<br> DEBUGGING INFO (for leftovers): totalValueTotal = " + totalValueTotal + ". totalValueCurrent = " + totalValueCurrent;
+                        outputString = outputString + "\n Hmm there seems to be something left over. Did I forget something in my calculations?\n Contact jake and tell him you'll give him an ice cream if he fixes it.\n DEBUGGING INFO (for leftovers): totalValueTotal = " + totalValueTotal + ". totalValueCurrent = " + totalValueCurrent;
                     }
 
 
 
-                    // For debugging (level 1)
-                    // TODO:  Maybe add level 1 and level 2 debugging levels, for basic info like these 2 lines, versus a line after each and every item is packed
-                    if (valueDebug == 1) {
-                        outputString = outputString + "<br><br> DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft;
-                        outputString = outputString + "<br> DEBUGGING INFO: totalValueTotal = " + totalValueTotal + ".  totalValueCurrent = " + totalValueCurrent;
-                    }
+                    // For debugging
+                    // if (valueDebug == 1) {
+                    outputString = outputString + "\n\n DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft;
+                    outputString = outputString + "\n DEBUGGING INFO: totalValueTotal = " + totalValueTotal + ".  totalValueCurrent = " + totalValueCurrent;
+                    // }
 
                     return outputString;
                 }
