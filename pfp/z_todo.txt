@@ -2,10 +2,6 @@
 TODO
 ---
 
-
-Add SO# entry box on top, to keep track of orders printed.
-Put SO# on top of every page.
-
 Keep revision number on bottom of results page
 
 Add instructions to bottom of results page (select Zebra ZP500 printer. Each box will print on it's own page. You can also save as /print to pdf if you want)
@@ -21,8 +17,6 @@ Add LDS power wire?
 include (value 0) in shipper. number entry (5ft increments, default 10ft)
 
 Add more separation to buttons on top row.
-
-Hide more acessories if POLD-Only is selected? (API, Recirc, FourHour, SSR, PAM-1, Junction, Insulated)?
 
 Add section titles, and collapsible "Uncommon Accessories" sections?
 
@@ -42,6 +36,7 @@ Don't have two line breaks separating the Replacement and Accesories Only header
 ---
 MAYBE DO
 ---
+Blank out the form entries for inputs that were hidden when switching system types (like insulated pouches when switching to POLD-Only)
 
 
 // TODO:  Don't show the accessory box for POLD-Only if it's empty and your first box is something else (like medium shipper for 1 Insulated Pouch or something).
@@ -128,6 +123,22 @@ DONE
 ---------------------------------
 
 
+3.0.6 ---
+Added SO# entry box on top (to keep track of multiple pages together, and matching printed labels to packing lists etc).
+
+Added SO# to each page of print output (not showing if blank).
+
+Defaulting everything to hidden on page load, until system type is selected. (so people won't ignore those buttons, which are used for logic).
+(Added 2 new divs to wrap the whole form--besides header buttons--and footer to be hidden by default)
+
+System: LDS  no longer auto-selected by default on page load.
+
+Added short instruction text visible on page load.
+
+Changed which form entries are visible with different system selections.
+(Hide more acessories if POLD-Only is selected? (API, Recirc, FourHour, SSR, PAM-1, Junction, Insulated)?)
+
+Minor other tweaks like margins and comments.
 
 
 
