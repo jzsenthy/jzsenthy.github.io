@@ -37,6 +37,12 @@ Github commits
 jzsenthy
 73659347+jzsenthy @users.noreply.github.com__________
 
+Undo github commit
+https://stackoverflow.com/a/6866485/1263035
+Open Git Bash
+cd "c:\projectfolder"
+git reset HEAD~1
+
 
 
 VSCODE  (didn't help with breakpoints becoming unbound though)
