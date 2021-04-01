@@ -1,6 +1,9 @@
 ---
 TODO
 ---
+
+Change Shipping Order Number to Sales Order Number.
+
 Have a separate button to Save results (as pdf? csv?) for uploading to zoho? Remove the page breaks from that version, so it prints on like 1 page.
 
 Keep revision number on bottom of results page
@@ -121,7 +124,7 @@ DONE
 3.0.7  2021-03-31 ---
 SO# align right (text-end) on print output.
 
-Hide SO# on additional pages from user display, unless you print it.
+Hide SO# on additional pages from user display, until you print it.
 
 Remove a line break from print headers like SO#, Replacement, POLD System, Accessories Only.
 
@@ -138,7 +141,7 @@ Changed print button from float-right to float-end.
 3.0.6  2021-03-31 ---
 Added SO# entry box on top (to keep track of multiple pages together, and matching printed labels to packing lists etc).
 
-Added SO# to each page of print output (not showing if blank).
+Added SO# to each page of print output (not required and not showing if blank).
 
 Defaulting everything to hidden on page load, until system type is selected. (so people won't ignore those buttons, which are used for logic).
 (Added 2 new divs to wrap the whole form--besides header buttons--and footer to be hidden by default)
@@ -147,8 +150,8 @@ System: LDS  no longer auto-selected by default on page load.
 
 Added short instruction text visible on page load.
 
-Changed which form entries are visible with different system selections.
-(Hide more acessories if POLD-Only is selected? (API, Recirc, FourHour, SSR, PAM-1, Junction, Insulated)?)
+Changed which form entries are visible with different system selections, from Bryce’s feedback.
+(Hide more acessories if POLD-Only is selected? (Junction Box, Insulated Pouch and 4hr timer should be hidden, I’m thinking Recirc Pump Switch too. -Bryce))
 
 Minor other tweaks like margins and comments.
 
@@ -162,7 +165,7 @@ Changed negative margin to 0 margin, because it works in every browser.
 (TEST PRINTING IN IE/EDGE. That might be the real exception needed, not firefox. Use negative margin if Edge, otherwise 0 print page margin to hide default added header/footer on print.
 Firefox printing centered, with a narrow word wrap area. Might have to reset page size setting or something. Or maybe i have to define my div larger.) 
 
-Changed div margin to padding to fix black padding issue.
+Changed div margin to padding to fix black padding issue on print.
 
 Added more CSS target divs to force dark mode to light mode for print.
 
