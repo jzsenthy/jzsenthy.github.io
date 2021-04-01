@@ -1,15 +1,11 @@
 ---
 TODO
 ---
-
-
-Add SO# entry box on top, to keep track of orders printed.
-Put SO# on top of every page.
+Have a separate button to Save results (as pdf? csv?) for uploading to zoho? Remove the page breaks from that version, so it prints on like 1 page.
 
 Keep revision number on bottom of results page
 
 Add instructions to bottom of results page (select Zebra ZP500 printer. Each box will print on it's own page. You can also save as /print to pdf if you want)
-
 
 Put accessory inputs on shared line to take up less vertical room.
 
@@ -22,15 +18,11 @@ include (value 0) in shipper. number entry (5ft increments, default 10ft)
 
 Add more separation to buttons on top row.
 
-Hide more acessories if POLD-Only is selected? (API, Recirc, FourHour, SSR, PAM-1, Junction, Insulated)?
-
 Add section titles, and collapsible "Uncommon Accessories" sections?
 
 Maybe format as important/common things on left, uncommon/default things on right column.
 
 Make scrollTo work again to scroll to top from Reset button.
-
-Don't have two line breaks separating the Replacement and Accesories Only headers.
 
 // TODO:  "Solid State Relays included with box carrying most POLDs"  (although putting it in the last box a pold or leak rope went into is a lot easier)
 
@@ -42,6 +34,7 @@ Don't have two line breaks separating the Replacement and Accesories Only header
 ---
 MAYBE DO
 ---
+Blank out the form entries for inputs that were hidden when switching system types (like insulated pouches when switching to POLD-Only)
 
 
 // TODO:  Don't show the accessory box for POLD-Only if it's empty and your first box is something else (like medium shipper for 1 Insulated Pouch or something).
@@ -76,10 +69,6 @@ Add Mailer "if case" for replacement or shipping of single accessory:
 Mailer(11x9x1) = 2.5 (Use for shipments of accesory only)
 
 Checkboxes aren't working with chrome dark mode extension. (might be an issue with the bootstrap dark version fork i'm using?)
-
-Maybe have a "back" button to go back from the results to the form without resetting it, instead of clearing out the entries, for easier testing.
-
-Might wanna print each box results on a different page, to put sticker on each box.
 
 Might wanna change bullets to blank spaces for checkmarks.
 
@@ -129,10 +118,44 @@ DONE
 
 
 
+3.0.7  2021-03-31 ---
+SO# align right (text-end) on print output.
+
+Hide SO# on additional pages from user display, unless you print it.
+
+Remove a line break from print headers like SO#, Replacement, POLD System, Accessories Only.
+
+Reduced width of resultsBoxContainer so SO# isn't so far right.
+
+Changed width of back/start over/print button containers from for better responsive layout.
+
+Changed print button from float-right to float-end.
 
 
 
-3.0.5 ---
+
+
+3.0.6  2021-03-31 ---
+Added SO# entry box on top (to keep track of multiple pages together, and matching printed labels to packing lists etc).
+
+Added SO# to each page of print output (not showing if blank).
+
+Defaulting everything to hidden on page load, until system type is selected. (so people won't ignore those buttons, which are used for logic).
+(Added 2 new divs to wrap the whole form--besides header buttons--and footer to be hidden by default)
+
+System: LDS  no longer auto-selected by default on page load.
+
+Added short instruction text visible on page load.
+
+Changed which form entries are visible with different system selections.
+(Hide more acessories if POLD-Only is selected? (API, Recirc, FourHour, SSR, PAM-1, Junction, Insulated)?)
+
+Minor other tweaks like margins and comments.
+
+
+
+
+3.0.5  2021-03-30---
 Fixed/Improved print output (color/margin/padding).
 
 Changed negative margin to 0 margin, because it works in every browser. 

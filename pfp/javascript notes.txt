@@ -33,15 +33,35 @@ If it's not working and not giving you an error, turn on breakpoints on the bott
 
 
 
+
+GITHUB
 Github commits
 jzsenthy
 73659347+jzsenthy @users.noreply.github.com__________
 
+GITHUB
 Undo github commit
 https://stackoverflow.com/a/6866485/1263035
 Open Git Bash
 cd "c:\projectfolder"
 git reset HEAD~1
+
+
+GITHUB
+If the commit was already 'pushed', do this instead: 
+git revert <bad-commit-sha1-id> git push origin
+
+
+GITHUB
+What you want is to either do a git commit --amend to modify your old commit if you've not already created a fresh commit with your changes.
+
+If you've already created a fresh commit, you'll want to use git rebase -i to squash your commit on top of the old one.
+
+After you've made this change locally, and verified your commit looks the way you want it to, you'll have to git push --force to overwrite history on the Github remote.
+https://stackoverflow.com/a/35543613/1263035
+
+
+
 
 
 
@@ -102,6 +122,12 @@ Multi-line comments start with /* and end with */
 
 // Add this line to add a breakpoint:
 debugger
+
+
+
+
+innerHTML and newlines  (\n and <pre> vs <br>)
+https://www.reddit.com/r/javascript/comments/22ralo/innerhtml_and_newlines/
 
 
 

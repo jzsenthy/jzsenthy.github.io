@@ -33,81 +33,99 @@
             display: none;
         }
 
+        .resultsBoxContainer {
+            max-width: 600px;
+        }
 
-        /*  Defines colors for printing as: white background, black text */
-        /*  HISTORY:  It was printing with gray text as default in dark mode*/
-        /*  HISTORY:  Color was not working on <pre> text until i changed .pre to pre (duh, it's not a class) */
+        /* Hide the SO# on boxes beyond the first, in the results window, until you print */
+        .soBox {
+            display: none;
+        }
+
+
+
+        /*  PRINT OPTIONS */
         @media print {
-        .resultsBoxContainer,
-        pre,
-        html,
-        body,
-        .newBox,
-        .container,
-        .container-sm {
-            color: black;
-            background-color: white;
-        }
-                
-        @page {
-            color: black;
-            background-color: white;
-        }
+
+            /* Show the SO# on boxes beyond the first when you print */
+            .soBox {
+                display: block;
+            }
 
 
-        /* Page break after each new box */
-        .newBox {
-            page-break-before: always;
-        }
+            /*  Defines colors for printing as: white background, black text */
+            /*  HISTORY:  It was printing with gray text as default in dark mode*/
+            /*  HISTORY:  Color was not working on <pre> text until i changed .pre to pre (duh, it's not a class) */
+            .resultsBoxContainer,
+            pre,
+            html,
+            body,
+            .newBox,
+            .container,
+            .container-sm {
+                color: black;
+                background-color: white;
+            }
+
+            @page {
+                color: black;
+                background-color: white;
+            }
 
 
-        /* FUNCTION:  Hide the added header/footer page details that get printed by browser */
-        /* This is done by making a 0 or negative margin on the print version of the page,
+            /* Page break after each new box */
+            .newBox {
+                page-break-before: always;
+            }
+
+
+            /* FUNCTION:  Hide the added header/footer page details that get printed by browser */
+            /* This is done by making a 0 or negative margin on the print version of the page,
             which overrides the headers/footers added in the margins by the browser,
             you then add margin back to the html element.
             The downside is pages beyond the first won't be styled correctly, 
             so i added margin on my divs specific to the results box */
-        /* SOURCE:  https://stackoverflow.com/a/38506980 */
-        @page {
-            margin: 0 0cm
-        }
+            /* SOURCE:  https://stackoverflow.com/a/38506980 */
+            @page {
+                margin: 0 0cm
+            }
 
-        html {
-            margin: 0cm 0cm
-        }
+            html {
+                margin: 0cm 0cm
+            }
 
-        /* Fixes the page if it's firefox */
-        /* Not really an issue now. 0 padding seems to be working in chrome, firefox, and edge. */
-        /* @-moz-document url-prefix() {
+            /* Fixes the page if it's firefox */
+            /* Not really an issue now. 0 padding seems to be working in chrome, firefox, and edge. */
+            /* @-moz-document url-prefix() {
                 @page {
                     margin: 0 0cm
                 }
             } */
 
-        /* Fixes the page if it's firefox */
-        /* @-moz-document url-prefix() {
+            /* Fixes the page if it's firefox */
+            /* @-moz-document url-prefix() {
                 html {
                     margin: 0cm 0cm
                 }
             } */
 
-        /* Margin added to results divs to make pages after the first not hit the edge of page */
-        .resultsBoxContainer {
-            /* margin: 2cm 2cm; */
-            padding-top: 20px;
-            /* margin-right: 20px; */
-            /* margin-bottom: 20px; */
-            padding-left: 20px;
-        }
+            /* Margin added to results divs to make pages after the first not hit the edge of page */
+            .resultsBoxContainer {
+                /* margin: 2cm 2cm; */
+                padding-top: 20px;
+                /* margin-right: 20px; */
+                /* margin-bottom: 20px; */
+                padding-left: 20px;
+            }
 
-        /* Margin added to results divs to make pages after the first not hit the edge of page */
-        .newBox {
-            /* margin: 2cm 2cm; */
-            padding-top: 20px;
-            /* margin-right: 20px; */
-            /* margin-bottom: 20px; */
-            /* margin-left: 20px; */
-        }
+            /* Margin added to results divs to make pages after the first not hit the edge of page */
+            .newBox {
+                /* margin: 2cm 2cm; */
+                padding-top: 20px;
+                /* margin-right: 20px; */
+                /* margin-bottom: 20px; */
+                /* margin-left: 20px; */
+            }
 
         }
     </style>
@@ -161,7 +179,7 @@
                 <form id="resultsForm">
                     <!-- FORM FOOTER -->
                     <div class="row mb-3">
-                        <div class="col-4">
+                        <div class="col-8">
                             <!-- FUNCTION:  Back button (calls the showMainPage function which inverts the display of elements shown/hidden by the showResults function) -->
                             <!-- TIP:  Align right with float-end -->
                             <button type="button" class="btn btn-secondary mb-5 backButton" id="backButton">Go
@@ -173,10 +191,10 @@
                                 id="resultsSubmitButton">Start Over</button>
                         </div>
 
-                        <div class="col-8">
+                        <div class="col-4">
                             <!-- FUNCTION:  Print button -->
                             <!-- TIP:  Align right with float-end or float-right-->
-                            <input type="button" class="btn btn-primary mb-5 float-right printButton" id="printButton"
+                            <input type="button" class="btn btn-primary mb-5 float-end printButton" id="printButton"
                                 value="Print" onClick="window.print()">
                         </div>
                     </div>
@@ -205,7 +223,8 @@ To make other sections collapse when one expands:
 For Bootstrap5      Add the  data-bs-parent="#customParentID"  attribute to the collapse elements instead of the button.
 https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-when-one-is-expanded
 -->
-        <!-- TIP:  class="collapse"  to start hidden,  class="collapse.show"  to start shown -->
+        <!-- TIP:  My non-bootstrap  class="startHidden"  to start hidden -->
+        <!-- TIP:  Bootstrap  class="collapse"  to start hidden,  class="collapse.show"  to start shown  (i'm not using collapse anymore)-->
         <!-- TODO:  Hide/collapse all of this group before showing parts of the group. might need to remove data bs toggle true and parent -->
         <!-- BUG:  Adding gap on parent div requires me to click a button twice for it to show content the first time... -->
         <!-- HISTORY:  I was trying to use the bootstrap 5 collapse command, but it wouldn't let me hide everything i want before showing only what I want -->
@@ -227,249 +246,282 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
 
                         <!-- HISTORY:  To set one to default true/active, add  checked  somewhere. Adding  class="active"  didn't work -->
                         <!-- REFERENCE:  https://getbootstrap.com/docs/5.0/components/button-group/#checkbox-and-radio-button-groups -->
-                        <input type="radio" class="btn-check active" name="btnradio" id="btnradio1"
-                            data-bs-toggle="true" checked onclick="collapseGroup('groupLds')" autocomplete="off"
-                            aria-expanded="true" aria-controls=".groupLds" value="1">
+                        <!-- System: LDS Valve  radio button-->
+                        <!-- <input type="radio" class="btn-check active" checked name="btnradio" id="btnradio1" -->
+                        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" data-bs-toggle="true"
+                            onclick="collapseGroup('groupLds')" autocomplete="off" aria-expanded="true"
+                            aria-controls=".groupLds" value="1">
                         <label class="btn btn-primary" for="btnradio1">System:&nbsp; LDS Valve</label>
 
+                        <!-- System: POLD-Only  radio button -->
                         <input type="radio" class="btn-check" name="btnradio" id="btnradio2" data-bs-toggle="false"
                             onclick="collapseGroup('groupPoldOnly'); setLds(0);" autocomplete="off"
                             aria-expanded="false" aria-controls=".groupPoldOnly" value="2">
                         <label class="btn btn-primary" for="btnradio2">System:&nbsp; POLD-Only</label>
 
+                        <!-- Accessories Only  radio button -->
                         <input type="radio" class="btn-check" name="btnradio" id="btnradio3" data-bs-toggle="false"
                             onclick="collapseGroup('groupAccessories'); setLds(0);" autocomplete="off"
                             aria-expanded="false" aria-controls=".groupAccessories" value="3">
                         <label class="btn btn-primary" for="btnradio3">Accessories Only</label>
                     </div>
                 </div>
-
-
-
-                <!-- SYSTEM: LDS -->
-                <!-- TODO:  Change class collapse.show to collapse to hide by default after programming/testing is done -->
-                <div class="row collapse.show groupWizard1 ldsBox groupLds" id="ldsBox">
-
-                    <!-- TODO:  form class="mx-3" but make it actually work to shrink the box on the right end as well instead of overflow -->
-                    <!-- Example from:  https://getbootstrap.com/docs/5.0/forms/overview/ -->
-
-
-                    <div class="row">
-                        <div class="col">
-                            <!--  TODO:  Change valueLds to number of LDS, then add valueLdsSize for size? (hardcoded to 1 LDS in scripts) -->
-                            <label for="selectLds" class="form-label">LDS Valve Size</label>
-                            <!-- Auto-include SCV of same size -->
-                            <!-- Auto-include CP, 12V PSU -->
-                            <select class="form-select" id="selectLds">
-                                <option selected></option>
-                                <option value="0.75">0.75"</option>
-                                <option value="1.00">1.00"</option>
-                                <option value="1.25">1.25"</option>
-                                <option value="1.50">1.50"</option>
-                                <option value="2.00">2.00"</option>
-                                <option value="2.50">2.50"</option>
-                                <option value="3.00">3.00"</option>
-                            </select>
-                        </div>
-                        <div class="col">
-                            <label for="inputScv" class="form-label"><i>Spring Check Valve</i></label>
-                            <input type="number" class="form-control" id="inputScv" aria-describedby="scvHelp">
-                        </div>
-                    </div>
-
-
-                    <!-- Split system -->
-                    <div class="row">
-                        <div class="col mt-2">
-                            <!-- Split system checkbox -->
-                            <div class="form-check">
-                                <!-- Supposed to have  form-check  class on parent div, but that puts checkbox on left. Remove if you want checkbox on right -->
-                                <label for="checkSplitSystem" class="form-label mx-3">Split System</label>
-                                <!-- TODO:  Align checkbox right (keeping text and div section on left) -->
-                                <input type="checkbox" class="form-check-input mx-1" id="checkSplitSystem">
-                            </div>
-                        </div>
-                        <!-- Spring Check Valve description -->
-                        <div class="col">
-                            <div id="scvHelp" class="form-text"><i>1 is included with an LDS by default.</i></div>
-                        </div>
-                    </div>
-                    <!-- Split system dropdown -->
-                    <div class="row mb-2">
-                        <div class="col">
-                            <!--  TODO:  Change valueLds to number of LDS, then add valueLdsSize for size? (hardcoded to 1 LDS in scripts) -->
-                            <!-- <label for="selectSplitSystem" class="form-label">Split System Size</label> -->
-                            <!-- Auto-include SCV of same size -->
-                            <!-- Auto-include CP, 12V PSU -->
-                            <select class="form-select startHidden mb-2" id="selectSplitSystem">
-                                <option selected></option>
-                                <option value="1">B1</option>
-                                <option value="2">B2</option>
-                                <option value="3">B3</option>
-                            </select>
-                        </div>
-                        <div class="col">
-                        </div>
-                    </div>
-
+                <!-- Everything with class  groupWizard1  gets hidden first, upon header click  (like it's the 1st wizard step) -->
+                <div class="row mb-4 groupWizard1">
+                    <p class="text-center">Select one of the 3 options above to start.</p>
                 </div>
 
 
 
 
-                <!-- SYSTEM: POLD-ONLY -->
+                <!-- FUNCTION:  Wrap everything in a  startHidden  div to start collapsed before showing with top 3 toggles  (div 1 of 2)-->
+                <div class="startHidden showOnHeaderClick">
+                    <!-- SO#  (to keep track of multiple pages together, and matching printed labels to packing lists etc) -->
+                    <!-- Input not required, and won't print if value is not greater than 0/blank -->
+                    <!-- I think I lost my form validation when I made form return false to prevent refreshing the page -->
+                    <!-- Could add an eventlistener if I really wanna validate this form input -->
+                    <div class="mb-5">
+                        <label for="inputSoNum" class="form-label">Shipping Order Number (SO#)</label>
+                        <input type="number" class="form-control" id="inputSoNum" min="0" max="999999999999999"
+                            aria-describedby="soNumHelp">
+                        <!-- <div id="soNumHelp" class="form-text"><i>Shipping Order Number</i></div> -->
+                    </div>
 
-                <!-- Control Panel -->
-                <div class="row collapse.show groupWizard1 poldOnlyBox groupLds groupPoldOnly" id="poldOnlyBox">
+
+                    <!-- SYSTEM: LDS -->
+                    <!-- TODO:  Change class collapse.show to collapse to hide by default after programming/testing is done -->
+                    <!-- TIP:  Change class="row collapse  back to  class="row collapse.show  to start shown on page load -->
+                    <div class="row collapse.show groupWizard1 ldsBox groupLds groupAccessories" id="ldsBox">
+
+                        <!-- TODO:  form class="mx-3" but make it actually work to shrink the box on the right end as well instead of overflow -->
+                        <!-- Example from:  https://getbootstrap.com/docs/5.0/forms/overview/ -->
+
+
+                        <!-- These group div classes are to hide or show certain divs depending on which header button is selected -->
+                        <div class="row groupWizard1 groupLds groupAccessories">
+                            <div class="col groupWizard1 groupLds">
+                                <!--  TODO:  Change valueLds to number of LDS, then add valueLdsSize for size? (hardcoded to 1 LDS in scripts) -->
+                                <label for="selectLds" class="form-label">LDS Valve Size</label>
+                                <!-- Auto-include SCV of same size -->
+                                <!-- Auto-include CP, 12V PSU -->
+                                <select class="form-select" id="selectLds">
+                                    <option selected></option>
+                                    <option value="0.75">0.75"</option>
+                                    <option value="1.00">1.00"</option>
+                                    <option value="1.25">1.25"</option>
+                                    <option value="1.50">1.50"</option>
+                                    <option value="2.00">2.00"</option>
+                                    <option value="2.50">2.50"</option>
+                                    <option value="3.00">3.00"</option>
+                                </select>
+                            </div>
+                            <div class="col groupWizard1 groupLds groupAccessories">
+                                <label for="inputScv" class="form-label"><i>Spring Check Valve</i></label>
+                                <input type="number" class="form-control" id="inputScv" aria-describedby="scvHelp">
+                            </div>
+                        </div>
+
+
+                        <!-- Split system -->
+                        <div class="row">
+                            <div class="col mt-2 groupWizard1 groupLds">
+                                <!-- Split system checkbox -->
+                                <div class="form-check">
+                                    <!-- Supposed to have  form-check  class on parent div, but that puts checkbox on left. Remove if you want checkbox on right -->
+                                    <label for="checkSplitSystem" class="form-label mx-3">Split System</label>
+                                    <!-- TODO:  Align checkbox right (keeping text and div section on left) -->
+                                    <input type="checkbox" class="form-check-input mx-1" id="checkSplitSystem">
+                                </div>
+                            </div>
+                            <!-- Spring Check Valve description -->
+                            <div class="col mb-2">
+                                <div id="scvHelp" class="form-text"><i>1 is included with an LDS by default.</i></div>
+                            </div>
+                        </div>
+                        <!-- Split system dropdown -->
+                        <div class="row mb-2">
+                            <div class="col">
+                                <!--  TODO:  Change valueLds to number of LDS, then add valueLdsSize for size? (hardcoded to 1 LDS in scripts) -->
+                                <!-- <label for="selectSplitSystem" class="form-label">Split System Size</label> -->
+                                <!-- Auto-include SCV of same size -->
+                                <!-- Auto-include CP, 12V PSU -->
+                                <select class="form-select startHidden mb-2" id="selectSplitSystem">
+                                    <option selected></option>
+                                    <option value="1">B1</option>
+                                    <option value="2">B2</option>
+                                    <option value="3">B3</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+                    <!-- SYSTEM: POLD-ONLY -->
+
+                    <!-- Control Panel -->
+                    <div class="row collapse.show groupWizard1 poldOnlyBox groupLds groupPoldOnly groupAccessories"
+                        id="poldOnlyBox">
+                        <div class="mb-3">
+                            <label for="inputCp" class="form-label">Control Panel</label>
+                            <input type="number" class="form-control" id="inputCp">
+                        </div>
+                    </div>
+
+                    <!-- Hidden Wire -->
+                    <!-- TODO:  Checkbox checked state not visible when using chrome dark mode extension -->
+                    <!-- Supposed to have  form-check  class on parent div, but that puts checkbox on left. Remove if you want checkbox on right -->
+                    <div class="row mb-4">
+                        <div class="mb-0 form-check">
+                            <label for="checkHiddenWire" class="form-label mx-3">Hidden Power Wire (Control
+                                Panel)</label>
+                            <!-- TODO:  Align checkbox right (keeping text and div section on left) -->
+                            <input type="checkbox" class="form-check-input mx-1" id="checkHiddenWire">
+                            <input type="number" class="form-control startHidden" value="10" id="inputHiddenWireLength">
+                            <div id="hiddenWireHelp" class="form-text startHidden"><i>Ft.</i></div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- ACCESSORIES -->
+                    <div class="row collapse.show groupWizard1 accessoriesBox groupLds groupPoldOnly groupAccessories"
+                        id="accessoriesBox">
+
+
+                        <!-- Instruction text -->
+                        <!-- font-weight-bold isn't working... -->
+                        <div class="mt-3 mb-3 font-weight-bold"><b>Enter the amount of each accessory:</b></div>
+
+
+                        <!-- POLDs -->
+                        <!-- div class mb-3 is margin-bottom -->
+                        <div class="mb-2">
+                            <label for="inputPold" class="form-label" id="inputPoldLabel">POLDs</label>
+                            <input type="number" class="form-control" id="inputPold" min="0" max="30"
+                                aria-describedby="poldHelp">
+                            <div id="poldHelp" class="form-text"><i>Maximum of 30. If requesting more than 15, send list
+                                    of zones.</i>
+                            </div>
+                        </div>
+
+                        <!-- Leak Rope -->
+                        <div class="row">
+                            <div class="col mt-0">
+                                <!-- Leak Rope checkbox -->
+                                <div class="form-check">
+                                    <!-- Supposed to have (bootstrap)  form-check  class on parent div, but that puts checkbox on left. Remove if you want checkbox on right -->
+                                    <label for="checkLeakRope" class="form-label mx-3">Leak Rope</label>
+                                    <!-- TODO:  Align checkbox right (keeping text and div section on left) -->
+                                    <input type="checkbox" class="form-check-input mx-1" id="checkLeakRope">
+                                </div>
+                            </div>
+                            <!-- Extra column for the heck of it -->
+                            <div class="col">
+                            </div>
+                        </div>
+                        <!-- Leak rope options -->
+                        <div class="row mx-1 mt-2">
+                            <div class="col mx-1 mb-2 startHidden expandPold" id="expandPold1">
+                                <label for="inputPoldPin" class="form-label">POLDs with pins</label>
+                                <input type="number" class="form-control" id="inputPoldPin" min="0" max="30">
+                            </div>
+                            <!-- Extra column for the heck of it -->
+                            <div class="col">
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <!-- POLD with Leak Rope -->
+                            <div class="col startHidden expandPold" id="expandPold2">
+                                <div class="card m-3">
+                                    <div class="m-3">
+                                        <label for="inputPoldLeakRope2ft" class="form-label">POLDs with Leak Rope
+                                            (2ft)</label>
+                                        <input type="number" class="form-control" id="inputPoldLeakRope2ft" min="0"
+                                            max="30">
+                                    </div>
+                                    <div class="m-3">
+                                        <label for="inputPoldLeakRope5ft" class="form-label">POLDs with Leak Rope
+                                            (5ft)</label>
+                                        <input type="number" class="form-control" id="inputPoldLeakRope5ft" min="0"
+                                            max="30">
+                                    </div>
+                                    <div class="m-3">
+                                        <label for="inputPoldLeakRope10ft" class="form-label">POLDs with Leak Rope
+                                            (10ft)</label>
+                                        <input type="number" class="form-control" id="inputPoldLeakRope10ft" min="0"
+                                            max="30">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Just Leak Rope -->
+                            <div class="col startHidden expandPold" id="expandPold3">
+                                <div class="card m-3">
+                                    <div class="m-3">
+                                        <label for="inputLeakRope2ft" class="form-label">Just Leak Rope (2ft)</label>
+                                        <input type="number" class="form-control" id="inputLeakRope2ft" min="0"
+                                            max="30">
+                                    </div>
+                                    <div class="m-3">
+                                        <label for="inputLeakRope5ft" class="form-label">Just Leak Rope (5ft)</label>
+                                        <input type="number" class="form-control" id="inputLeakRope5ft" min="0"
+                                            max="30">
+                                    </div>
+                                    <div class="m-3">
+                                        <label for="inputLeakRope10ft" class="form-label">Just Leak Rope (10ft)</label>
+                                        <input type="number" class="form-control" id="inputLeakRope10ft" min="0"
+                                            max="30">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="mb-5">
+                        <!-- value="1" to default to 1. min="0" max="50" for min and max -->
+                        <label for="inputApi" class="form-label">APIs</label>
+                        <input type="number" class="form-control" id="inputApi" min="0" max="50"
+                            aria-describedby="apiHelp">
+                        <div id="apiHelp" class="form-text"><i>Maximum of 30.</i></div>
+                    </div>
+                    <div class="mb-3 groupWizard1 groupLds groupAccessories">
+                        <label for="inputRecirc" class="form-label">Recirculation Pump Switch</label>
+                        <input type="number" class="form-control" id="inputRecirc">
+                    </div>
+                    <div class="mb-3 groupWizard1 groupLds groupAccessories">
+                        <label for="inputFourHour" class="form-label">Four Hour Timer</label>
+                        <input type="number" class="form-control" id="inputFourHour">
+                    </div>
                     <div class="mb-3">
-                        <label for="inputCp" class="form-label">Control Panel</label>
-                        <input type="number" class="form-control" id="inputCp">
+                        <label for="inputPam1" class="form-label">PAM-1 Relay</label>
+                        <input type="number" class="form-control" id="inputPam1">
                     </div>
-                </div>
-
-                <!-- Hidden Wire -->
-                <!-- TODO:  Checkbox checked state not visible when using chrome dark mode extension -->
-                <!-- Supposed to have  form-check  class on parent div, but that puts checkbox on left. Remove if you want checkbox on right -->
-                <div class="row mb-4">
-                    <div class="mb-0 form-check">
-                        <label for="checkHiddenWire" class="form-label mx-3">Hidden Power Wire (Control
-                            Panel)</label>
-                        <!-- TODO:  Align checkbox right (keeping text and div section on left) -->
-                        <input type="checkbox" class="form-check-input mx-1" id="checkHiddenWire">
-                        <input type="number" class="form-control startHidden" value="10" id="inputHiddenWireLength">
-                        <div id="hiddenWireHelp" class="form-text startHidden"><i>Ft.</i></div>
-                    </div>
-                </div>
-
-
-
-                <!-- ACCESSORIES -->
-                <div class="row collapse.show groupWizard1 accessoriesBox groupLds groupPoldOnly groupAccessories"
-                    id="accessoriesBox">
-
-
-                    <!-- Instruction text -->
-                    <!-- font-weight-bold isn't working... -->
-                    <div class="mt-3 mb-3 font-weight-bold"><b>Enter the amount of each accessory:</b></div>
-
-
-                    <!-- POLDs -->
-                    <!-- div class mb-3 is margin-bottom -->
-                    <div class="mb-2">
-                        <label for="inputPold" class="form-label" id="inputPoldLabel">POLDs</label>
-                        <input type="number" class="form-control" id="inputPold" min="0" max="30"
-                            aria-describedby="poldHelp">
-                        <div id="poldHelp" class="form-text"><i>Maximum of 30. If requesting more than 15, send list
-                                of zones.</i>
-                        </div>
+                    <div class="mb-5">
+                        <label for="inputSsr" class="form-label">Solid State Relay</label>
+                        <!-- If you want to constrain to even numbers and fail validation if not:  step="2" -->
+                        <input type="number" class="form-control" id="inputSsr" step="2">
+                        <div id="ssrHelp" class="form-text"><i>Typically sent in multiples of 2.</i></div>
                     </div>
 
-                    <!-- Leak Rope -->
-                    <div class="row">
-                        <div class="col mt-0">
-                            <!-- Leak Rope checkbox -->
-                            <div class="form-check">
-                                <!-- Supposed to have (bootstrap)  form-check  class on parent div, but that puts checkbox on left. Remove if you want checkbox on right -->
-                                <label for="checkLeakRope" class="form-label mx-3">Leak Rope</label>
-                                <!-- TODO:  Align checkbox right (keeping text and div section on left) -->
-                                <input type="checkbox" class="form-check-input mx-1" id="checkLeakRope">
-                            </div>
-                        </div>
-                        <!-- Extra column for the heck of it -->
-                        <div class="col">
-                        </div>
+                    <div class="mb-3 groupWizard1 groupLds groupAccessories">
+                        <label for="inputJuncBox" class="form-label">Junction Box</label>
+                        <input type="number" class="form-control" id="inputJuncBox">
                     </div>
-                    <!-- Leak rope options -->
-                    <div class="row mx-1 mt-2">
-                        <div class="col mx-1 mb-2 startHidden expandPold" id="expandPold1">
-                            <label for="inputPoldPin" class="form-label">POLDs with pins</label>
-                            <input type="number" class="form-control" id="inputPoldPin" min="0" max="30">
-                        </div>
-                        <!-- Extra column for the heck of it -->
-                        <div class="col">
-                        </div>
+                    <!-- Don't show if POLD-Only is selected (through the group classes, only for lds and accessories) -->
+                    <div class="mb-5 groupWizard1 groupLds groupAccessories">
+                        <label for="inputInsulPouch" class="form-label">Insulated Pouch</label>
+                        <input type="number" class="form-control" id="inputInsulPouch">
                     </div>
 
-                    <div class="row mb-2">
-                        <!-- POLD with Leak Rope -->
-                        <div class="col startHidden expandPold" id="expandPold2">
-                            <div class="card m-3">
-                                <div class="m-3">
-                                    <label for="inputPoldLeakRope2ft" class="form-label">POLDs with Leak Rope
-                                        (2ft)</label>
-                                    <input type="number" class="form-control" id="inputPoldLeakRope2ft" min="0"
-                                        max="30">
-                                </div>
-                                <div class="m-3">
-                                    <label for="inputPoldLeakRope5ft" class="form-label">POLDs with Leak Rope
-                                        (5ft)</label>
-                                    <input type="number" class="form-control" id="inputPoldLeakRope5ft" min="0"
-                                        max="30">
-                                </div>
-                                <div class="m-3">
-                                    <label for="inputPoldLeakRope10ft" class="form-label">POLDs with Leak Rope
-                                        (10ft)</label>
-                                    <input type="number" class="form-control" id="inputPoldLeakRope10ft" min="0"
-                                        max="30">
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Just Leak Rope -->
-                        <div class="col startHidden expandPold" id="expandPold3">
-                            <div class="card m-3">
-                                <div class="m-3">
-                                    <label for="inputLeakRope2ft" class="form-label">Just Leak Rope (2ft)</label>
-                                    <input type="number" class="form-control" id="inputLeakRope2ft" min="0" max="30">
-                                </div>
-                                <div class="m-3">
-                                    <label for="inputLeakRope5ft" class="form-label">Just Leak Rope (5ft)</label>
-                                    <input type="number" class="form-control" id="inputLeakRope5ft" min="0" max="30">
-                                </div>
-                                <div class="m-3">
-                                    <label for="inputLeakRope10ft" class="form-label">Just Leak Rope (10ft)</label>
-                                    <input type="number" class="form-control" id="inputLeakRope10ft" min="0" max="30">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-
-                <div class="mb-5">
-                    <!-- value="1" to default to 1. min="0" max="50" for min and max -->
-                    <label for="inputApi" class="form-label">APIs</label>
-                    <input type="number" class="form-control" id="inputApi" min="0" max="50" aria-describedby="apiHelp">
-                    <div id="apiHelp" class="form-text"><i>Maximum of 30.</i></div>
-                </div>
-                <div class="mb-3">
-                    <label for="inputRecirc" class="form-label">Recirculation Pump Switch</label>
-                    <input type="number" class="form-control" id="inputRecirc">
-                </div>
-                <div class="mb-3">
-                    <label for="inputFourHour" class="form-label">Four Hour Timer</label>
-                    <input type="number" class="form-control" id="inputFourHour">
-                </div>
-                <div class="mb-3">
-                    <label for="inputPam1" class="form-label">PAM-1 Relay</label>
-                    <input type="number" class="form-control" id="inputPam1">
-                </div>
-                <div class="mb-5">
-                    <label for="inputSsr" class="form-label">Solid State Relay</label>
-                    <!-- If you want to constrain to even numbers and fail validation if not:  step="2" -->
-                    <input type="number" class="form-control" id="inputSsr" step="2">
-                    <div id="ssrHelp" class="form-text"><i>Typically sent in multiples of 2.</i></div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="inputJuncBox" class="form-label">Junction Box</label>
-                    <input type="number" class="form-control" id="inputJuncBox">
-                </div>
-                <div class="mb-5">
-                    <label for="inputInsulPouch" class="form-label">Insulated Pouch</label>
-                    <input type="number" class="form-control" id="inputInsulPouch">
                 </div>
 
             </div>
@@ -477,49 +529,53 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
 
 
             <!-- FORM FOOTER -->
-            <div class="row collapse.show groupWizard1 formFooterBox groupLds groupPoldOnly groupAccessories"
-                id="formFooterBox">
-                <!-- font-weight-bold isn't working... -->
-                <!-- TODO: Expand to show extra input fields like zoho link, device id, details/comment box to help person preparing (and maybe auto copy to zoho and packing list/label?) -->
+            <!-- FUNCTION:  Wrap everything in a  startHidden  div to start collapsed before showing with top 3 toggles  (div 2 of 2)-->
+            <div class="startHidden showOnHeaderClick">
+                <div class="row collapse.show groupWizard1 formFooterBox groupLds groupPoldOnly groupAccessories"
+                    id="formFooterBox">
+                    <!-- font-weight-bold isn't working... -->
+                    <!-- TODO: Expand to show extra input fields like zoho link, device id, details/comment box to help person preparing (and maybe auto copy to zoho and packing list/label?) -->
 
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input float-end mx-3" id="checkReplacement">
-                    <label class="form-check-label float-end" for="checkReplacement">Replacement for existing
-                        system/accessory?</label>
-                </div>
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input float-end mx-3" id="checkDebug">
-                    <label class="form-check-label float-end text-muted" for="checkDebug"><i>[Debugging
-                            mode]</i></label>
-                </div>
-                <div class="mb-3">
-                    <a href="z_todo.txt" class="float-end mx-3"><i>[Known issues]</i></a>
-                </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input float-end mx-3" id="checkReplacement">
+                        <label class="form-check-label float-end" for="checkReplacement">Replacement for existing
+                            system/accessory?</label>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input float-end mx-3" id="checkDebug">
+                        <label class="form-check-label float-end text-muted" for="checkDebug"><i>[Debugging
+                                mode]</i></label>
+                    </div>
+                    <div class="mb-3">
+                        <a href="z_todo.txt" class="float-end mx-3"><i>[Known issues]</i></a>
+                    </div>
 
 
-                <div class="row mb-2">
-                    <div class="col">
-                        <!-- HISTORY:  Wasn't fully resetting the form, so I switched to just refreshing the page on click -->
-                        <!-- REFERENCE:  https://stackoverflow.com/a/20740876/1263035 -->
-                        <!-- Also added scrolling back to top of page -->
-                        <!-- REFERENCE:  https://stackoverflow.com/a/66789888/1263035 -->
-                        <button class="btn btn-danger btn-sm" type="reset" id="mainResetButton"
-                            value="Reset">Reset</button>
-                        <!-- Wasn't fully resetting the form, so I was manually hiding shown divs as well with  onclick="resetHidden()" but now just refreshing page -->
-                        <!-- <button class="btn btn-danger btn-sm" type="reset" id="mainResetButton"
+                    <div class="row mb-2">
+                        <div class="col">
+                            <!-- HISTORY:  Wasn't fully resetting the form, so I switched to just refreshing the page on click -->
+                            <!-- REFERENCE:  https://stackoverflow.com/a/20740876/1263035 -->
+                            <!-- Also added scrolling back to top of page -->
+                            <!-- REFERENCE:  https://stackoverflow.com/a/66789888/1263035 -->
+                            <button class="btn btn-danger btn-sm" type="reset" id="mainResetButton"
+                                value="Reset">Reset</button>
+                            <!-- Wasn't fully resetting the form, so I was manually hiding shown divs as well with  onclick="resetHidden()" but now just refreshing page -->
+                            <!-- <button class="btn btn-danger btn-sm" type="reset" id="mainResetButton"
                                     onclick="resetHidden()" value="Reset">Reset</button> -->
+                        </div>
+                        <div class="col">
+                            <!-- FUNCTION:  Submit button -->
+                            <!-- TIP:  Align right with float-end -->
+                            <button type="submit" class="btn btn-primary float-end submitButton"
+                                id="finalSubmitButton">Submit</button>
+                        </div>
                     </div>
-                    <div class="col">
-                        <!-- FUNCTION:  Submit button -->
-                        <!-- TIP:  Align right with float-end -->
-                        <button type="submit" class="btn btn-primary mb-5 float-end submitButton"
-                            id="finalSubmitButton">Submit</button>
+                    <!-- Version number -->
+                    <!-- Text is not aligning right and idk why -->
+                    <div class="mt-3">
+                        <p class="text-muted text-right"><i>Version 3.0.7</i></p>
                     </div>
-                </div>
-                <!-- Version number -->
-                <!-- Text is not aligning right and idk why -->
-                <div class="mb-0">
-                    <p class="text-muted text-right"><i>Version 3.0.5</i></p>
+
                 </div>
 
             </div>
@@ -591,7 +647,13 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
             // HISTORY:  Had to abandon bootstrap .collapse method and just hide all then show what i want (so it wouldn't toggle things incorrectly)
             // TIP: Can replace  (document.querySelectorAll('.groupLds'))  with  (document.querySelectorAll(`.${groupClass}`))  
             //      '.groupLds'  to  `.${groupClass}`  (a literal) to insert variable groupClass with string . (period) in front of it (or any other string)
+            // Everything with class  groupWizard1  gets hidden first, upon header click  (like it's the 1st wizard step)
             function collapseGroup(groupClass) {
+                // Show the 2 main startHidden divs with class  showOnHeaderClick  first
+                elements = document.getElementsByClassName("showOnHeaderClick");
+                for (var i = 0; i < elements.length; i++) {
+                    elements[i].style.display = elements[i].style.display = 'block';
+                }
                 // Hide everything first
                 elements = document.getElementsByClassName("groupWizard1");
                 for (var i = 0; i < elements.length; i++) {
@@ -846,9 +908,8 @@ Solid State Relays included with box carrying most POLDs
 
 
 
-            document.getElementById("backButton").addEventListener("click", showMainPage);
-
             // FUNCTION:  Go back to form input from results page, if you want to modify more
+            document.getElementById("backButton").addEventListener("click", showMainPage);
             function showMainPage() {
 
                 // FUNCTION:  Show form
@@ -976,6 +1037,9 @@ Solid State Relays included with box carrying most POLDs
                 // Split System stuff (that we're not really using)
                 var valueSplitSystemCheck = Number(document.getElementById("checkSplitSystem").value);
                 var valueSplitSystemSelect = Number(document.getElementById("selectSplitSystem").value);
+
+                // SO#
+                var valueSoNum = Number(document.getElementById("inputSoNum").value);
 
                 // Add this group to value total
                 // TIP:  Use parseInt() or parseFloat() or Number() since it thinks these are strings and not adding properly (Number() does floats too [numbers with decimels])
@@ -1115,7 +1179,7 @@ Solid State Relays included with box carrying most POLDs
 
                 // FUNCTION:  If LDS is 0 (POLD-Only).
                 // NOTE: Accessory box is the default primary box for POLD-Only -Bryce
-                // TODO:  Don't show the accessory box if it's empty and your first box is medium shipper for 1 Insulated Pouch or something
+                // TODO:  Don't show the accessory box on results if it's empty and your first box is medium shipper for 1 Insulated Pouch or something
                 // TODO:  Maybe add:  || valueLds == '' || valueLds == 'undefined'
                 else if (valueLds == 0) {
                     //window.alert("POLD-Only system\n valueLds = " + valueLds);
@@ -1291,28 +1355,33 @@ Solid State Relays included with box carrying most POLDs
                     // FUNCTION:  List all items and what boxes they go in
                     // TODO:  Change valueLds to number/amount of LDS entered, then add valueLdsSize for each valve size?
 
-                    // TODO:  This line isn't really needed
-                    // (This string gets overwritten by the next if/else statement (outputString = ...))
+                    // Initialize the variable to a string
                     outputString = " ";
 
 
+                    // Add "SO#" header 
+                    // TODO: Add it to top of every page, in newBox sections
+                    if (valueSoNum > 0) {
+                        outputString = outputString + "<div class='text-end'><i>SO# " + valueSoNum + "</i></div>";
+                    }
+
                     // Add "Replacement" header if checkbox is checked
                     if (valueReplacement > 0) {
-                        outputString = outputString + "-- Replacement --<br><br>";
+                        outputString = outputString + "-- Replacement --<br>";
                     }
 
                     // Add "-- POLD System --" header if radio checkbox button selected
                     // SOURCE:  https://stackoverflow.com/a/1423783
                     if (document.getElementById('btnradio2').checked) {
-                        outputString = outputString + "-- POLD System --<br><br>";
+                        outputString = outputString + "-- POLD System --<br>";
                     }
                     // if (valueSystemPold > 0) {
-                    //     outputString = outputString + "-- POLD System --<br><br>";
+                    //     outputString = outputString + "-- POLD System --<br>";
                     // }
 
                     // Add "-- Accessories Only --" header if radio checkbox button selected
                     if (document.getElementById('btnradio3').checked) {
-                        outputString = outputString + "-- Accessories Only --<br><br>";
+                        outputString = outputString + "-- Accessories Only --<br>";
                     }
 
                     // Add the first box name, and current/total box numbers
@@ -1483,7 +1552,13 @@ Solid State Relays included with box carrying most POLDs
                                     boxNumber++;
                                     boxTotal++;
                                     // Add item to string to be displayed at the end for what to pack
-                                    outputString = outputString + "<br><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                                    // If there's an SO#, add it to the top of the page for each box
+                                    if (valueSoNum > 0) {
+                                        outputString = outputString + "<br><div class='newBox'><div class='soBox text-end'><i>SO# " + valueSoNum + "</i></div><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                                    }
+                                    else {
+                                        outputString = outputString + "<br><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                                    }
                                     // outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
 
                                     // HISTORY:  This breaks using the 14x14 when you have a lot of items, so I'm removing it. Medium should be working better now.
@@ -1578,7 +1653,13 @@ Solid State Relays included with box carrying most POLDs
                             boxNumber++;
                             boxTotal++;
                             // Add item to string to be displayed at the end for what to pack
-                            outputString = outputString + "<br><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                            // If there's an SO#, add it to the top of the page for each box
+                            if (valueSoNum > 0) {
+                                outputString = outputString + "<br><div class='newBox'><div class='soBox text-end'><i>SO# " + valueSoNum + "</i></div><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                            }
+                            else {
+                                outputString = outputString + "<br><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                            }
                             // outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
 
 
@@ -1619,7 +1700,13 @@ Solid State Relays included with box carrying most POLDs
                             boxNumber++;
                             boxTotal++;
                             // Add item to string to be displayed at the end for what to pack
-                            outputString = outputString + "<br><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                            // If there's an SO#, add it to the top of the page for each box
+                            if (valueSoNum > 0) {
+                                outputString = outputString + "<br><div class='newBox'><div class='soBox text-end'><i>SO# " + valueSoNum + "</i></div><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                            }
+                            else {
+                                outputString = outputString + "<br><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                            }
                             // outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
 
 
@@ -1676,7 +1763,13 @@ Solid State Relays included with box carrying most POLDs
                         boxNumber++;
                         boxTotal++;
                         // Add item to string to be displayed at the end for what to pack
-                        outputString = outputString + "<br><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                        // If there's an SO#, add it to the top of the page for each box
+                        if (valueSoNum > 0) {
+                            outputString = outputString + "<br><div class='newBox'><div class='soBox text-end'><i>SO# " + valueSoNum + "</i></div><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                        }
+                        else {
+                            outputString = outputString + "<br><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                        }
                         // outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
 
 
