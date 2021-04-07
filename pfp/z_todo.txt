@@ -2,7 +2,12 @@
 TODO
 ---
 
+Disable print button if there's only one box.
+
 Change Shipping Order Number to Sales Order Number.
+
+Maybe make SO# required if printing multiple boxes.
+
 
 Have a separate button to Save results (as pdf? csv?) for uploading to zoho? Remove the page breaks from that version, so it prints on like 1 page.
 
