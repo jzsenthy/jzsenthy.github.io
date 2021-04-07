@@ -118,6 +118,13 @@ DONE
 ---------------------------------
 
 
+3.0.9  2021-04-07 ---
+Added favicon from fontawesome and converted by realfavicongenerator.net
+
+Minor wording update to pold error alert.
+
+
+
 
 3.0.8  2021-04-07 ---
 Disable print button if there's only one box.
