@@ -551,8 +551,7 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                     </div>
                     <div class="mb-3 startHidden" id="knownIssues">
                         <!-- REFERENCE: https://stackoverflow.com/a/17711167  rel="noopener noreferrer" to prevent phishing attacks -->
-                        <a href="z_todo.txt" class="float-end mx-3" target="_blank" rel="noopener noreferrer"><i>[Known
-                                issues]</i></a>
+                        <a href="z_todo.txt" class="float-end mx-3" target="_blank" rel="noopener noreferrer"><i>[Known issues]</i></a>
                     </div>
 
 
@@ -578,7 +577,7 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
                     <!-- Version number -->
                     <!-- Text is not aligning right and idk why -->
                     <div class="mt-3">
-                        <p class="text-muted text-right"><i>Version 3.0.8</i></p>
+                        <p class="text-muted text-right"><i>Version 3.0.7</i></p>
                     </div>
 
                 </div>
@@ -1000,8 +999,8 @@ Solid State Relays included with box carrying most POLDs
 
 
             // VARIABLES:  Current box number and total number of boxes (used in the functionOnSubmit function below, but variables also referenced in the functionOnPrint function below)
-            var boxNumber;
-            var boxTotal;
+            var boxNumber = 1;
+            var boxTotal = 1;
 
 
 
@@ -1015,7 +1014,6 @@ Solid State Relays included with box carrying most POLDs
             document.getElementById("printButton").addEventListener("click", functionOnPrint);
             function functionOnPrint() {
                 // var value2SoNum = Number(document.getElementById("inputSoNum").value);
-
 
                 var idSoNum = document.getElementById("inputSoNum");
                 // Variable called value2SoNum to avoid conflict with valueSoNum in the onsubmit function (which isn't accessible here, and putting the variable outside the function might return the value before it's entered...)
@@ -1032,7 +1030,7 @@ Solid State Relays included with box carrying most POLDs
                         // window.alert("boo. \n value2SoNum = " + value2SoNum);
                         // FUNCTION:  Shows an Ok/Cancel popup
                         // SOURCE:  https://stackoverflow.com/a/9334679
-                        var answer = window.confirm("ALERT:\nSO# is required when printing labels with more than 1 box.\n\nPlease click Ok then enter Sales Order Number (SO#)");
+                        var answer = window.confirm("Alert:\nSO# is required when printing labels with more than 1 box.\nPlease click Ok then enter Sales Order Number (SO#)");
                         // If they click Ok
                         if (answer) {
                             // Go back to form
@@ -1097,10 +1095,6 @@ Solid State Relays included with box carrying most POLDs
                 // Moved to outside of this function so I can access when clicking Print, to validate if SO# is entered if printing more than one total box
                 // var boxNumber = 1;
                 // var boxTotal = 1;
-
-                // Brought them back into this function since the initial box number kept increasing every time you went back and modified and submitted again
-                boxNumber = 1;
-                boxTotal = 1;
 
 
 

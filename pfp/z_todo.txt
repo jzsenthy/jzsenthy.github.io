@@ -2,15 +2,6 @@
 TODO
 ---
 
-Disable print button if there's only one box.
-
-Change Shipping Order Number to Sales Order Number.
-
-Maybe make SO# required if printing multiple boxes.
-
-
-Have a separate button to Save results (as pdf? csv?) for uploading to zoho? Remove the page breaks from that version, so it prints on like 1 page.
-
 Keep revision number on bottom of results page
 
 Add instructions to bottom of results page (select Zebra ZP500 printer. Each box will print on it's own page. You can also save as /print to pdf if you want)
@@ -42,6 +33,8 @@ Make scrollTo work again to scroll to top from Reset button.
 ---
 MAYBE DO
 ---
+Have a separate button to Save results (as pdf? csv?) for uploading to zoho? Remove the page breaks from that version, so it prints on like 1 page.
+
 Blank out the form entries for inputs that were hidden when switching system types (like insulated pouches when switching to POLD-Only)
 
 
@@ -126,6 +119,18 @@ DONE
 
 
 
+3.0.8  2021-04-07 ---
+Disable print button if there's only one box.
+
+Change "Shipping Order Number" to "Sales Order Number".
+
+Validate if SO# exists when printing multiple boxes.
+
+Hide Known Issues link by default unless debugging is enabled (also open in new tab).
+
+
+
+
 3.0.7  2021-03-31 ---
 SO# align right (text-end) on print output.
 
@@ -138,7 +143,6 @@ Reduced width of resultsBoxContainer so SO# isn't so far right.
 Changed width of back/start over/print button containers from for better responsive layout.
 
 Changed print button from float-right to float-end.
-
 
 
 
@@ -205,6 +209,8 @@ Add page breaks on results.
 (Format print output to put each box in a 4x6 square or add page breaks if that's possible, to print on separate pages.)
 
 
+
+
 3.0.3 ---
 
 Added version number on bottom.
@@ -224,6 +230,8 @@ Made leak rope as an option to be attached to the pold by default, so they're pa
 Modified a couple point values from bryce request:
 Control Panel = 0  (changed from 1)
 Hidden Wire = 3  (changed from 4.5)
+
+
 
 
 3.0.2 ---
@@ -254,6 +262,8 @@ Align checkbox right (keeping text and div section on left)
 <input type="checkbox" class="form-check-input" id="checkHiddenWire">
 
 Include hidden wire length in results text.
+
+
 
 
 3.0.1 ---
