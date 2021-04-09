@@ -911,22 +911,22 @@ https://stackoverflow.com/questions/11476670/bootstrap-collapse-other-sections-w
 
 
                 //BOXES
-                // Shipper(19x12x7) = 12 (For .75-1.5" systems only)
+                // Standard Shipper (19x12x7) = 12 (For .75-1.5" systems only)
                 boxLds: 12,
-                // Medium Shipper(20x12x8) = 6 (Used for 2" systems or Insulated Pouch only)
+                // Medium Shipper (20x12x8) = 6 (Used for 2" systems or Insulated Pouch only)
                 boxLdsMedium: 6,
-                // 18x18x14 = 18 (Used only for 2.5" and 3" systems)
+                // Large Shipper (18x18x14) = 18 (Used only for 2.5" and 3" systems)
                 boxLdsLarge: 18,
 
-                // Panel Box(10x7x3) = 6
+                // Panel Box (10x7x3) = 6
                 boxCp: 6,
-                // 14x14x14 = 48 (Use only if EJB is included or if Point total is greater than or equal to 49)
+                // Large Accessory Box (14x14x14) = 48 (Use only if EJB is included or if Point total is greater than or equal to 49)
                 box14x14: 48,
-                // Recirc/4 hr Box(9x4x3) = 6 (Only to be used for single Recircp Pump Switch or 4hr Timer)
+                // Recirc/4 hr Box (9x4x3) = 6 (Only to be used for single Recirc Pump Switch or 4hr Timer)
                 boxRecirc: 6,
-                // Accessory Box(13x10x5) = 12
+                // Accessory Box (13x10x5) = 12
                 boxAccessories: 12,
-                // Mailer(11x9x1) = 2.5 (Use for shippments of accesory only)
+                // Bubble Mailer (11x9x1) = 2.5 (Use for shippments of accesory only)
                 bubbleMailer: 2.5,
             };
             /* 
@@ -1261,16 +1261,16 @@ Solid State Relays included with box carrying most POLDs
 
                     // FUNCTION:  Call function to build list of all items and what boxes they go in (displayed later through hidden div)
                     // Pass the box name as a function argument (list of items is returned, and stored as the variable)
-                    outputStringFunc = buildOutputString("Shipper", packingItem.boxLds);
+                    outputStringFunc = buildOutputString("Standard Shipper (19x12x7)", packingItem.boxLds);
 
                     //window.alert("you need a standard shipper box yo (19x12x7).\n totalValueTotal = " + totalValueTotal);
                 }
-                // 18x18x14 = 18 (Used only for 2.5" and 3" systems) -Bryce
+                // Large Shipper (18x18x14) = 18 (Used only for 2.5" and 3" systems) -Bryce
                 // HISTORY:  Put this above the 2" condition, so if there's a 3 inch system with insulated pouch, it doesn't put the 3" into a medium shipper
                 // (may not apply anymore since insulated pouch gets additional medium shipper instead of changing primary box)
                 else if (valueLds == 2.5 || valueLds == 3) {
                     // FUNCTION:  Call function to build list of all items and what boxes they go in (displayed later through hidden div)
-                    outputStringFunc = buildOutputString("18x18x14", packingItem.boxLdsLarge);
+                    outputStringFunc = buildOutputString("Large Shipper (18x18x14)", packingItem.boxLdsLarge);
                 }
                 // Medium Shipper(20x12x8)  (Used for 2" systems or Insulated Pouch only) -Bryce
                 // HISTORY:  Changed this to only apply to 2" system as primary box. If insulated pouch, medium shipper should be an additional box I think?
@@ -1287,12 +1287,12 @@ Solid State Relays included with box carrying most POLDs
                 else if (valueLds == 0) {
                     //window.alert("POLD-Only system\n valueLds = " + valueLds);
                     // FUNCTION:  Call function to build list of all items and what boxes they go in (displayed later through hidden div)
-                    outputStringFunc = buildOutputString("Accessory (13x10x5)", packingItem.boxAccessories);
+                    outputStringFunc = buildOutputString("Accessory Box (13x10x5)", packingItem.boxAccessories);
                 }
                 else {
                     window.alert("yo something is wrong with the LDS value.\n valueLds = " + valueLds);
                     // FUNCTION:  Call function to build list of all items and what boxes they go in (displayed later through hidden div)
-                    outputStringFunc = buildOutputString("Accessory (13x10x5)", packingItem.boxAccessories);
+                    outputStringFunc = buildOutputString("Accessory Box (13x10x5)", packingItem.boxAccessories);
                 }
 
 
@@ -1572,17 +1572,17 @@ Solid State Relays included with box carrying most POLDs
 
 
                     // The following items will fit in current box or create a new box (accessories box is default extra)
-                    // Define the accessory box as the next box to overlow items into, unless there's a junction box or total >= 49
-                    var nextBox = "Accessory (13x10x5)";
+                    // Define the accessory box as the next box to overflow items into, unless there's a junction box or total >= 49
+                    var nextBox = "Accessory Box (13x10x5)";
                     var nextBoxValue = packingItem.boxAccessories;
 
                     // HISTORY:  Medium shipper condition for insulated pouch was moved to the section where it checks if there's an insulated pouch and sends it to be packed 
                     // (otherwise the first item sent to be packed will end up in the medium shipper, instead of the insulated pouch going in there)
 
-                    // 14x14x14 = 48 (Use only if EJB is included or if point total is greater than or equal to 49) -Bryce
+                    // Large Accessory Box (14x14x14) = 48 (Use only if EJB is included or if point total is greater than or equal to 49) -Bryce
                     // This is the overflow box and not the primary box
                     if (totalValueTotal >= 49 || valueJuncBox > 0) {
-                        nextBox = "14x14x14";
+                        nextBox = "Large Accessory Box (14x14x14)";
                         nextBoxValue = packingItem.box14x14;
                     }
                     // The four hour timer box is only used if a single timer or recirc switch is sent, or it's the only overflow item,
@@ -1623,7 +1623,7 @@ Solid State Relays included with box carrying most POLDs
                             currentItemCountInBoxOfCurrentItem = 0;
 
                             while (valueCurrentItem > 0) {
-                                // Force-skipping the IF section if the current item is an insulated pouch, to force it into the overflow box
+                                // Force-skipping the IF section if the current item is an insulated pouch, to force it into the overflow box. (does this comment still apply here?)
                                 if (spaceSingleCurrentItem <= boxValueLeft) {
                                     // Reduce value of all combined items to see if you have any leftovers at the very end that never got packed
                                     totalValueCurrent = totalValueCurrent - spaceSingleCurrentItem;
@@ -1760,7 +1760,7 @@ Solid State Relays included with box carrying most POLDs
 
 
                             // Basically copied the ELSE statement from the function about to be called, 
-                            // to make sure it changes boxes to Medium Shipper before packaging and Insulated Pouch
+                            // to make sure it changes boxes to Medium Shipper before packaging an Insulated Pouch
                             // since that's apparently the only box it fits in.
                             // But removed the parts about packing an item. (just showing the new box title)
 
@@ -1787,7 +1787,7 @@ Solid State Relays included with box carrying most POLDs
                             putInBox(valueRecirc, packingItem.recirc, totalValueRecirc, "Recirc Pump Switch");
 
                             // Reset nextBox back to accessory box for other items
-                            nextBox = "Accessory (13x10x5)";
+                            nextBox = "Accessory Box (13x10x5)";
                             nextBoxValue = packingItem.boxAccessories;
                         }
                         // Otherwise pack it as normal
@@ -1808,7 +1808,7 @@ Solid State Relays included with box carrying most POLDs
 
 
                             // Basically copied the ELSE statement from the function about to be called, 
-                            // to make sure it changes boxes to Medium Shipper before packaging and Insulated Pouch
+                            // to make sure it changes boxes to Medium Shipper before packaging an Insulated Pouch
                             // since that's apparently the only box it fits in.
                             // But removed the parts about packing an item. (just showing the new box title)
 
@@ -1834,7 +1834,7 @@ Solid State Relays included with box carrying most POLDs
                             putInBox(valueFourHour, packingItem.fourHour, totalValueFourHour, "Four Hour Timer");
 
                             // Reset nextBox back to accessory box for other items
-                            nextBox = "Accessory (13x10x5)";
+                            nextBox = "Accessory Box (13x10x5)";
                             nextBoxValue = packingItem.boxAccessories;
                         }
                         // Otherwise pack it as normal
@@ -1849,16 +1849,16 @@ Solid State Relays included with box carrying most POLDs
 
                     // Pack  Junction Box
                     if (valueJuncBox > 0) {
-                        // 14x14x14 = 48 (Use only if EJB is included or if Point total is greater than or equal to 49) -Bryce
+                        // Large Accessory Box (14x14x14) = 48 (Use only if EJB is included or if Point total is greater than or equal to 49) -Bryce
                         // Might need to reset it back to accessory box afterward
-                        nextBox = "14x14x14";
+                        nextBox = "Large Accessory Box (14x14x14)";
                         nextBoxValue = packingItem.box14x14;
 
                         // Pack the item (call the function)
                         putInBox(valueJuncBox, packingItem.juncBox, totalValueJuncBox, "Junction Box");
 
                         // Reset nextBox back to accessory box for other items
-                        nextBox = "Accessory (13x10x5)";
+                        nextBox = "Accessory Box (13x10x5)";
                         nextBoxValue = packingItem.boxAccessories;
                     }
 
@@ -1897,7 +1897,7 @@ Solid State Relays included with box carrying most POLDs
                         putInBox(valueInsulPouch, packingItem.insulPouch, totalValueInsulPouch, "Insulated Pouch");
 
                         // Reset nextBox back to accessory box for other items
-                        nextBox = "Accessory (13x10x5)";
+                        nextBox = "Accessory Box (13x10x5)";
                         nextBoxValue = packingItem.boxAccessories;
                     }
 
