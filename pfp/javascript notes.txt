@@ -53,11 +53,11 @@ git revert <bad-commit-sha1-id> git push origin
 
 
 GITHUB
-What you want is to either do a git commit --amend to modify your old commit if you've not already created a fresh commit with your changes.
+What you want is to either do a git commit --amend to modify your old commit if you've not already created a fresh commit with your changes.  (didn't work)
 
-If you've already created a fresh commit, you'll want to use git rebase -i to squash your commit on top of the old one.
+If you've already created a fresh commit, you'll want to use git rebase -i to squash your commit on top of the old one.  (didn't work)
 
-After you've made this change locally, and verified your commit looks the way you want it to, you'll have to git push --force to overwrite history on the Github remote.
+After you've made this change locally, and verified your commit looks the way you want it to, you'll have to git push --force to overwrite history on the Github remote.  (didn't work)
 https://stackoverflow.com/a/35543613/1263035
 
 

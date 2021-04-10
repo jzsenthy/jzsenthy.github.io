@@ -81,7 +81,7 @@ else {
 
 
 
-
+Add weights (reference jesse's list?).
 
 
 
