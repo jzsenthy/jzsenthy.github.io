@@ -19,10 +19,16 @@ https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome
 
 
 
-If global variable is not working within a function, it's because you're modifying the variable within the function, which creates a duplicate variable, overwriting the global variable.
+If global variable is not working within a function, 
+it's because you're redeclaring a variable inside a function with  var variable = value;
+instead of just  variable = value;
+(only do  var variable  once in your code).
+
+// old, no:
+because you're modifying the variable within the function, which creates a duplicate variable, overwriting the global variable.
 I can't find a way to access and modify the global variable within a function (this.variable doesn't work, redefining at the top doesn't work).
 You just have to use a different variable (don't declare with var or modify the global one within a function), or you have to initialize it to the value you want within the function instead of outside it.
-
+--
 Oh maybe it's not working correctly because I defined it in a function upon submit?:
 document.getElementById("finalSubmitButton").addEventListener("click", function () {
 
@@ -123,6 +129,12 @@ Multi-line comments start with /* and end with */
 // Add this line to add a breakpoint:
 debugger
 
+
+
+
+If you get a  "Declaration or statement expected"  error on an  else if  statement, it's because you made a statement above it,
+in between the  if  and  else if. You can't do things in between if and else. (throw your variable declarations etc above them).
+(window.alerts won't work in between if/else statements either).
 
 
 
@@ -445,6 +457,67 @@ Comparing Different Types
 
 
 
+
+
+
+
+
+
+
+
+
+BOOTSTRAP MARGIN/PADDING (mb-0 mb-5 mx-3):
+https://stackoverflow.com/a/50250902
+
+
+Bootstrap has a wide range of responsive margin and padding utility classes. They work for all breakpoints:
+
+xs (<=576px), sm (>=576px), md (>=768px), lg (>=992px) or xl (>=1200px))
+
+The classes are used in the format:
+
+{property}{sides}-{size} for xs & {property}{sides}-{breakpoint}-{size} for sm, md, lg, and xl.
+
+m - sets margin
+
+p - sets padding
+
+---
+
+t - sets margin-top or padding-top
+
+b - sets margin-bottom or padding-bottom
+
+l - sets margin-left or padding-left
+
+r - sets margin-right or padding-right
+
+x - sets both padding-left and padding-right or margin-left and margin-right
+
+y - sets both padding-top and padding-bottom or margin-top and margin-bottom
+
+blank - sets a margin or padding on all 4 sides of the element
+
+---
+
+0 - sets margin or padding to 0
+
+1 - sets margin or padding to .25rem (4px if font-size is 16px)
+
+2 - sets margin or padding to .5rem (8px if font-size is 16px)
+
+3 - sets margin or padding to 1rem (16px if font-size is 16px)
+
+4 - sets margin or padding to 1.5rem (24px if font-size is 16px)
+
+5 - sets margin or padding to 3rem (48px if font-size is 16px)
+
+auto - sets margin to auto
+
+
+See more at Bootstrap 4.5 - Spacing   https://getbootstrap.com/docs/4.5/utilities/spacing/
+
+Read more in w3schools   https://www.w3schools.com/bootstrap4/bootstrap_utilities.asp
 
 
 

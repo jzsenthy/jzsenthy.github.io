@@ -32,7 +32,8 @@ else if ((currentTotal - packingItem.juncBox) <= (packingItem.box14x14 - packing
 
 //////////////// THIS
 
-// actually we won't have a negative value because the juncBoxes are all added to the total
+// Change rules to prevent 2 14x14s when packing EJB with second mostly empty.
+// (actually we won't have a negative value because the juncBoxes are all added to the total, so using totalJuncBoxValue should work)
 
 // This should pack juncBox plus up to 12pt of accessories in a 14x14.
 // Run once standard shipper is filled,
@@ -44,15 +45,15 @@ if (valueJuncBox >= 1) {
 	// TODO:  Make sure the subtraction on the left is working as expected
 	// This should allow packing up to 12pt of accessories in a 14x14 plus a juncBox
 	if ((currentTotal - totalJuncBoxValue - totalInsulPouchValue) <= (packingItem.box14x14 - packingItem.juncBox) {
-		nextBox = box14x14;
+		nextBox = packingItem.box14x14;
 	}
 	// or if the total accessories (minus juncBox and insulPouch) are greater than or equal to 3 accessory boxes, then pack in a 14x14 instead
 	// TODO:  Make sure the subtraction on the left is working as expected
 	else if ((currentTotal - totalJuncBoxValue - totalInsulPouchValue) >= (packingItem.boxAccessories * 3) {
-		nextBox = box14x14;
+		nextBox = packingItem.box14x14;
 	}
 	else {
-		nextBox = boxAccessories;
+		nextBox = packingItem.boxAccessories;
 		// or no change. return or do nothing, whatever
 	}
 }
@@ -60,10 +61,10 @@ if (valueJuncBox >= 1) {
 // TODO:  Make sure the subtraction on the left is working as expected
 // or if the total accessories (minus juncBox and insulPouch) are greater than or equal to 3 accessory boxes, then pack in a 14x14 instead
 else if ((currentTotal - totalJuncBoxValue - totalInsulPouchValue) >= (packingItem.boxAccessories * 3) {
-	nextBox = box14x14;
+	nextBox = packingItem.box14x14;
 }
 else {
-	nextBox = boxAccessories;
+	nextBox = packingItem.boxAccessories;
 	// or no change. return or do nothing, whatever
 }
 
@@ -202,6 +203,16 @@ Show up/down number buttons by default, before entering anything?
 ---------------------------------
 DONE
 ---------------------------------
+
+
+3.0.11  2021-04-12 ---
+Added special cases within packing function, after it finishes packing a box, to check if it just packed an LDS box, then tries to pack a 14x14 first (to avoid cases where a 14x14 is called because a junction box is present but only a few accessories get packed in it first then it picks another 14x14 for junction box, resulting in bigger boxes than needed). 
+(I think it's also running after packing an accessory box since it has the same value as the standard lds box (12), but I think it's working better that way in the few cases I've tested so I'm leaving it lol...)
+
+Reordered some form items (API before POLD, to reflect packing order and improve layout. SO# at end since it's not required).
+
+Fixed some form spacing, added "Extra Info" section title, added some code comments.
+
 
 
 
