@@ -209,9 +209,10 @@ DONE
 Added special cases within packing function, after it finishes packing a box, to check if it just packed an LDS box, then tries to pack a 14x14 first (to avoid cases where a 14x14 is called because a junction box is present but only a few accessories get packed in it first then it picks another 14x14 for junction box, resulting in bigger boxes than needed). 
 (I think it's also running after packing an accessory box since it has the same value as the standard lds box (12), but I think it's working better that way in the few cases I've tested so I'm leaving it lol...)
 
-Reordered some form items (API before POLD, to reflect packing order and improve layout. SO# at end since it's not required).
+Reordered some form items (API before POLD, to reflect packing order and improve layout. SO# at end since it's not required unless printing labels for multiple boxes, which is probably rare).
 
 Fixed some form spacing, added "Extra Info" section title, added some code comments.
+
 
 
 
