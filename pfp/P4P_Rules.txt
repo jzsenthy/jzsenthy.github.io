@@ -15,7 +15,7 @@ Insulated Pouch = 6 (Defaults to an additional Medium Shipper)
 Boxes Point total:
 Shipper (19x12x7) = 12 (For .75-1.5" systems only)
 Panel Box (10x7x3) = 6
-Recirc/4 hr Box (9x4x3) = 6 (Only to be used for single Recircp Pump Switch or 4hr Timer)
+Recirc/4 hr Box (9x4x3) = 6 (Only to be used for single Recirc Pump Switch or 4hr Timer)
 Accessory Box (13x10x5) = 12
 Mailer (11x9x1) = 2.5 (Use for shipments of accesory only)
 Medium Shipper (20x12x8) = 6 (Used for 2" systems or Insulated Pouch only)
@@ -27,6 +27,101 @@ Panel, SCV, Hidden Wire and Pam1 always in Box 1
 1. API
 2. POLD
 3. Recirc Pump Switch
-4. 4hr Time
+4. 4hr Timer
 5. Enclosures (Pouch + EJB)
 Solid State Relays included with box carrying most POLDs
+
+
+
+-------------------------------
+
+Name changes proposed:
+
+Boxes Point total:
+Standard Shipper (19x12x7) = 12 (For .75-1.5" systems only)
+Panel Box (10x7x3) = 6
+Recirc/4 hr Box (9x4x3) = 6 (Only to be used for single Recirc Pump Switch or 4hr Timer)
+Accessory Box (13x10x5) = 12
+Bubble Mailer (11x9x1) = 2.5 (Use for shipments of accesory only)
+Medium Shipper (20x12x8) = 6 (Used for 2" systems or Insulated Pouch only)
+Large Shipper (18x18x14) = 18 (Used only for 2.5" and 3" systems)
+Large Accessory Box (14x14x14) = 48 (Use only if EJB is included or if Point total is greater than or equal to 49)
+
+------------------------------------------------------------
+	
+	
+	
+
+
+
+
+------------------------------------------------------------
+Hmm this is a bit complicated. I'm looking at why it's turning out that way, from using the conditions provided:
+
+It looks like it's properly choosing the 14x14x14 based on the rules defined:
+  "14x14x14 (Use only if EJB is included or if Point total is greater than or equal to 49)"
+  
+Both of those conditions apply, so it chooses a 14x14x14 as the next box after the shipper is full,
+then it packs the items in the order of priority:
+
+Panel, SCV, Hidden Wire and Pam1 always in Box 1
+1. API
+2. POLD
+3. Recirc Pump Switch
+4. 4hr Timer
+5. Enclosures (Pouch + EJB)
+
+Unfortunately that means the smaller items are packed first in the 14x14x14 and the largest items are tried to be packed last (once there's no room left for them in the box), so it has to add another 14x14x14.
+
+
+Possible solutions I’m trying to think of:
+
+Reversing the priority so it packs the largest items first would seem like a solution, but then we'd be trying to pack large items in the shipper, which wouldn't work, so we'd miss out on packing APIs and POLDs in the shipper.
+
+We could maybe prioritize the large items first, only after the shipper is full, but then we'd have leftovers from API or POLD we'd have to keep track of and come back to, to pack later, instead of packing all of one item type throughout boxes until there’s 0 left of that item type (how I’m currently doing it). 
+That would make things complicated, having to run through each item type at least twice, have extra variables to store leftover devices to be packed later, and make sure we don’t miss anything. 
+
+I might be able to set it up like how the insulated pouch is, where it only goes into a specific box with nothing else. But for the junction box that seems like it would be wasting partially empty box space that could also be used for other accessories in a lot of scenarios.
+
+I might be able to configure it to evaluate the value of items left before packing an item and switching to a 14x14x14 only if there are 36 or more points left, but that would actually end up with the exact same scenario where it packs some accessories in a 14x14 then the junction box in another 14x14… 
+
+If you had it only pack things in a 14x14 if there were 36 or less points left then we’d run into the same scenario as well.
+
+If you had it only use a 14x14 if it’s packing 36 or more points of accessories, minus the junction box (and insulated pouch) values, (plus specifically pack EJB in a 14x14) then that may solve the issue of using a 14x14 for only a few accessories.
+
+If you think that last solution would be a good rule to use then I’ll have to see if there’s a good way to do that.
+
+
+(actually we're gonna have to do more than that otherwise we're gonna have situations where we have a couple items in an accessory box and then just a junction box in a 14x14, when they could've gone together.)
+(I'm gonna try to make if statements to cover both scenarios)
+
+
+------------------------
+
+// firstBox
+if (lds == 1.00) {
+	firstBox = shipper;
+	// fill firstBox until it's full, then move to nextBox
+}
+	
+	
+// nextBox
+if (EJB is present or total points of shipment is >= 49) {
+	nextBox = 14x14x14
+}
+
+else {
+	nextBox = accessoryBox;
+	// This is the default box unless special cases apply like above, which change the nextBox to something else
+}
+
+
+Pack in this order:
+
+Panel, SCV, Hidden Wire and Pam1 always in Box 1
+1. API
+2. POLD
+3. Recirc Pump Switch
+4. 4hr Time
+5. Enclosures (Pouch + EJB)
+

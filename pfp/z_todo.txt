@@ -1,9 +1,95 @@
 ---
 TODO
 ---
-Have a separate button to Save results (as pdf? csv?) for uploading to zoho? Remove the page breaks from that version, so it prints on like 1 page.
 
-Keep revision number on bottom of results page
+
+// ignore this version
+Change rules to prevent 2 14x14s when packing EJB with second mostly empty.
+Only use a 14x14 if it’s packing 36 or more points of accessories, minus the junction box (and insulated pouch) values, (plus specifically pack EJB in a 14x14) then that may solve the issue of using a 14x14 for only a few accessories.
+Move the logic from outside of the itempacking function into an if statement before it packs an item, so it leaves the default as an accessory box, then only changes the nextBox to a 14x14 before packing more than 36pt items minus the juncBox and pouch (and/or if it's packing a juncBox), then switch it back to accessory box.
+Actually this will call for an accessory box for 2 items, then a 14x14 for a juncbox, when they could've fit in the same box.
+
+// This should pack juncBox plus up to 12pt of accessories in a 14x14
+after standard shipper is filled,
+if (number of accessories minus ejb and pouch is less than 14x14 space (48) - ejb space (36) (i.e. if currentTotal - totalJuncBoxValue <= 12) nextBox = 14x14
+// what happens if we have multiple juncBox though...
+// we could have a negative result for the left side of the if statement.
+
+
+// how about just seeing if we have 1 or more juncBox present first:
+if (valueJuncBox >= 1) {
+	// then subtracing the value of one juncBox from the currentTotal, and see if it's less than the space remaining in a 14x14 after packing a juncBox:
+	if ((currentTotal - packingItem.juncBox) <= (packingItem.box14x14 - packingItem.juncBox) {
+		nextBox = 14x14;
+	}
+}
+else if ((currentTotal - packingItem.juncBox) <= (packingItem.box14x14 - packingItem.juncBox) {
+	nextBox = 14x14;
+}
+
+
+
+
+//////////////// THIS
+
+// Change rules to prevent 2 14x14s when packing EJB with second mostly empty.
+// (actually we won't have a negative value because the juncBoxes are all added to the total, so using totalJuncBoxValue should work)
+
+// This should pack juncBox plus up to 12pt of accessories in a 14x14.
+// Run once standard shipper is filled,
+
+// See if we have 1 or more juncBox present first:
+if (valueJuncBox >= 1) {
+	// then subtracing the value of the juncBoxes and insulPouches from the currentTotal (since we're only worried about the other accessories that will be packed in this box), 
+	// and see if it's less than the space remaining in a 14x14 after packing a juncBox:
+	// TODO:  Make sure the subtraction on the left is working as expected
+	// This should allow packing up to 12pt of accessories in a 14x14 plus a juncBox
+	if ((currentTotal - totalJuncBoxValue - totalInsulPouchValue) <= (packingItem.box14x14 - packingItem.juncBox) {
+		nextBox = packingItem.box14x14;
+	}
+	// or if the total accessories (minus juncBox and insulPouch) are greater than or equal to 3 accessory boxes, then pack in a 14x14 instead
+	// TODO:  Make sure the subtraction on the left is working as expected
+	else if ((currentTotal - totalJuncBoxValue - totalInsulPouchValue) >= (packingItem.boxAccessories * 3) {
+		nextBox = packingItem.box14x14;
+	}
+	else {
+		nextBox = packingItem.boxAccessories;
+		// or no change. return or do nothing, whatever
+	}
+}
+// Duplicated from above, since it applies whether or not there's no juncBox
+// TODO:  Make sure the subtraction on the left is working as expected
+// or if the total accessories (minus juncBox and insulPouch) are greater than or equal to 3 accessory boxes, then pack in a 14x14 instead
+else if ((currentTotal - totalJuncBoxValue - totalInsulPouchValue) >= (packingItem.boxAccessories * 3) {
+	nextBox = packingItem.box14x14;
+}
+else {
+	nextBox = packingItem.boxAccessories;
+	// or no change. return or do nothing, whatever
+}
+
+
+
+
+
+
+// ignore this version
+(Maybe make it work like the pouch.)
+(Also only use 14x14x14 first if totalValueTotal >= 49 (or 36) minus the juncBox.)
+(If accessories don't equal or exceed 36 points minus juncBox & insulPouch, Keep accessory box as primary nextBox, and just force the juncBox in a 14x14? )
+(no that won't work because it's already doing that kinda and gonna waste space if you could fit 12 points of accessories in the 14x14 with it).)
+
+
+
+
+Add weights (reference jesse's list?).
+
+
+
+
+
+
+Keep revision number on bottom of results page, so i can see it in screenshots of issues (may not be useful since issues are being sent through saving the printout as pdf).
 
 Add instructions to bottom of results page (select Zebra ZP500 printer. Each box will print on it's own page. You can also save as /print to pdf if you want)
 
@@ -34,6 +120,8 @@ Make scrollTo work again to scroll to top from Reset button.
 ---
 MAYBE DO
 ---
+Have a separate button to Save results (as pdf? csv?) for uploading to zoho? Remove the page breaks from that version, so it prints on like 1 page.
+
 Blank out the form entries for inputs that were hidden when switching system types (like insulated pouches when switching to POLD-Only)
 
 
@@ -117,11 +205,57 @@ DONE
 ---------------------------------
 
 
+3.0.11  2021-04-12 ---
+Added special cases within packing function, after it finishes packing a box, to check if it just packed an LDS box, then tries to pack a 14x14 first (to avoid cases where a 14x14 is called because a junction box is present but only a few accessories get packed in it first then it picks another 14x14 for junction box, resulting in bigger boxes than needed). 
+(I think it's also running after packing an accessory box since it has the same value as the standard lds box (12), but I think it's working better that way in the few cases I've tested so I'm leaving it lol...)
+
+Reordered some form items (API before POLD, to reflect packing order and improve layout. SO# at end since it's not required unless printing labels for multiple boxes, which is probably rare).
+
+Fixed some form spacing, added "Extra Info" section title, added some code comments.
+
+
+
+
+
+3.0.10  2021-04-08 ---
+Changed box names to a standardized format to sync up terms with upstairs/fedex and downstairs/warehouse, to:
+
+Standard Shipper (19x12x7) = 12 (For .75-1.5" systems only)
+Medium Shipper (20x12x8) = 6 (Used for 2" systems or Insulated Pouch only)
+Large Shipper (18x18x14) = 18 (Used only for 2.5" and 3" systems)
+Bubble Mailer (11x9x1) = 2.5 (Use for shipments of accesory only)
+Panel Box (10x7x3) = 6
+Recirc/4 hr Box (9x4x3) = 6 (Only to be used for single Recirc Pump Switch or 4hr Timer)
+Accessory Box (13x10x5) = 12
+Large Accessory Box (14x14x14) = 48 (Use only if EJB is included or if Point total is greater than or equal to 49)
+
+
+
+
+3.0.9  2021-04-07 ---
+Added favicon from fontawesome and converted by realfavicongenerator.net
+
+Minor wording update to pold error alert.
+
+
+
+
+3.0.8  2021-04-07 ---
+Disable print button if there's only one box.
+
+Change "Shipping Order Number" to "Sales Order Number".
+
+Validate if SO# exists when printing multiple boxes.
+
+Hide Known Issues link by default unless debugging is enabled (also open in new tab).
+
+
+
 
 3.0.7  2021-03-31 ---
 SO# align right (text-end) on print output.
 
-Hide SO# on additional pages from user display, unless you print it.
+Hide SO# on additional pages from user display, until you print it.
 
 Remove a line break from print headers like SO#, Replacement, POLD System, Accessories Only.
 
@@ -134,11 +268,10 @@ Changed print button from float-right to float-end.
 
 
 
-
 3.0.6  2021-03-31 ---
 Added SO# entry box on top (to keep track of multiple pages together, and matching printed labels to packing lists etc).
 
-Added SO# to each page of print output (not showing if blank).
+Added SO# to each page of print output (not required and not showing if blank).
 
 Defaulting everything to hidden on page load, until system type is selected. (so people won't ignore those buttons, which are used for logic).
 (Added 2 new divs to wrap the whole form--besides header buttons--and footer to be hidden by default)
@@ -147,8 +280,8 @@ System: LDS  no longer auto-selected by default on page load.
 
 Added short instruction text visible on page load.
 
-Changed which form entries are visible with different system selections.
-(Hide more acessories if POLD-Only is selected? (API, Recirc, FourHour, SSR, PAM-1, Junction, Insulated)?)
+Changed which form entries are visible with different system selections, from Bryce’s feedback.
+(Hide more acessories if POLD-Only is selected? (Junction Box, Insulated Pouch and 4hr timer should be hidden, I’m thinking Recirc Pump Switch too. -Bryce))
 
 Minor other tweaks like margins and comments.
 
@@ -162,7 +295,7 @@ Changed negative margin to 0 margin, because it works in every browser.
 (TEST PRINTING IN IE/EDGE. That might be the real exception needed, not firefox. Use negative margin if Edge, otherwise 0 print page margin to hide default added header/footer on print.
 Firefox printing centered, with a narrow word wrap area. Might have to reset page size setting or something. Or maybe i have to define my div larger.) 
 
-Changed div margin to padding to fix black padding issue.
+Changed div margin to padding to fix black padding issue on print.
 
 Added more CSS target divs to force dark mode to light mode for print.
 
@@ -197,6 +330,8 @@ Add page breaks on results.
 (Format print output to put each box in a 4x6 square or add page breaks if that's possible, to print on separate pages.)
 
 
+
+
 3.0.3 ---
 
 Added version number on bottom.
@@ -216,6 +351,8 @@ Made leak rope as an option to be attached to the pold by default, so they're pa
 Modified a couple point values from bryce request:
 Control Panel = 0  (changed from 1)
 Hidden Wire = 3  (changed from 4.5)
+
+
 
 
 3.0.2 ---
@@ -246,6 +383,8 @@ Align checkbox right (keeping text and div section on left)
 <input type="checkbox" class="form-check-input" id="checkHiddenWire">
 
 Include hidden wire length in results text.
+
+
 
 
 3.0.1 ---
