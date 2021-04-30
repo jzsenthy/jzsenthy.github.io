@@ -1,0 +1,8 @@
+MODEL   PIPE Size   PROBE Size   Actuator
+075         ¾"		S	  VB015
+100         1"		S	  VB015
+125         1¼"		S	  VB015
+150         1½"		L	  VB015
+200         2"		L	  VB030
+250         2½"		L	  VB060
+300         3"		L	  VB060

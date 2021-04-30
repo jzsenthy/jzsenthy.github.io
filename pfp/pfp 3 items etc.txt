@@ -56,7 +56,7 @@ var packingItem = {
 	boxCp		:	6,
 	// 14x14x14 = 48 (Use only if EJB is included or if Point total is greater than or equal to 49)
 	box14x14	:	48,
-	// Recirc/4 hr Box(9x4x3) = 6 (Only to be used for single Recircp Pump Switch or 4hr Timer)
+	// Recirc/4 hr Box(9x4x3) = 6 (Only to be used for single Recirc Pump Switch or 4hr Timer)
 	boxRecirc	:	6,
 	// Accessory Box(13x10x5) = 12
 	boxAccessories	:	12,

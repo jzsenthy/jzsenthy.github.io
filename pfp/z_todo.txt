@@ -2,86 +2,18 @@
 TODO
 ---
 
+changed:
+line 644  add 5
+add    </div> at 616
+remove variables at 1159
+	
+	
+// TODO:  Find a way to show the weight at the end, without having to start packing another box
 
-// ignore this version
-Change rules to prevent 2 14x14s when packing EJB with second mostly empty.
-Only use a 14x14 if it’s packing 36 or more points of accessories, minus the junction box (and insulated pouch) values, (plus specifically pack EJB in a 14x14) then that may solve the issue of using a 14x14 for only a few accessories.
-Move the logic from outside of the itempacking function into an if statement before it packs an item, so it leaves the default as an accessory box, then only changes the nextBox to a 14x14 before packing more than 36pt items minus the juncBox and pouch (and/or if it's packing a juncBox), then switch it back to accessory box.
-Actually this will call for an accessory box for 2 items, then a 14x14 for a juncbox, when they could've fit in the same box.
+Fix weights calculating wrong. Probably multiplying or not resetting or something
+	
 
-// This should pack juncBox plus up to 12pt of accessories in a 14x14
-after standard shipper is filled,
-if (number of accessories minus ejb and pouch is less than 14x14 space (48) - ejb space (36) (i.e. if currentTotal - totalJuncBoxValue <= 12) nextBox = 14x14
-// what happens if we have multiple juncBox though...
-// we could have a negative result for the left side of the if statement.
-
-
-// how about just seeing if we have 1 or more juncBox present first:
-if (valueJuncBox >= 1) {
-	// then subtracing the value of one juncBox from the currentTotal, and see if it's less than the space remaining in a 14x14 after packing a juncBox:
-	if ((currentTotal - packingItem.juncBox) <= (packingItem.box14x14 - packingItem.juncBox) {
-		nextBox = 14x14;
-	}
-}
-else if ((currentTotal - packingItem.juncBox) <= (packingItem.box14x14 - packingItem.juncBox) {
-	nextBox = 14x14;
-}
-
-
-
-
-//////////////// THIS
-
-// Change rules to prevent 2 14x14s when packing EJB with second mostly empty.
-// (actually we won't have a negative value because the juncBoxes are all added to the total, so using totalJuncBoxValue should work)
-
-// This should pack juncBox plus up to 12pt of accessories in a 14x14.
-// Run once standard shipper is filled,
-
-// See if we have 1 or more juncBox present first:
-if (valueJuncBox >= 1) {
-	// then subtracing the value of the juncBoxes and insulPouches from the currentTotal (since we're only worried about the other accessories that will be packed in this box), 
-	// and see if it's less than the space remaining in a 14x14 after packing a juncBox:
-	// TODO:  Make sure the subtraction on the left is working as expected
-	// This should allow packing up to 12pt of accessories in a 14x14 plus a juncBox
-	if ((currentTotal - totalJuncBoxValue - totalInsulPouchValue) <= (packingItem.box14x14 - packingItem.juncBox) {
-		nextBox = packingItem.box14x14;
-	}
-	// or if the total accessories (minus juncBox and insulPouch) are greater than or equal to 3 accessory boxes, then pack in a 14x14 instead
-	// TODO:  Make sure the subtraction on the left is working as expected
-	else if ((currentTotal - totalJuncBoxValue - totalInsulPouchValue) >= (packingItem.boxAccessories * 3) {
-		nextBox = packingItem.box14x14;
-	}
-	else {
-		nextBox = packingItem.boxAccessories;
-		// or no change. return or do nothing, whatever
-	}
-}
-// Duplicated from above, since it applies whether or not there's no juncBox
-// TODO:  Make sure the subtraction on the left is working as expected
-// or if the total accessories (minus juncBox and insulPouch) are greater than or equal to 3 accessory boxes, then pack in a 14x14 instead
-else if ((currentTotal - totalJuncBoxValue - totalInsulPouchValue) >= (packingItem.boxAccessories * 3) {
-	nextBox = packingItem.box14x14;
-}
-else {
-	nextBox = packingItem.boxAccessories;
-	// or no change. return or do nothing, whatever
-}
-
-
-
-
-
-
-// ignore this version
-(Maybe make it work like the pouch.)
-(Also only use 14x14x14 first if totalValueTotal >= 49 (or 36) minus the juncBox.)
-(If accessories don't equal or exceed 36 points minus juncBox & insulPouch, Keep accessory box as primary nextBox, and just force the juncBox in a 14x14? )
-(no that won't work because it's already doing that kinda and gonna waste space if you could fit 12 points of accessories in the 14x14 with it).)
-
-
-
-
+2 insul pouches have an empty accessory box first.
 Add weights (reference jesse's list?).
 
 
@@ -493,3 +425,90 @@ Add dark mode.
 Add vertical spacing/padding/gutter/gap between div elements.
 
 Change accordians to rows that start hidden until you click a button, so its one seamless block. (Just have many blocks already created, and only show the relevant ones as you press buttons.
+
+
+
+
+
+
+
+
+
+
+(packing exceptions added in v3.0.11  2021-04-12)
+// ignore this version
+Change rules to prevent 2 14x14s when packing EJB with second mostly empty.
+Only use a 14x14 if it’s packing 36 or more points of accessories, minus the junction box (and insulated pouch) values, (plus specifically pack EJB in a 14x14) then that may solve the issue of using a 14x14 for only a few accessories.
+Move the logic from outside of the itempacking function into an if statement before it packs an item, so it leaves the default as an accessory box, then only changes the nextBox to a 14x14 before packing more than 36pt items minus the juncBox and pouch (and/or if it's packing a juncBox), then switch it back to accessory box.
+Actually this will call for an accessory box for 2 items, then a 14x14 for a juncbox, when they could've fit in the same box.
+
+// This should pack juncBox plus up to 12pt of accessories in a 14x14
+after standard shipper is filled,
+if (number of accessories minus ejb and pouch is less than 14x14 space (48) - ejb space (36) (i.e. if currentTotal - totalJuncBoxValue <= 12) nextBox = 14x14
+// what happens if we have multiple juncBox though...
+// we could have a negative result for the left side of the if statement.
+
+
+// how about just seeing if we have 1 or more juncBox present first:
+if (valueJuncBox >= 1) {
+	// then subtracing the value of one juncBox from the currentTotal, and see if it's less than the space remaining in a 14x14 after packing a juncBox:
+	if ((currentTotal - packingItem.juncBox) <= (packingItem.box14x14 - packingItem.juncBox) {
+		nextBox = 14x14;
+	}
+}
+else if ((currentTotal - packingItem.juncBox) <= (packingItem.box14x14 - packingItem.juncBox) {
+	nextBox = 14x14;
+}
+
+
+
+
+//////////////// THIS
+
+// Change rules to prevent 2 14x14s when packing EJB with second mostly empty.
+// (actually we won't have a negative value because the juncBoxes are all added to the total, so using totalJuncBoxValue should work)
+
+// This should pack juncBox plus up to 12pt of accessories in a 14x14.
+// Run once standard shipper is filled,
+
+// See if we have 1 or more juncBox present first:
+if (valueJuncBox >= 1) {
+	// then subtracing the value of the juncBoxes and insulPouches from the currentTotal (since we're only worried about the other accessories that will be packed in this box), 
+	// and see if it's less than the space remaining in a 14x14 after packing a juncBox:
+	// TODO:  Make sure the subtraction on the left is working as expected
+	// This should allow packing up to 12pt of accessories in a 14x14 plus a juncBox
+	if ((currentTotal - totalJuncBoxValue - totalInsulPouchValue) <= (packingItem.box14x14 - packingItem.juncBox) {
+		nextBox = packingItem.box14x14;
+	}
+	// or if the total accessories (minus juncBox and insulPouch) are greater than or equal to 3 accessory boxes, then pack in a 14x14 instead
+	// TODO:  Make sure the subtraction on the left is working as expected
+	else if ((currentTotal - totalJuncBoxValue - totalInsulPouchValue) >= (packingItem.boxAccessories * 3) {
+		nextBox = packingItem.box14x14;
+	}
+	else {
+		nextBox = packingItem.boxAccessories;
+		// or no change. return or do nothing, whatever
+	}
+}
+// Duplicated from above, since it applies whether or not there's no juncBox
+// TODO:  Make sure the subtraction on the left is working as expected
+// or if the total accessories (minus juncBox and insulPouch) are greater than or equal to 3 accessory boxes, then pack in a 14x14 instead
+else if ((currentTotal - totalJuncBoxValue - totalInsulPouchValue) >= (packingItem.boxAccessories * 3) {
+	nextBox = packingItem.box14x14;
+}
+else {
+	nextBox = packingItem.boxAccessories;
+	// or no change. return or do nothing, whatever
+}
+
+
+
+
+
+// ignore this version
+(Maybe make it work like the pouch.)
+(Also only use 14x14x14 first if totalValueTotal >= 49 (or 36) minus the juncBox.)
+(If accessories don't equal or exceed 36 points minus juncBox & insulPouch, Keep accessory box as primary nextBox, and just force the juncBox in a 14x14? )
+(no that won't work because it's already doing that kinda and gonna waste space if you could fit 12 points of accessories in the 14x14 with it).)
+
+

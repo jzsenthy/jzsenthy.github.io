@@ -1091,8 +1091,8 @@ Solid State Relays included with box carrying most POLDs
         var boxNumber;
         var boxTotal;
 
-        var weightCurrentBox = 0;
-        var weightTotal = 0;
+        var weightCurrentBox;
+        var weightTotal;
 
 
 
@@ -1157,9 +1157,9 @@ Solid State Relays included with box carrying most POLDs
 
 
 
-
-
-
+        // Testing if this fixes my issue with fetching variable name from value
+        var valueInsulPouch;
+        var totalValueInsulPouch;
 
 
 
@@ -1242,7 +1242,7 @@ Solid State Relays included with box carrying most POLDs
             var valueSsr = Number(document.getElementById("inputSsr").value);
             var valuePam1 = Number(document.getElementById("inputPam1").value);
             var valueJuncBox = Number(document.getElementById("inputJuncBox").value);
-            var valueInsulPouch = Number(document.getElementById("inputInsulPouch").value);
+            valueInsulPouch = Number(document.getElementById("inputInsulPouch").value);
             // Changed inputHiddenWire to checkHiddenWire and added a new input inputHiddenWireLength, and a new variable valueHiddenWireLength
             var valueHiddenWire = Number(document.getElementById("checkHiddenWire").value);
             var valueHiddenWireLength = Number(document.getElementById("inputHiddenWireLength").value);
@@ -1295,7 +1295,7 @@ Solid State Relays included with box carrying most POLDs
             var totalValueSsr = valueSsr * packingItem.ssr;
             var totalValuePam1 = valuePam1 * packingItem.pam1;
             var totalValueJuncBox = valueJuncBox * packingItem.juncBox;
-            var totalValueInsulPouch = valueInsulPouch * packingItem.insulPouch;
+            totalValueInsulPouch = valueInsulPouch * packingItem.insulPouch;
             var totalValueHiddenWire = valueHiddenWire * packingItem.hiddenWire;
 
 
@@ -1779,19 +1779,13 @@ Solid State Relays included with box carrying most POLDs
 
                 // FUNCTION:  PACK ITEM FUNCTION (one at a time, instead of item bundles)
                 // (Called below, after the function)
-                function putInBox(valueCurrentItem, spaceSingleCurrentItem, spaceSingleCurrentItemVariableName, totalValueCurrentItem, currentItemName) {
+                function putInBox(valueCurrentItem, spaceSingleCurrentItem, totalValueCurrentItem, currentItemName) {
 
                     if (valueCurrentItem > 0) {
 
                         var loopCount = 0;
                         var loopCountElse = 0;
                         currentItemCountInBoxOfCurrentItem = 0;
-                        // Change the variable name from retrieving space to weight
-                        var weightSingleCurrentItemVariableName = spaceSingleCurrentItemVariableName.replace('packingItem', 'packingItemWeight');
-                        // eval replacement to resolve variable name to a variable. (or to use variable values in variable name). made by me
-                        // REFERENCE:  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_eval!
-                        var weightSingleCurrentItem = Function('return ' + weightSingleCurrentItemVariableName)();;
-
 
                         // Keep packing each single item until the total count of the current item type hits 0 (then exit the loop/function, to move on to the next item type. 
                         //  e.g. keep looping/packing one API at a time until APIs hit 0)
@@ -1803,8 +1797,6 @@ Solid State Relays included with box carrying most POLDs
                                 // Subtract single item value from box space remaining
                                 boxValueLeft = boxValueLeft - spaceSingleCurrentItem;
                                 // New variable to track if all of the current item type has been packed (might not need this one anymore since i switched to valueCurrentItem for the while loop condition)
-                                // HISTORY:  This was messing up my Object.keys code below since it has the same name as the function argument
-                                // Now the debugging string will be missing an updated  totalValueCurrentItem  variable
                                 //totalValueCurrentItem = totalValueCurrentItem - spaceSingleCurrentItem;
                                 // New variable to track if all of the current item type has been packed (better version, tracking item count, not space taken, which can equal 0 even if there are items left)
                                 valueCurrentItem = valueCurrentItem - 1;
@@ -1816,25 +1808,17 @@ Solid State Relays included with box carrying most POLDs
                                 //     console.log(key) // returns the keys in an object
                                 //     console.log(a[key])  // returns the appropriate value 
                                 // })
-                                // Find the variable name from the value (i'm actually passing the variable to the function as an object by wrapping it in curly braces {})
                                 // REFERENCE:  https://stackoverflow.com/a/46230373/1263035
-                                // Debugging
-                                // console.log("Object.keys(totalValueCurrentItem)[0] = '" + Object.keys(totalValueCurrentItem)[0] + "'. typeof = " + typeof totalValueCurrentItem);
-                                // console.log("Object.keys(totalValueCurrentItem)[0] = '" + Object.keys(totalValueCurrentItem)[0] + "'. typeof = " + typeof totalValueCurrentItem);
+                                console.log("Object.keys(totalValueCurrentItem)[0] = " + Object.keys(totalValueCurrentItem)[0] + ". typeof = " + typeof totalValueCurrentItem);
+                                debugger
+                                // Change the variable name from retrieving space to weight
+                                //var weightSingleCurrentItem = spaceSingleCurrentItem.replace('packingItem', 'packingItemWeight');
                                 // REFERENCE:  (variable as part of a variable, within global window.Function())  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_eval!
                                 // Use function argument variable for the end of the packingItemWeight.[] variable name
-                                // weightCurrentBox += Function('return packingItemWeight.' + weightSingleCurrentItem)();
-                                // weightTotal += Function('return packingItemWeight.' + weightSingleCurrentItem)();
-                                // Variables declared outside all functions
-                                weightCurrentBox += weightSingleCurrentItem;
-                                weightTotal += weightSingleCurrentItem;
-                                // Debugging level 0
-                                // REFERENCE:  (correcting display of inaccurate floating point math)  https://stackoverflow.com/a/28856155/1263035
-                                // EXAMPLE:    parseFloat((a-b).toFixed(2));
-                                console.log("spaceSingleCurrentItemVariableName = " + spaceSingleCurrentItemVariableName + "  weightSingleCurrentItem = " + weightSingleCurrentItem);
-                                console.log("parseFloat((weightCurrentBox).toFixed(2)) = " + parseFloat((weightCurrentBox).toFixed(2)) + "\nparseFloat((weightTotal).toFixed(2)) = " + parseFloat((weightTotal).toFixed(2)));
-                                
-                                // TODO:  Find a way to show the weight at the end, without having to start packing another box
+                                //weightCurrentBox += Function('return packingItemWeight.' + weightSingleCurrentItem)();
+                                //weightTotal += Function('return packingItemWeight.' + weightSingleCurrentItem)();
+                                // weightCurrentBox += valueCurrentItem * packingItemWeight.hiddenWire;
+                                // weightTotal += valueCurrentItem * packingItemWeight.hiddenWire;
 
                                 loopCount++;
 
@@ -1849,14 +1833,6 @@ Solid State Relays included with box carrying most POLDs
                                 if (currentItemCountInBoxOfCurrentItem >= 1) {
                                     outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
                                 }
-
-
-                                // Debugging level 0
-                                // console.log("valueLds = " + valueLds + "  valueLdsMinusPeriod = " + valueLdsMinusPeriod);
-                                // console.log("weightCurrentBox = " + weightCurrentBox + "  weightTotal = " + weightTotal);
-                                // REFERENCE:  (correcting display of inaccurate floating point math)  https://stackoverflow.com/a/28856155/1263035
-                                // EXAMPLE:    parseFloat((a-b).toFixed(2));
-                                console.log("parseFloat((weightCurrentBox).toFixed(2)) = " + parseFloat((weightCurrentBox).toFixed(2)) + "\nparseFloat((weightTotal).toFixed(2)) = " + parseFloat((weightTotal).toFixed(2)));
 
                                 // Show weight
                                 outputString += " <div class='weightCurrentBox'>(approximate box weight: " + parseFloat((weightCurrentBox).toFixed(2)) + "lbs)<br>";
@@ -1985,7 +1961,7 @@ Solid State Relays included with box carrying most POLDs
                                 }
                                 // outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
 
-                                // HISTORY:  This broke using the 14x14 when you had a lot of items, so I removed it. Medium should be working better now.
+                                // HISTORY:  This breaks using the 14x14 when you have a lot of items, so I'm removing it. Medium should be working better now.
                                 // // To work with the Medium Shipper, after using one extra box, define the next extra box to use as the default accessory box (so we don't get multiple medium shippers)
                                 // nextBox = "Accessory Box (13x10x5)";
                                 // nextBoxValue = packingItem.boxAccessories;
@@ -2021,39 +1997,39 @@ Solid State Relays included with box carrying most POLDs
                 // TODO:  Maybe wrap each in an IF statement to avoid calling the function every time even with 0 items from that type
 
                 // Pack  API
-                putInBox(valueApi, packingItem.api, "packingItem.api", totalValueApi, "API");
+                putInBox(valueApi, packingItem.api, totalValueApi, "API");
 
 
                 // Pack  POLD (w/pin)
                 // Use normal POLD input value (valuePold), if no leak rope
                 if (valueLeakRopeCheck == 0) {
-                    putInBox(valuePold, packingItem.pold, "packingItem.pold", totalValuePold, "POLD");
+                    putInBox(valuePold, packingItem.pold, totalValuePold, "POLD");
                 }
                 // Use POLD with pins input value (valuePoldPin), if leak rope
                 else if (valueLeakRopeCheck == 1) {
-                    putInBox(valuePoldPin, packingItem.poldPin, "packingItem.poldPin", totalValuePoldPin, "POLD (with pins)");
+                    putInBox(valuePoldPin, packingItem.poldPin, totalValuePoldPin, "POLD (with pins)");
                 }
                 else {
                     window.alert("The value for the leak rope checkbox is not 1 or 0, so no POLDs or leak rope got packed. Gotta fix this IF statement or the function that changes checkbox value to 1 or 0.\nvalueLeakRopeCheck = " + valueLeakRopeCheck)
                 }
 
                 // Pack  POLD with Leak Rope (2ft)
-                putInBox(valuePoldLeakRope2ft, packingItem.poldLeakRope2ft, "packingItem.poldLeakRope2ft", totalValuePoldLeakRope2ft, "POLD with Leak Rope (2ft)");
+                putInBox(valuePoldLeakRope2ft, packingItem.poldLeakRope2ft, totalValuePoldLeakRope2ft, "POLD with Leak Rope (2ft)");
                 // Pack  POLD with Leak Rope (5ft)
-                putInBox(valuePoldLeakRope5ft, packingItem.poldLeakRope5ft, "packingItem.poldLeakRope5ft", totalValuePoldLeakRope5ft, "POLD with Leak Rope (5ft)");
+                putInBox(valuePoldLeakRope5ft, packingItem.poldLeakRope5ft, totalValuePoldLeakRope5ft, "POLD with Leak Rope (5ft)");
                 // Pack  POLD with Leak Rope (10ft)
-                putInBox(valuePoldLeakRope10ft, packingItem.poldLeakRope10ft, "packingItem.poldLeakRope10ft", totalValuePoldLeakRope10ft, "POLD with Leak Rope (10ft)");
+                putInBox(valuePoldLeakRope10ft, packingItem.poldLeakRope10ft, totalValuePoldLeakRope10ft, "POLD with Leak Rope (10ft)");
 
                 // Pack  Leak Rope (2ft)
-                putInBox(valueLeakRope2ft, packingItem.leakRope2ft, "packingItem.leakRope2ft", totalValueLeakRope2ft, "Leak Rope (2ft)");
+                putInBox(valueLeakRope2ft, packingItem.leakRope2ft, totalValueLeakRope2ft, "Leak Rope (2ft)");
                 // Pack  Leak Rope (5ft)
-                putInBox(valueLeakRope5ft, packingItem.leakRope5ft, "packingItem.leakRope5ft", totalValueLeakRope5ft, "Leak Rope (5ft)");
+                putInBox(valueLeakRope5ft, packingItem.leakRope5ft, totalValueLeakRope5ft, "Leak Rope (5ft)");
                 // Pack  Leak Rope (10ft)
-                putInBox(valueLeakRope10ft, packingItem.leakRope10ft, "packingItem.leakRope10ft", totalValueLeakRope10ft, "Leak Rope (10ft)");
+                putInBox(valueLeakRope10ft, packingItem.leakRope10ft, totalValueLeakRope10ft, "Leak Rope (10ft)");
 
                 // Pack  Solid State Relay
                 // TODO:  "Solid State Relays included with box carrying most POLDs"  (although putting it in the last box a pold or leak rope went into is a lot easier)
-                putInBox(valueSsr, packingItem.ssr, "packingItem.ssr", totalValueSsr, "Solid State Relay");
+                putInBox(valueSsr, packingItem.ssr, totalValueSsr, "Solid State Relay");
 
                 // Pack  Recirc Pump Switch
                 if (valueRecirc > 0) {
@@ -2088,7 +2064,7 @@ Solid State Relays included with box carrying most POLDs
 
 
                         // Pack the item (call the function)
-                        putInBox(valueRecirc, packingItem.recirc, "packingItem.recirc", totalValueRecirc, "Recirc Pump Switch");
+                        putInBox(valueRecirc, packingItem.recirc, totalValueRecirc, "Recirc Pump Switch");
 
                         // Reset nextBox back to accessory box for other items
                         nextBox = "Accessory Box (13x10x5)";
@@ -2097,7 +2073,7 @@ Solid State Relays included with box carrying most POLDs
                     // Otherwise pack it as normal
                     else {
                         // Pack the item (call the function)
-                        putInBox(valueRecirc, packingItem.recirc, "packingItem.recirc", totalValueRecirc, "Recirc Pump Switch");
+                        putInBox(valueRecirc, packingItem.recirc, totalValueRecirc, "Recirc Pump Switch");
                     }
                 }
 
@@ -2135,7 +2111,7 @@ Solid State Relays included with box carrying most POLDs
 
 
                         // Pack the item (call the function)
-                        putInBox(valueFourHour, packingItem.fourHour, "packingItem.fourHour", totalValueFourHour, "Four Hour Timer");
+                        putInBox(valueFourHour, packingItem.fourHour, totalValueFourHour, "Four Hour Timer");
 
                         // Reset nextBox back to accessory box for other items
                         nextBox = "Accessory Box (13x10x5)";
@@ -2144,7 +2120,7 @@ Solid State Relays included with box carrying most POLDs
                     // Otherwise pack it as normal
                     else {
                         // Pack the item (call the function)
-                        putInBox(valueFourHour, packingItem.fourHour, "packingItem.fourHour", totalValueFourHour, "Four Hour Timer");
+                        putInBox(valueFourHour, packingItem.fourHour, totalValueFourHour, "Four Hour Timer");
                     }
                 }
 
@@ -2159,7 +2135,7 @@ Solid State Relays included with box carrying most POLDs
                     nextBoxValue = packingItem.box14x14;
 
                     // Pack the item (call the function)
-                    putInBox(valueJuncBox, packingItem.juncBox, "packingItem.juncBox", totalValueJuncBox, "Junction Box");
+                    putInBox(valueJuncBox, packingItem.juncBox, totalValueJuncBox, "Junction Box");
 
                     // Reset nextBox back to accessory box for other items
                     nextBox = "Accessory Box (13x10x5)";
@@ -2198,7 +2174,7 @@ Solid State Relays included with box carrying most POLDs
 
 
                     // Pack the item (call the function)
-                    putInBox(valueInsulPouch, packingItem.insulPouch, "packingItem.insulPouch", totalValueInsulPouch, "Insulated Pouch");
+                    putInBox(valueInsulPouch, packingItem.insulPouch, {totalValueInsulPouch}, "Insulated Pouch");
 
                     // Reset nextBox back to accessory box for other items
                     nextBox = "Accessory Box (13x10x5)";

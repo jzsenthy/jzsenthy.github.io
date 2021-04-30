@@ -1,0 +1,6 @@
+starting to add weight, & comment cleanup
+
+starting to add weight list and calculations.
+also did unrelated comment cleanup, etc
+
+fixing merge conflict (not sure where it came from).
