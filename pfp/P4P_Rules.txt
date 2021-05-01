@@ -11,6 +11,7 @@ Recirc Pump Switch = 6
 Hidden Wire = 3  (changed from 4.5)
 Electrical Junction Box = 36
 Insulated Pouch = 6 (Defaults to an additional Medium Shipper)
+Split System B3 = 30 (defaults to an additional 14x14 like EJB. inform user to double-check with warehouse on specifics, since 30 is an average value)
 
 Boxes Point total:
 Shipper (19x12x7) = 12 (For .75-1.5" systems only)

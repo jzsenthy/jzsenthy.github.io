@@ -3,7 +3,7 @@ LDS Actuator + Pipe/Valve  (add 24v psu and related scv, and box/packaging weigh
 1.00	5.35
 1.25	6.10
 1.50	7.6
-2.00	
+2.00	12.05
 2.50	
 3.00	
 4.00	35.7
@@ -34,29 +34,35 @@ SCV  // jesse
 
 
 Accessories
-CP	0.3
+CP      0.3
 CP+PSU	0.5
-API 0.4
+API     0.4
 API+PSU 0.6
 12V PSU	0.2
 24V PSU	1.75
 cp		:	0.3, // 0.29 (new is slightly heavier than old) (add psu)
 api		:	0.4, // 0.375 (add psu)
 pold		:	0.215, // With 2 AA and pins
+insulPouch: 1.92, // me  // jesse (backflowBag) 2-7
+
 
 rope2ft		:	0.03,
 rope5ft		:	0.06,
 rope10ft	:	0.11,
 
 
-Boxes (Standard shipper with inserts and 24v psu and scv)
+BOXES---- 
+
+(Standard shipper with inserts and 24v psu and scv)
 0.75	3.75
 1.00	3.95
 1.25	4.45
 
-Box (standard shipper without 24v psu or scv)
-	1.5
+(standard shipper without 24v psu or scv)
+	    1.5
 
+(Brown/Yellow/Manilla mailer for control panel replacements, all packaged and done)
+        0.55
 
 
 ------------------------------------------------

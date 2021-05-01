@@ -2,20 +2,31 @@
 TODO
 ---
 
+
+change all these
+weightCurrentBox += valuePam1 * packingItemWeight.pam1;
+to this
+weightCurrentBox += packingItemWeight.pam1;
+since we're packing one at a time
+(actually leave them as is in the top section that all goes in the first box by default, since those aren't packed one at a time)
+
 changed:
-line 644  add 5
-add    </div> at 616
-remove variables at 1159
+line 644  added 5
+added    </div> at 616
+removed variables at 1159
 	
 	
 // TODO:  Find a way to show the weight at the end, without having to start packing another box
 
-Fix weights calculating wrong. Probably multiplying or not resetting or something
+Fix weights calculating wrong (too high on single accessory/14x14). Probably multiplying or not resetting or something. (add weight additions for each device, and box weights)
 	
 
 2 insul pouches have an empty accessory box first.
+
 Add weights (reference jesse's list?).
 
+
+Split System B3 = 30 (defaults to an additional 14x14 like EJB. inform user to double-check with warehouse on specifics, since 30 is an average value)
 
 
 
