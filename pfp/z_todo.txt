@@ -2,31 +2,11 @@
 TODO
 ---
 
+// TODO:  Add box weight to the weight calculation
 
-change all these
-weightCurrentBox += valuePam1 * packingItemWeight.pam1;
-to this
-weightCurrentBox += packingItemWeight.pam1;
-since we're packing one at a time
-(actually leave them as is in the top section that all goes in the first box by default, since those aren't packed one at a time)
+Change "approximate box weight:" to "≈"
 
-changed:
-line 644  added 5
-added    </div> at 616
-removed variables at 1159
-	
-	
-// TODO:  Find a way to show the weight at the end, without having to start packing another box
-
-Fix weights calculating wrong (too high on single accessory/14x14). Probably multiplying or not resetting or something. (add weight additions for each device, and box weights)
-	
-
-2 insul pouches have an empty accessory box first.
-
-Add weights (reference jesse's list?).
-
-
-Split System B3 = 30 (defaults to an additional 14x14 like EJB. inform user to double-check with warehouse on specifics, since 30 is an average value)
+make Split System B3 = 30 (defaults to an additional 14x14 like EJB. inform user to double-check with warehouse on specifics, since 30 is an average value)
 
 
 
@@ -148,6 +128,41 @@ DONE
 ---------------------------------
 
 
+3.0.12  2021-05-03 ---
+Added weight calculation.
+
+No longer showing empty accessory box if there are no LDS or accessories to go in first box.
+
+TODO: Still need to add box/packaging weights, and verify results.
+
+
+-----
+Add weights (reference jesse's list?).
+
+Fix weights calculating wrong (too high on single accessory/14x14). Probably multiplying or not resetting or something. (add weight additions for each device, and box weights)
+
+Find a way to show the weight at the end, without having to start packing another box
+
+Hide weights during print
+
+change all these
+weightCurrentBox += valuePam1 * packingItemWeight.pam1;
+to this
+weightCurrentBox += packingItemWeight.pam1;
+since we're packing one at a time
+(actually leave them as is in the top section that all goes in the first box by default, since those aren't packed one at a time)
+
+changed:
+line 644  added 5
+added    </div> at 616
+removed variables at 1159
+
+2 insul pouches have an empty accessory box first.
+-----	
+
+
+
+
 3.0.11  2021-04-12 ---
 Added special cases within packing function, after it finishes packing a box, to check if it just packed an LDS box, then tries to pack a 14x14 first (to avoid cases where a 14x14 is called because a junction box is present but only a few accessories get packed in it first then it picks another 14x14 for junction box, resulting in bigger boxes than needed). 
 (I think it's also running after packing an accessory box since it has the same value as the standard lds box (12), but I think it's working better that way in the few cases I've tested so I'm leaving it lol...)
@@ -155,7 +170,6 @@ Added special cases within packing function, after it finishes packing a box, to
 Reordered some form items (API before POLD, to reflect packing order and improve layout. SO# at end since it's not required unless printing labels for multiple boxes, which is probably rare).
 
 Fixed some form spacing, added "Extra Info" section title, added some code comments.
-
 
 
 

@@ -59,12 +59,17 @@
 
 
 
-        /*  PRINT OPTIONS */
+        /*  PRINT OPTIONS (onprint) */
         @media print {
 
             /* Show the SO# on boxes beyond the first when you print */
             .soBox {
                 display: block;
+            }
+
+            /* Hide the weights when printing */
+            .weightCurrentBox {
+                display: none;
             }
 
 
@@ -772,7 +777,7 @@
             }
         }
 
-        // // Show extra POLD section if POLDs are present
+        // // Show extra POLD section if POLDs are present (replaced with code above)
         // // TODO:  Hide section if POLDs goes back to 0
         // // SAMPLE:  https://www.w3schools.com/jsref/event_oninput.asp
         // // SAMPLE:  https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_oninput_dom
@@ -941,16 +946,15 @@
             bubbleMailer: 2.5,
         };
 
-        /* 
-                Order of Priority:
-Panel, SCV, Hidden Wire and Pam1 always in Box 1
-1. API
-2. POLD
-3. Recirc Pump Switch
-4. 4hr Time
-5. Enclosures (Pouch + EJB)
-Solid State Relays included with box carrying most POLDs
-*/
+        // Order of Priority:
+        // Panel, SCV, Hidden Wire and Pam1 always in Box 1
+        // 1. API
+        // 2. POLD
+        // 3. Recirc Pump Switch
+        // 4. 4hr Time
+        // 5. Enclosures (Pouch + EJB)
+        // Solid State Relays included with box carrying most POLDs
+
 
 
 
@@ -972,7 +976,7 @@ Solid State Relays included with box carrying most POLDs
             splitSystemB1: 0.2, // 7.8 is 0.2 more than standard 1.50" (really just 5ft extra wire)
             splitSystemB2: 0.4, // 4.95 is o.4 more than standard 0.75" (really just 10ft extra wire)
             splitSystemB3: 15, // ~1.35 from weighing just a grey box from dual valve (add wires and extra long pipe etc to this weight)
-            
+
             dualValve075: 9, // me. weighed one with two 0.75" pipe/valves and small orange actuators, and grey box, with a decent length of wire
 
             scv: 0.5, // depends on size. 0.5-2.35lb for 0.75"-2.00" // maybe just include with lds weight
@@ -999,8 +1003,8 @@ Solid State Relays included with box carrying most POLDs
             // 20ft  0.35  // me
             // 25ft  0.4   // me
             // 70ft  1.2   // me
-            
-            
+
+
 
             //BOXES
             // Standard Shipper (19x12x7) = 12 (For .75-1.5" systems only)
@@ -1101,65 +1105,7 @@ Solid State Relays included with box carrying most POLDs
         var weightCurrentBox = 0;
         var weightTotal = 0;
 
-
-
-
-
-
-        /// PRINT BUTTON (using addEventListener instead of onclick)
-        // Form validation for SO# (if printing more than 1 box)
-        // Only when clicking print
-        document.getElementById("printButton").addEventListener("click", functionOnPrint);
-        function functionOnPrint() {
-            // var value2SoNum = Number(document.getElementById("inputSoNum").value);
-
-
-            var idSoNum = document.getElementById("inputSoNum");
-            // Variable called value2SoNum to avoid conflict with valueSoNum in the onsubmit function (which isn't accessible here, and putting the variable outside the function might return the value before it's entered...)
-            var value2SoNum = Number(idSoNum.value);
-            // Only validate if a SO# is present if you have more than 1 box
-            if (boxTotal >= 2) {
-                // If SO# has a value
-                if (value2SoNum > 0) {
-                    // window.alert("Nice. \n value2SoNum = " + value2SoNum);
-                    window.print();
-                }
-                // If SO# doesn't have a value
-                else {
-                    // window.alert("boo. \n value2SoNum = " + value2SoNum);
-                    // FUNCTION:  Shows an Ok/Cancel popup
-                    // SOURCE:  https://stackoverflow.com/a/9334679
-                    var answer = window.confirm("ALERT:\nSO# is required when printing labels with more than 1 box.\n\nPlease click Ok then enter Sales Order Number (SO#)");
-                    // If they click Ok
-                    if (answer) {
-                        // Go back to form
-                        showMainPage();
-                    }
-                    // If they click Cancel
-                    else {
-                        // Otherwise just continue to printing)
-                        window.print();
-                    }
-                }
-            }
-            // If not more than 1 box
-            else {
-                // No SO# needed, so proceed
-                window.print();
-            }
-        }
-
-
-
-
-
-
-
-
-
-
-
-
+        var weightSingleCurrentItem;
 
 
 
@@ -1355,7 +1301,7 @@ Solid State Relays included with box carrying most POLDs
                 outputStringFunc = buildOutputString("Large Shipper (18x18x14)", packingItem.boxLdsLarge);
             }
             // Medium Shipper(20x12x8)  (Used for 2" systems or Insulated Pouch only) -Bryce
-            // HISTORY:  Changed this to only apply to 2" system as primary box. If insulated pouch, medium shipper should be an additional box I think?
+            // HISTORY:  Changed this to only apply to 2" system as primary box. If insulated pouch, medium shipper should be an additional box
             // else if (valueLds == 2 || valueInsulPouch > 0) {
             else if (valueLds == 2) {
                 // FUNCTION:  Call function to build list of all items and what boxes they go in (displayed later through hidden div)
@@ -1383,16 +1329,13 @@ Solid State Relays included with box carrying most POLDs
 
 
 
-            ///////////////////////////
-            // FINAL COMMAND THAT RUNS:
-            ///////////////////////////
-
-
-
 
             // FORM VALIDATION
 
             // I don't think this is called specifically from pressing submit, but it just calls itself within a larger function called upon submit
+            // This runs after the output string is built (from the conditions above calling the  buildOutputString  function)
+            // TODO: May wanna move this above the conditions above that call the  buildOutputString  function
+            // (would have to rewrite a bit to call the conditions above instead of calling the  resultsOutput  function)
             formValidation();
             function formValidation() {
                 // Form validation for number of POLDs
@@ -1451,15 +1394,19 @@ Solid State Relays included with box carrying most POLDs
 
 
 
+
+
+
+
+
             ///////////////////////////
             // FINAL COMMAND THAT RUNS:
             ///////////////////////////
 
             // FUNCTION:  List all items & boxes they go in (outputStringFunc is the return string value from calling buildOutputString function below, from above)
+            // This runs after the output string is built (from the  formValidation  conditions above calling the  buildOutputString  function)
             // HISTORY:  Old method was to show an alert. I'm now showing a full page printable list.
             function resultsOutput() {
-                //window.alert(outputStringFunc);
-
 
 
                 // FUNCTION:  Hide printButton if less than 2 boxes
@@ -1564,8 +1511,7 @@ Solid State Relays included with box carrying most POLDs
 
                 //// ADD HEADER ////
 
-                // Add "SO#" header 
-                // TODO: Add it to top of every page, in newBox sections
+                // Add "SO#" header (top of every page, in newBox sections)
                 if (valueSoNum > 0) {
                     outputString = outputString + "<div class='text-end'><i>SO# " + valueSoNum + "</i></div>";
                 }
@@ -1592,8 +1538,11 @@ Solid State Relays included with box carrying most POLDs
 
                 // Add the first box name, and current/total box numbers
                 // TODO:  Might want to change this to only display once things are packed in this box (maybe show later in the packing function/loop)
-                outputString = outputString + "<b>" + initialBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i><br>";
-                // window.alert("valueReplacement = " + valueReplacement);
+                // BUG:  This is showing an empty accessory box if only junction box/insulated pouch is being sent
+                // FIX:  Only show this first box line if there's an item to pack besides junction box or insulated pouch (which don't go into an accessory or LDS box)
+                if (valueLds >= 1 || valueApi >= 1 || valueCp >= 1 || valueFourHour >= 1 || valueLeakRopeCheck >= 1 || valuePam1 >= 1 || valuePold >= 1 || valuePoldPin >= 1 || valueRecirc >= 1 || valueScv >= 1 || valueSsr >= 1) {
+                    outputString = outputString + "<b>" + initialBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i><br>";
+                }
 
 
                 // It didn't work to access & modify this variable if it was declared outside the function, so I declared it inside
@@ -1610,6 +1559,8 @@ Solid State Relays included with box carrying most POLDs
 
 
 
+
+
                 //// PACKING ITEMS INTO FIRST/LDS BOX ////
 
                 // Panel, SCV, Hidden Wire and Pam1 always in Box 1 -Bryce
@@ -1618,18 +1569,24 @@ Solid State Relays included with box carrying most POLDs
                 // TODO:  Maybe change this group into a loop/function since it's basically repeated code (just assign a variable for which current item it's evaluating)
                 if (valueLds > 0) {
 
+                    // Weight variables initialized at the top of the  functionOnSubmit  function a few sections above (a few hundred lines up)
+
                     /// ADD WEIGHT: LDS
                     // Remove the period from the LDS size string to get the right LDS number/variable for weight
                     var valueLdsMinusPeriod = valueLds.replaceAll('.', '');
+                    // Not calling a function, just referencing a variable dynamically (packingItemWeight.lds[valueLdsMinusPeriod] aka packingItemWeight.lds200)
                     // REFERENCE:  (variable as part of a variable, within global window.Function())  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_eval!
                     weightCurrentBox += Function('return packingItemWeight.lds' + valueLdsMinusPeriod)();
                     weightTotal += Function('return packingItemWeight.lds' + valueLdsMinusPeriod)();
+
                     // Debugging level 0
                     console.log("valueLds = " + valueLds + "  valueLdsMinusPeriod = " + valueLdsMinusPeriod);
                     console.log("weightCurrentBox = " + weightCurrentBox + "  weightTotal = " + weightTotal);
                     // REFERENCE:  (correcting display of inaccurate floating point math)  https://stackoverflow.com/a/28856155/1263035
                     // EXAMPLE:    parseFloat((a-b).toFixed(2));
                     console.log("parseFloat((weightCurrentBox).toFixed(2)) = " + parseFloat((weightCurrentBox).toFixed(2)) + "\nparseFloat((weightTotal).toFixed(2)) = " + parseFloat((weightTotal).toFixed(2)));
+
+
 
                     // If split system, add that info
                     if (valueSplitSystemCheck > 0) {
@@ -1656,8 +1613,8 @@ Solid State Relays included with box carrying most POLDs
                         // }
                         // weightCurrentBox = obj;
 
-                        // REFERENCE:  (variable as part of a variable, within global window.Function())  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_eval!
                         // Working (Short version):
+                        // REFERENCE:  (variable as part of a variable, within global window.Function())  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_eval!
                         // Additional weight for split system extras like extra pipe for probe
                         weightCurrentBox += Function('return packingItemWeight.splitSystemB' + valueSplitSystemSelect)();
                         // MEANING:  weightCurrentBox += packingItemWeight.splitSystemB[valueSplitSystemSelect];
@@ -1704,6 +1661,7 @@ Solid State Relays included with box carrying most POLDs
                     outputString = outputString + "• " + valueHiddenWire + " Hidden Wire (" + valueHiddenWireLength + "ft)<br>";
 
                     /// ADD WEIGHT
+                    // Multiply the number of hidden wires (currently just a 1||0 checkbox) with the length, to calculate weight by cable length
                     weightCurrentBox += valueHiddenWire * valueHiddenWireLength * packingItemWeight.hiddenWire;
                     weightTotal += valueHiddenWire * valueHiddenWireLength * packingItemWeight.hiddenWire;
                 }
@@ -1719,6 +1677,15 @@ Solid State Relays included with box carrying most POLDs
                     weightTotal += valuePam1 * packingItemWeight.pam1;
                 }
                 // All items above always go into box 1 (according to Bryce)
+
+                // Show box weight if items are all packed before moving on to the next items
+                if (totalValueCurrent <= 0) {
+                    outputString += " <div class='weightCurrentBox'><i> &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(2)) + "lbs)</i><br></div>";
+                    // DEBUGGING to show info every time a single item is packed (1 line)
+                    if (valueDebug >= 1) {
+                        outputString = outputString + "<br> DEBUGGING INFO: weight1  totalValueCurrent = " + totalValueCurrent + ".  boxValueLeft = " + boxValueLeft + ".  totalValueCurrentItem = " + totalValueCurrentItem + ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem + ". weightCurrentBox = " + weightCurrentBox + "<br>";
+                    }
+                }
 
 
 
@@ -1786,6 +1753,7 @@ Solid State Relays included with box carrying most POLDs
 
                 // FUNCTION:  PACK ITEM FUNCTION (one at a time, instead of item bundles)
                 // (Called below, after the function)
+                // (valueCurrentItem = how many, subtracted every time one is packed)
                 function putInBox(valueCurrentItem, spaceSingleCurrentItem, spaceSingleCurrentItemVariableName, totalValueCurrentItem, currentItemName) {
 
                     if (valueCurrentItem > 0) {
@@ -1793,15 +1761,21 @@ Solid State Relays included with box carrying most POLDs
                         var loopCount = 0;
                         var loopCountElse = 0;
                         currentItemCountInBoxOfCurrentItem = 0;
-                        // Change the variable name from retrieving space to weight
+
+                        // Change the variable name from retrieving item space to weight
                         var weightSingleCurrentItemVariableName = spaceSingleCurrentItemVariableName.replace('packingItem', 'packingItemWeight');
-                        // eval replacement to resolve variable name to a variable. (or to use variable values in variable name). made by me
+                        // Replacement code for eval(), to resolve variable name to a variable. (or to use variable values in variable name). made by me
                         // REFERENCE:  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_eval!
-                        var weightSingleCurrentItem = Function('return ' + weightSingleCurrentItemVariableName)();;
+                        weightSingleCurrentItem = Function('return ' + weightSingleCurrentItemVariableName)();
+                        
+                        // TODO:  Add box weight to the weight calculation
+                        // Change the variable name from retrieving box space to weight
+                        // var weightBoxValueVariableName = boxValue.replace('packingItem', 'packingItemWeight');
+                        // weightSingleCurrentItem = Function('return ' + weightSingleCurrentItemVariableName)();
 
 
                         // Keep packing each single item until the total count of the current item type hits 0 (then exit the loop/function, to move on to the next item type. 
-                        //  e.g. keep looping/packing one API at a time until APIs hit 0)
+                        // (e.g. keep looping/packing one API at a time until APIs hit 0)
                         while (valueCurrentItem > 0) {
                             // If the space required for a single item of the current item type is equal to or less than the space left in the current box, then pack it
                             if (spaceSingleCurrentItem <= boxValueLeft) {
@@ -1818,21 +1792,7 @@ Solid State Relays included with box carrying most POLDs
                                 // Keep count of how many of the current item has been packed into the box.
                                 currentItemCountInBoxOfCurrentItem++;
                                 /// ADD WEIGHT
-                                // REFERENCE:  https://stackoverflow.com/a/49316021
-                                // Object.keys(totalValueCurrentItem).forEach(key => {
-                                //     console.log(key) // returns the keys in an object
-                                //     console.log(a[key])  // returns the appropriate value 
-                                // })
-                                // Find the variable name from the value (i'm actually passing the variable to the function as an object by wrapping it in curly braces {})
-                                // REFERENCE:  https://stackoverflow.com/a/46230373/1263035
-                                // Debugging
-                                // console.log("Object.keys(totalValueCurrentItem)[0] = '" + Object.keys(totalValueCurrentItem)[0] + "'. typeof = " + typeof totalValueCurrentItem);
-                                // console.log("Object.keys(totalValueCurrentItem)[0] = '" + Object.keys(totalValueCurrentItem)[0] + "'. typeof = " + typeof totalValueCurrentItem);
-                                // REFERENCE:  (variable as part of a variable, within global window.Function())  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_eval!
-                                // Use function argument variable for the end of the packingItemWeight.[] variable name
-                                // weightCurrentBox += Function('return packingItemWeight.' + weightSingleCurrentItem)();
-                                // weightTotal += Function('return packingItemWeight.' + weightSingleCurrentItem)();
-                                // Variables declared outside all functions
+                                // (Variables declared outside all functions)
                                 weightCurrentBox += weightSingleCurrentItem;
                                 weightTotal += weightSingleCurrentItem;
                                 // Debugging level 0
@@ -1840,8 +1800,8 @@ Solid State Relays included with box carrying most POLDs
                                 // EXAMPLE:    parseFloat((a-b).toFixed(2));
                                 console.log("spaceSingleCurrentItemVariableName = " + spaceSingleCurrentItemVariableName + "  weightSingleCurrentItem = " + weightSingleCurrentItem);
                                 console.log("parseFloat((weightCurrentBox).toFixed(2)) = " + parseFloat((weightCurrentBox).toFixed(2)) + "\nparseFloat((weightTotal).toFixed(2)) = " + parseFloat((weightTotal).toFixed(2)));
-                                
-                                // TODO:  Find a way to show the weight at the end, without having to start packing another box
+
+                                // It outputs which items were just packed near the end of this function, just outside the while loop
 
                                 loopCount++;
 
@@ -1849,9 +1809,11 @@ Solid State Relays included with box carrying most POLDs
                                 if (valueDebug >= 1) {
                                     outputString = outputString + "<br> DEBUGGING INFO: totalValueCurrent = " + totalValueCurrent + ".  boxValueLeft = " + boxValueLeft + ".  totalValueCurrentItem = " + totalValueCurrentItem + ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem + ". weightCurrentBox = " + weightCurrentBox + "<br>";
                                 }
+                                // debugger
                             }
                             // Otherwise, show how many have been packed into this box, then move on to the next box and keep packing
                             else {
+                                // NOTE:  (Copied this else statement to  // Pack  Insulated Pouch  section as well. KEEP IT UPDATED)
                                 // Display how many of this item has been packed into the current box, before switching boxes (if there are 1 or more in there)
                                 if (currentItemCountInBoxOfCurrentItem >= 1) {
                                     outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
@@ -1865,10 +1827,19 @@ Solid State Relays included with box carrying most POLDs
                                 // EXAMPLE:    parseFloat((a-b).toFixed(2));
                                 console.log("parseFloat((weightCurrentBox).toFixed(2)) = " + parseFloat((weightCurrentBox).toFixed(2)) + "\nparseFloat((weightTotal).toFixed(2)) = " + parseFloat((weightTotal).toFixed(2)));
 
-                                // Show weight
-                                outputString += " <div class='weightCurrentBox'>(approximate box weight: " + parseFloat((weightCurrentBox).toFixed(2)) + "lbs)<br>";
-
-
+                                // Show weight (before new box)
+                                // If nothing has been packed yet, don't show info for an empty accessory box first
+                                if (totalValueCurrent == totalValueTotal) {
+                                    // Don't show the weight (if nothing has been packed yet)
+                                }
+                                else {
+                                    // Copied this to the  // Pack  Insulated Pouch  section as well (since it has a copy of this else statement)
+                                    outputString += " <div class='weightCurrentBox'><i> &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(2)) + "lbs)</i><br></div>";
+                                    // DEBUGGING to show which code is displaying weight
+                                    if (valueDebug >= 1) {
+                                        outputString = outputString + "<br> DEBUGGING INFO: weight3  else (newbox) totalValueCurrent = " + totalValueCurrent + ".  boxValueLeft = " + boxValueLeft + ".  totalValueCurrentItem = " + totalValueCurrentItem + ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem + ". weightCurrentBox = " + weightCurrentBox + ". weightSingleCurrentItem = " + weightSingleCurrentItem + "<br>";
+                                    }
+                                }
                                 // DEBUGGING
                                 if (valueDebug >= 1) {
                                     outputString = outputString + "<br> DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + ". weightCurrentBox = " + weightCurrentBox + ". weightTotal = " + weightTotal + "<br>";
@@ -1877,7 +1848,7 @@ Solid State Relays included with box carrying most POLDs
 
 
 
-                                //// EXCEPTION FOR 14X14 BOX RIGHT AFTER FILLING THE FIRST BOX ////
+                                //// EXCEPTION FOR SELECTING 14X14 AS NEXTBOX RIGHT AFTER FILLING THE FIRST BOX ////
 
                                 // Change rules to prevent 2 14x14s when packing EJB with second mostly empty.
                                 // (actually we won't have a negative value because the juncBoxes are all added to the total, so using totalValueJuncBox should work)
@@ -1887,25 +1858,25 @@ Solid State Relays included with box carrying most POLDs
                                 // TODO:  This is also running after packing an Accessory Box, since it has the same value as Standard Shipper / boxLds (12)
                                 // TODO:  Might wanna change that if it's causing problems, but it actually worked out nicely when testing a POLD-Only system scenario
                                 // DEBUGGING
-                                if (valueDebug >= 1) {
-                                    window.alert("1 BEFORE 14x14 IF:\n boxValue == " + boxValue + "\n currentItemName == " + currentItemName);
-                                }
+                                // if (valueDebug >= 1) {
+                                //     window.alert("1 BEFORE 14x14 IF:\n boxValue == " + boxValue + "\n currentItemName == " + currentItemName);
+                                // }
                                 if ((boxValue == packingItem.boxLds) || (boxValue == packingItem.boxLdsLarge) || ((boxValue == packingItem.boxLdsMedium) && (currentItemName != "Insulated Pouch"))) {
                                     // DEBUGGING level 3
-                                    if (valueDebug >= 1) {
-                                        window.alert("2 INSIDE 14x14 IF:\n boxValue == " + boxValue + "\n currentItemName == " + currentItemName);
-                                    }
+                                    // if (valueDebug >= 1) {
+                                    //     window.alert("2 INSIDE 14x14 IF:\n boxValue == " + boxValue + "\n currentItemName == " + currentItemName);
+                                    // }
 
                                     // DEBUGGING
                                     // For last Else If (putting it right above the else if causes an error. prob not supposed to have statements in between if/elses)
                                     var tempWindowalertVariable98sfhn = (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch);
                                     var tempWindowalertVariable354drt = (3 * packingItem.boxAccessories);
                                     // window.alert("6 BEFORE ELSE IF:\n (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) == " + tempWindowalertVariable98sfhn + "\n (packingItem.boxAccessories * 3) == " + tempWindowalertVariable354drt);
-
+                                    // debugger
 
                                     // See if we have 1 or more juncBox present first:
                                     if (valueJuncBox >= 1) {
-                                        // then subtracing the value of the juncBoxes and insulPouches from the totalValueCurrent (since we're only worried about the other accessories that will be packed in this box), 
+                                        // then subtracTing the value of the juncBoxes and insulPouches from the totalValueCurrent (since we're only worried about the other accessories that will be packed in this box), 
                                         // and see if it's less than the space remaining in a 14x14 after packing a juncBox:
                                         // TODO:  Make sure the subtraction on the left is working as expected
                                         // This should allow packing up to 12pt of accessories in a 14x14 plus a juncBox
@@ -1913,9 +1884,9 @@ Solid State Relays included with box carrying most POLDs
                                             nextBox = "Large Accessory Box (14x14x14)";
                                             nextBoxValue = packingItem.box14x14;
                                             // DEBUGGING level 3
-                                            if (valueDebug >= 1) {
-                                                window.alert("3 INSIDE IF1:\n (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) == " + tempWindowalertVariable98sfhn + "\n currentItemName == " + currentItemName);
-                                            }
+                                            // if (valueDebug >= 1) {
+                                            //     window.alert("3 INSIDE IF1:\n (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) == " + tempWindowalertVariable98sfhn + "\n currentItemName == " + currentItemName);
+                                            // }
                                         }
                                         // or if the total accessories (minus juncBox and insulPouch) are greater than or equal to 3 accessory boxes, then pack in a 14x14 instead
                                         // TODO:  Make sure the subtraction on the left is working as expected
@@ -1923,18 +1894,18 @@ Solid State Relays included with box carrying most POLDs
                                             nextBox = "Large Accessory Box (14x14x14)";
                                             nextBoxValue = packingItem.box14x14;
                                             // DEBUGGING level 3
-                                            if (valueDebug >= 1) {
-                                                window.alert("4 INSIDE IF2:\n (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) == " + tempWindowalertVariable98sfhn + "\n currentItemName == " + currentItemName);
-                                            }
+                                            // if (valueDebug >= 1) {
+                                            //     window.alert("4 INSIDE IF2:\n (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) == " + tempWindowalertVariable98sfhn + "\n currentItemName == " + currentItemName);
+                                            // }
                                         }
                                         else {
                                             // var nextBox = "Accessory Box (13x10x5)";
                                             // var nextBoxValue = packingItem.boxAccessories;
                                             // or no change. return or do nothing, whatever
                                             // DEBUGGING level 3
-                                            if (valueDebug >= 1) {
-                                                window.alert("5 INSIDE ELSE:\n (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) == " + tempWindowalertVariable98sfhn + "\n currentItemName == " + currentItemName);
-                                            }
+                                            // if (valueDebug >= 1) {
+                                            //     window.alert("5 INSIDE ELSE:\n (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) == " + tempWindowalertVariable98sfhn + "\n currentItemName == " + currentItemName);
+                                            // }
                                         }
                                     }
                                     // Duplicated from above, since it applies whether or not there's no juncBox (if the accessories total is within range)
@@ -1942,9 +1913,9 @@ Solid State Relays included with box carrying most POLDs
                                     // or if the total accessories (minus juncBox and insulPouch) are greater than or equal to 3 accessory boxes, then pack in a 14x14 instead
                                     else if ((totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) >= (3 * packingItem.boxAccessories)) {
                                         // DEBUGGING level 3
-                                        if (valueDebug >= 1) {
-                                            window.alert("7 INSIDE ELSE IF:\n (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) == " + tempWindowalertVariable98sfhn + "\n (packingItem.boxAccessories * 3) == " + tempWindowalertVariable354drt);
-                                        }
+                                        // if (valueDebug >= 1) {
+                                        //     window.alert("7 INSIDE ELSE IF:\n (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) == " + tempWindowalertVariable98sfhn + "\n (packingItem.boxAccessories * 3) == " + tempWindowalertVariable354drt);
+                                        // }
                                         nextBox = "Large Accessory Box (14x14x14)";
                                         nextBoxValue = packingItem.box14x14;
                                     }
@@ -1953,9 +1924,9 @@ Solid State Relays included with box carrying most POLDs
                                         // var nextBoxValue = packingItem.boxAccessories;
                                         // or no change. return or do nothing, whatever
                                         // DEBUGGING level 3
-                                        if (valueDebug >= 1) {
-                                            window.alert("8 INSIDE ELSE:\n (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) == " + tempWindowalertVariable98sfhn + "\n (packingItem.boxAccessories * 3) == " + tempWindowalertVariable354drt);
-                                        }
+                                        // if (valueDebug >= 1) {
+                                        //     window.alert("8 INSIDE ELSE:\n (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) == " + tempWindowalertVariable98sfhn + "\n (packingItem.boxAccessories * 3) == " + tempWindowalertVariable354drt);
+                                        // }
                                     }
 
                                 }
@@ -1964,12 +1935,30 @@ Solid State Relays included with box carrying most POLDs
 
 
 
+                                // If nothing has been packed yet, don't increase the box number (for an empty accessory box)
+                                // (Must have this statement above the  totalValueCurrent = totalValueCurrent - spaceSingleCurrentItem;  line below)
+                                if (totalValueCurrent == totalValueTotal) {
+                                    // Don't increase the box number (if nothing has been packed yet)
+                                }
+                                else {
+                                    // Add 1 to the boxTotal and boxNumber
+                                    boxNumber++;
+                                    boxTotal++;
+                                }
                                 // Change current box to whatever box is next (like accessory box or 14x14)
                                 boxValue = nextBoxValue;
                                 // Resets the space remaining in the box to the full total of the new empty box
                                 boxValueLeft = boxValue;
                                 // Reduce value of all combined items to see if you have any leftovers at the very end that never got packed
                                 totalValueCurrent = totalValueCurrent - spaceSingleCurrentItem;
+                                // Reset current box weight to 0
+                                weightCurrentBox = 0;
+                                // Add weight of current item
+                                weightCurrentBox += weightSingleCurrentItem;
+                                weightTotal += weightSingleCurrentItem;
+                                // Add weight of nextBox
+                                weightCurrentBox += weightSingleCurrentItem;
+                                weightTotal += weightSingleCurrentItem;
                                 // Subtract single item value from box space remaining
                                 boxValueLeft = boxValueLeft - spaceSingleCurrentItem;
                                 // New variable to track if all of the current item type has been packed (might not need this one anymore since i switched to valueCurrentItem for the while loop condition)
@@ -1978,9 +1967,7 @@ Solid State Relays included with box carrying most POLDs
                                 valueCurrentItem = valueCurrentItem - 1;
                                 // Keep count of how many of the current item has been packed into the box (reset the count to 1 when changing boxes).
                                 currentItemCountInBoxOfCurrentItem = 1;
-                                // Add 1 to the boxTotal and boxNumber
-                                boxNumber++;
-                                boxTotal++;
+
                                 // Add item to string to be displayed at the end for what to pack
                                 // List the current box number and a placeholder for boxTotal, to be replaced at the end with innderHTML javascript (since we don't know the total number of boxes until it ends)
                                 // If there's an SO#, add it to the top of the page for each box
@@ -2012,12 +1999,29 @@ Solid State Relays included with box carrying most POLDs
                                 // break;
                             }
                             // Added extra breaks cuz the else loop kept running even after breaking out of it. I guess I didn't break enough to get out of the while loop.
+                            // Maybe removed the break here so the outputString line below would still work?
                             // break;
                         }
+
                         // Display how many of this item has been packed into the box, before exiting while loop
                         outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
+
+                        // Show the weight at the end of the final box (if the total number of items left to pack is 0 or less). (it was only showing weight when starting packing another box)
+                        // (Moved this to the end of this function, where it's outputting the line for the items packed)
+                        if (totalValueCurrent <= 0) {
+                            outputString += " <div class='weightCurrentBox'><i> &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(2)) + "lbs)</i><br></div>";
+                            // DEBUGGING to show info every time a single item is packed (1 line)
+                            if (valueDebug >= 1) {
+                                outputString = outputString + "<br> DEBUGGING INFO: weight2  totalValueCurrent = " + totalValueCurrent + ".  boxValueLeft = " + boxValueLeft + ".  totalValueCurrentItem = " + totalValueCurrentItem + ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem + ". weightCurrentBox = " + weightCurrentBox + "<br>";
+                            }
+                        }
                     }
                 }
+
+
+
+
+
 
 
 
@@ -2028,6 +2032,7 @@ Solid State Relays included with box carrying most POLDs
                 // TODO:  Maybe wrap each in an IF statement to avoid calling the function every time even with 0 items from that type
 
                 // Pack  API
+                // Don't need an  if > 0  statement since it's included in the referenced function
                 putInBox(valueApi, packingItem.api, "packingItem.api", totalValueApi, "API");
 
 
@@ -2182,9 +2187,20 @@ Solid State Relays included with box carrying most POLDs
 
 
                     // Basically copied the ELSE statement from the function about to be called, 
-                    // to make sure it changes boxes to Medium Shipper before packaging and Insulated Pouch
+                    // to make sure it changes boxes to Medium Shipper before packaging an Insulated Pouch
                     // since that's apparently the only box it fits in.
                     // But removed the parts about packing an item. (just showing the new box title)
+
+
+                    // Show weight (before new box)
+                    outputString += " <div class='weightCurrentBox'><i> &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(2)) + "lbs)</i><br></div>";
+                    // Reset box weight 
+                    weightCurrentBox = 0;
+                    // DEBUGGING to show info every time a single item is packed (1 line)
+                    if (valueDebug >= 1) {
+                        outputString = outputString + "<br> DEBUGGING INFO: weight4  else (newbox) totalValueCurrent = " + totalValueCurrent + ".  boxValueLeft = " + boxValueLeft + ". weightCurrentBox = " + weightCurrentBox + ". weightSingleCurrentItem = " + weightSingleCurrentItem + "<br>";
+                    }
+
 
                     // Change current box to next box
                     boxValue = nextBoxValue;
@@ -2240,14 +2256,58 @@ Solid State Relays included with box carrying most POLDs
             // THE FINAL CODE RUN TO SHOW RESULTS OUTPUT IS IN THE BLOCK ABOVE/BEFORE THIS FUNCTION, NOT HERE
 
 
-
-
-
-
         }
 
 
 
+
+
+
+
+
+
+        /// PRINT BUTTON (using addEventListener instead of onclick)
+        // Form validation for SO# (if printing more than 1 box)
+        // Only when clicking print
+        document.getElementById("printButton").addEventListener("click", functionOnPrint);
+        function functionOnPrint() {
+            // var value2SoNum = Number(document.getElementById("inputSoNum").value);
+
+
+            var idSoNum = document.getElementById("inputSoNum");
+            // Variable called value2SoNum to avoid conflict with valueSoNum in the onsubmit function (which isn't accessible here, and putting the variable outside the function might return the value before it's entered...)
+            var value2SoNum = Number(idSoNum.value);
+            // Only validate if a SO# is present if you have more than 1 box
+            if (boxTotal >= 2) {
+                // If SO# has a value
+                if (value2SoNum > 0) {
+                    // window.alert("Nice. \n value2SoNum = " + value2SoNum);
+                    window.print();
+                }
+                // If SO# doesn't have a value
+                else {
+                    // window.alert("boo. \n value2SoNum = " + value2SoNum);
+                    // FUNCTION:  Shows an Ok/Cancel popup
+                    // SOURCE:  https://stackoverflow.com/a/9334679
+                    var answer = window.confirm("ALERT:\nSO# is required when printing labels with more than 1 box.\n\nPlease click Ok then enter Sales Order Number (SO#)");
+                    // If they click Ok
+                    if (answer) {
+                        // Go back to form
+                        showMainPage();
+                    }
+                    // If they click Cancel
+                    else {
+                        // Otherwise just continue to printing)
+                        window.print();
+                    }
+                }
+            }
+            // If not more than 1 box
+            else {
+                // No SO# needed, so proceed
+                window.print();
+            }
+        }
 
 
 
