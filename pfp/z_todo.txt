@@ -2,6 +2,39 @@
 TODO
 ---
 
+insulatedpouch box weight is still messed up.
+ref:  2021-05-05 16_56_58-PFP3
+
+Large Accessory Box (14x14x14)  [Box 5 of 10]:
+• 1 Junction Box
+  (approximate box weight: 12.9lbs)
+
+Large Accessory Box (14x14x14)  [Box 6 of 10]:
+• 1 Junction Box
+  (approximate box weight: 12.9lbs)
+
+Medium Shipper (20x12x8)  [Box 7 of 10]:
+• 1 Insulated Pouch
+  (approximate box weight: 4.92lbs)   <----------------------------
+
+Medium Shipper (20x12x8)  [Box 8 of 10]:
+• 1 Insulated Pouch
+  (approximate box weight: 6.84lbs)
+
+Medium Shipper (20x12x8)  [Box 9 of 10]:
+• 1 Insulated Pouch
+  (approximate box weight: 6.84lbs)
+
+
+
+Add weightCurrentIteam (or related working variable) to debugging output, to see the calculations happening step by step.
+
+Compare calculated weights with measured finished/packed box weights with packing list on work pc.
+
+Change weightCurrentBox variable to weightCurrentBoxTotal for clarity between boxWeightSingle/nextBoxWeightSingle
+
+Change packItem.valueApi etc to packItem.formAmountApi or something, to differentiate space values with user entered values.
+
 // TODO:  Add box weight to the weight calculation
 
 Change "approximate box weight:" to "≈"
@@ -128,6 +161,21 @@ DONE
 ---------------------------------
 
 
+3.0.13  2021-05-05 ---
+Added weights for boxes/packaging materials. (Added variable nextBoxWeightSingle & buildOutputString argument boxWeightSingle)
+
+Adding box/packaging weights just before displaying the  <div class='weightCurrentBox'>.
+
+Copied weight display to  // Pack  Recirc Pump Switch  &  // Pack  Four Hour Timer  cases (in copied putInBox else statement, also in  // Pack  Insulated Pouch)
+
+TODO: Fix first insulated pouch box having incorrect weight? Or later insulated pouch boxes having incorrect weight...
+
+TODO: Compare weighed packed boxes and packing lists with weight auto-calculations.
+
+
+
+
+
 3.0.12  2021-05-03 ---
 Added weight calculation.
 
@@ -135,8 +183,7 @@ No longer showing empty accessory box if there are no LDS or accessories to go i
 
 TODO: Still need to add box/packaging weights, and verify results.
 
-
------
+---
 Add weights (reference jesse's list?).
 
 Fix weights calculating wrong (too high on single accessory/14x14). Probably multiplying or not resetting or something. (add weight additions for each device, and box weights)
@@ -158,7 +205,7 @@ added    </div> at 616
 removed variables at 1159
 
 2 insul pouches have an empty accessory box first.
------	
+---	
 
 
 
