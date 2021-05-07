@@ -2,8 +2,37 @@
 TODO
 ---
 
+Something isn't getting subtracted from itemsTotalLeft (maybe in the initial section where it forces stuff into the first box?).
+
+-- Replacement --
+Standard Shipper (19x12x7)  [Box 1 of 4]:
+• LDS (1.25") (Split-System B2)
+• 1 Control Panel
+• 1 Spring Check Valve (SCV)
+• 2 PAM-1 Relay
+• 4 API
+        (approximate box weight: 15.17lbs)
+
+Accessory Box (13x10x5)  [Box 2 of 4]:
+• 1 POLD
+• 2 Solid State Relay
+• 1 Recirc Pump Switch
+        (approximate box weight: 3.79lbs)
+
+Accessory Box (13x10x5)  [Box 3 of 4]:
+• 1 Recirc Pump Switch
+• 1 Four Hour Timer
+        (approximate box weight: 4.19lbs)
+
+Accessory Box (13x10x5)  [Box 4 of 4]:
+• 1 Four Hour Timer
+
+WARNING: Hmm there seems to be something left over. Did I forget something in my calculations?
 
 
+
+
+Reset leak rope etc to 0 when unchecking leak rope box.
 
 Add weightCurrentIteam (or related working variable) to debugging output, to see the calculations happening step by step.
 
@@ -11,11 +40,13 @@ Change weightCurrentBox variable to weightCurrentBoxTotal for clarity between bo
 
 Change packItem.valueApi etc variable to packItem.formAmountApi or something, to differentiate space values with user entered values.
 
+Replace valueCurrentItem with amountCurrentItem or something.
+
 Change "approximate box weight:" to "≈"
 
 make Split System B3 = 30 (defaults to an additional 14x14 like EJB. inform user to double-check with warehouse on specifics, since 30 is an average value)
 
-
+Maybe auto-calculate POLDs (total)
 
 
 
@@ -54,18 +85,6 @@ Have a separate button to Save results (as pdf? csv?) for uploading to zoho? Rem
 
 Blank out the form entries for inputs that were hidden when switching system types (like insulated pouches when switching to POLD-Only)
 
-
-// TODO:  Don't show the accessory box for POLD-Only if it's empty and your first box is something else (like medium shipper for 1 Insulated Pouch or something).
-// Results are showing an empty accessory box if all you have is insulated pouches.
-// Make sure the "if (lastboxnumberofitems > 0) {}" condition is there.
-
-Packing Results:
--- POLD System --
-Accessory (13x10x5)  [Box 1 of 62]:
-Medium Shipper (20x12x8)  [Box 2 of 62]:
-• 1 Insulated Pouch
-
-
 Add date to printed pages? (maybe not, otherwise they'll know if we held it or something)
 
 Maybe default the page size to 4x6? 
@@ -79,8 +98,6 @@ Maybe add level 1 and level 2 debugging levels, for basic info like these 2 line
 
 Align checkboxes that are near the top
 
-Number the boxes like Box 1, Box 2.
-
 Align the edges of all input elements (maybe use/don't use row elements?).
 
 Add Mailer "if case" for replacement or shipping of single accessory:
@@ -88,11 +105,11 @@ Mailer(11x9x1) = 2.5 (Use for shipments of accesory only)
 
 Checkboxes aren't working with chrome dark mode extension. (might be an issue with the bootstrap dark version fork i'm using?)
 
-Might wanna change bullets to blank spaces for checkmarks.
+Might wanna change bullets to blank spaces for shippers to add checkmarks when they pack items.
 
 Change page title on sumbit/print to a good filename (maybe even a client name entry box?) like 2021-04-17 ClientName (maybe with a random string of numbers at the end or timestamp, so there aren't duplicate filenames) or 2021-04-17 0223p ClientName  or  2021-04-17 1422 ClientName
 
-Icons or images beside each accessory box.
+Icons or images beside each accessory form entry.
 
 Add logo of shelled peanut halfway out of an open box (flaps 45 degrees up/out, corner facing us). Use as favicon too.
 
@@ -133,6 +150,30 @@ Show up/down number buttons by default, before entering anything?
 ---------------------------------
 DONE
 ---------------------------------
+
+
+3.0.15  2021-05-06 ---
+Added itemsTotalLeft (total number of items left to pack) to replace totalValueCurrent (total space of items) in some places, since some items are worth 0 so it was acting like it was done packing with SSR left.
+
+Added missing valuePam1 into valueTotal and totalValueTotal.
+
+Removed if case paramaters for when to calculate putting items into a large accessory box (now does it after every box is finished).
+
+Added an else case after a box is finished, to reset back to accessory box (was staying on large accessory box if that was previous).
+
+Moved a lot of nextBox code from each item into the putInBox function after finishing a box, so the logic is a lot better for picking the next box now.
+(Left nextBox code in the insulPouch section since it needs to force itself into a separate medium shipper every time)
+
+TODO: Fix something not getting subtracted from itemsTotalLeft
+
+---
+After packing a 14x14, do another if statement to see if we should stay on 14x14 or switch back to an accessory box (was packing 2 fourHour timers in a 2nd 14x14).
+
+Fix/stop showing weight after leak rope / before ssr. Problem was it shows weight if total value of current items to pack left is 0, and ssr are worth 0. 
+Changing to compare total number of items left instead of total calculated item space left to pack.
+---
+
+
 
 
 3.0.14  2021-05-06 ---
@@ -203,6 +244,16 @@ added    </div> at 616
 removed variables at 1159
 
 2 insul pouches have an empty accessory box first.
+
+// Don't show the accessory box for POLD-Only if it's empty and your first box is something else (like medium shipper for 1 Insulated Pouch or something).
+// Results are showing an empty accessory box if all you have is insulated pouches.
+// Make sure the "if (lastboxnumberofitems > 0) {}" condition is there.
+// Example:
+Packing Results:
+-- POLD System --
+Accessory (13x10x5)  [Box 1 of 62]:
+Medium Shipper (20x12x8)  [Box 2 of 62]:
+• 1 Insulated Pouch
 ---	
 
 
@@ -322,7 +373,7 @@ Fix rare bug preventing more than 6 boxes of one item type (now >= 60).
 
 Scroll to top on results page (if box list is long).
 
-Add box count on each box title header, like Box 3 of 3 (or Box 3, if it's hard to find the total. could maybe use a variable at the end, or replace all instances of a specific string with box total, since box titles/numbers are being built/output to the string before we know the total number of boxes)
+Add box number/count on each box title header, like Box 3 of 3 (could maybe use a variable at the end, or replace all instances of a specific string with box total, since box titles/numbers are being built/output to the string before we know the total number of boxes)
 
 Change \n to <br /> & remove <pre> tag on results.
 Possible ref i didn't use:
