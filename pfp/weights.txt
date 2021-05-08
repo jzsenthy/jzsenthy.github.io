@@ -1,0 +1,128 @@
+LDS Actuator + Pipe/Valve  (add 24v psu and related scv, and box/packaging weight)
+0.75	4.55
+1.00	5.35
+1.25	6.10
+1.50	7.6
+2.00	12.05
+2.50	
+3.00	
+4.00	35.7
+
+
+Just LDS Actuator
+VB015	3.15
+VB030	4.65
+VB060	7.15
+
+
+Pipe/Valves  // Chad (i verified a couple)
+0.75	1.2
+1.00	1.95
+1.25	2.70
+1.50	4.20
+2.00	7.10
+2.50	11.05 // me
+3.00	15.80
+
+
+SCV  // jesse
+0.75	0.5 // verified
+1.00	0.75
+1.25	1.2 // verified
+1.50	1.6
+2.00	2.35
+
+
+Accessories
+CP      0.3
+CP+PSU	0.5
+API     0.4
+API+PSU 0.6
+12V PSU	0.2
+24V PSU	1.75
+cp		:	0.3, // 0.29 (new is slightly heavier than old) (add psu)
+api		:	0.4, // 0.375 (add psu)
+pold		:	0.215, // With 2 AA and pins
+insulPouch: 1.92, // me  // jesse (backflowBag) 2-7
+
+
+rope2ft		:	0.03,
+rope5ft		:	0.06,
+rope10ft	:	0.11,
+
+
+BOXES---- 
+
+(Standard shipper with inserts and 24v psu and scv)
+0.75	3.75
+1.00	3.95
+1.25	4.45
+
+(standard shipper without 24v psu or scv)
+	    1.5
+
+(Brown/Yellow/Manilla mailer for control panel replacements, all packaged and done)
+        0.55
+
+
+------------------------------------------------
+
+
+var packingItemWeight = {
+    lds: 0,
+    lds075: 4.55 + 1.75 + 0.5,    // me + 24V PSU 1.75 + scv  // jesse 9.05 + 0.5 (scv)
+    lds100: 5.35 + 1.75 + 0.75,   // me + 24V PSU 1.75 + scv  // jesse 9.95 + 0.75 (scv)
+    lds125: 6.10 + 1.75 + 1.2,    // me + 24V PSU 1.75 + scv  // jesse 10.6 + 1.2 (scv)
+    lds150: 7.60 + 1.75 + 1.6,    // me + 24V PSU 1.75 + scv  // jesse 12.2 + 1.6 (scv)
+    lds200: 4.65 + 1.75 + 7.10 + 2.35,  // VB030 4.65 + 24V PSU 1.75 + Pipe/Valve 2.00 7.10   // jesse 17.4 + 2.35
+    lds250: 7.15 + 1.75 + 11 + 3, // VB060 7.15 + 24V PSU 1.75 +  Pipe/Valve ? +  scv ?  // guess
+    lds300: 7.15 + 1.75 + 18 + 4, // VB060 7.15 + 24V PSU 1.75 +  Pipe/Valve ? +  scv ?  // guess
+    lds400: 35.7 + 1.75 + 5,      // me + 24V PSU 1.75 + scv ?
+
+    splitSystem: 0,
+    splitSystemB1: 5, // guess
+    splitSystemB2: 5, // guess
+    splitSystemB3: 15, // guess
+
+    scv: 0.5, // depends on size. 0.5-2.35lb for 0.75"-2.00" // maybe just include with lds weight
+    cp: 0.5, // CP 0.3  +  12V PSU 0.2  +  CP+PSU 0.5
+    api: 0.6, // API 0.4  +  12V PSU 0.2  +  API+PSU 0.6
+    pold: 0.215, // With 2 AA and pins
+
+    poldPin: 0.215, // With 2 AA and pins
+    poldLeakRope2ft: 0.215 + 0.03,
+    poldLeakRope5ft: 0.215 + 0.06,
+    poldLeakRope10ft: 0.215 + 0.11,
+    leakRope2ft: 0.03,
+    leakRope5ft: 0.06,
+    leakRope10ft: 0.11,
+
+    recirc: 0.8, // jesse
+    fourHour: 0.8, // guess
+    ssr: 0.3, // guess
+    pam1: 0.3, // guess
+
+    juncBox: 5.45, // jesse
+    insulPouch: 3, // jesse (backflowBag) 2-7
+    hiddenWire: 3, // guess
+
+    //BOXES
+    // Standard Shipper (19x12x7) = 12 (For .75-1.5" systems only)
+    boxLds: 1.5, // without 24v psu or scv (or extra padding + documents)
+    // Medium Shipper (20x12x8) = 6 (Used for 2" systems or Insulated Pouch only)
+    boxLdsMedium: 3, // guess
+    // Large Shipper (18x18x14) = 18 (Used only for 2.5" and 3" systems)
+    boxLdsLarge: 4, // guess
+
+    // Panel Box (10x7x3) = 6
+    boxCp: 1, // guess
+    // Large Accessory Box (14x14x14) = 48 (Use only if EJB is included or if Point total is greater than or equal to 49)
+    box14x14: 2, // guess
+    // Recirc/4 hr Box (9x4x3) = 6 (Only to be used for single Recirc Pump Switch or 4hr Timer)
+    boxRecirc: 0.5, // guess
+    // Accessory Box (13x10x5) = 12
+    boxAccessories: 2, // guess
+    // Bubble Mailer (11x9x1) = 2.5 (Use for shippments of accesory only)
+    bubbleMailer: 0.2, // guess
+
+

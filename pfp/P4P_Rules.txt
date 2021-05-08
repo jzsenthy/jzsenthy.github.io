@@ -11,6 +11,7 @@ Recirc Pump Switch = 6
 Hidden Wire = 3  (changed from 4.5)
 Electrical Junction Box = 36
 Insulated Pouch = 6 (Defaults to an additional Medium Shipper)
+Split System B3 = 30 (defaults to an additional 14x14 like EJB. inform user to double-check with warehouse on specifics, since 30 is an average value)
 
 Boxes Point total:
 Shipper (19x12x7) = 12 (For .75-1.5" systems only)
@@ -33,6 +34,7 @@ Solid State Relays included with box carrying most POLDs
 
 
 
+
 -------------------------------
 
 Name changes proposed:
@@ -48,9 +50,9 @@ Large Shipper (18x18x14) = 18 (Used only for 2.5" and 3" systems)
 Large Accessory Box (14x14x14) = 48 (Use only if EJB is included or if Point total is greater than or equal to 49)
 
 ------------------------------------------------------------
-	
-	
-	
+
+
+
 
 
 
@@ -125,3 +127,85 @@ Panel, SCV, Hidden Wire and Pam1 always in Box 1
 4. 4hr Time
 5. Enclosures (Pouch + EJB)
 
+
+
+
+	
+	
+--------------------------------------------------------------
+--------------------------------------------------------------
+WEIGHTS
+--------------------------------------------------------------
+	
+// Jesse weights
+
+
+    // begin accessories calculation
+    shipmentObj.weight += shipmentObj.api * 0.6;
+    shipmentObj.weight += shipmentObj.pold * 0.2;
+    shipmentObj.weight += shipmentObj.recirc * 0.8;
+    shipmentObj.weight = Math.round(shipmentObj.weight);
+
+
+  // shipmentArr[n].weight calculator
+  function calcWeight(shipmentObj) {
+    shipmentObj.weight = 0;
+    // + weight based on ldsSize
+    switch (shipmentObj.ldsSize) {
+      case 75:
+        (scvInput.checked) ? shipmentObj.weight += 9.05 + 0.5 : shipmentObj.weight += 9.05;
+        shipmentObj.boxSize = '19 x 12 x 7';
+        shipmentObj.type = 'LDS';
+        break;
+      case 100:
+        (scvInput.checked) ? shipmentObj.weight += 9.95 + 0.75 : shipmentObj.weight += 9.95;
+        shipmentObj.boxSize = '19 x 12 x 7';
+        shipmentObj.type = 'LDS';
+        break;
+      case 125:
+        (scvInput.checked) ? shipmentObj.weight += 10.6 + 1.2 : shipmentObj.weight += 10.6;
+        shipmentObj.boxSize = '19 x 12 x 7';
+        shipmentObj.type = 'LDS';
+        break;
+      case 150:
+        (scvInput.checked) ? shipmentObj.weight += 12.2 + 1.6 : shipmentObj.weight += 12.2;
+        shipmentObj.boxSize = '19 x 12 x 7';
+        shipmentObj.type = 'LDS';
+        break;
+      case 200:
+        (scvInput.checked) ? shipmentObj.weight += 17.4 + 2.35 : shipmentObj.weight += 17.4;
+        shipmentObj.boxSize = '14 x 14 x 14';
+        shipmentObj.type = 'LDS';
+        break;
+      default:
+        if (isChecked(accessRadio)) {
+          shipmentObj.weight += 0.75;
+          shipmentObj.type = 'Accessories';
+        } else if (isChecked(poldRadio)) {
+          shipmentObj.weight += 1.5;
+          shipmentObj.type = 'POLD Only System';
+}
+        shipmentObj.boxSize = '13 x 10 x 5';
+}
+    // begin accessories calculation
+    shipmentObj.weight += shipmentObj.api * 0.6;
+    shipmentObj.weight += shipmentObj.pold * 0.2;
+    shipmentObj.weight += shipmentObj.recirc * 0.8;
+    shipmentObj.weight = Math.round(shipmentObj.weight);
+
+// J U N C - B O X - O B J E C T
+const juncBoxObj = {
+  boxSize: "14 x 14 x 14",
+  weight: 5.45
+};
+// B A C K F L O W - B A G - O B J E C T
+const backflowBagObj = {
+  boxSize: "19 x 12 x 7",
+  weight: 2
+};
+// J U N C - B O X + B A C K F L O W - B A G
+const jbBfbObj = {
+  boxSize: "14 x 14 x 14",
+  weight: 7
+}
+>>>>>>> Stashed changes

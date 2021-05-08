@@ -2,91 +2,9 @@
 TODO
 ---
 
+make Split System B3 = 30 (defaults to an additional 14x14 like EJB. inform user to double-check with warehouse on specifics, since 30 is an average value)
 
-// ignore this version
-Change rules to prevent 2 14x14s when packing EJB with second mostly empty.
-Only use a 14x14 if it’s packing 36 or more points of accessories, minus the junction box (and insulated pouch) values, (plus specifically pack EJB in a 14x14) then that may solve the issue of using a 14x14 for only a few accessories.
-Move the logic from outside of the itempacking function into an if statement before it packs an item, so it leaves the default as an accessory box, then only changes the nextBox to a 14x14 before packing more than 36pt items minus the juncBox and pouch (and/or if it's packing a juncBox), then switch it back to accessory box.
-Actually this will call for an accessory box for 2 items, then a 14x14 for a juncbox, when they could've fit in the same box.
-
-// This should pack juncBox plus up to 12pt of accessories in a 14x14
-after standard shipper is filled,
-if (number of accessories minus ejb and pouch is less than 14x14 space (48) - ejb space (36) (i.e. if currentTotal - totalJuncBoxValue <= 12) nextBox = 14x14
-// what happens if we have multiple juncBox though...
-// we could have a negative result for the left side of the if statement.
-
-
-// how about just seeing if we have 1 or more juncBox present first:
-if (valueJuncBox >= 1) {
-	// then subtracing the value of one juncBox from the currentTotal, and see if it's less than the space remaining in a 14x14 after packing a juncBox:
-	if ((currentTotal - packingItem.juncBox) <= (packingItem.box14x14 - packingItem.juncBox) {
-		nextBox = 14x14;
-	}
-}
-else if ((currentTotal - packingItem.juncBox) <= (packingItem.box14x14 - packingItem.juncBox) {
-	nextBox = 14x14;
-}
-
-
-
-
-//////////////// THIS
-
-// Change rules to prevent 2 14x14s when packing EJB with second mostly empty.
-// (actually we won't have a negative value because the juncBoxes are all added to the total, so using totalJuncBoxValue should work)
-
-// This should pack juncBox plus up to 12pt of accessories in a 14x14.
-// Run once standard shipper is filled,
-
-// See if we have 1 or more juncBox present first:
-if (valueJuncBox >= 1) {
-	// then subtracing the value of the juncBoxes and insulPouches from the currentTotal (since we're only worried about the other accessories that will be packed in this box), 
-	// and see if it's less than the space remaining in a 14x14 after packing a juncBox:
-	// TODO:  Make sure the subtraction on the left is working as expected
-	// This should allow packing up to 12pt of accessories in a 14x14 plus a juncBox
-	if ((currentTotal - totalJuncBoxValue - totalInsulPouchValue) <= (packingItem.box14x14 - packingItem.juncBox) {
-		nextBox = packingItem.box14x14;
-	}
-	// or if the total accessories (minus juncBox and insulPouch) are greater than or equal to 3 accessory boxes, then pack in a 14x14 instead
-	// TODO:  Make sure the subtraction on the left is working as expected
-	else if ((currentTotal - totalJuncBoxValue - totalInsulPouchValue) >= (packingItem.boxAccessories * 3) {
-		nextBox = packingItem.box14x14;
-	}
-	else {
-		nextBox = packingItem.boxAccessories;
-		// or no change. return or do nothing, whatever
-	}
-}
-// Duplicated from above, since it applies whether or not there's no juncBox
-// TODO:  Make sure the subtraction on the left is working as expected
-// or if the total accessories (minus juncBox and insulPouch) are greater than or equal to 3 accessory boxes, then pack in a 14x14 instead
-else if ((currentTotal - totalJuncBoxValue - totalInsulPouchValue) >= (packingItem.boxAccessories * 3) {
-	nextBox = packingItem.box14x14;
-}
-else {
-	nextBox = packingItem.boxAccessories;
-	// or no change. return or do nothing, whatever
-}
-
-
-
-
-
-
-// ignore this version
-(Maybe make it work like the pouch.)
-(Also only use 14x14x14 first if totalValueTotal >= 49 (or 36) minus the juncBox.)
-(If accessories don't equal or exceed 36 points minus juncBox & insulPouch, Keep accessory box as primary nextBox, and just force the juncBox in a 14x14? )
-(no that won't work because it's already doing that kinda and gonna waste space if you could fit 12 points of accessories in the 14x14 with it).)
-
-
-
-
-Add weights (reference jesse's list?).
-
-
-
-
+Adding something like btn-outline-info to the div containing the checkboxes is kinda cool to show how large of a clickable area you have.
 
 
 Keep revision number on bottom of results page, so i can see it in screenshots of issues (may not be useful since issues are being sent through saving the printout as pdf).
@@ -112,6 +30,9 @@ Make scrollTo work again to scroll to top from Reset button.
 
 // TODO:  "Solid State Relays included with box carrying most POLDs"  (although putting it in the last box a pold or leak rope went into is a lot easier)
 
+Add weightCurrentIteam (or related working variable) to debugging output, to see the calculations happening step by step.
+
+Change "approximate box weight:" to "≈"
 
 
 
@@ -120,21 +41,17 @@ Make scrollTo work again to scroll to top from Reset button.
 ---
 MAYBE DO
 ---
+Change weightCurrentBox variable name to weightCurrentBoxTotal for clarity between boxWeightSingle/nextBoxWeightSingle
+
+Change packItem.valueApi etc variable name to packItem.formAmountApi or something, to differentiate space values with user entered values.
+
+Replace valueCurrentItem variable name with amountCurrentItem or something.
+
+Maybe save the values from the extra leak rope section first to restore if section is shown again
+
 Have a separate button to Save results (as pdf? csv?) for uploading to zoho? Remove the page breaks from that version, so it prints on like 1 page.
 
 Blank out the form entries for inputs that were hidden when switching system types (like insulated pouches when switching to POLD-Only)
-
-
-// TODO:  Don't show the accessory box for POLD-Only if it's empty and your first box is something else (like medium shipper for 1 Insulated Pouch or something).
-// Results are showing an empty accessory box if all you have is insulated pouches.
-// Make sure the "if (lastboxnumberofitems > 0) {}" condition is there.
-
-Packing Results:
--- POLD System --
-Accessory (13x10x5)  [Box 1 of 62]:
-Medium Shipper (20x12x8)  [Box 2 of 62]:
-• 1 Insulated Pouch
-
 
 Add date to printed pages? (maybe not, otherwise they'll know if we held it or something)
 
@@ -149,8 +66,6 @@ Maybe add level 1 and level 2 debugging levels, for basic info like these 2 line
 
 Align checkboxes that are near the top
 
-Number the boxes like Box 1, Box 2.
-
 Align the edges of all input elements (maybe use/don't use row elements?).
 
 Add Mailer "if case" for replacement or shipping of single accessory:
@@ -158,11 +73,11 @@ Mailer(11x9x1) = 2.5 (Use for shipments of accesory only)
 
 Checkboxes aren't working with chrome dark mode extension. (might be an issue with the bootstrap dark version fork i'm using?)
 
-Might wanna change bullets to blank spaces for checkmarks.
+Might wanna change bullets to blank spaces for shippers to add checkmarks when they pack items.
 
 Change page title on sumbit/print to a good filename (maybe even a client name entry box?) like 2021-04-17 ClientName (maybe with a random string of numbers at the end or timestamp, so there aren't duplicate filenames) or 2021-04-17 0223p ClientName  or  2021-04-17 1422 ClientName
 
-Icons or images beside each accessory box.
+Icons or images beside each accessory form entry.
 
 Add logo of shelled peanut halfway out of an open box (flaps 45 degrees up/out, corner facing us). Use as favicon too.
 
@@ -205,6 +120,129 @@ DONE
 ---------------------------------
 
 
+3.0.16  2021-05-07 ---
+Fixed splitSystemCheck not getting subtracted from itemsTotalLeft.
+
+Fixed single overflow item fourHour timer not getting packed into fourHour timer box.
+
+Auto-calculate POLD Totals when leak rope section is expanded.
+
+Reset leak rope related form input values to empty when hiding that section.
+
+Added more logic for choosing the first box when there's no LDS (accessories only or pold only).
+  Fixed not choosing a large accessory box as the first box if  totalValueTotal > 36.
+  Fixed not choosing the four hour timer box if that or recirc is the only item to be packed.
+
+
+
+
+3.0.15  2021-05-06 ---
+Added itemsTotalLeft (total number of items left to pack) to replace totalValueCurrent (total space of items) in some places, since some items are worth 0 so it was acting like it was done packing with SSR left.
+
+Added missing valuePam1 into valueTotal and totalValueTotal.
+
+Removed if case paramaters for when to calculate putting items into a large accessory box (now does it after every box is finished).
+
+Added an else case after a box is finished, to reset back to accessory box (was staying on large accessory box if that was previous).
+
+Moved a lot of nextBox code from each item into the putInBox function after finishing a box, so the logic is a lot better for picking the next box now.
+(Left nextBox code in the insulPouch section since it needs to force itself into a separate medium shipper every time)
+
+TODO: Fix something not getting subtracted from itemsTotalLeft
+
+---
+After packing a 14x14, do another if statement to see if we should stay on 14x14 or switch back to an accessory box (was packing 2 fourHour timers in a 2nd 14x14).
+
+Fix/stop showing weight after leak rope / before ssr. Problem was it shows weight if total value of current items to pack left is 0, and ssr are worth 0. 
+Changing to compare total number of items left instead of total calculated item space left to pack.
+---
+
+
+
+
+3.0.14  2021-05-06 ---
+Fixed insulated pouch boxes weighing too much (else statement was adding box weight twice. should only add at the end of the box).
+
+Compare calculated weights with measured finished/packed box weights with packing list on work pc (all within 0.05-0.46 lbs).
+
+---
+insulatedpouch box weight is still messed up.
+ref:  2021-05-05 16_56_58-PFP3
+
+Medium Shipper (20x12x8)  [Box 7 of 10]:
+• 1 Insulated Pouch
+  (approximate box weight: 4.92lbs)
+
+Medium Shipper (20x12x8)  [Box 8 of 10]:
+• 1 Insulated Pouch
+  (approximate box weight: 6.84lbs)   <---
+
+Medium Shipper (20x12x8)  [Box 9 of 10]:
+• 1 Insulated Pouch
+  (approximate box weight: 6.84lbs)   <---
+---
+
+
+
+
+3.0.13  2021-05-05 ---
+Added weights for boxes/packaging materials. (Added variable nextBoxWeightSingle & buildOutputString argument boxWeightSingle)
+
+Adding box/packaging weights just before displaying the  <div class='weightCurrentBox'>.
+
+Copied weight display to  // Pack  Recirc Pump Switch  &  // Pack  Four Hour Timer  cases (in copied putInBox else statement, also in  // Pack  Insulated Pouch)
+
+TODO: Fix first insulated pouch box having incorrect weight? Or later insulated pouch boxes having incorrect weight...
+
+TODO: Compare weighed packed boxes and packing lists with weight auto-calculations.
+
+
+
+
+3.0.12  2021-05-03 ---
+Added weight calculation.
+
+No longer showing empty accessory box if there are no LDS or accessories to go in first box.
+
+TODO: Still need to add box/packaging weights, and verify results.
+
+---
+Add weights (reference jesse's list?).
+
+Fix weights calculating wrong (too high on single accessory/14x14). Probably multiplying or not resetting or something. (add weight additions for each device, and box weights)
+
+Find a way to show the weight at the end, without having to start packing another box
+
+Hide weights during print
+
+change all these
+weightCurrentBox += valuePam1 * packingItemWeight.pam1;
+to this
+weightCurrentBox += packingItemWeight.pam1;
+since we're packing one at a time
+(actually leave them as is in the top section that all goes in the first box by default, since those aren't packed one at a time)
+
+changed:
+line 644  added 5
+added    </div> at 616
+removed variables at 1159
+
+2 insul pouches have an empty accessory box first.
+
+// Don't show the accessory box for POLD-Only if it's empty and your first box is something else (like medium shipper for 1 Insulated Pouch or something).
+// Results are showing an empty accessory box if all you have is insulated pouches.
+// Make sure the "if (lastboxnumberofitems > 0) {}" condition is there.
+// Example:
+Packing Results:
+-- POLD System --
+Accessory (13x10x5)  [Box 1 of 62]:
+Medium Shipper (20x12x8)  [Box 2 of 62]:
+• 1 Insulated Pouch
+---	
+
+
+
+
 3.0.11  2021-04-12 ---
 Added special cases within packing function, after it finishes packing a box, to check if it just packed an LDS box, then tries to pack a 14x14 first (to avoid cases where a 14x14 is called because a junction box is present but only a few accessories get packed in it first then it picks another 14x14 for junction box, resulting in bigger boxes than needed). 
 (I think it's also running after packing an accessory box since it has the same value as the standard lds box (12), but I think it's working better that way in the few cases I've tested so I'm leaving it lol...)
@@ -212,7 +250,6 @@ Added special cases within packing function, after it finishes packing a box, to
 Reordered some form items (API before POLD, to reflect packing order and improve layout. SO# at end since it's not required unless printing labels for multiple boxes, which is probably rare).
 
 Fixed some form spacing, added "Extra Info" section title, added some code comments.
-
 
 
 
@@ -320,7 +357,7 @@ Fix rare bug preventing more than 6 boxes of one item type (now >= 60).
 
 Scroll to top on results page (if box list is long).
 
-Add box count on each box title header, like Box 3 of 3 (or Box 3, if it's hard to find the total. could maybe use a variable at the end, or replace all instances of a specific string with box total, since box titles/numbers are being built/output to the string before we know the total number of boxes)
+Add box number/count on each box title header, like Box 3 of 3 (could maybe use a variable at the end, or replace all instances of a specific string with box total, since box titles/numbers are being built/output to the string before we know the total number of boxes)
 
 Change \n to <br /> & remove <pre> tag on results.
 Possible ref i didn't use:
@@ -493,3 +530,90 @@ Add dark mode.
 Add vertical spacing/padding/gutter/gap between div elements.
 
 Change accordians to rows that start hidden until you click a button, so its one seamless block. (Just have many blocks already created, and only show the relevant ones as you press buttons.
+
+
+
+
+
+
+
+
+
+
+(packing exceptions added in v3.0.11  2021-04-12)
+// ignore this version
+Change rules to prevent 2 14x14s when packing EJB with second mostly empty.
+Only use a 14x14 if it’s packing 36 or more points of accessories, minus the junction box (and insulated pouch) values, (plus specifically pack EJB in a 14x14) then that may solve the issue of using a 14x14 for only a few accessories.
+Move the logic from outside of the itempacking function into an if statement before it packs an item, so it leaves the default as an accessory box, then only changes the nextBox to a 14x14 before packing more than 36pt items minus the juncBox and pouch (and/or if it's packing a juncBox), then switch it back to accessory box.
+Actually this will call for an accessory box for 2 items, then a 14x14 for a juncbox, when they could've fit in the same box.
+
+// This should pack juncBox plus up to 12pt of accessories in a 14x14
+after standard shipper is filled,
+if (number of accessories minus ejb and pouch is less than 14x14 space (48) - ejb space (36) (i.e. if currentTotal - totalJuncBoxValue <= 12) nextBox = 14x14
+// what happens if we have multiple juncBox though...
+// we could have a negative result for the left side of the if statement.
+
+
+// how about just seeing if we have 1 or more juncBox present first:
+if (valueJuncBox >= 1) {
+	// then subtracing the value of one juncBox from the currentTotal, and see if it's less than the space remaining in a 14x14 after packing a juncBox:
+	if ((currentTotal - packingItem.juncBox) <= (packingItem.box14x14 - packingItem.juncBox) {
+		nextBox = 14x14;
+	}
+}
+else if ((currentTotal - packingItem.juncBox) <= (packingItem.box14x14 - packingItem.juncBox) {
+	nextBox = 14x14;
+}
+
+
+
+
+//////////////// THIS
+
+// Change rules to prevent 2 14x14s when packing EJB with second mostly empty.
+// (actually we won't have a negative value because the juncBoxes are all added to the total, so using totalJuncBoxValue should work)
+
+// This should pack juncBox plus up to 12pt of accessories in a 14x14.
+// Run once standard shipper is filled,
+
+// See if we have 1 or more juncBox present first:
+if (valueJuncBox >= 1) {
+	// then subtracing the value of the juncBoxes and insulPouches from the currentTotal (since we're only worried about the other accessories that will be packed in this box), 
+	// and see if it's less than the space remaining in a 14x14 after packing a juncBox:
+	// TODO:  Make sure the subtraction on the left is working as expected
+	// This should allow packing up to 12pt of accessories in a 14x14 plus a juncBox
+	if ((currentTotal - totalJuncBoxValue - totalInsulPouchValue) <= (packingItem.box14x14 - packingItem.juncBox) {
+		nextBox = packingItem.box14x14;
+	}
+	// or if the total accessories (minus juncBox and insulPouch) are greater than or equal to 3 accessory boxes, then pack in a 14x14 instead
+	// TODO:  Make sure the subtraction on the left is working as expected
+	else if ((currentTotal - totalJuncBoxValue - totalInsulPouchValue) >= (packingItem.boxAccessories * 3) {
+		nextBox = packingItem.box14x14;
+	}
+	else {
+		nextBox = packingItem.boxAccessories;
+		// or no change. return or do nothing, whatever
+	}
+}
+// Duplicated from above, since it applies whether or not there's no juncBox
+// TODO:  Make sure the subtraction on the left is working as expected
+// or if the total accessories (minus juncBox and insulPouch) are greater than or equal to 3 accessory boxes, then pack in a 14x14 instead
+else if ((currentTotal - totalJuncBoxValue - totalInsulPouchValue) >= (packingItem.boxAccessories * 3) {
+	nextBox = packingItem.box14x14;
+}
+else {
+	nextBox = packingItem.boxAccessories;
+	// or no change. return or do nothing, whatever
+}
+
+
+
+
+
+// ignore this version
+(Maybe make it work like the pouch.)
+(Also only use 14x14x14 first if totalValueTotal >= 49 (or 36) minus the juncBox.)
+(If accessories don't equal or exceed 36 points minus juncBox & insulPouch, Keep accessory box as primary nextBox, and just force the juncBox in a 14x14? )
+(no that won't work because it's already doing that kinda and gonna waste space if you could fit 12 points of accessories in the 14x14 with it).)
+
+
