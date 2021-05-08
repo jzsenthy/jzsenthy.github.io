@@ -419,11 +419,31 @@
 
                         <!-- POLDs -->
                         <!-- div class mb-3 is margin-bottom -->
-                        <div class="mb-2">
-                            <label for="inputPold" class="form-label" id="inputPoldLabel">POLDs</label>
+                        <!-- Used mx-0 to fix this bootstrap row from sliding to the left -->
+                        <!-- REFERENCE:  https://getbootstrap.com/docs/4.0/layout/grid/ -->
+                        <!--   "Columns have horizontal padding to create the gutters between individual columns,""  -->
+                        <!--   "however, you can remove the margin from rows and padding from columns with .no-gutters on the .row." (didn't work) -->
+                        <div class="row mx-0">
+                            <!-- Removed left padding on text with px-0 -->
+                            <div class="col-sm-auto px-0">
+                                <label for="inputPold" class="form-label" id="inputPoldLabel">POLDs</label>
+                            </div>
+                            <div class="col-auto">
+                                <!-- Checkbox for auto-calculating POLD total -->
+                                <div class="form-check startHidden divCalcPoldTotal" id="divCalcPoldTotal">
+                                    <!-- Supposed to have (bootstrap)  form-check  class on parent div, but that puts checkbox on left. Remove if you want checkbox on right -->
+                                    <label for="checkCalcPoldTotal" class="form-label mx-3"><i>Auto-calculate POLD
+                                            total</i></label>
+                                    <input type="checkbox" class="form-check-input mx-1" id="checkCalcPoldTotal">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2 mx-0">
+                            <!-- POLD number input -->
                             <input type="number" class="form-control" id="inputPold" min="0" max="30"
                                 aria-describedby="poldHelp">
-                            <div id="poldHelp" class="form-text"><i>Maximum of 30. If requesting more than 15, send list
+                            <div id="poldHelp" class="form-text"><i>Maximum of 30. If requesting more than 15, send
+                                    list
                                     of zones.</i>
                             </div>
                         </div>
@@ -608,7 +628,7 @@
                     <!-- Version number -->
                     <!-- Text is not aligning right and idk why -->
                     <div class="mt-3">
-                        <p class="text-muted text-right"><i>Version 3.0.15</i></p>
+                        <p class="text-muted text-right"><i>Version 3.0.16</i></p>
                     </div>
 
                 </div>
@@ -751,29 +771,98 @@
 
 
         // Show POLD leak rope section if leak rope checkbox is selected
-        // HISTORY:  I'm not sure why it's reversed. Maybe it's checking the value on click, instead of seeing what it changes to
+        // HISTORY:  Changed from checkbox value to .checked because value was reversed.
+        //  Maybe it was checking the value on click, instead of seeing what it changes to.
+        //  Or it had to wait for the function to convert checkbox values to 1 / 0.
         // SAMPLE:  https://www.w3schools.com/jsref/event_onchange.asp
         document.getElementById("checkLeakRope").addEventListener("change", setLeakRope);
         function setLeakRope() {
-            var idLeakRope = document.getElementById("checkLeakRope");
-            var elementLeakRope;
-            if (idLeakRope.value == 0) {
-                elementLeakRope = document.getElementById("expandPold1");
-                elementLeakRope.style.display = "block";
-                elementLeakRope = document.getElementById("expandPold2");
-                elementLeakRope.style.display = "block";
-                elementLeakRope = document.getElementById("expandPold3");
-                elementLeakRope.style.display = "block";
+            var elementLeakRope = document.getElementById("checkLeakRope");
+            var elementPrefix;
+            if (elementLeakRope.checked == true) {
+                // Show all extra POLD/Rope sections
+                elementPrefix = document.getElementById("expandPold1");
+                elementPrefix.style.display = "block";
+                elementPrefix = document.getElementById("expandPold2");
+                elementPrefix.style.display = "block";
+                elementPrefix = document.getElementById("expandPold3");
+                elementPrefix.style.display = "block";
+                elementPrefix = document.getElementById("divCalcPoldTotal");
+                elementPrefix.style.display = "block";
+                // Check the "auto-calc" checkbox by default
+                elementPrefix = document.getElementById("checkCalcPoldTotal");
+                elementPrefix.checked = true;
+                // Make the POLD form input readonly
+                elementPrefix = document.getElementById("inputPold");
+                elementPrefix.setAttribute("readonly", "readonly");
+                // Change POLD input title
                 document.getElementById("inputPoldLabel").innerHTML = "POLDs (total)";
             }
-            else if (idLeakRope.value > 0) {
-                elementLeakRope = document.getElementById("expandPold1");
-                elementLeakRope.style.display = "none";
-                elementLeakRope = document.getElementById("expandPold2");
-                elementLeakRope.style.display = "none";
-                elementLeakRope = document.getElementById("expandPold3");
-                elementLeakRope.style.display = "none";
+            else if (elementLeakRope.checked == false) {
+                // Hide all extra POLD/Rope sections
+                elementPrefix = document.getElementById("expandPold1");
+                elementPrefix.style.display = "none";
+                elementPrefix = document.getElementById("expandPold2");
+                elementPrefix.style.display = "none";
+                elementPrefix = document.getElementById("expandPold3");
+                elementPrefix.style.display = "none";
+                elementPrefix = document.getElementById("divCalcPoldTotal");
+                elementPrefix.style.display = "none";
+                // Uncheck the "auto-calc" checkbox when hidden
+                elementPrefix = document.getElementById("checkCalcPoldTotal");
+                elementPrefix.checked = false;
+                // Make the POLD form input not readonly
+                elementPrefix = document.getElementById("inputPold");
+                elementPrefix.removeAttribute("readonly");
+                // Change POLD input title
                 document.getElementById("inputPoldLabel").innerHTML = "POLDs";
+
+                // Reset form input values when section is hidden
+                // TODO:  Maybe save the values first to restore if section is shown again
+                document.getElementById("inputPoldPin").value = "";
+                document.getElementById("inputPoldLeakRope2ft").value = "";
+                document.getElementById("inputPoldLeakRope5ft").value = "";
+                document.getElementById("inputPoldLeakRope10ft").value = "";
+                document.getElementById("inputLeakRope2ft").value = "";
+                document.getElementById("inputLeakRope5ft").value = "";
+                document.getElementById("inputLeakRope10ft").value = "";
+            }
+        }
+
+        // Disable/enable readonly state on POLD Total input box, from checkbox
+        // SAMPLE:  https://www.w3schools.com/jsref/event_onchange.asp
+        document.getElementById("checkCalcPoldTotal").addEventListener("change", setPoldTotalReadOnly);
+        function setPoldTotalReadOnly() {
+            var elementCheckCalcPoldTotal = document.getElementById("checkCalcPoldTotal");
+            var elementPrefix;
+            if (elementCheckCalcPoldTotal.checked == true) {
+                elementPrefix = document.getElementById("inputPold");
+                elementPrefix.setAttribute("readonly", "readonly");
+                // Immediately calculate the total if the checkbox is checked again
+                calcPoldTotal();
+            }
+            else if (elementCheckCalcPoldTotal.checked == false) {
+                elementPrefix = document.getElementById("inputPold");
+                elementPrefix.removeAttribute("readonly");
+            }
+        }
+
+        // Auto-Calculate total POLDs (when a related input is changed)
+        // ALso disables input and show a checkbox (default checked) to auto-calc total
+        // SAMPLE:  https://www.w3schools.com/jsref/event_onchange.asp
+        document.getElementById("inputPoldPin").addEventListener("change", calcPoldTotal);
+        document.getElementById("inputPoldLeakRope2ft").addEventListener("change", calcPoldTotal);
+        document.getElementById("inputPoldLeakRope5ft").addEventListener("change", calcPoldTotal);
+        document.getElementById("inputPoldLeakRope10ft").addEventListener("change", calcPoldTotal);
+        function calcPoldTotal() {
+            var idInputPold = document.getElementById("inputPold");
+            if (checkCalcPoldTotal.checked == true) {
+                // Add together the values of all the pold input boxes (POLDs with pins, POLDs with leak rope 2ft, 5ft, 10ft)
+                // They were showing/adding as strings so I had to wrap them in Number()
+                idInputPold.value = Number(document.getElementById("inputPoldPin").value) + Number(document.getElementById("inputPoldLeakRope2ft").value) + Number(document.getElementById("inputPoldLeakRope5ft").value) + Number(document.getElementById("inputPoldLeakRope10ft").value);
+            }
+            else if (checkCalcPoldTotal.checked == false) {
+                // idk. do nothing i guess
             }
         }
 
@@ -1260,6 +1349,11 @@
             var totalValueTotal = totalValueSplitSystemCheck + totalValueLds + totalValueScv + totalValueCp + totalValuePoldPin + totalValuePoldLeakRope2ft + totalValuePoldLeakRope5ft + totalValuePoldLeakRope10ft + totalValueLeakRope2ft + totalValueLeakRope5ft + totalValueLeakRope10ft + totalValueApi + totalValueRecirc + totalValueFourHour + totalValueSsr + totalValuePam1 + totalValueJuncBox + totalValueInsulPouch + totalValueHiddenWire;
 
 
+            // HISTORY:  Changed from using this variable to calculate how much total space value was left to pack, to how many total items are left to pack (since some items have 0 space value)
+            // I still need this variable though because I'm doing other calculations like seeing if I can fit leftovers in 14x14  if ((totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) <= (packingItem.box14x14 - packingItem.juncBox)) 
+            // I pulled this up higher to access it for choosing the first box, but left it in its original spot as well
+            var totalValueCurrent = totalValueTotal;
+
             //window.alert("yo totalValueTotal () = " + totalValueTotal);
 
             /*                Order of Priority:
@@ -1313,9 +1407,88 @@
             // TODO:  Don't show the accessory box on results if it's empty and your first box is medium shipper for 1 Insulated Pouch or something
             // TODO:  Maybe add:  || valueLds == '' || valueLds == 'undefined'
             else if (valueLds == 0) {
-                //window.alert("POLD-Only system\n valueLds = " + valueLds);
+
+                // If there's no LDS, determine the first box here
+                // See if we have 1 or more juncBox present first:
+                if (valueJuncBox >= 1) {
+                    // then subtracTing the value of the juncBoxes and insulPouches from the totalValueCurrent (since we're only worried about the other accessories that will be packed in this box), 
+                    // and see if it's less than the space remaining in a 14x14 after packing a juncBox:
+                    // TODO:  Make sure the subtraction on the left is working as expected
+                    // This should allow packing up to 12pt of accessories in a 14x14 plus a juncBox
+                    if ((totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) <= (packingItem.box14x14 - packingItem.juncBox)) {
+                        nextBox = "Large Accessory Box (14x14x14)";
+                        nextBoxValue = packingItem.box14x14;
+                        nextBoxWeightSingle = packingItemWeight.box14x14;
+                        // DEBUGGING level 3
+                        // if (valueDebug >= 1) {
+                        //     window.alert("3 INSIDE IF1:\n (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) == " + tempWindowalertVariable98sfhn + "\n currentItemName == " + currentItemName);
+                        // }
+                    }
+                    // or if the total accessories (minus juncBox and insulPouch) are greater than or equal to 3 accessory boxes, then pack in a 14x14 instead
+                    // TODO:  Make sure the subtraction on the left is working as expected
+                    else if ((totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) >= (packingItem.boxAccessories * 3)) {
+                        nextBox = "Large Accessory Box (14x14x14)";
+                        nextBoxValue = packingItem.box14x14;
+                        nextBoxWeightSingle = packingItemWeight.box14x14;
+                        // DEBUGGING level 3
+                        // if (valueDebug >= 1) {
+                        //     window.alert("4 INSIDE IF2:\n (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) == " + tempWindowalertVariable98sfhn + "\n currentItemName == " + currentItemName);
+                        // }
+                    }
+                    else {
+                        // Default back to an accessory box
+                        // TODO:  Check to make sure this isn't overriding other special circumstances like recirc pump box (it probably is. may need to move those if cases here)
+                        nextBox = "Accessory Box (13x10x5)";
+                        nextBoxValue = packingItem.boxAccessories;
+                        nextBoxWeightSingle = packingItemWeight.boxAccessories;
+                        // or no change. return or do nothing, whatever
+                        // DEBUGGING level 3
+                        // if (valueDebug >= 1) {
+                        //     window.alert("5 INSIDE ELSE:\n (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) == " + tempWindowalertVariable98sfhn + "\n currentItemName == " + currentItemName);
+                        // }
+                    }
+                }
+                //// Duplicated many of these from above, since they apply whether or not there's no juncBox (if the accessories total is within range)
+                // TODO:  Make sure the subtraction on the left is working as expected
+                // or if the total accessories (minus juncBox and insulPouch) are greater than or equal to 3 accessory boxes, then pack in a 14x14 instead
+                else if ((totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) >= (3 * packingItem.boxAccessories)) {
+                    // DEBUGGING level 3
+                    // if (valueDebug >= 1) {
+                    //     window.alert("7 INSIDE ELSE IF:\n (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) == " + tempWindowalertVariable98sfhn + "\n (packingItem.boxAccessories * 3) == " + tempWindowalertVariable354drt);
+                    // }
+                    nextBox = "Large Accessory Box (14x14x14)";
+                    nextBoxValue = packingItem.box14x14;
+                    nextBoxWeightSingle = packingItemWeight.box14x14;
+                }
+                else if ((valueRecirc == 1 && valueFourHour == 0) && (totalValueCurrent == packingItem.recirc)) {
+                    // FUNCTION:  Puts the Recirc or Four hour timer into its own box if this is the only overflow item
+                    nextBox = "Recirc/Four Hour Box (9x4x3)";
+                    nextBoxValue = packingItem.boxRecirc;
+                    nextBoxWeightSingle = packingItemWeight.boxRecirc;
+                }
+                else if ((valueRecirc == 0 && valueFourHour == 1) && (totalValueCurrent == packingItem.fourHour)) {
+                    // FUNCTION:  Puts the Recirc or Four hour timer into its own box if this is the only overflow item
+                    nextBox = "Recirc/Four Hour Box (9x4x3)";
+                    nextBoxValue = packingItem.boxRecirc;
+                    nextBoxWeightSingle = packingItemWeight.boxRecirc;
+                }
+                else {
+                    // Default back to an accessory box
+                    // TODO:  Check to make sure this isn't overriding other special circumstances like recirc pump box (it probably is. may need to move those if cases here)
+                    nextBox = "Accessory Box (13x10x5)";
+                    nextBoxValue = packingItem.boxAccessories;
+                    nextBoxWeightSingle = packingItemWeight.boxAccessories;
+                    // or no change. return or do nothing, whatever
+                    // DEBUGGING level 3
+                    // if (valueDebug >= 1) {
+                    //     window.alert("8 INSIDE ELSE:\n (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) == " + tempWindowalertVariable98sfhn + "\n (packingItem.boxAccessories * 3) == " + tempWindowalertVariable354drt);
+                    // }
+                }
+
                 // FUNCTION:  Call function to build list of all items and what boxes they go in (displayed later through hidden div)
-                outputStringFunc = buildOutputString("Accessory Box (13x10x5)", packingItem.boxAccessories, packingItemWeight.boxAccessories);
+                // Use the values found in conditions directly above to determine first box
+                outputStringFunc = buildOutputString(nextBox, nextBoxValue, nextBoxWeightSingle);
+                // outputStringFunc = buildOutputString("Accessory Box (13x10x5)", packingItem.boxAccessories, packingItemWeight.boxAccessories);
             }
             else {
                 window.alert("yo something is wrong with the LDS value.\n valueLds = " + valueLds);
@@ -1550,7 +1723,7 @@
                 var itemsTotalLeft = valueTotal;
                 // HISTORY:  Changed from using this variable to calculate how much total space value was left to pack, to how many total items are left to pack (since some items have 0 space value)
                 // I still need this variable though because I'm doing other calculations like seeing if I can fit leftovers in 14x14  if ((totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) <= (packingItem.box14x14 - packingItem.juncBox)) 
-                var totalValueCurrent = totalValueTotal;
+                totalValueCurrent = totalValueTotal;
 
                 // Initialze a variable to track how much space is left in each box, so once it hits a low number, it moves on to next box
                 var boxValueLeft = boxValue;
@@ -1584,6 +1757,13 @@
                     // REFERENCE:  (variable as part of a variable, within global window.Function())  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_eval!
                     weightCurrentBox += Function('return packingItemWeight.lds' + valueLdsMinusPeriod)();
                     weightTotal += Function('return packingItemWeight.lds' + valueLdsMinusPeriod)();
+
+                    // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
+                    // Not using this right now since lds isn't added to the item count
+                    // itemsTotalLeft = itemsTotalLeft - valueLdsCheck;
+                    // totalValueCurrent was replaced by itemsTotalLeft but I'm still using it for some other calculations so I'm leaving both
+                    totalValueCurrent = totalValueCurrent - totalValueLds;
+                    boxValueLeft = boxValueLeft - totalValueLds;
 
                     // Debugging level 0
                     if (valueDebug >= 1) {
@@ -1626,6 +1806,12 @@
                         weightCurrentBox += Function('return packingItemWeight.splitSystemB' + valueSplitSystemSelect)();
                         // MEANING:  weightCurrentBox += packingItemWeight.splitSystemB[valueSplitSystemSelect];
                         weightTotal += Function('return packingItemWeight.splitSystemB' + valueSplitSystemSelect)();
+
+                        // Subtract item value as it's added to a box, to figure out if there's items/overflow value left over
+                        itemsTotalLeft = itemsTotalLeft - valueSplitSystemCheck;
+                        // totalValueCurrent was replaced by itemsTotalLeft but I'm still using it for some other calculations so I'm leaving both
+                        totalValueCurrent = totalValueCurrent - totalValueSplitSystemCheck;
+                        boxValueLeft = boxValueLeft - totalValueSplitSystemCheck;
                         // Debugging level 0
                         console.log("weightCurrentBox = " + weightCurrentBox + "\nweightTotal = " + weightTotal);
                     }
@@ -1831,7 +2017,7 @@
 
                                 // DEBUGGING to show info every time a single item is packed (1 line)
                                 if (valueDebug >= 1) {
-                                    outputString = outputString + "<br> DEBUGGING INFO: itemsTotalLeft = " + itemsTotalLeft + ".  boxValueLeft = " + boxValueLeft + ".  totalValueCurrentItem = " + totalValueCurrentItem + ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem + ". weightCurrentBox = " + weightCurrentBox + "<br>";
+                                    outputString = outputString + "<br> DEBUGGING INFO: itemsTotalLeft = " + itemsTotalLeft + ".  boxValueLeft = " + boxValueLeft + ".  totalValueCurrentItem = " + totalValueCurrentItem + ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem + ".  totalValueCurrent = " + totalValueCurrent + ". weightCurrentBox = " + weightCurrentBox + "<br>";
                                 }
                             }
                             // Otherwise, show how many have been packed into this box, then move on to the next box and keep packing
@@ -1840,6 +2026,7 @@
                                 ///// FINISH THE PREVIOUS BOX /////
 
                                 // NOTE:  (Copied this else statement to  // Pack  Insulated Pouch  &  // Pack  Four Hour Timer  &  // Pack  Recirc Pump Switch  section as well. KEEP IT UPDATED)
+                                // I think I eliminated some of those external copied statements by bringing more nextBox calculations into this putInBox function (below)
                                 // Display how many of this item has been packed into the current box, before switching boxes (if there are 1 or more in there)
                                 if (currentItemCountInBoxOfCurrentItem >= 1) {
                                     outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
@@ -1868,7 +2055,7 @@
                                     outputString += " <div class='weightCurrentBox'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(2)) + "lbs)</i><br></div>";
                                     // DEBUGGING to show which code is displaying weight
                                     if (valueDebug >= 1) {
-                                        outputString = outputString + "<br> DEBUGGING INFO: weight3  else (newbox) itemsTotalLeft = " + itemsTotalLeft + ".  boxValueLeft = " + boxValueLeft + ".  totalValueCurrentItem = " + totalValueCurrentItem + ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem + ". weightCurrentBox = " + weightCurrentBox + ". weightSingleCurrentItem = " + weightSingleCurrentItem + "<br>";
+                                        outputString = outputString + "<br> DEBUGGING INFO: weight3  else (newbox) itemsTotalLeft = " + itemsTotalLeft + ".  boxValueLeft = " + boxValueLeft + ".  totalValueCurrentItem = " + totalValueCurrentItem + ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem + ".  totalValueCurrent = " + totalValueCurrent + ". weightCurrentBox = " + weightCurrentBox + ". weightSingleCurrentItem = " + weightSingleCurrentItem + "<br>";
                                     }
                                 }
                                 // DEBUGGING
@@ -1879,6 +2066,13 @@
 
 
 
+
+
+
+                                // Tried to make this a function i could call to pick the first box, 
+                                //  but I need to pull it out of this parent function, and remove some lines/variables
+                                // chooseNextBox();
+                                // function chooseNextBox() {
 
 
                                 //// START THE NEXT BOX
@@ -2031,7 +2225,9 @@
                                 // If current item is recirc pump, see if it's the only overflow item (and put it in its own box if so)
                                 else if (spaceSingleCurrentItemVariableName == "packingItem.recirc") {
                                     // FUNCTION:  Puts the Recirc or Four hour timer into its own box if this is the only overflow item
-                                    if ((valueRecirc == 1 && valueFourHour == 0) && (totalValueCurrent == packingItem.recirc) && (boxValueLeft < packingItem.recirc)) {
+                                    // Changed IF condition to work when there's one recirc left, even if there were recircs packed already
+                                    // if ((valueRecirc == 1 && valueFourHour == 0) && (totalValueCurrent == packingItem.recirc) && (boxValueLeft < packingItem.recirc)) {
+                                    if ((totalValueCurrent == packingItem.recirc) && (boxValueLeft < packingItem.recirc)) {
                                         nextBox = "Recirc/Four Hour Box (9x4x3)";
                                         nextBoxValue = packingItem.boxRecirc;
                                         nextBoxWeightSingle = packingItemWeight.boxRecirc;
@@ -2039,14 +2235,15 @@
                                 }
                                 // If current item is four hour timer, see if it's the only overflow item (and put it in its own box if so)
                                 else if (spaceSingleCurrentItemVariableName == "packingItem.fourHour") {
-                                    if ((valueRecirc == 0 && valueFourHour == 1) && (totalValueCurrent == packingItem.fourHour) && (boxValueLeft < packingItem.fourHour)) {
+                                    // Changed IF condition to work when there's one fourHour left, even if there were recircs or fourHours packed already
+                                    // if ((valueRecirc == 0 && valueFourHour == 1) && (totalValueCurrent == packingItem.fourHour) && (boxValueLeft < packingItem.fourHour)) {
+                                    if ((totalValueCurrent == packingItem.fourHour) && (boxValueLeft < packingItem.fourHour)) {
                                         nextBox = "Recirc/Four Hour Box (9x4x3)";
                                         nextBoxValue = packingItem.boxRecirc;
                                         nextBoxWeightSingle = packingItemWeight.boxRecirc;
                                     }
                                 }
 
-                                // }
                                 //// END EXCEPTION FOR 14X14 (then continue the packing loop) ////
 
 
@@ -2110,7 +2307,7 @@
 
                                 // DEBUGGING to show info every time a single item is packed (1 line)
                                 if (valueDebug == 1) {
-                                    outputString = outputString + "<br> DEBUGGING INFO: itemsTotalLeft = " + itemsTotalLeft + ".  boxValueLeft = " + boxValueLeft + ".  totalValueCurrentItem = " + totalValueCurrentItem + ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem + "<br>";
+                                    outputString = outputString + "<br> DEBUGGING INFO: itemsTotalLeft = " + itemsTotalLeft + ".  boxValueLeft = " + boxValueLeft + ".  totalValueCurrentItem = " + totalValueCurrentItem + ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem + ".  totalValueCurrent = " + totalValueCurrent + "<br>";
                                 }
 
                                 loopCount++;
@@ -2138,7 +2335,7 @@
                             outputString += " <div class='weightCurrentBox'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(2)) + "lbs)</i><br></div>";
                             // DEBUGGING to show info every time a single item is packed (1 line)
                             if (valueDebug >= 1) {
-                                outputString = outputString + "<br> DEBUGGING INFO: weight2  itemsTotalLeft = " + itemsTotalLeft + ".  boxValueLeft = " + boxValueLeft + ".  totalValueCurrentItem = " + totalValueCurrentItem + ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem + ". weightCurrentBox = " + weightCurrentBox + "<br>";
+                                outputString = outputString + "<br> DEBUGGING INFO: weight2  itemsTotalLeft = " + itemsTotalLeft + ".  boxValueLeft = " + boxValueLeft + ".  totalValueCurrentItem = " + totalValueCurrentItem + ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem + ".  totalValueCurrent = " + totalValueCurrent + ". weightCurrentBox = " + weightCurrentBox + "<br>";
                             }
                         }
                     }
@@ -2162,7 +2359,7 @@
                 putInBox(valueApi, packingItem.api, "packingItem.api", totalValueApi, "API");
 
 
-                // Pack  POLD (w/pin)
+                // Pack  POLD (w/pins)
                 // Use normal POLD input value (valuePold), if no leak rope
                 if (valueLeakRopeCheck == 0) {
                     putInBox(valuePold, packingItem.pold, "packingItem.pold", totalValuePold, "POLD");
@@ -2195,6 +2392,7 @@
 
                 // Pack  Recirc Pump Switch
                 if (valueRecirc > 0) {
+                    //// Moved all this nextBox stuff to inside the putInBox function
                     //     // FUNCTION:  Puts the Recirc or Four hour timer into its own box if this is the only overflow item
                     //     if ((valueRecirc == 1 && valueFourHour == 0) && (totalValueCurrent == packingItem.recirc) && (boxValueLeft < packingItem.recirc)) {
                     //         nextBox = "Recirc/Four Hour Box (9x4x3)";
@@ -2260,6 +2458,7 @@
 
                 // Pack  Four Hour Timer
                 if (valueFourHour > 0) {
+                    //// Moved all this nextBox stuff to inside the putInBox function
                     // // FUNCTION:  Puts the Recirc or Four hour timer into its own box if this is the only overflow item
                     // if ((valueRecirc == 0 && valueFourHour == 1) && (totalValueCurrent == packingItem.fourHour) && (boxValueLeft < packingItem.fourHour)) {
                     //     nextBox = "Recirc/Four Hour Box (9x4x3)";

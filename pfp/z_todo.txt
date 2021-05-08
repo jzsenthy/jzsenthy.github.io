@@ -2,52 +2,9 @@
 TODO
 ---
 
-Something isn't getting subtracted from itemsTotalLeft (maybe in the initial section where it forces stuff into the first box?).
-
--- Replacement --
-Standard Shipper (19x12x7)  [Box 1 of 4]:
-• LDS (1.25") (Split-System B2)
-• 1 Control Panel
-• 1 Spring Check Valve (SCV)
-• 2 PAM-1 Relay
-• 4 API
-        (approximate box weight: 15.17lbs)
-
-Accessory Box (13x10x5)  [Box 2 of 4]:
-• 1 POLD
-• 2 Solid State Relay
-• 1 Recirc Pump Switch
-        (approximate box weight: 3.79lbs)
-
-Accessory Box (13x10x5)  [Box 3 of 4]:
-• 1 Recirc Pump Switch
-• 1 Four Hour Timer
-        (approximate box weight: 4.19lbs)
-
-Accessory Box (13x10x5)  [Box 4 of 4]:
-• 1 Four Hour Timer
-
-WARNING: Hmm there seems to be something left over. Did I forget something in my calculations?
-
-
-
-
-Reset leak rope etc to 0 when unchecking leak rope box.
-
-Add weightCurrentIteam (or related working variable) to debugging output, to see the calculations happening step by step.
-
-Change weightCurrentBox variable to weightCurrentBoxTotal for clarity between boxWeightSingle/nextBoxWeightSingle
-
-Change packItem.valueApi etc variable to packItem.formAmountApi or something, to differentiate space values with user entered values.
-
-Replace valueCurrentItem with amountCurrentItem or something.
-
-Change "approximate box weight:" to "≈"
-
 make Split System B3 = 30 (defaults to an additional 14x14 like EJB. inform user to double-check with warehouse on specifics, since 30 is an average value)
 
-Maybe auto-calculate POLDs (total)
-
+Adding something like btn-outline-info to the div containing the checkboxes is kinda cool to show how large of a clickable area you have.
 
 
 Keep revision number on bottom of results page, so i can see it in screenshots of issues (may not be useful since issues are being sent through saving the printout as pdf).
@@ -73,6 +30,9 @@ Make scrollTo work again to scroll to top from Reset button.
 
 // TODO:  "Solid State Relays included with box carrying most POLDs"  (although putting it in the last box a pold or leak rope went into is a lot easier)
 
+Add weightCurrentIteam (or related working variable) to debugging output, to see the calculations happening step by step.
+
+Change "approximate box weight:" to "≈"
 
 
 
@@ -81,6 +41,14 @@ Make scrollTo work again to scroll to top from Reset button.
 ---
 MAYBE DO
 ---
+Change weightCurrentBox variable name to weightCurrentBoxTotal for clarity between boxWeightSingle/nextBoxWeightSingle
+
+Change packItem.valueApi etc variable name to packItem.formAmountApi or something, to differentiate space values with user entered values.
+
+Replace valueCurrentItem variable name with amountCurrentItem or something.
+
+Maybe save the values from the extra leak rope section first to restore if section is shown again
+
 Have a separate button to Save results (as pdf? csv?) for uploading to zoho? Remove the page breaks from that version, so it prints on like 1 page.
 
 Blank out the form entries for inputs that were hidden when switching system types (like insulated pouches when switching to POLD-Only)
@@ -150,6 +118,22 @@ Show up/down number buttons by default, before entering anything?
 ---------------------------------
 DONE
 ---------------------------------
+
+
+3.0.16  2021-05-07 ---
+Fixed splitSystemCheck not getting subtracted from itemsTotalLeft.
+
+Fixed single overflow item fourHour timer not getting packed into fourHour timer box.
+
+Auto-calculate POLD Totals when leak rope section is expanded.
+
+Reset leak rope related form input values to empty when hiding that section.
+
+Added more logic for choosing the first box when there's no LDS (accessories only or pold only).
+  Fixed not choosing a large accessory box as the first box if  totalValueTotal > 36.
+  Fixed not choosing the four hour timer box if that or recirc is the only item to be packed.
+
+
 
 
 3.0.15  2021-05-06 ---
