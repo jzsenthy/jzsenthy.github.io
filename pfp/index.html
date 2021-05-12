@@ -775,6 +775,7 @@
         //  Maybe it was checking the value on click, instead of seeing what it changes to.
         //  Or it had to wait for the function to convert checkbox values to 1 / 0.
         // SAMPLE:  https://www.w3schools.com/jsref/event_onchange.asp
+        // REFERENCE:  (for checkboxes) https://stackoverflow.com/questions/14544104/checkbox-check-event-listener
         document.getElementById("checkLeakRope").addEventListener("change", setLeakRope);
         function setLeakRope() {
             var elementLeakRope = document.getElementById("checkLeakRope");
@@ -792,7 +793,10 @@
                 // Check the "auto-calc" checkbox by default
                 elementPrefix = document.getElementById("checkCalcPoldTotal");
                 elementPrefix.checked = true;
-                // Make the POLD form input readonly
+                // Make the POLD form input readonly/disabled
+                // REFERENCE:  https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute
+                // REFERENCE:  (bootstrap) https://stackoverflow.com/questions/34539657/how-do-you-disabled-a-bootstrap-form-field
+                // REFERENCE:  (boolean attributes) https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes
                 elementPrefix = document.getElementById("inputPold");
                 elementPrefix.setAttribute("readonly", "readonly");
                 // Change POLD input title
@@ -812,6 +816,7 @@
                 elementPrefix = document.getElementById("checkCalcPoldTotal");
                 elementPrefix.checked = false;
                 // Make the POLD form input not readonly
+                // REFERENCE:  https://developer.mozilla.org/en-US/docs/Web/API/Element/removeAttribute
                 elementPrefix = document.getElementById("inputPold");
                 elementPrefix.removeAttribute("readonly");
                 // Change POLD input title

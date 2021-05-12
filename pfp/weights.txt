@@ -25,6 +25,11 @@ Pipe/Valves  // Chad (i verified a couple)
 3.00	15.80
 
 
+Split Systems
+// Comes with varying length of comm wire (not weighed yet)
+1.00"   2.6  // Grey box with comm wire plug, and probe wire + pipe
+
+
 SCV  // jesse
 0.75	0.5 // verified
 1.00	0.75
@@ -53,13 +58,32 @@ rope10ft	:	0.11,
 
 BOXES---- 
 
-(Standard shipper with inserts and 24v psu and scv)
-0.75	3.75
-1.00	3.95
-1.25	4.45
+Documents       0.4 lbs
+ Quick start guide
+ Blue registration
+ Installtion guide + owner's manual
+ Yellow attention installer
+ LDS flyer
+ Sentinel H2O flyer
+ Packing list
+ Pen
+ Documents sleeve
+
+(Standard shipper with cardboard inserts and 24v psu and scv)
+0.75"	3.75
+1.00"	3.95
+1.25"	4.45
 
 (standard shipper without 24v psu or scv)
 	    1.5
+
+Medium Shipper (20x12x8)
+// (Medium shipper with cardboard inserts, 24v psu, and no scv)
+2.00"     3.775 lbs     // Weighed two at a time, so 7.55/2
+
+// (Medium shipper with cardboard inserts, and no 24v psu or scv)
+2.00"     2.025 lbs     // Weighed two at a time, so 4.05/2
+
 
 (Brown/Yellow/Manilla mailer for control panel replacements, all packaged and done)
         0.55

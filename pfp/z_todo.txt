@@ -6,6 +6,8 @@ make Split System B3 = 30 (defaults to an additional 14x14 like EJB. inform user
 
 Adding something like btn-outline-info to the div containing the checkboxes is kinda cool to show how large of a clickable area you have.
 
+Indent the left edge of split system dropdown like the hidden wire box.
+
 
 Keep revision number on bottom of results page, so i can see it in screenshots of issues (may not be useful since issues are being sent through saving the printout as pdf).
 
@@ -260,7 +262,7 @@ Changed box names to a standardized format to sync up terms with upstairs/fedex 
 Standard Shipper (19x12x7) = 12 (For .75-1.5" systems only)
 Medium Shipper (20x12x8) = 6 (Used for 2" systems or Insulated Pouch only)
 Large Shipper (18x18x14) = 18 (Used only for 2.5" and 3" systems)
-Bubble Mailer (11x9x1) = 2.5 (Use for shipments of accesory only)
+Bubble Mailer (11x9x1) = 2.5 (Use for shipments of accessory only)
 Panel Box (10x7x3) = 6
 Recirc/4 hr Box (9x4x3) = 6 (Only to be used for single Recirc Pump Switch or 4hr Timer)
 Accessory Box (13x10x5) = 12
