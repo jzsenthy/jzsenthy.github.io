@@ -2,18 +2,18 @@
 TODO
 ---
 
-make Split System B3 = 30 (defaults to an additional 14x14 like EJB. inform user to double-check with warehouse on specifics, since 30 is an average value)
+Make cases for the bubble mailer, which shipping just one item like control panel replacement (maybe 1-2 POLD).
 
-Adding something like btn-outline-info to the div containing the checkboxes is kinda cool to show how large of a clickable area you have.
+Maybe make cases for using the control panel box as well when only a couple items (API, POLD), instead of defaulting to accessory box.
+
+Make Split System B3 = 30 (defaults to an additional 14x14 like EJB. inform user to double-check with warehouse on specifics, since 30 is an average value)
 
 Indent the left edge of split system dropdown like the hidden wire box.
 
+Put accessory inputs on shared line to take up less vertical room.
 
-Keep revision number on bottom of results page, so i can see it in screenshots of issues (may not be useful since issues are being sent through saving the printout as pdf).
 
 Add instructions to bottom of results page (select Zebra ZP500 printer. Each box will print on it's own page. You can also save as /print to pdf if you want)
-
-Put accessory inputs on shared line to take up less vertical room.
 
 "Solid State Relays included with box carrying most POLDs"
 Need to make a loop for assigning POLDs one at a time to a box, storing the value of which box has the most, (loop/function variables defined at top)
@@ -43,6 +43,11 @@ Change "approximate box weight:" to "≈"
 ---
 MAYBE DO
 ---
+
+Adding something like btn-outline-info to the div containing the checkboxes is kinda cool to show how large of a clickable area you have.
+
+Keep revision number on bottom of results page, so i can see it in screenshots of issues (may not be useful since issues are being sent through saving the printout as pdf).
+
 Change weightCurrentBox variable name to weightCurrentBoxTotal for clarity between boxWeightSingle/nextBoxWeightSingle
 
 Change packItem.valueApi etc variable name to packItem.formAmountApi or something, to differentiate space values with user entered values.
