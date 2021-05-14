@@ -129,7 +129,13 @@ DONE
 ---------------------------------
 
 
-3.1.0  2021-05-14 ---
+3.1.2  2021-05-14 ---
+Don't show box weight when nothing was packed. Show "Nothing to pack?".
+
+
+
+
+3.1.1  2021-05-14 ---
 Round weights to nearest pound.
 
 Dim the weight text (text-muted) so it doesn't make the results look cluttered. 
