@@ -12,6 +12,8 @@ Indent the left edge of split system dropdown like the hidden wire box.
 
 Put accessory inputs on shared line to take up less vertical room.
 
+Add white outline to favicon.
+
 
 Add instructions to bottom of results page (select Zebra ZP500 printer. Each box will print on it's own page. You can also save as /print to pdf if you want)
 
@@ -125,6 +127,24 @@ Show up/down number buttons by default, before entering anything?
 ---------------------------------
 DONE
 ---------------------------------
+
+
+3.1.0  2021-05-14 ---
+Round weights to nearest pound.
+
+Dim the weight text (text-muted) so it doesn't make the results look cluttered. 
+
+Rewording POLD help text to "If requesting more than 15, email a list of zones."
+
+Hide the debugging checkbox on bottom so it only shows when version number is clicked.
+
+
+
+
+3.1.0  2021-05-14 ---
+First public release (just upped version number).
+
+
 
 
 3.0.16  2021-05-07 ---

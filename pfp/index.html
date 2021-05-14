@@ -442,9 +442,8 @@
                             <!-- POLD number input -->
                             <input type="number" class="form-control" id="inputPold" min="0" max="30"
                                 aria-describedby="poldHelp">
-                            <div id="poldHelp" class="form-text"><i>Maximum of 30. If requesting more than 15, send
-                                    list
-                                    of zones.</i>
+                            <div id="poldHelp" class="form-text"><i>Maximum of 30. If requesting more than 15, email a
+                                    list of zones.</i>
                             </div>
                         </div>
 
@@ -594,16 +593,6 @@
                         <label class="form-check-label float-end" for="checkReplacement">Replacement for existing
                             system/accessory?</label>
                     </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input float-end mx-3" id="checkDebug">
-                        <label class="form-check-label float-end text-muted" for="checkDebug"><i>[Debugging
-                                mode]</i></label>
-                    </div>
-                    <div class="mb-3 startHidden" id="knownIssues">
-                        <!-- REFERENCE: https://stackoverflow.com/a/17711167  rel="noopener noreferrer" to prevent phishing attacks -->
-                        <a href="z_todo.txt" class="float-end mx-3" target="_blank" rel="noopener noreferrer"><i>[Known
-                                issues]</i></a>
-                    </div>
 
 
                     <div class="row mb-2">
@@ -625,11 +614,26 @@
                                 id="finalSubmitButton">Submit</button>
                         </div>
                     </div>
-                    <!-- Version number -->
-                    <!-- Text is not aligning right and idk why -->
-                    <div class="mt-3">
-                        <p class="text-muted text-right"><i>Version 3.1.0</i></p>
-                    </div>
+
+                    <row>
+                        <!-- Version number -->
+                        <!-- Text is not aligning right and idk why -->
+                        <div class="mt-3">
+                            <p class="versionNumber text-muted text-right" id="versionNumber"><i>Version 3.1.1</i></p>
+                        </div>
+                        <div class="mb-3 form-check startHidden" id="debugDiv">
+                            <!-- float-end  for align-right -->
+                            <input type="checkbox" class="form-check-input mx-3" id="checkDebug">
+                            <label class="form-check-label text-muted" for="checkDebug"><i>[Debugging
+                                    mode]</i></label>
+                        </div>
+                        <div class="mb-3 startHidden" id="knownIssues">
+                            <!-- REFERENCE: https://stackoverflow.com/a/17711167  rel="noopener noreferrer" to prevent phishing attacks -->
+                            <!-- float-end  for align-right -->
+                            <a href="z_todo.txt" class="mx-3" target="_blank" rel="noopener noreferrer"><i>[Known
+                                    issues]</i></a>
+                        </div>
+                    </row>
 
                 </div>
 
@@ -950,6 +954,33 @@
             // Set SCV value to 0 as well (the function will choose 0 when it evaluates that LDS is zero)
             setScv();
             setCp();
+        }
+
+
+        // FUNCTION:  Show debugging checkbox if version number is clicked
+        // HISTORY:  I'm not sure why it's reversed. Maybe it's checking the value on click, instead of seeing what it changes to
+        // SAMPLE:  https://www.w3schools.com/jsref/event_onchange.asp
+        document.getElementById("versionNumber").addEventListener("click", showDebugCheck);
+        function showDebugCheck() {
+            var elementDebugDiv = document.getElementById("debugDiv");
+            var elementCheckDebug = document.getElementById("checkDebug");
+            var elementKnownIssues = document.getElementById("knownIssues");
+            // If debug checkbox is shown when version number is clicked, hide it
+            if (elementDebugDiv.style.display == "block") {
+                // Uncheck debugging
+                elementCheckDebug.checked = false;
+                // Had to add this to auto-update the valueDebug value on submit
+                elementCheckDebug.value = 0;
+                
+                // Hide debugging checkbox
+                elementDebugDiv.style.display = "none";
+                // Also hide known issues link
+                elementKnownIssues.style.display = "none";
+            }
+            // Otherwise show it
+            else {
+                elementDebugDiv.style.display = "block";
+            }
         }
 
 
@@ -1301,6 +1332,8 @@
             // window.alert("valueReplacement = " + valueReplacement);
             // Determine if the checkbox for debugging is enabled
             var valueDebug = Number(document.getElementById("checkDebug").value);
+            // Not using right now. I want debug to be values 0-3 instead of check/uncheck
+            var valueDebugChecked = Number(document.getElementById("checkDebug").value);
 
 
             // TIP:  If nothing beyond here works, you have a typo or referenced the wrong ID above somewhere (idk why it doesn't error)
@@ -1890,7 +1923,7 @@
                     // Add the box/packaging weight to the total
                     weightCurrentBox += boxWeightSingle;
                     weightTotal += boxWeightSingle;
-                    outputString += " <div class='weightCurrentBox'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(2)) + "lbs)</i><br></div>";
+                    outputString += " <div class='weightCurrentBox text-muted'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(0)) + " lbs)</i><br></div>";
                     // DEBUGGING to show info every time a single item is packed (1 line)
                     if (valueDebug >= 1) {
                         outputString = outputString + "<br> DEBUGGING INFO: weight1  itemsTotalLeft = " + itemsTotalLeft + ".  boxValueLeft = " + boxValueLeft + ".  weightCurrentBox = " + weightCurrentBox + "<br>";
@@ -2058,7 +2091,7 @@
                                     // Add the box/packaging weight to the total
                                     weightCurrentBox += boxWeightSingle;
                                     weightTotal += boxWeightSingle;
-                                    outputString += " <div class='weightCurrentBox'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(2)) + "lbs)</i><br></div>";
+                                    outputString += " <div class='weightCurrentBox text-muted'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(0)) + " lbs)</i><br></div>";
                                     // DEBUGGING to show which code is displaying weight
                                     if (valueDebug >= 1) {
                                         outputString = outputString + "<br> DEBUGGING INFO: weight3  else (newbox) itemsTotalLeft = " + itemsTotalLeft + ".  boxValueLeft = " + boxValueLeft + ".  totalValueCurrentItem = " + totalValueCurrentItem + ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem + ".  totalValueCurrent = " + totalValueCurrent + ". weightCurrentBox = " + weightCurrentBox + ". weightSingleCurrentItem = " + weightSingleCurrentItem + "<br>";
@@ -2338,7 +2371,7 @@
                             // Add the box/packaging weight to the total
                             weightCurrentBox += boxWeightSingle;
                             weightTotal += boxWeightSingle;
-                            outputString += " <div class='weightCurrentBox'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(2)) + "lbs)</i><br></div>";
+                            outputString += " <div class='weightCurrentBox text-muted'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(0)) + " lbs)</i><br></div>";
                             // DEBUGGING to show info every time a single item is packed (1 line)
                             if (valueDebug >= 1) {
                                 outputString = outputString + "<br> DEBUGGING INFO: weight2  itemsTotalLeft = " + itemsTotalLeft + ".  boxValueLeft = " + boxValueLeft + ".  totalValueCurrentItem = " + totalValueCurrentItem + ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem + ".  totalValueCurrent = " + totalValueCurrent + ". weightCurrentBox = " + weightCurrentBox + "<br>";
@@ -2416,7 +2449,7 @@
                     //         // Add the box/packaging weight to the total
                     //         weightCurrentBox += boxWeightSingle;
                     //         weightTotal += boxWeightSingle;
-                    //         outputString += " <div class='weightCurrentBox'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(2)) + "lbs)</i><br></div>";
+                    //         outputString += " <div class='weightCurrentBox text-muted'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(2)) + " lbs)</i><br></div>";
                     //         // Reset box weight 
                     //         weightCurrentBox = 0;
                     //         // DEBUGGING to show info every time a single item is packed (1 line)
@@ -2482,7 +2515,7 @@
                     //     // Add the box/packaging weight to the total
                     //     weightCurrentBox += boxWeightSingle;
                     //     weightTotal += boxWeightSingle;
-                    //     outputString += " <div class='weightCurrentBox'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(2)) + "lbs)</i><br></div>";
+                    //     outputString += " <div class='weightCurrentBox text-muted'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(2)) + " lbs)</i><br></div>";
                     //     // Reset box weight 
                     //     weightCurrentBox = 0;
                     //     // DEBUGGING to show info every time a single item is packed (1 line)
@@ -2571,7 +2604,7 @@
                     // Add the box/packaging weight to the total
                     weightCurrentBox += boxWeightSingle;
                     weightTotal += boxWeightSingle;
-                    outputString += " <div class='weightCurrentBox'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(2)) + "lbs)</i><br></div>";
+                    outputString += " <div class='weightCurrentBox text-muted'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(0)) + " lbs)</i><br></div>";
                     // Reset box weight 
                     weightCurrentBox = 0;
                     // DEBUGGING to show info every time a single item is packed (1 line)
