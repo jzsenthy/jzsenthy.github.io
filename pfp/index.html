@@ -1760,6 +1760,7 @@
                     var valueLdsMinusPeriod = valueLds.replaceAll('.', '');
                     // Not calling a function, just referencing a variable dynamically (packingItemWeight.lds[valueLdsMinusPeriod] aka packingItemWeight.lds200)
                     // REFERENCE:  (variable as part of a variable, within global window.Function())  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_eval!
+                    // Alternative:  https://stackoverflow.com/a/52246274/1263035  // window[dynamicname + '2'] = 'myvalue'
                     weightCurrentBox += Function('return packingItemWeight.lds' + valueLdsMinusPeriod)();
                     weightTotal += Function('return packingItemWeight.lds' + valueLdsMinusPeriod)();
 

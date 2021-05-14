@@ -145,6 +145,15 @@ https://www.reddit.com/r/javascript/comments/22ralo/innerhtml_and_newlines/
 
 
 
+// Not calling a function, just referencing a variable dynamically (packingItemWeight.lds[valueLdsMinusPeriod] aka packingItemWeight.lds200)
+// REFERENCE:  (variable as part of a variable, within global window.Function())  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_eval!
+// Alternative:  https://stackoverflow.com/a/52246274/1263035  // window[dynamicname + '2'] = 'myvalue'
+weightCurrentBox += Function('return packingItemWeight.lds' + valueLdsMinusPeriod)();
+
+
+
+
+
 // Change checkboxes from On/NaN to 1 or 0
 // SOURCE:  https://stackoverflow.com/questions/18295811/checkbox-value-0-or-1
 // SOURCE:  https://stackoverflow.com/a/63962842
