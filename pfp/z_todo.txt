@@ -2,6 +2,15 @@
 TODO
 ---
 
+[BS] PFP doesn't allow for more than one system. Might want to look into that.
+
+[EW] Add lds power wire length option, since it has the potential to spill into another box. Shippers have to come up with a rule for it.
+
+Finish split-system rules (b3 especially).
+
+Maybe add a pold to split systems by default (since this happens).
+
+
 Make cases for the bubble mailer, which shipping just one item like control panel replacement (maybe 1-2 POLD).
 
 Maybe make cases for using the control panel box as well when only a couple items (API, POLD), instead of defaulting to accessory box.
@@ -127,6 +136,11 @@ Show up/down number buttons by default, before entering anything?
 ---------------------------------
 DONE
 ---------------------------------
+
+3.1.2  2021-06-08 ---
+Added warnings about B3 rules not being done (in the dropdown, once selecting B3, and on Submit)
+
+
 
 
 3.1.2  2021-05-14 ---

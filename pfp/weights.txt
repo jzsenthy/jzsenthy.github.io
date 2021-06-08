@@ -49,6 +49,7 @@ cp		:	0.3, // 0.29 (new is slightly heavier than old) (add psu)
 api		:	0.4, // 0.375 (add psu)
 pold		:	0.215, // With 2 AA and pins
 insulPouch: 1.92, // me  // jesse (backflowBag) 2-7
+juncBox	7.85
 
 
 rope2ft		:	0.03,
