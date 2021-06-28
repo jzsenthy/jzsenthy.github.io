@@ -141,6 +141,12 @@ Show up/down number buttons by default, before entering anything?
 DONE
 ---------------------------------
 
+3.1.5  2021-06-28 ---
+Moved reset button and Submit to the left side (along with Replacement checkbox.) Version number moved to right.
+
+Added arrow symbols to the "Go Back" and "Start Over" results buttons, to make it clearer what they do.
+
+
 3.1.4  2021-06-28 ---
 Moved reset button next to Submit on the right side since it felt natural to press the button on the left since all other inputs were on the left.
 

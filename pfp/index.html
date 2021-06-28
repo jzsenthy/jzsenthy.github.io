@@ -202,13 +202,14 @@
                         <div class="col-8">
                             <!-- FUNCTION:  Back button (calls the showMainPage function which inverts the display of elements shown/hidden by the showResults function) -->
                             <!-- TIP:  Align right with float-end -->
-                            <button type="button" class="btn btn-secondary mb-5 backButton" id="backButton">Go
-                                Back</button>
+                            <!-- Source for arrows:  https://www.calculators.org/math/html-arrows.php -->
+                            <button type="button" class="btn btn-secondary mb-5 backButton" id="backButton">← Go
+                                Back &nbsp;</button>
                             <!-- FUNCTION:  This "submit" button isn't actually submitting anything, but it refreshes the page on submit, which is the goal  -->
                             <!-- TODO:  Maybe change this from a submit button to a refresh page button (like my custom reset button). No real reason to as of now though -->
                             <!-- TIP:  Align right with float-end -->
                             <button type="submit" class="btn btn-warning mb-5 float-left submitButton"
-                                id="resultsSubmitButton">Start Over</button>
+                                id="resultsSubmitButton">↺ Start Over &nbsp;</button>
                         </div>
 
                         <div class="col-4">
@@ -589,20 +590,15 @@
                     <!-- TODO: Expand to show extra input fields like zoho link, device id, details/comment box to help person preparing (and maybe auto copy to zoho and packing list/label?) -->
 
                     <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input float-end mx-3" id="checkReplacement">
-                        <label class="form-check-label float-end" for="checkReplacement">Replacement for existing
+                        <input type="checkbox" class="form-check-input mx-3" id="checkReplacement">
+                        <label class="form-check-label" for="checkReplacement">Replacement for existing
                             system/accessory?</label>
                     </div>
 
 
-                    <div class="row mb-2">
+                    <div class="row mt-1 mb-2">
                         <div class="col">
-                            <!-- Reset button used to be here on the left -->
-                            <!-- May not actually need the rows and columns now -->
-                        </div>
-                        <div class="col">
-                            <!-- PURPOSE:  Floating a div to the right so both buttons float to the right as a group -->
-                            <div class="float-end" id="resetAndSubmitButtons">
+                            <div class="resetAndSubmitButtons" id="resetAndSubmitButtons">
                                 <!-- FUNCTION:  Reset button -->
                                 <!-- HISTORY:  Wasn't fully resetting the form, so I switched to just refreshing the page on click -->
                                 <!-- REFERENCE:  https://stackoverflow.com/a/20740876/1263035 -->
@@ -620,27 +616,34 @@
                                     id="finalSubmitButton">Submit</button>
                             </div>
                         </div>
+                        <div class="col">
+                            <!-- Submit button used to be here on the right -->
+                            <!-- May not actually need the rows and columns now -->
+                        </div>
                     </div>
 
-                    <row>
-                        <!-- Version number -->
-                        <!-- Text is not aligning right and idk why -->
-                        <div class="mt-3">
-                            <p class="versionNumber text-muted text-right" id="versionNumber"><i>Version 3.1.4</i></p>
+                    <div class="mt-3">
+                        <div class="float-end">
+                            <!-- Version number -->
+                            <!-- Text is not aligning right and idk why -->
+                            <div class="">
+                                <p class="versionNumber text-muted text-right" id="versionNumber"><i>Version 3.1.5</i>
+                                </p>
+                            </div>
+                            <div class="mb-3 form-check startHidden" id="debugDiv">
+                                <!-- float-end  for align-right -->
+                                <input type="checkbox" class="form-check-input mx-3" id="checkDebug">
+                                <label class="form-check-label text-muted" for="checkDebug"><i>[Debugging
+                                        mode]</i></label>
+                            </div>
+                            <div class="mb-3 startHidden" id="knownIssues">
+                                <!-- REFERENCE: https://stackoverflow.com/a/17711167  rel="noopener noreferrer" to prevent phishing attacks -->
+                                <!-- float-end  for align-right -->
+                                <a href="z_todo.txt" class="mx-3" target="_blank" rel="noopener noreferrer"><i>[Known
+                                        issues]</i></a>
+                            </div>
                         </div>
-                        <div class="mb-3 form-check startHidden" id="debugDiv">
-                            <!-- float-end  for align-right -->
-                            <input type="checkbox" class="form-check-input mx-3" id="checkDebug">
-                            <label class="form-check-label text-muted" for="checkDebug"><i>[Debugging
-                                    mode]</i></label>
-                        </div>
-                        <div class="mb-3 startHidden" id="knownIssues">
-                            <!-- REFERENCE: https://stackoverflow.com/a/17711167  rel="noopener noreferrer" to prevent phishing attacks -->
-                            <!-- float-end  for align-right -->
-                            <a href="z_todo.txt" class="mx-3" target="_blank" rel="noopener noreferrer"><i>[Known
-                                    issues]</i></a>
-                        </div>
-                    </row>
+                    </div>
 
                 </div>
 
