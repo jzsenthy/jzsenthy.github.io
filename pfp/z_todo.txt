@@ -55,6 +55,10 @@ Change "approximate box weight:" to "≈"
 MAYBE DO
 ---
 
+Empty box 1 if only packing insulated pouches.
+
+Don't proceed to packing if a split system is selected but no valve size is selected? (Or maybe don't proceed at all without LDS size if you're in the LDS Valve section).
+
 Adding something like btn-outline-info to the div containing the checkboxes is kinda cool to show how large of a clickable area you have.
 
 Keep revision number on bottom of results page, so i can see it in screenshots of issues (may not be useful since issues are being sent through saving the printout as pdf).
@@ -136,6 +140,11 @@ Show up/down number buttons by default, before entering anything?
 ---------------------------------
 DONE
 ---------------------------------
+
+3.1.4  2021-06-28 ---
+Moved reset button next to Submit on the right side since it felt natural to press the button on the left since all other inputs were on the left.
+
+
 
 3.1.3  2021-06-08 ---
 Added warnings about B3 rules not being done (in the dropdown, once selecting B3, and on Submit)
