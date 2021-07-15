@@ -1,17 +1,14 @@
 ---
 TODO
 ---
-Add/remove a css class to printable div to add/remove the css styles for printing when saving to pdf (easier than loading an external stylesheet through javascript then trying to get rid of it).
-
-/* TODO:  Make placeholder divs smaller so they don't create big gaps? */
 
 // TODO:  Add date/time and package info to filename
 
-[EW] "Save to pdf" option.
+Fix/add CSS to the Saving... box so the 100vw width doesn't create scrollbars
 
-[BS] PFP doesn't allow for more than one system. Might want to look into that.
+[BS] PFP doesn't allow for more than one system. Might want to look into that. //no
 
-[EW] Add lds power wire length option, since it has the potential to spill into another box. Shippers have to come up with a rule for it.
+[EW] Add lds power wire length option, since it has the potential to spill into another box. //Warehouse has to come up with a rule for it.
 
 Finish split-system rules (b3 especially).
 
@@ -148,10 +145,25 @@ Show up/down number buttons by default, before entering anything?
 DONE
 ---------------------------------
 
+
+3.1.6  2021-07-15 ---
+[EW] "Save to pdf" option (for remote workers to save the packing list and send to local worker to print).
+
+Added html2pdf library to export the #resultsBox div as a jpg (with page breaks) in pdf form (png was too large filesize, and png compression library didn't work). (Apparently jsPDF doesn't support css).
+
+Add/remove a css class (.printCss) to parent div (body) to add/remove the css styles for printing when saving to pdf (easier than loading an external stylesheet through javascript then trying to get rid of it). (Just duplicated the @media print  css rules).
+
+Add a "Saving..." div with dark background, filling the window, to show while saving pdf (so you dont see white flash when css changes).
+
+
+
+
 3.1.5  2021-06-28 ---
 Moved reset button and Submit to the left side (along with Replacement checkbox.) Version number moved to right.
 
 Added arrow symbols to the "Go Back" and "Start Over" results buttons, to make it clearer what they do.
+
+
 
 
 3.1.4  2021-06-28 ---
@@ -159,10 +171,12 @@ Moved reset button next to Submit on the right side since it felt natural to pre
 
 
 
+
 3.1.3  2021-06-08 ---
 Added warnings about B3 rules not being done (in the dropdown, once selecting B3, and on Submit)
 
 Updated version number.
+
 
 
 

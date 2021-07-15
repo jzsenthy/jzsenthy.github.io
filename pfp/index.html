@@ -73,11 +73,53 @@
             /* margin-top: 20px; */
         }
 
-        /* TODO:  Make placeholder divs smaller so they don't create big gaps? */
-        /* .newBoxBefore1,
+        /* Makes placeholder divs smaller so they don't create big gaps */
+        /* TODO: Maybe remove this rule when saving/printing  */
+        /* HISTORY:  html2pdf was having trouble with page break locations with unstandard div heights,
+         so i disabled this rule initially, but now that i'm not using external css it seems to work */
+        .newBoxBefore1,
         .newBoxBefore2 {
-            height: 10px;
-        } */
+            height: 5px;
+        }
+
+
+
+        /* TODO:  Fix/add CSS so the width doesn't create scrollbars */
+        /* REFERENCE:  https://stackoverflow.com/questions/1575141/how-to-make-a-div-100-height-of-the-browser-window */
+        /* html,
+        body, */
+        .savingMessage {
+            color: #E1E1E1;
+            background-color: #222222;
+            /* height: 100%; */
+            height: 100vh;
+            /* height: calc(100vh - 300px); */
+            /* min-height: 100vh; */
+            /* width: 100%; */
+            width: 100vw;
+            /* width: calc(1000vw - 300px); */
+            /* min-width: 100vw; */
+            /* margin: 0; */
+            /* overflow-y: hidden; // hide vertical */
+            /* overflow-x: hidden; // hide horizontal */
+        }
+
+        .savingMessage h1 {
+            /* vertical-align: middle; */
+            /* FUNCTION:  Center the text on the page */
+            /* SOURCE:  https://www.w3docs.com/snippets/css/how-to-vertically-center-text-with-css.html#use-css-flexbox-8 */
+            display: flex;
+            width: 100%;
+            height: 100%;
+            /* margin: 0; */
+            /* margin: auto; */
+            /* border-radius: 10px; */
+            /* border: 3px dashed #1c87c9; */
+            align-items: center;
+            justify-content: center;
+            /* overflow-y: hidden; // hide vertical */
+            /* overflow-x: hidden; // hide horizontal */
+        }
 
 
 
@@ -173,6 +215,98 @@
             }
 
         }
+
+
+
+
+        /*  SAVE/PRINT OPTIONS (on save, addPrintCss()) */
+
+        /*  Duplicating PRINT OPTIONS (onprint) for html2pdf saving*/
+        
+        /* Show Saving... message (to prevent weird css flash of white) */
+        .printCss .savingMessage {
+            display: block;
+        }
+
+        /* Show the SO# on boxes beyond the first when you print */
+        /* Unhide the divs used for making page breaks (compatible with html2pdf) */
+        /* .soBox, .newBoxBefore1, .newBoxBefore2 { */
+        .printCss .soBox {
+            display: block;
+        }
+
+        /* Hide the weights when printing */
+        .printCss .weightCurrentBox {
+            display: none;
+        }
+
+        /*  Defines colors for printing as: white background, black text */
+        /*  HISTORY:  It was printing with gray text as default in dark mode*/
+        /*  HISTORY:  Color was not working on <pre> text until i changed .pre to pre (duh, it's not a class) */
+        .printCss .resultsBoxContainer,
+        .printCss pre,
+        .printCss html,
+        .printCss,
+        .printCss body,
+        .printCss .newBox,
+        .printCss .container,
+        .printCss .container-sm {
+            color: black;
+            background-color: white;
+        }
+
+        /* This rule may not work, I'm not sure if @page can have a parent div/class */
+        .printCss @page {
+            color: black;
+            background-color: white;
+        }
+
+        /* FUNCTION:  Hide the added header/footer page details that get printed by browser */
+        /* This is done by making a 0 or negative margin on the print version of the page,
+            which overrides the headers/footers added in the margins by the browser,
+            you then add margin back to the html element.
+            The downside is pages beyond the first won't be styled correctly, 
+            so i added margin on my divs specific to the results box */
+        /* SOURCE:  https://stackoverflow.com/a/38506980 */
+        /* This rule may not work, I'm not sure if @page can have a parent div/class */
+        .printCss @page {
+            margin: 0 0cm
+        }
+
+        .printCss html,
+        .printCss {
+            margin: 0cm 0cm
+        }
+
+        /* Margin added to results divs to make pages after the first not hit the edge of page */
+        .printCss .resultsBoxContainer {
+            /* margin: 2cm 2cm; */
+            padding-top: 20px;
+            /* margin-right: 20px; */
+            /* margin-bottom: 20px; */
+            padding-left: 20px;
+        }
+
+        /* Margin added to results divs to make pages after the first not hit the edge of page */
+        .printCss .newBox {
+            /* margin: 2cm 2cm; */
+            /* padding-top: 20px; THIS */
+            /* margin-top: 20px; */
+            /* margin-right: 20px; */
+            /* margin-bottom: 20px; */
+            /* margin-left: 20px; */
+        }
+
+        /* Adding elements with bootstrap d-print-none class added, so external stylesheet for html2pdf works */
+        .printCss .d-print-none {
+            display: none;
+        }
+
+        /* This rule may not work, I'm not sure if @page can have a parent div/class */
+        .printCss @page {
+            size: 4in 6in;
+        }
+
     </style>
 
 
@@ -180,6 +314,15 @@
 </head>
 
 <body id="body">
+
+
+    <!-- Saving message (to hide white flash during save/print css load) -->
+        <!-- TODO:  Fix/add CSS so the width doesn't create scrollbars -->
+    <div class="savingMessage startHidden" id="savingMessage">
+        <h1 class="text-center">Saving...</h1>
+    </div>
+    <!--   -->
+
 
 
 
@@ -192,7 +335,6 @@
             </div>
         </div>
         <!--   -->
-
 
 
 
@@ -656,7 +798,7 @@
                             <!-- Version number -->
                             <!-- Text is not aligning right and idk why -->
                             <div class="">
-                                <p class="versionNumber text-muted text-right" id="versionNumber"><i>Version 3.1.5</i>
+                                <p class="versionNumber text-muted text-right" id="versionNumber"><i>Version 3.1.6</i>
                                 </p>
                             </div>
                             <div class="mb-3 form-check startHidden" id="debugDiv">
@@ -740,25 +882,31 @@
 
 
 
+
+
     <!-- SAVE PDF. html2pdf library for generating pdf.  https://github.com/eKoopmans/html2pdf.js -->
     <script src="./js/html2pdf.bundle.min.js"></script>
-    <!-- To enable png image compression, try using the canvas-png-compression shim, 
+
+    <!-- To enable png image compression, try using the canvas-png-compression shim,   // Didn't work, disabled
      which should be an in-place solution to enable png compression via the quality option.
      SOURCE:  https://github.com/ShyykoSerhiy/canvas-png-compression -->
-    <script src="./js/canvas-png-compression_bundle.js"></script>
+    <!-- <script src="./js/canvas-png-compression_bundle.js"></script>  Didn't work, disabled -->
 
 
 
     <script type="text/javascript">
 
+        // SAVE PDF
+
+        // To enable png image compression, try using the canvas-png-compression shim  // Didn't work, disabled
         // Replaces HTMLCanvasElement.toDataURL() with canvas-png-compression's implementation.
-        CanvasPngCompression.replaceToDataURL();
+        // CanvasPngCompression.replaceToDataURL();  // Didn't work, disabled
         // If for some reason you need to revert to native implementation, use:
         // CanvasPngCompression.revertToDataURL();
 
 
         // FUNCTION: Vanilla html2pdf stuff
-        // NOTE: I added a 'body' id to my html body tag to make it easy to reference
+        // NOTE: I added a 'body' id to my html body tag to make it easy to reference (not using anymore, targeting the resultsBox for saving)
         var html2pdfElement = document.getElementById('resultsBox');
         var html2pdfOpt = {
             margin: 0.2,
@@ -784,16 +932,25 @@
         //// html2pdf(html2pdfElement, html2pdfOpt);
 
 
+
+
         // FUNCTION: Adding @media print css options to html2pdf output
+        // by duplicating those rules, and loading them when divs/classes have a parent div with the printCss class
         // USAGE: Call this function before running html2pdf
         function addPrintCss() {
             //// document.body.classList.add("printCss");  // Use this to directly add to body tag
 
             // FUNCTION:  Add/import a css stylesheet with javascript (add to end of head tag)
+            // HISTORY:  Not using anymore, too difficult to unload the css after. Toggling parent class now
             // SOURCE:  https://stackoverflow.com/a/50822576
-            document.getElementsByTagName("head")[0].insertAdjacentHTML(
-                "beforeend",
-                "<link rel=\"stylesheet\" href=\"./css/printCss.css\" />");
+            // document.getElementsByTagName("head")[0].insertAdjacentHTML(
+            //     "beforeend",
+            //     "<link rel=\"stylesheet\" href=\"./css/printCss.css\" />");
+
+            // document.body.classList.add("printCss");  // Use this to directly add to body tag
+            // SOURCE:  https://stackoverflow.com/a/46980378
+            document.documentElement.classList.add("printCss");  // Use this to directly add to html tag
+
         };
         // USAGE: Call this function after running html2pdf (might need to use .then(function))
         function removePrintCss() {
@@ -804,17 +961,25 @@
             //  (maybe add class to link tag to get the element id easier and delete that?)
             //  (maybe load a different css file with opposite values or clear/reset values?)
             // SOURCE:  https://stackoverflow.com/a/50822576
-            document.getElementsByTagName("head")[0].insertAdjacentHTML(
-                "beforeend",
-                "<link rel=\"stylesheet\" href=\"./css/printCss.css\" />");
+            // document.getElementsByTagName("head")[0].insertAdjacentHTML(
+            //     "beforeend",
+            //     "<link rel=\"stylesheet\" href=\"./css/printCss.css\" />");
+
+            // document.body.classList.remove("printCss");  // Use this to directly affect body tag
+            // SOURCE:  https://stackoverflow.com/a/46980378
+            document.documentElement.classList.remove("printCss");  // Use this to directly affect html tag
         };
 
 
         // FUNCTION: Calling the html2pdf function and the add/remove print css functions
         function html2pdfAndPrintCss() {
             addPrintCss();
-            html2pdf().set(html2pdfOpt).from(html2pdfElement).save();
-            // removePrintCss();
+
+            // Uses .then (promises) to only remove the css after the async saving task is done
+            // REFERENCE: https://github.com/eKoopmans/html2pdf.js/issues/79#issuecomment-552126785
+            html2pdf().set(html2pdfOpt).from(html2pdfElement).save().then(function () {
+                removePrintCss();
+            });
         };
 
 
@@ -837,6 +1002,9 @@
         //// });
 
     </script>
+
+
+
 
 
 
