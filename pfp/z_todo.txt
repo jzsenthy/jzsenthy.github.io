@@ -1,6 +1,13 @@
 ---
 TODO
 ---
+Add/remove a css class to printable div to add/remove the css styles for printing when saving to pdf (easier than loading an external stylesheet through javascript then trying to get rid of it).
+
+/* TODO:  Make placeholder divs smaller so they don't create big gaps? */
+
+// TODO:  Add date/time and package info to filename
+
+[EW] "Save to pdf" option.
 
 [BS] PFP doesn't allow for more than one system. Might want to look into that.
 

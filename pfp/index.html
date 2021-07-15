@@ -50,6 +50,11 @@
 
         .resultsBoxContainer {
             max-width: 600px;
+            /* Setting div to 3.5in width works for html2pdf */
+            /* width: 3.5in; */
+            /* Setting div to 4x6 for printing didn't seem to work as expected */
+            /* width: 4in; */
+            /* height: 6in; */
         }
 
         /* Hide the SO# on boxes beyond the first, in the results window, until you print */
@@ -58,11 +63,32 @@
         }
 
 
+        /* Page break after each new box */
+        /* HISTORY:  Pulled this out of @media print so it works with html2pdf as well */
+        /* NOTE:  Added newBoxBefore1 and newBoxBefore2 to fix html2pdf inserting the page break in wrong location (issue with nested divs) */
+        .newBoxBefore2 {
+            /* page-break-before replaced by break-before (change 'always' to 'page'*/
+            /* page-break-before: always; */
+            break-before: page;
+            /* margin-top: 20px; */
+        }
+
+        /* TODO:  Make placeholder divs smaller so they don't create big gaps? */
+        /* .newBoxBefore1,
+        .newBoxBefore2 {
+            height: 10px;
+        } */
+
+
+
+
 
         /*  PRINT OPTIONS (onprint) */
         @media print {
 
             /* Show the SO# on boxes beyond the first when you print */
+            /* Unhide the divs used for making page breaks (compatible with html2pdf) */
+            /* .soBox, .newBoxBefore1, .newBoxBefore2 { */
             .soBox {
                 display: block;
             }
@@ -71,7 +97,6 @@
             .weightCurrentBox {
                 display: none;
             }
-
 
             /*  Defines colors for printing as: white background, black text */
             /*  HISTORY:  It was printing with gray text as default in dark mode*/
@@ -92,11 +117,6 @@
                 background-color: white;
             }
 
-
-            /* Page break after each new box */
-            .newBox {
-                page-break-before: always;
-            }
 
 
             /* FUNCTION:  Hide the added header/footer page details that get printed by browser */
@@ -147,6 +167,11 @@
                 /* margin-left: 20px; */
             }
 
+            /* Adding elements with bootstrap d-print-none class added, so external stylesheet for html2pdf works */
+            .d-print-none {
+                display: none;
+            }
+
         }
     </style>
 
@@ -154,7 +179,7 @@
 
 </head>
 
-<body>
+<body id="body">
 
 
 
@@ -186,8 +211,7 @@
                 </div>
             </div>
             <div class="row">
-                <!-- NOTE:  The text sent here from javascript is contained within the <pre> tag to maintain \n linebreaks, so it's unformatted monospace text -->
-                <!-- TODO:  Change \n to <br /> -->
+                <!-- NOTE:  The text here is sent from javascript using <br /> line breaks -->
                 <div class="col-md mb-3 resultsBox" id="resultsBox">
                     Sample
                 </div>
@@ -199,25 +223,30 @@
                 <form id="resultsForm">
                     <!-- FORM FOOTER -->
                     <div class="row mb-3">
-                        <div class="col-8">
+                        <div class="col">
                             <!-- FUNCTION:  Back button (calls the showMainPage function which inverts the display of elements shown/hidden by the showResults function) -->
                             <!-- TIP:  Align right with float-end -->
                             <!-- Source for arrows:  https://www.calculators.org/math/html-arrows.php -->
-                            <button type="button" class="btn btn-secondary mb-5 backButton" id="backButton">← Go
+                            <button type="button" class="btn btn-secondary mb-1 backButton" id="backButton">← Go
                                 Back &nbsp;</button>
                             <!-- FUNCTION:  This "submit" button isn't actually submitting anything, but it refreshes the page on submit, which is the goal  -->
                             <!-- TODO:  Maybe change this from a submit button to a refresh page button (like my custom reset button). No real reason to as of now though -->
                             <!-- TIP:  Align right with float-end -->
-                            <button type="submit" class="btn btn-warning mb-5 float-left submitButton"
+                            <button type="submit" class="btn btn-warning mb-1 float-left submitButton"
                                 id="resultsSubmitButton">↺ Start Over &nbsp;</button>
                         </div>
 
-                        <div class="col-4">
+                        <div class="col">
                             <!-- FUNCTION:  Print button -->
                             <!-- TIP:  Align right with float-end or float-right-->
+                            <!-- reordered these buttons since the first floats to the end/right -->
                             <!-- removed  onClick="window.print()"  and moved it to the SO# validation function upon clicking print -->
-                            <input type="button" class="btn btn-primary mb-5 float-end printButton" id="printButton"
-                                value="Print">
+                            <input type="button" class="btn btn-primary mb-1 mx-1 float-end printButton"
+                                id="printButton" value="⎙ Print">
+
+                            <!-- FUNCTION:  Save pdf button (using html2pdf, in scripts) -->
+                            <input type="button" class="btn btn-secondary mb-1 mx-1 float-end printButton"
+                                id="saveButton" value="🖫 Save">
                         </div>
                     </div>
                 </form>
@@ -687,9 +716,136 @@
 
 
 
-    <!-- Custom scripts -->
+    <!-- jsPDF library for generating pdf.  https://github.com/MrRio/
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.es.min.js"></script>
+
+
+
+    <script type="text/javascript">
+        //// jsPDF CREATE PDF ////
+        import { jsPDF } from "jspdf.es.min.js";
+
+
+        // Default export is a4 paper, portrait, using millimeters for units
+        // 4x6 inches
+        const doc = new jsPDF({
+            orientation: "portrait",
+            unit: "in",
+            format: [4, 6],
+        });
+
+        doc.text("Hello world!", 1, 1);
+        doc.save("two-by-four.pdf");
+    </script> -->
+
+
+
+    <!-- SAVE PDF. html2pdf library for generating pdf.  https://github.com/eKoopmans/html2pdf.js -->
+    <script src="./js/html2pdf.bundle.min.js"></script>
+    <!-- To enable png image compression, try using the canvas-png-compression shim, 
+     which should be an in-place solution to enable png compression via the quality option.
+     SOURCE:  https://github.com/ShyykoSerhiy/canvas-png-compression -->
+    <script src="./js/canvas-png-compression_bundle.js"></script>
+
+
+
     <script type="text/javascript">
 
+        // Replaces HTMLCanvasElement.toDataURL() with canvas-png-compression's implementation.
+        CanvasPngCompression.replaceToDataURL();
+        // If for some reason you need to revert to native implementation, use:
+        // CanvasPngCompression.revertToDataURL();
+
+
+        // FUNCTION: Vanilla html2pdf stuff
+        // NOTE: I added a 'body' id to my html body tag to make it easy to reference
+        var html2pdfElement = document.getElementById('resultsBox');
+        var html2pdfOpt = {
+            margin: 0.2,
+            // TODO:  Add date/time and package info to filename
+            filename: 'PFP3.pdf',
+            image: { type: 'jpg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            // pagebreak: { before: '.newBox' },
+            // Width in Inches
+            jsPDF: { unit: 'in', format: [4, 6], orientation: 'portrait' }
+            // Width in px (203 dpi/ppi ZP500 thermal printer)
+            ////jsPDF: { unit: 'px', format: [812, 1218], orientation: 'portrait' }
+        };
+
+        // FUNCTION: Call the function to save as pdf, using New Promise-based usage:
+        //// html2pdf().set(opt).from(element).save();
+        // Changed to my variables:
+        //// html2pdf().set(html2pdfOpt).from(html2pdfElement).save();
+
+        // FUNCTION: Call the function to save as pdf, using Old monolithic-style usage:
+        //// html2pdf(element, opt);
+        // Changed to my variables:
+        //// html2pdf(html2pdfElement, html2pdfOpt);
+
+
+        // FUNCTION: Adding @media print css options to html2pdf output
+        // USAGE: Call this function before running html2pdf
+        function addPrintCss() {
+            //// document.body.classList.add("printCss");  // Use this to directly add to body tag
+
+            // FUNCTION:  Add/import a css stylesheet with javascript (add to end of head tag)
+            // SOURCE:  https://stackoverflow.com/a/50822576
+            document.getElementsByTagName("head")[0].insertAdjacentHTML(
+                "beforeend",
+                "<link rel=\"stylesheet\" href=\"./css/printCss.css\" />");
+        };
+        // USAGE: Call this function after running html2pdf (might need to use .then(function))
+        function removePrintCss() {
+            //// document.body.classList.remove("printCss");  // Didn't work
+
+            // TODO:  Make it actually remove the css file 
+            //  (maybe delete the text for the file import in the head tag?)
+            //  (maybe add class to link tag to get the element id easier and delete that?)
+            //  (maybe load a different css file with opposite values or clear/reset values?)
+            // SOURCE:  https://stackoverflow.com/a/50822576
+            document.getElementsByTagName("head")[0].insertAdjacentHTML(
+                "beforeend",
+                "<link rel=\"stylesheet\" href=\"./css/printCss.css\" />");
+        };
+
+
+        // FUNCTION: Calling the html2pdf function and the add/remove print css functions
+        function html2pdfAndPrintCss() {
+            addPrintCss();
+            html2pdf().set(html2pdfOpt).from(html2pdfElement).save();
+            // removePrintCss();
+        };
+
+
+
+
+        // FUNCTION: Adding @media print css options to html2pdf output
+        // Adds the print class to the body tag before running html2pdf, then remove after
+        // SOURCE: https://github.com/eKoopmans/html2pdf.js/issues/79#issuecomment-552126785
+        // NOTE: I added a 'body' id to my html body tag to make it easy to reference
+        // var source = document.getElementById('body');
+        // document.body.classList.add("print");  // Use this to directly add to body tag
+        // ////source.classList.add('print');  // Or use this to add to any referenced element
+        //// html2pdf(body, {
+        ////     filename: 'myfile.pdf',
+        ////     image: { type: 'jpeg', quality: 0.98 },
+        ////     html2canvas: { scale: 2 },
+        ////     jsPDF: { unit: 'in', format: [4, 6], orientation: 'portrait' }
+        //// }).then(function () {
+        ////     document.body.classList.remove("print");
+        //// });
+
+    </script>
+
+
+
+
+
+
+
+    <!-- Custom scripts -->
+    <script type="text/javascript">
 
 
 
@@ -1652,16 +1808,19 @@
             function resultsOutput() {
 
 
-                // FUNCTION:  Hide printButton if less than 2 boxes
+                // FUNCTION:  Hide saveButton/printButton if less than 2 boxes
                 // If boxes < 2 hide print button, or if boxes >= 2 show print button
                 var idPrintButton = document.getElementById("printButton");
+                var idSaveButton = document.getElementById("saveButton");
                 if (boxTotal < 2) {
                     idPrintButton.style.display = "none";
                     // window.alert("boxTotal < 2  " + idPrintButton.value);
+                    idSaveButton.style.display = "none";
                 }
                 else if (boxTotal >= 2) {
                     idPrintButton.style.display = "block";
                     // window.alert("boxTotal >= 2  " + idPrintButton.value);
+                    idSaveButton.style.display = "block";
                 }
 
 
@@ -2368,11 +2527,12 @@
                                 // Add item to string to be displayed at the end for what to pack
                                 // List the current box number and a placeholder for boxTotal, to be replaced at the end with innderHTML javascript (since we don't know the total number of boxes until it ends)
                                 // If there's an SO#, add it to the top of the page for each box
+                                // NOTE:  Added newBoxBefore1 and newBoxBefore2 to fix html2pdf inserting the page break in wrong location (issue with nested divs)
                                 if (valueSoNum > 0) {
-                                    outputString = outputString + "<br><div class='newBox'><div class='soBox text-end'><i>SO# " + valueSoNum + "</i></div><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                                    outputString = outputString + "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><div class='soBox text-end'><i>SO# " + valueSoNum + "</i></div><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
                                 }
                                 else {
-                                    outputString = outputString + "<br><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                                    outputString = outputString + "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
                                 }
                                 // outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
 
@@ -2515,10 +2675,10 @@
                     //         // Add item to string to be displayed at the end for what to pack
                     //         // If there's an SO#, add it to the top of the page for each box
                     //         if (valueSoNum > 0) {
-                    //             outputString = outputString + "<br><div class='newBox'><div class='soBox text-end'><i>SO# " + valueSoNum + "</i></div><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                    //             outputString = outputString + "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><div class='soBox text-end'><i>SO# " + valueSoNum + "</i></div><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
                     //         }
                     //         else {
-                    //             outputString = outputString + "<br><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                    //             outputString = outputString + "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
                     //         }
                     //         // outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
 
@@ -2581,10 +2741,10 @@
                     //     // Add item to string to be displayed at the end for what to pack
                     //     // If there's an SO#, add it to the top of the page for each box
                     //     if (valueSoNum > 0) {
-                    //         outputString = outputString + "<br><div class='newBox'><div class='soBox text-end'><i>SO# " + valueSoNum + "</i></div><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                    //         outputString = outputString + "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><div class='soBox text-end'><i>SO# " + valueSoNum + "</i></div><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
                     //     }
                     //     else {
-                    //         outputString = outputString + "<br><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                    //         outputString = outputString + "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
                     //     }
                     //     // outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
 
@@ -2669,11 +2829,12 @@
                     boxTotal++;
                     // Add box name to string to be displayed at the end
                     // If there's an SO#, add it to the top of the page for each box
+                    // NOTE:  Added newBoxBefore1 and newBoxBefore2 to fix html2pdf inserting the page break in wrong location (issue with nested divs)
                     if (valueSoNum > 0) {
-                        outputString = outputString + "<br><div class='newBox'><div class='soBox text-end'><i>SO# " + valueSoNum + "</i></div><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                        outputString = outputString + "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><div class='soBox text-end'><i>SO# " + valueSoNum + "</i></div><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
                     }
                     else {
-                        outputString = outputString + "<br><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                        outputString = outputString + "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
                     }
                     // outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
 
@@ -2725,9 +2886,21 @@
 
 
 
-        /// PRINT BUTTON (using addEventListener instead of onclick)
-        // Form validation for SO# (if printing more than 1 box)
-        // Only when clicking print
+        /// SAVE/PRINT BUTTON (using addEventListener instead of onclick)
+        // FUNCTION: Add variable for which button was clicked (can't easily pass argument with addEventListener)
+        var whichButtonClicked;
+        document.getElementById("saveButton").addEventListener("click", saveButtonClicked);
+        document.getElementById("printButton").addEventListener("click", printButtonClicked);
+        function saveButtonClicked() {
+            whichButtonClicked = "save";
+        };
+        function printButtonClicked() {
+            whichButtonClicked = "print";
+        };
+
+        // FUNCTION: Form validation for SO# (if printing more than 1 box)
+        // Only when clicking save/print
+        document.getElementById("saveButton").addEventListener("click", functionOnPrint);
         document.getElementById("printButton").addEventListener("click", functionOnPrint);
         function functionOnPrint() {
             // var value2SoNum = Number(document.getElementById("inputSoNum").value);
@@ -2741,11 +2914,22 @@
                 // If SO# has a value
                 if (value2SoNum > 0) {
                     // window.alert("Nice. \n value2SoNum = " + value2SoNum);
-                    window.print();
+
+                    // FUNCTION: IF statements to decide whether to print or save
+                    if (whichButtonClicked == "print") {
+                        window.print();
+                    }
+                    else if (whichButtonClicked == "save") {
+                        html2pdfAndPrintCss();
+                    }
+                    else {
+                        window.alert("ERROR: It appears the save or print button was clicked but the whichButtonClicked variable is not either of those options.")
+                    }
                 }
                 // If SO# doesn't have a value
                 else {
                     // window.alert("boo. \n value2SoNum = " + value2SoNum);
+
                     // FUNCTION:  Shows an Ok/Cancel popup
                     // SOURCE:  https://stackoverflow.com/a/9334679
                     var answer = window.confirm("ALERT:\nSO# is required when printing labels with more than 1 box.\n\nPlease click Ok then enter Sales Order Number (SO#)");
@@ -2757,14 +2941,34 @@
                     // If they click Cancel
                     else {
                         // Otherwise just continue to printing)
-                        window.print();
+
+                        // FUNCTION: IF statements to decide whether to print or save
+                        if (whichButtonClicked == "print") {
+                            window.print();
+                        }
+                        else if (whichButtonClicked == "save") {
+                            html2pdfAndPrintCss();
+                        }
+                        else {
+                            window.alert("ERROR: It appears the save or print button was clicked but the whichButtonClicked variable is not either of those options.")
+                        }
                     }
                 }
             }
             // If not more than 1 box
             else {
                 // No SO# needed, so proceed
-                window.print();
+
+                // FUNCTION: IF statements to decide whether to print or save
+                if (whichButtonClicked == "print") {
+                    window.print();
+                }
+                else if (whichButtonClicked == "save") {
+                    html2pdfAndPrintCss();
+                }
+                else {
+                    window.alert("ERROR: It appears the save or print button was clicked but the whichButtonClicked variable is not either of those options.")
+                }
             }
         }
 
