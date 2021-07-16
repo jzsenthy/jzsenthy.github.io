@@ -149,11 +149,20 @@ DONE
 3.1.6  2021-07-15 ---
 [EW] "Save to pdf" option (for remote workers to save the packing list and send to local worker to print).
 
-Added html2pdf library to export the #resultsBox div as a jpg (with page breaks) in pdf form (png was too large filesize, and png compression library didn't work). (Apparently jsPDF doesn't support css).
+Added html2pdf library to export the #resultsBox div as a jpg (with page breaks) in pdf form (png was too large filesize, and png compression library didn't work). (Supposedly jsPDF library doesn't support css).
 
 Add/remove a css class (.printCss) to parent div (body) to add/remove the css styles for printing when saving to pdf (easier than loading an external stylesheet through javascript then trying to get rid of it). (Just duplicated the @media print  css rules).
 
 Add a "Saving..." div with dark background, filling the window, to show while saving pdf (so you dont see white flash when css changes).
+
+Scroll to top while saving the pdf (to hide the white background on bottom div).
+
+Add extra padding to the top of each page to offset the incorrect positioning that html2pdf applies.
+(Add X pixels (X is page number) to the padding-top CSS style per page to correct html2pdf incorrect alignment offset.)
+
+Remove extra padding after saving (set it back to 20px).
+
+Set pdf image type to 'jpeg' instead of 'jpg' to fix large filesize issue.
 
 
 

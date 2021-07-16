@@ -79,11 +79,12 @@
          so i disabled this rule initially, but now that i'm not using external css it seems to work */
         .newBoxBefore1,
         .newBoxBefore2 {
-            height: 5px;
+            height: 2px;
         }
 
 
 
+        /* FUNCTION:  Makes the "Saving..." message div cover the whole window size, to prevent ugly css viewing */
         /* TODO:  Fix/add CSS so the width doesn't create scrollbars */
         /* REFERENCE:  https://stackoverflow.com/questions/1575141/how-to-make-a-div-100-height-of-the-browser-window */
         /* html,
@@ -104,6 +105,7 @@
             /* overflow-x: hidden; // hide horizontal */
         }
 
+        /* FUNCTION:  Vertically aligns the "Saving..." text */
         .savingMessage h1 {
             /* vertical-align: middle; */
             /* FUNCTION:  Center the text on the page */
@@ -120,6 +122,23 @@
             /* overflow-y: hidden; // hide vertical */
             /* overflow-x: hidden; // hide horizontal */
         }
+
+        /* Testing changing css dynamically */
+        /* Run changeCSS(); in showDebugCheck() function (clicking version number)  */
+        /* #pageTitle {
+    border-style: solid;
+    border-color: aqua;
+    border-radius: 5px;
+} */
+
+        /* Testing changing css dynamically */
+        /* Run changeCSS(); in showDebugCheck() function (clicking version number)  */
+        /* .newBox {
+            border-style: solid;
+            border-color: rgb(2, 0, 114);
+            border-radius: 5px;
+            border-width: 5px;
+        } */
 
 
 
@@ -158,7 +177,6 @@
                 color: black;
                 background-color: white;
             }
-
 
 
             /* FUNCTION:  Hide the added header/footer page details that get printed by browser */
@@ -220,9 +238,8 @@
 
 
         /*  SAVE/PRINT OPTIONS (on save, addPrintCss()) */
-
         /*  Duplicating PRINT OPTIONS (onprint) for html2pdf saving*/
-        
+
         /* Show Saving... message (to prevent weird css flash of white) */
         .printCss .savingMessage {
             display: block;
@@ -256,10 +273,10 @@
         }
 
         /* This rule may not work, I'm not sure if @page can have a parent div/class */
-        .printCss @page {
+        /* .printCss @page {
             color: black;
             background-color: white;
-        }
+        } */
 
         /* FUNCTION:  Hide the added header/footer page details that get printed by browser */
         /* This is done by making a 0 or negative margin on the print version of the page,
@@ -269,9 +286,9 @@
             so i added margin on my divs specific to the results box */
         /* SOURCE:  https://stackoverflow.com/a/38506980 */
         /* This rule may not work, I'm not sure if @page can have a parent div/class */
-        .printCss @page {
+        /* .printCss @page {
             margin: 0 0cm
-        }
+        } */
 
         .printCss html,
         .printCss {
@@ -288,13 +305,28 @@
         }
 
         /* Margin added to results divs to make pages after the first not hit the edge of page */
+        /* NOTE:  Maybe delete. This may conflict with the changeCSSAddPadding function if you load it after calling the function  */
         .printCss .newBox {
             /* margin: 2cm 2cm; */
-            /* padding-top: 20px; THIS */
+            /* border-style: solid; */
+            /* border-color: aqua; */
+            /* border-radius: calc(20px + boxNumber); */
+            /* padding-top: calc(20px + boxNumber); */
+            /* padding-top: calc(20px + (boxNumber * 10)); */
+            padding-top: 20px;
             /* margin-top: 20px; */
             /* margin-right: 20px; */
             /* margin-bottom: 20px; */
             /* margin-left: 20px; */
+        }
+
+        /* Makes placeholder divs smaller so they don't create big gaps */
+        /* TODO: Maybe remove this rule when saving/printing  */
+        /* HISTORY:  html2pdf was having trouble with page break locations with unstandard div heights,
+         so i disabled this rule initially, but now that i'm not using external css it seems to work */
+        .printCss .newBoxBefore1,
+        .printCss .newBoxBefore2 {
+            /* height: auto; */
         }
 
         /* Adding elements with bootstrap d-print-none class added, so external stylesheet for html2pdf works */
@@ -303,10 +335,9 @@
         }
 
         /* This rule may not work, I'm not sure if @page can have a parent div/class */
-        .printCss @page {
+        /* .printCss @page {
             size: 4in 6in;
-        }
-
+        } */
     </style>
 
 
@@ -317,7 +348,7 @@
 
 
     <!-- Saving message (to hide white flash during save/print css load) -->
-        <!-- TODO:  Fix/add CSS so the width doesn't create scrollbars -->
+    <!-- TODO:  Fix/add CSS so the width doesn't create scrollbars -->
     <div class="savingMessage startHidden" id="savingMessage">
         <h1 class="text-center">Saving...</h1>
     </div>
@@ -329,7 +360,7 @@
     <div class="container">
 
         <!-- Header -->
-        <div class="row" id="pageTitle">
+        <div class="row pageTitle" id="pageTitle">
             <div class="col-md my-3">
                 <h1 class="text-center">Packing for Peanuts</h1>
             </div>
@@ -847,6 +878,12 @@
 
 
 
+
+
+
+
+
+
     <!-- JAVASCRIPT -->
 
 
@@ -912,12 +949,12 @@
             margin: 0.2,
             // TODO:  Add date/time and package info to filename
             filename: 'PFP3.pdf',
-            image: { type: 'jpg', quality: 0.98 },
+            image: { type: 'jpeg', quality: 0.98 },
             html2canvas: { scale: 2 },
             // pagebreak: { before: '.newBox' },
             // Width in Inches
             jsPDF: { unit: 'in', format: [4, 6], orientation: 'portrait' }
-            // Width in px (203 dpi/ppi ZP500 thermal printer)
+            // Width in px (203 dpi/ppi ZP500 thermal printer) // Doesn't show up right
             ////jsPDF: { unit: 'px', format: [812, 1218], orientation: 'portrait' }
         };
 
@@ -971,15 +1008,27 @@
         };
 
 
+
+
+        // RUNNING HTML2PDF
         // FUNCTION: Calling the html2pdf function and the add/remove print css functions
         function html2pdfAndPrintCss() {
+            // FUNCTION:  Call the function to add printCss class to body tag, which triggers css rules before saving
             addPrintCss();
+            // FUNCTION:  Add extra padding to the top of each page to offset the incorrect positioning that html2pdf applies
+            changeCSSAddPadding();
+            // FUNCTION:  Scroll to top (to only show "Saving..." div)
+            window.scrollTo(0, 0);
 
-            // Uses .then (promises) to only remove the css after the async saving task is done
+            // Uses .then (promises) to only remove the css after the async saving task is done, then scrolls to bottom (backButton)
             // REFERENCE: https://github.com/eKoopmans/html2pdf.js/issues/79#issuecomment-552126785
-            html2pdf().set(html2pdfOpt).from(html2pdfElement).save().then(function () {
-                removePrintCss();
-            });
+            html2pdf().set(html2pdfOpt).from(html2pdfElement).save().then(removePrintCss).then(function () {
+                // Scroll back to bottom (backButton) after saving and reloading good css
+                // SOURCE:  https://stackoverflow.com/a/22292000/1263035
+                var element = document.getElementById('backButton');
+                element.scrollIntoView();
+            }).then(changeCSSRemovePadding); // Remove extra padding from the top of each page (set it back to 20px)
+
         };
 
 
@@ -1000,6 +1049,53 @@
         //// }).then(function () {
         ////     document.body.classList.remove("print");
         //// });
+
+
+
+        // FUNCTION:  Change CSS dynamically
+        // REFERENCE:  https://stackoverflow.com/a/10071316/1263035
+        function changeCSSAddPadding() {
+            // var color = document.getElementById("newBox").style.border-color;
+            // if (color === "red")
+            //     document.getElementById("newBox").style.border-color = "black";
+            // else
+
+            // NOTE:  CSS properties with dashes are converted to camelcase
+            // REFERENCE:  https://www.w3schools.com/jsref/prop_html_style.asp
+            // document.getElementById("pageTitle").style.borderRadius = "20px";
+            // document.getElementById("pageTitle").style.borderRadius = boxNumber * 2;
+
+            // elements = document.getElementsByClassName("pageTitle");
+            // for (var i = 0; i < elements.length; i++) {
+            //     elements[i].style.borderRadius = elements[i].style.borderRadius = "20px";
+            // }
+
+            // // Test changing the border-radius for the title/header, based on SO#, when clicking the version number
+            // elements = document.getElementsByClassName("pageTitle");
+            // // Get the current SO# value and store in valueSoNumForCSS variable (valueSoNum isn't created until pressing submit)
+            // var valueSoNumForCSS = Number(document.getElementById("inputSoNum").value);
+            // for (var i = 0; i < elements.length; i++) {
+            //     elements[i].style.borderRadius = elements[i].style.borderRadius = valueSoNumForCSS + "px";
+            // }
+
+            // Add X pixels (X is page number) to the padding-top CSS style per page to correct html2pdf incorrect alignment offset
+            elements = document.getElementsByClassName("newBox");
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].style.paddingTop = elements[i].style.paddingTop = i + "px";
+            }
+        };
+
+        // FUNCTION:  Change CSS dynamically
+        // REFERENCE:  https://stackoverflow.com/a/10071316/1263035
+        function changeCSSRemovePadding() {
+            // Add X pixels (X is page number) to the padding-top CSS style per page to correct html2pdf incorrect alignment offset
+            elements = document.getElementsByClassName("newBox");
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].style.paddingTop = elements[i].style.paddingTop = "20px";
+            }
+        };
+
+
 
     </script>
 
@@ -1309,6 +1405,9 @@
         // SAMPLE:  https://www.w3schools.com/jsref/event_onchange.asp
         document.getElementById("versionNumber").addEventListener("click", showDebugCheck);
         function showDebugCheck() {
+            // Testing changing css dynamically
+            // changeCSS();
+
             var elementDebugDiv = document.getElementById("debugDiv");
             var elementCheckDebug = document.getElementById("checkDebug");
             var elementKnownIssues = document.getElementById("knownIssues");
@@ -2109,7 +2208,7 @@
                 // Add the first box name, and current/total box numbers
                 // TODO:  Might want to change this to only display once things are packed in this box (maybe show later in the packing function/loop)
                 // HISTORY:  It was showing an empty accessory box if only junction box/insulated pouch is being sent
-                // FIX:  If statement added, to only show this first box line if there's an item to pack besides junction box or insulated pouch (which don't go into an accessory or LDS box)
+                // FIX:  IF statement added, to only show this first box line if there's an item to pack besides junction box or insulated pouch (which don't go into an accessory or LDS box)
                 if (valueLds >= 1 || valueApi >= 1 || valueCp >= 1 || valueFourHour >= 1 || valueLeakRopeCheck >= 1 || valuePam1 >= 1 || valuePold >= 1 || valuePoldPin >= 1 || valueRecirc >= 1 || valueScv >= 1 || valueSsr >= 1) {
                     outputString = outputString + "<b>" + initialBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i><br>";
                 }
