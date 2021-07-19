@@ -132,6 +132,19 @@ debugger
 
 
 
+How do I put variables inside javascript strings?
+https://stackoverflow.com/questions/7790811/how-do-i-put-variables-inside-javascript-strings
+Just use backticks for templating
+https://stackoverflow.com/a/37245773/294884
+
+let a = `hello ${name}`    // NOTE!!!!!!!! ` not ' or "
+
+Note that it is a backtick, not a quote.
+
+
+
+
+
 If you get a  "Declaration or statement expected"  error on an  else if  statement, it's because you made a statement above it,
 in between the  if  and  else if. You can't do things in between if and else. (throw your variable declarations etc above them).
 (window.alerts won't work in between if/else statements either).

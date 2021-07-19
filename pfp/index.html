@@ -829,7 +829,7 @@
                             <!-- Version number -->
                             <!-- Text is not aligning right and idk why -->
                             <div class="">
-                                <p class="versionNumber text-muted text-right" id="versionNumber"><i>Version 3.1.9</i>
+                                <p class="versionNumber text-muted text-right" id="versionNumber"><i>Version 3.1.10</i>
                                 </p>
                             </div>
                             <div class="mb-3 form-check startHidden" id="debugDiv">
@@ -895,9 +895,61 @@
 
 
 
+
+
+    <!-- Luxon javascript library for working with dates/times (using for pdf filename generation) -->
+    <!-- SOURCE:  https://moment.github.io/luxon/ -->
+    <!-- SOURCE:  https://github.com/moment/luxon/ -->
+    <!-- Day.js is another simpler alternative with easier customization.  https://day.js.org/docs/en/parse/string-format -->
+    <!-- Other datetime library options listed here:  https://momentjs.com/docs/#/-project-status/ -->
+    <script src="./js/luxon.min.js"></script>
+
+
+
+    <!-- Generating a datetime variable for pdf filename generation, using Luxon library -->
+    <script type="text/javascript">
+        function luxonDateTimeFunc() {
+            // https://moment.github.io/luxon/#/formatting
+            var DateTime = luxon.DateTime;
+
+            // We can get at the components of the time individually through getters. For example:
+            var dt = DateTime.now();
+            // dt.year     //=> 2017
+            // dt.month    //=> 9
+            // dt.day      //=> 14
+            // dt.hour
+            // dt.minute
+            // dt.second   //=> 47
+
+            // Format an integer to a specific length with leading zeros (using on month, day, hour, minute, and second below)
+            // SOURCE:  https://stackoverflow.com/a/49677621
+            // EXAMPLE
+            // let num = 3
+            // let str = num.toString().padStart(3, "0")
+            // console.log(str) // "003"
+
+            // HISTORY:  This was only updating the time when you refreshed the page.
+            // I moved the variable creation of the filename in htm2pdf options into the function that calls html2pdf, so it doesn't fetch the date on page load.
+            var luxonDateTimeString = "" + dt.year + "_" + dt.month.toString().padStart(2, "0") + "_" + dt.day.toString().padStart(2, "0") + "_" + dt.hour.toString().padStart(2, "0") + dt.minute.toString().padStart(2, "0") + dt.second.toString().padStart(2, "0");  // 2021_7_19_1445
+            console.log("luxonDateTimeString = " + luxonDateTimeString);
+
+            // Returning the value of luxonDateTimeString so you can call the function and get the value
+            return luxonDateTimeString;
+
+            // Not using
+            // dt.toISODate(); //=> '2017-04-20'
+            // var luxonDateTimeString = DateTime.now().toLocaleString({ year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }); //=> 'Thu, Apr 20, 11:27 AM'
+        };
+    </script>
+
+
+
+
+
+
+    <!-- HISTORY:  jsPDF wasn't working so I used html2pdf.js -->
     <!-- jsPDF library for generating pdf.  https://github.com/MrRio/
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.es.min.js"></script>
-
 
 
     <script type="text/javascript">
@@ -916,6 +968,7 @@
         doc.text("Hello world!", 1, 1);
         doc.save("two-by-four.pdf");
     </script> -->
+
 
 
 
@@ -942,21 +995,7 @@
         // CanvasPngCompression.revertToDataURL();
 
 
-        // FUNCTION: Vanilla html2pdf stuff
-        // NOTE: I added a 'body' id to my html body tag to make it easy to reference (not using anymore, targeting the resultsBox for saving)
-        var html2pdfElement = document.getElementById('resultsBox');
-        var html2pdfOpt = {
-            margin: 0.2,
-            // TODO:  Add date/time and package info to filename
-            filename: 'PFP3.pdf',
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 4 },  // Doubled the scale to 4 to increase print quality
-            // pagebreak: { before: '.newBox' },
-            // Width in Inches
-            jsPDF: { unit: 'in', format: [4, 6], orientation: 'portrait' }
-            // Width in px (203 dpi/ppi ZP500 thermal printer) // Doesn't show up right
-            ////jsPDF: { unit: 'px', format: [812, 1218], orientation: 'portrait' }
-        };
+
 
         // FUNCTION: Call the function to save as pdf, using New Promise-based usage:
         //// html2pdf().set(opt).from(element).save();
@@ -973,6 +1012,23 @@
         // RUNNING HTML2PDF
         // FUNCTION: Calling the html2pdf function and the add/remove print css functions
         function html2pdfAndPrintCss() {
+            // FUNCTION: Vanilla html2pdf stuff
+            // NOTE: I added a 'body' id to my html body tag to make it easy to reference (not using anymore, targeting the resultsBox for saving)
+            var html2pdfElement = document.getElementById('resultsBox');
+            var html2pdfOpt = {
+                margin: 0.2,
+                // TODO:  Add date/time and package info to filename
+                filename: 'PFP_' + luxonDateTimeFunc() + '.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 4 },  // Doubled the scale to 4 to increase print quality on thermal printer
+                // pagebreak: { before: '.newBox' },
+                // Width in Inches
+                jsPDF: { unit: 'in', format: [4, 6], orientation: 'portrait' }
+                // Width in px (203 dpi/ppi ZP500 thermal printer) // Doesn't show up right
+                ////jsPDF: { unit: 'px', format: [812, 1218], orientation: 'portrait' }
+            };
+
+
             // FUNCTION:  Call the function to add printCss class to body tag, which triggers css rules before saving
             addPrintCss();
             // FUNCTION:  Add extra padding to the top of each page to offset the incorrect positioning that html2pdf applies
@@ -1419,7 +1475,7 @@
                 // Select a blank value for the split system dropdown
                 var elementId2 = document.getElementById("selectSplitSystem");
                 elementId2.value = "";
-                }
+            }
         }
 
 
@@ -1784,7 +1840,7 @@
             }
             else if (document.getElementById("checkSplitSystem").checked == false) {
                 valueSplitSystemCheck = Number(0);
-            }            
+            }
             var valueSplitSystemSelect = Number(document.getElementById("selectSplitSystem").value);
 
             // SO#
