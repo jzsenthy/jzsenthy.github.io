@@ -1,6 +1,8 @@
 ---
 TODO
 ---
+[EW] Fix the error with something leftover that didn't get packed. (Screenshots in javascript folder).
+// If you select a split system and then switch to pold tab and submit, you have 1 item leftover after packing.
 
 // TODO:  Add date/time and package info to filename
 
@@ -58,6 +60,8 @@ Change "approximate box weight:" to "≈"
 ---
 MAYBE DO
 ---
+
+Improve pdf quality for printing. (higher jpg quality, larger text, or https://github.com/bpampuch/pdfmake ).
 
 Empty box 1 if only packing insulated pouches.
 
@@ -145,6 +149,21 @@ Show up/down number buttons by default, before entering anything?
 DONE
 ---------------------------------
 
+3.1.8  2021-07-16 ---
+Increased pdf print quality a bit by doubling scale to 4 (text was scratchy).  // html2canvas: { scale: 4 }
+
+Note: html2pdf fails (generates blank pages) if working with over ~60 pages. (Might have to do with page height, and the top of the page being unloaded from the browser when you scroll to bottom).
+
+
+
+
+3.1.7  2021-07-15 ---
+Remove extra padding after saving (set it back to 20px).
+
+Set pdf image type to 'jpeg' instead of 'jpg' to fix large filesize issue.
+
+
+
 
 3.1.6  2021-07-15 ---
 [EW] "Save to pdf" option (for remote workers to save the packing list and send to local worker to print).
@@ -159,10 +178,6 @@ Scroll to top while saving the pdf (to hide the white background on bottom div).
 
 Add extra padding to the top of each page to offset the incorrect positioning that html2pdf applies.
 (Add X pixels (X is page number) to the padding-top CSS style per page to correct html2pdf incorrect alignment offset.)
-
-Remove extra padding after saving (set it back to 20px).
-
-Set pdf image type to 'jpeg' instead of 'jpg' to fix large filesize issue.
 
 
 

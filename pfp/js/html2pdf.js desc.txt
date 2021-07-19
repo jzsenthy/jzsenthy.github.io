@@ -20,9 +20,13 @@ NEGATIVES:
 
 - Doesn't save text as text, saves everything as an image.
 
+- Doesn't print as well on a thermal printer (the text is thinner, more faded and inconsistent).
+
 - Ignores @media print css styles, so you have to manually load them in before save and unload after save.
 
 - Doesn't look like you can define a page margin in pixels and a page size in inches (they share units).
+
+- All pages are blank when attempting to print more than 61 pages.
 
 
 
