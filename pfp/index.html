@@ -829,7 +829,7 @@
                             <!-- Version number -->
                             <!-- Text is not aligning right and idk why -->
                             <div class="">
-                                <p class="versionNumber text-muted text-right" id="versionNumber"><i>Version 3.1.8</i>
+                                <p class="versionNumber text-muted text-right" id="versionNumber"><i>Version 3.1.9</i>
                                 </p>
                             </div>
                             <div class="mb-3 form-check startHidden" id="debugDiv">
@@ -1330,18 +1330,20 @@
 
 
         // FUNCTION:  Show Split System dropdown selector if checked
-        // HISTORY:  I'm not sure why it's reversed. Maybe it's checking the value on click, instead of seeing what it changes to
+        // HISTORY:  I'm not sure why it wass reversed. Maybe it's checking the value on click, instead of seeing what it changes to.
+        // HISTORY:  Or maybe it was running the "convert checkbox values to 1||0" script after
+        // HISTORY:  I changed this to just get the checked state instead of calculated value, so it's no longer reversed.
         // SAMPLE:  https://www.w3schools.com/jsref/event_onchange.asp
         document.getElementById("checkSplitSystem").addEventListener("change", setSplitSystem);
         function setSplitSystem() {
             var idSplitSystem = document.getElementById("checkSplitSystem");
-            if (idSplitSystem.value == 0) {
-                var elementSplitSystem = document.getElementById("selectSplitSystem");
+            var elementSplitSystem = document.getElementById("selectSplitSystem");
+            // console.log("setSplitSystem  idSplitSystem.value = " + idSplitSystem.value);
+            if (idSplitSystem.checked == true) {
                 elementSplitSystem.style.display = "block";
                 // window.alert("idSplitSystem.value == 0  " + idSplitSystem.value);
             }
-            else if (idSplitSystem.value > 0) {
-                var elementSplitSystem = document.getElementById("selectSplitSystem");
+            else if (idSplitSystem.checked == false) {
                 elementSplitSystem.style.display = "none";
                 // window.alert("idSplitSystem.value > 0  " + idSplitSystem.value);
             }
@@ -1357,12 +1359,11 @@
         //document.getElementById("selectLds").onchange = function () { setScv() };
         function setScv() {
             var valueLds = document.getElementById("selectLds");
+            var elementId = document.getElementById("inputScv");
             if (valueLds.value > 0) {
-                var elementId = document.getElementById("inputScv");
                 elementId.value = "1";
             }
             else if (valueLds.value == 0) {
-                var elementId = document.getElementById("inputScv");
                 elementId.value = "";
             }
         }
@@ -1375,14 +1376,50 @@
         //document.getElementById("selectLds").onchange = function () { setCp() };
         function setCp() {
             var valueLds = document.getElementById("selectLds");
+            var elementId = document.getElementById("inputCp");
             if (valueLds.value > 0) {
-                var elementId = document.getElementById("inputCp");
                 elementId.value = "1";
             }
             else if (valueLds.value == 0) {
-                var elementId = document.getElementById("inputCp");
                 elementId.value = "";
             }
+        }
+
+        // Set Split System = blank if switched to POLD tab (or if LDS is set to 0), so there isn't a leftover ghost item that doesn't get packed
+        // TODO:  Maybe change  var elementId  to a unique var
+        // SAMPLE:  https://www.w3schools.com/jsref/event_onchange.asp
+        document.getElementById("selectLds").addEventListener("change", setSplitSystemBlank);
+        //document.getElementById("selectLds").onchange = function () { setCp() };
+        function setSplitSystemBlank() {
+            var valueLds = document.getElementById("selectLds");
+            // Run if LDS is blank
+            if (valueLds.value == 0) {
+                // Uncheck split system checkbox
+                var elementId1 = document.getElementById("checkSplitSystem");
+                elementId1.checked = false;
+                // Manually setting the value to 0 to fix the valueSplitSystmCheck value still being at 1 after being unchecked) (Unneeded now, fixed by retrieving the checked value later)
+                elementId1.value = 0;
+                // Hide the split system dropdown (since checkbox was unchecked)
+                var elementSplitSystem = document.getElementById("selectSplitSystem");
+                elementSplitSystem.style.display = "none";
+                // Select a blank value for the split system dropdown
+                var elementId2 = document.getElementById("selectSplitSystem");
+                elementId2.value = "";
+            }
+            // Run if POLD or Accessories tab is selected up top
+            if (document.getElementById('btnradio2').checked || document.getElementById('btnradio3').checked) {
+                // Uncheck split system checkbox
+                var elementId1 = document.getElementById("checkSplitSystem");
+                elementId1.checked = false;
+                // Manually setting the value to 0 to fix the valueSplitSystemCheck value still being at 1 after being unchecked) (Unneeded now, fixed by retrieving the checked value later)
+                elementId1.value = 0;
+                // Hide the split system dropdown (since checkbox was unchecked)
+                var elementSplitSystem = document.getElementById("selectSplitSystem");
+                elementSplitSystem.style.display = "none";
+                // Select a blank value for the split system dropdown
+                var elementId2 = document.getElementById("selectSplitSystem");
+                elementId2.value = "";
+                }
         }
 
 
@@ -1395,6 +1432,8 @@
             // Set SCV value to 0 as well (the function will choose 0 when it evaluates that LDS is zero)
             setScv();
             setCp();
+            // Blank out the split system selection and checkbox when switching to POLD tab, so there isn't a leftover ghost item that doesn't get packed
+            setSplitSystemBlank();
         }
 
 
@@ -1736,7 +1775,16 @@
             var valueLds = Number(document.getElementById("selectLds").value).toFixed(2);
 
             // Split System stuff (that we're not really considering when calculating space values)
+            // Setting the value of if split system is present, based on auto converting checkboxes to values (unreliable)
             var valueSplitSystemCheck = Number(document.getElementById("checkSplitSystem").value);
+            // Also using an IF statement to set the value for if a split system is present, based on checked state
+            //  (probably more reliable than relying on my checked||unchecked to 1||0 script)
+            if (document.getElementById("checkSplitSystem").checked == true) {
+                valueSplitSystemCheck = Number(1);
+            }
+            else if (document.getElementById("checkSplitSystem").checked == false) {
+                valueSplitSystemCheck = Number(0);
+            }            
             var valueSplitSystemSelect = Number(document.getElementById("selectSplitSystem").value);
 
             // SO#

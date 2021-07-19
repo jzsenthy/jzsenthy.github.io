@@ -1,9 +1,6 @@
 ---
 TODO
 ---
-[EW] Fix the error with something leftover that didn't get packed. (Screenshots in javascript folder).
-// If you select a split system and then switch to pold tab and submit, you have 1 item leftover after packing.
-
 // TODO:  Add date/time and package info to filename
 
 Fix/add CSS to the Saving... box so the 100vw width doesn't create scrollbars
@@ -148,6 +145,12 @@ Show up/down number buttons by default, before entering anything?
 ---------------------------------
 DONE
 ---------------------------------
+
+3.1.9  2021-07-19 ---
+Fixed the issue with split-system still being checked when switching to POLD-Only tab, thus 1 leftover item after packing. (Now putting checked state to false, setting value to 0, and clearing dropdown value when changing tabs or selecting no LDS)
+
+
+
 
 3.1.8  2021-07-16 ---
 Increased pdf print quality a bit by doubling scale to 4 (text was scratchy).  // html2canvas: { scale: 4 }
