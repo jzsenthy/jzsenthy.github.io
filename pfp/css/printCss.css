@@ -1,0 +1,86 @@
+/* Duplicating PRINT OPTIONS (onprint) for html2pdf saving */
+
+/* Not actually using this file as of 2021-07-20 */
+/* Just changed my approach to inline rules activated when adding .printCss to a parent div (the html tag) */
+
+/* Show the SO# on boxes beyond the first when you print */
+/* Unhide the divs used for making page breaks (compatible with html2pdf) */
+/* .soBox, .newBoxBefore1, .newBoxBefore2 { */
+.soBox {
+    display: block;
+}
+
+/* Hide the weights when printing */
+.weightCurrentBox {
+    display: none;
+}
+
+/*  Defines colors for printing as: white background, black text */
+/*  HISTORY:  It was printing with gray text as default in dark mode*/
+/*  HISTORY:  Color was not working on <pre> text until i changed .pre to pre (duh, it's not a class) */
+.resultsBoxContainer, pre, html, body, .newBox, .container, .container-sm {
+    color: black;
+    background-color: white;
+}
+
+@page {
+    color: black;
+    background-color: white;
+}
+
+/* FUNCTION:  Hide the added header/footer page details that get printed by browser */
+/* This is done by making a 0 or negative margin on the print version of the page,
+            which overrides the headers/footers added in the margins by the browser,
+            you then add margin back to the html element.
+            The downside is pages beyond the first won't be styled correctly, 
+            so i added margin on my divs specific to the results box */
+/* SOURCE:  https://stackoverflow.com/a/38506980 */
+@page {
+    margin: 0 0cm
+}
+
+html {
+    margin: 0cm 0cm
+}
+
+/* Fixes the page if it's firefox */
+/* Not really an issue now. 0 padding seems to be working in chrome, firefox, and edge. */
+/* @-moz-document url-prefix() {
+                @page {
+                    margin: 0 0cm
+                }
+            } */
+/* Fixes the page if it's firefox */
+/* @-moz-document url-prefix() {
+                html {
+                    margin: 0cm 0cm
+                }
+            } */
+
+/* Margin added to results divs to make pages after the first not hit the edge of page */
+.resultsBoxContainer {
+    /* margin: 2cm 2cm; */
+    padding-top: 20px;
+    /* margin-right: 20px; */
+    /* margin-bottom: 20px; */
+    padding-left: 20px;
+}
+
+/* Margin added to results divs to make pages after the first not hit the edge of page */
+.newBox {
+    /* margin: 2cm 2cm; */
+    /* padding-top: 20px; THIS */
+    /* margin-top: 20px; */
+    /* margin-right: 20px; */
+    /* margin-bottom: 20px; */
+    /* margin-left: 20px; */
+}
+
+/* Adding elements with bootstrap d-print-none class added, so external stylesheet for html2pdf works */
+.d-print-none {
+    display: none;
+}
+
+@page {
+    size: 4in 6in;
+}

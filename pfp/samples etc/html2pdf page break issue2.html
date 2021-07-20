@@ -1,0 +1,76 @@
+    <!-- SAVE PDF. html2pdf library for generating pdf.  https://github.com/eKoopmans/html2pdf.js -->
+    <script src="./js/html2pdf.bundle.min.js"></script>
+
+    <script type="text/javascript">
+        // RUNNING HTML2PDF
+        document.getElementById("saveButton").addEventListener("click", html2pdfAndPrintCss);
+        html2pdfAndPrintCss();
+
+
+        // FUNCTION: Calling the html2pdf function and the add/remove print css functions
+        function html2pdfAndPrintCss() {
+            // Targeting a parent div containing all my elements I want saved/printed as pdf
+            var html2pdfElement = document.getElementById('resultsBox');
+
+            // Html2pdf.js options
+            var html2pdfOpt = {
+                margin: 0.2,
+                filename: 'savedweb.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 4 },  // Doubled the scale to 4 to increase print quality
+                // pagebreak: { before: '.newBox' },  // Not needed since I'm defining it in CSS
+                jsPDF: { unit: 'in', format: [4, 6], orientation: 'portrait' }
+            };
+
+            // FUNCTION:  Call the function to add printCss class to body tag, which triggers css rules before saving
+            addPrintCss();
+            // FUNCTION:  Add extra padding to the top of each page to offset the incorrect positioning that html2pdf applies
+            changeCSSAddPadding();
+
+            // Uses .then (promises) to only remove the css after the async saving task is done, 
+            // then sets padding-top on each page back to a standard value
+            // REFERENCE: https://github.com/eKoopmans/html2pdf.js/issues/79#issuecomment-552126785
+            html2pdf().set(html2pdfOpt).from(html2pdfElement).save().then(removePrintCss).then(changeCSSRemovePadding);
+            });
+
+        };
+
+
+        // FUNCTION: Adding @media print css options to html2pdf output
+        // by duplicating those rules, and loading them when divs/classes have a parent div with the printCss class
+        // USAGE: Call this function before running html2pdf
+        function addPrintCss() {
+            // SOURCE:  https://stackoverflow.com/a/46980378
+            document.documentElement.classList.add("printCss");  // Use this to directly add to html tag
+        };
+
+        // USAGE: Call this function after running html2pdf (might need to use .then(function))
+        function removePrintCss() {
+            // SOURCE:  https://stackoverflow.com/a/46980378
+            document.documentElement.classList.remove("printCss");  // Use this to directly affect html tag
+        };
+
+
+        // FUNCTION:  Change CSS dynamically
+        // REFERENCE:  https://stackoverflow.com/a/10071316/1263035
+        function changeCSSAddPadding() {
+            // Add X pixels (X is page number) to the padding-top CSS style per page to correct html2pdf incorrect alignment offset
+            elements = document.getElementsByClassName("newBox");
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].style.paddingTop = elements[i].style.paddingTop = i + "px";
+            };
+        };
+
+        // FUNCTION:  Change CSS dynamically
+        // REFERENCE:  https://stackoverflow.com/a/10071316/1263035
+        function changeCSSRemovePadding() {
+            // Remove the pixels added to the padding-top CSS style per page for correcting html2pdf alignment offset (set to 20px)
+            elements = document.getElementsByClassName("newBox");
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].style.paddingTop = elements[i].style.paddingTop = "20px";
+            };
+        };
+
+
+
+    </script>

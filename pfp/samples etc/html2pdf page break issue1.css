@@ -1,0 +1,20 @@
+        /*  SAVE/PRINT OPTIONS (on save, addPrintCss()) */
+        /*  Duplicating PRINT OPTIONS for html2pdf saving*/
+
+        .printCss .newBox {
+            padding-left: 20px;
+        }
+
+        /* Hiding elements with bootstrap d-print-none class, so it works with html2pdf */
+        .printCss .d-print-none {
+            display: none;
+        }
+
+        /*  Defines colors for printing as: white background, black text */
+        /*  HISTORY:  It was printing with gray text as default in dark mode */
+        .printCss html,
+        .printCss,
+        .printCss .newBox, {
+            color: black;
+            background-color: white;
+        }

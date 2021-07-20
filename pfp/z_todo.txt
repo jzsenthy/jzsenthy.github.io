@@ -2,20 +2,20 @@
 TODO
 ---
 
-[BS] PFP doesn't allow for more than one system. Might want to look into that.
-
-[EW] Add lds power wire length option, since it has the potential to spill into another box. Shippers have to come up with a rule for it.
-
 Finish split-system rules (b3 especially).
 
-Maybe add a pold to split systems by default (since this happens).
+Make Split System B3 = 30 (defaults to an additional 14x14 like EJB. inform user to double-check with warehouse on specifics, since 30 is an average value)
 
+[EW] Add lds power wire length option, since it has the potential to spill into another box. //Warehouse has to come up with a rule for it.
+
+Empty box 1 if only packing insulated pouches.
+
+
+Maybe add a pold to split systems by default (since this happens).
 
 Make cases for the bubble mailer, which shipping just one item like control panel replacement (maybe 1-2 POLD).
 
 Maybe make cases for using the control panel box as well when only a couple items (API, POLD), instead of defaulting to accessory box.
-
-Make Split System B3 = 30 (defaults to an additional 14x14 like EJB. inform user to double-check with warehouse on specifics, since 30 is an average value)
 
 Indent the left edge of split system dropdown like the hidden wire box.
 
@@ -23,12 +23,7 @@ Put accessory inputs on shared line to take up less vertical room.
 
 Add white outline to favicon.
 
-
 Add instructions to bottom of results page (select Zebra ZP500 printer. Each box will print on it's own page. You can also save as /print to pdf if you want)
-
-"Solid State Relays included with box carrying most POLDs"
-Need to make a loop for assigning POLDs one at a time to a box, storing the value of which box has the most, (loop/function variables defined at top)
-then at the end, assign SSRs to that box as well (with value of 0 I guess).
 
 Add LDS power wire?
 include (value 0) in shipper. number entry (5ft increments, default 10ft)
@@ -42,6 +37,9 @@ Maybe format as important/common things on left, uncommon/default things on righ
 Make scrollTo work again to scroll to top from Reset button.
 
 // TODO:  "Solid State Relays included with box carrying most POLDs"  (although putting it in the last box a pold or leak rope went into is a lot easier)
+"Solid State Relays included with box carrying most POLDs"
+Need to make a loop for assigning POLDs one at a time to a box, storing the value of which box has the most, (loop/function variables defined at top)
+then at the end, assign SSRs to that box as well (with value of 0 I guess).
 
 Add weightCurrentIteam (or related working variable) to debugging output, to see the calculations happening step by step.
 
@@ -55,11 +53,17 @@ Change "approximate box weight:" to "≈"
 MAYBE DO
 ---
 
-Empty box 1 if only packing insulated pouches.
+Fix/add CSS to the Saving... box so the 100vw width doesn't create scrollbars
+
+Improve pdf quality for printing. (higher jpg quality, larger text, or https://github.com/bpampuch/pdfmake ).
+
+Generate a friendlier error message when selecting a split system without an lds size.
 
 Don't proceed to packing if a split system is selected but no valve size is selected? (Or maybe don't proceed at all without LDS size if you're in the LDS Valve section).
 
 Adding something like btn-outline-info to the div containing the checkboxes is kinda cool to show how large of a clickable area you have.
+
+[BS] PFP doesn't allow for more than one system. Might want to look into that. //no
 
 Keep revision number on bottom of results page, so i can see it in screenshots of issues (may not be useful since issues are being sent through saving the printout as pdf).
 
@@ -141,10 +145,68 @@ Show up/down number buttons by default, before entering anything?
 DONE
 ---------------------------------
 
+
+3.2.0  2021-07-20 ---
+Updated version number for public release.
+
+Main change was addition of save to pdf button (for more than 1 page).
+
+
+
+
+3.1.10  2021-07-19 ---
+Added datetime to the pdf export filename (using custom constructed format with Luxon javascript library).
+(ISO 8601 format customized with underscores, 2 digits per component with leading 0s.)
+(Moved html2pdf options into the function called from the save button, so the datetime value actually updates instead of being written on page load.)
+
+
+
+
+3.1.9  2021-07-19 ---
+Fixed the issue with split-system still being checked when switching to POLD-Only tab, thus 1 leftover item after packing. (Now putting checked state to false, setting value to 0, and clearing dropdown value when changing tabs or selecting no LDS)
+
+
+
+
+3.1.8  2021-07-16 ---
+Increased pdf print quality a bit by doubling scale to 4 (text was scratchy).  // html2canvas: { scale: 4 }
+
+Note: html2pdf fails (generates blank pages) if working with over ~60 pages. (Might have to do with page height, and the top of the page being unloaded from the browser when you scroll to bottom).
+
+
+
+
+3.1.7  2021-07-15 ---
+Remove extra padding after saving (set it back to 20px).
+
+Set pdf image type to 'jpeg' instead of 'jpg' to fix large filesize issue.
+
+
+
+
+3.1.6  2021-07-15 ---
+[EW] "Save to pdf" option (for remote workers to save the packing list and send to local worker to print).
+
+Added html2pdf library to export the #resultsBox div as a jpg (with page breaks) in pdf form (png was too large filesize, and png compression library didn't work). (Supposedly jsPDF library doesn't support css).
+
+Add/remove a css class (.printCss) to parent div (body) to add/remove the css styles for printing when saving to pdf (easier than loading an external stylesheet through javascript then trying to get rid of it). (Just duplicated the @media print  css rules).
+
+Add a "Saving..." div with dark background, filling the window, to show while saving pdf (so you dont see white flash when css changes).
+
+Scroll to top while saving the pdf (to hide the white background on bottom div).
+
+Add extra padding to the top of each page to offset the incorrect positioning that html2pdf applies.
+(Add X pixels (X is page number) to the padding-top CSS style per page to correct html2pdf incorrect alignment offset.)
+
+
+
+
 3.1.5  2021-06-28 ---
 Moved reset button and Submit to the left side (along with Replacement checkbox.) Version number moved to right.
 
 Added arrow symbols to the "Go Back" and "Start Over" results buttons, to make it clearer what they do.
+
+
 
 
 3.1.4  2021-06-28 ---
@@ -152,10 +214,12 @@ Moved reset button next to Submit on the right side since it felt natural to pre
 
 
 
+
 3.1.3  2021-06-08 ---
 Added warnings about B3 rules not being done (in the dropdown, once selecting B3, and on Submit)
 
 Updated version number.
+
 
 
 

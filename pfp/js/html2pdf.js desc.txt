@@ -1,0 +1,57 @@
+https://github.com/eKoopmans/html2pdf.js
+
+html2pdf.js works a lot easier than https://github.com/MrRio/jsPDF but it doesn't save text as text, it saves everything as an image (jpg), has page break issues and can't save png with compression, also ignores @media print css styles.
+
+
+
+POSITIVES:
+
++ html2pdf.js works a lot easier than https://github.com/MrRio/jsPDF but it doesn't save text as text, it saves everything as an image (jpg).
+
+
+
+NEGATIVES:
+
+- Page-breaks do not align with the pages in the pdf. Alignment is inconsistent as well. Each page gets lower. 
+ (Maybe a bootstrap incompatibility? I saw a merge request for "page break div doesn't work in flex-container" https://github.com/eKoopmans/html2pdf.js/pull/447/files )
+
+- Can't save as png with compression, so the filesize is like 10mb vs 80kb.
+ (Tried using https://github.com/ShyykoSerhiy/canvas-png-compression but it didn't do anything. Maybe I have to use it in the html2pdf source instead of my code?)
+
+- Doesn't save text as text, saves everything as an image.
+
+- Doesn't print as well on a thermal printer (the text is thinner, more faded and inconsistent).
+
+- Ignores @media print css styles, so you have to manually load them in before save and unload after save.
+
+- Doesn't look like you can define a page margin in pixels and a page size in inches (they share units).
+
+- All pages are blank when attempting to print more than 61 pages.
+
+
+
+FIXES:
+
+Be more specific in the div you you output  (resultsBox vs resultsBoxContainer):
+   var html2pdfElement = document.getElementById('resultsBox');
+
+
+Define the page size in the css loaded before save:
+   @page {
+       size: 4in 6in;
+     }
+
+
+Remove the padding/margin from the .newBox div that's used for page-breaks
+
+
+Tried adding a div (with text content) before the newBox divs and change page-break-before to page-break-after (since it seemed to work better in html2pdf) but it didn't make a difference. It probably has trouble with the text/so# floated to the right. 
+Edit: it doesn't have trouble with text-end, 
+it has trouble with page breaks defined on nested divs. I had: 
+   <div class="parentDiv"><div class="childDiv2">some content</div><div class="childDiv2"Some more content</div></div>
+and css:
+        .parentDiv {
+            break-before: page;
+        }
+which works properly when printing, but html2pdf would put the page break after the first child div.
+I had to add 2 extra divs before the parent div and do a page break before the second new div. (i tried making them height: 1px; but then it broke again. You need to leave them at standard text height i guess.
