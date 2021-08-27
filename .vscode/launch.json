@@ -8,36 +8,30 @@
             "name": "Home Chrome",
             "request": "launch",
             "type": "pwa-chrome",
-            "sourceMaps":true,
-            //"breakOnLoad":true,
+            "sourceMaps": true,
             "url": "http://localhost:8080",
             "file": "c:\\Ayato\\Work\\programming\\javascript\\PFP\\jzsenthy.github.io\\pfp\\index.html"
-            //"webRoot": "${workspaceFolder}"
         },
         {
             "name": "Home Open index.html",
             "type": "pwa-chrome",
             "request": "launch",
-            "sourceMaps":true,
-            //"breakOnLoad":true,
+            "sourceMaps": true,
             "file": "c:\\Ayato\\Work\\programming\\javascript\\PFP\\jzsenthy.github.io\\pfp\\index.html"
         },
         {
             "name": "Work Chrome",
             "request": "launch",
             "type": "pwa-chrome",
-            "sourceMaps":true,
-            //"breakOnLoad":true,
+            "sourceMaps": true,
             "url": "http://localhost:8080",
             "file": "C:\\Users\\Warehouse13\\OneDrive - Sentinel Hydrosolutions\\Documents\\_Jake\\programming\\javascript\\jzsenthy.github.io\\pfp\\index.html"
-            //"webRoot": "${workspaceFolder}"
         },
         {
             "name": "Work Open index.html",
             "type": "pwa-chrome",
             "request": "launch",
-            "sourceMaps":true,
-            //"breakOnLoad":true,
+            "sourceMaps": true,
             "file": "C:\\Users\\Warehouse13\\OneDrive - Sentinel Hydrosolutions\\Documents\\_Jake\\programming\\javascript\\jzsenthy.github.io\\pfp\\index.html"
         },
         {
@@ -51,10 +45,16 @@
             "name": "Launch Chrome Webserver2",
             "request": "launch",
             "type": "pwa-chrome",
-            "sourceMaps":true,
+            "sourceMaps": true,
             "url": "http://127.0.0.1:4500/pfp/index.html",
             "webRoot": "${workspaceFolder}"
         },
+        {
+            "name": "Launch Microsoft Edge and open the Edge DevTools",
+            "request": "launch",
+            "type": "vscode-edge-devtools.debug",
+            "url": ""
+        }
     ]
 }
 //"file": "c:\\Ayato\\Work\\programming\\javascript\\PFP\\jzsenthy.github.io\\pfp\\index.html"
