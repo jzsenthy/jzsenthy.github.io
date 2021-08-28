@@ -132,7 +132,7 @@ debugger
 
 
 
-How do I put variables inside javascript strings?
+How do I put variables (values) inside javascript strings?
 https://stackoverflow.com/questions/7790811/how-do-i-put-variables-inside-javascript-strings
 Just use backticks for templating
 https://stackoverflow.com/a/37245773/294884
@@ -140,6 +140,51 @@ https://stackoverflow.com/a/37245773/294884
 let a = `hello ${name}`    // NOTE!!!!!!!! ` not ' or "
 
 Note that it is a backtick, not a quote.
+
+
+
+
+
+
+
+
+
+Use a variable value as part of a variable name:
+I have an object with a long list of items and their weights, and I want to retrieve the value dynamically depending on which one is chosen, 
+
+<!-- Form dropdown selector -->
+<select class="form-select" id="selectAlternateOption">
+    <option selected></option>
+    <option value="1">B1</option>
+    <option value="2">B2</option>
+    <option value="3">B3</option>
+</select>
+
+// Retrieve value of dropdown
+var valueAlternateOptionSelect = document.getElementById("selectAlternateOption").value;
+
+// List of item weights
+var itemWeight = {
+    ...
+    alternateOptionB1: 5,
+    alternateOptionB2: 7,
+    alternateOptionB3: 15,
+	accessoryA: 3,
+	accessoryBox: 1,
+	...
+};
+
+
+So i want to retrieve itemWeight.alternateOptionB# dynamically like:
+var weightCurrentBox = ["itemWeight.alternateOptionB" + `valueAlternateOptionSelect`];
+
+This is the solution I found:
+
+var weightCurrentBox = Function('return itemWeight.alternateOption' + valueAlternateOptionSelect)();
+
+
+
+
 
 
 
@@ -157,7 +202,7 @@ https://www.reddit.com/r/javascript/comments/22ralo/innerhtml_and_newlines/
 
 
 
-
+EVAL ALTERNATIVE (referencing variable value in a variable)
 // Not calling a function, just referencing a variable dynamically (packingItemWeight.lds[valueLdsMinusPeriod] aka packingItemWeight.lds200)
 // REFERENCE:  (variable as part of a variable, within global window.Function())  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_eval!
 // Alternative:  https://stackoverflow.com/a/52246274/1263035  // window[dynamicname + '2'] = 'myvalue'
