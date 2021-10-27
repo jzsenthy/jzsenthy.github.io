@@ -9,9 +9,9 @@ POLD (5" + 10") = 2
 Recirc Pump Switch = 6
 4 hr Timer = 6
 Hidden Wire = 3  (changed from 4.5)
-Electrical Junction Box = (Defaults to a full 14x14x8 box. changed from 36 points in a Medium Shipper)
-Insulated Pouch = (Defaults to a full Medium Shipper. changed from 6 points)
- Split System B3 = 30 (Defaults to an additional 14x14x14 like EJB. inform user to double-check with warehouse on specifics, since 30 is an average value)
+Electrical Junction Box = 36
+Insulated Pouch = 6 (Defaults to an additional Medium Shipper)
+Split System B3 = 30 (defaults to an additional 14x14 like EJB. inform user to double-check with warehouse on specifics, since 30 is an average value)
 
 Boxes Point total:
 Standard Shipper (19x12x7) = 12 (For .75-1.5" systems only)
@@ -20,9 +20,8 @@ Recirc/4 hr Box (9x4x3) = 6 (Only to be used for single Recirc Pump Switch or 4h
 Accessory Box (13x10x5) = 12
 Bubble Mailer (11x9x1) = 2.5 (Use for shipments of accesory only)
 Medium Shipper (20x12x8) = 6 (Used for 2" systems or Insulated Pouch only)
- Medium Accessory Box (14x14x8) = (Use only for Electrical Junction Box)
 Large Shipper (18x18x14) = 18 (Used only for 2.5" and 3" systems)
-Large Accessory Box (14x14x14) = 48 (Use only if point total is greater than or equal to 49)
+Large Accessory Box (14x14x14) = 48 (Use only if EJB is included or if Point total is greater than or equal to 49)
 
 Order of Priority:
 Panel, SCV, Hidden Wire and Pam1 always in Box 1

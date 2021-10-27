@@ -2,6 +2,14 @@
 TODO
 ---
 
+Update these two rules from Bryce's box logic changes:
+  Electrical Junction Box = (Defaults to a full 14x14x8 box. changed from 36 points in a Medium Shipper)
+  Insulated Pouch = (Defaults to a full Medium Shipper. changed from 6 points)
+
+Single panel should be in padded mailer, not accessory box:
+  Accessory Box (13x10x5)  [Box 1 of 1]:
+  • 1 Control Panel
+
 Finish split-system rules (b3 especially).
 
 Make Split System B3 = 30 (defaults to an additional 14x14 like EJB. inform user to double-check with warehouse on specifics, since 30 is an average value)
