@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Flash Pattern examples</title>
+
+    <!-- Bootstrap CSS (light mode) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <!-- DARK MODE -->
+    <!-- SOURCE:  https://github.com/vinorodrigues/bootstrap-dark-5 -->
+    <!-- Bootstrap CSS (dark mode) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-dark-5@0.1/dist/css/bootstrap-night.min.css" rel="stylesheet">
+
+    <!-- The page supports only a dark color schemes -->
+    <meta name="color-scheme" content="dark">
+
+
+
+
+
+    <!-- My CSS -->
+    <style>
+    </style>
+
+
+
+</head>
+
+<body id="body">
+
+
+
+
+
+    <div class="container">
+
+        <!-- Header -->
+        <div class="row pageTitle" id="pageTitle">
+            <div class="col-md my-3">
+                <h1 class="text-center">Flash Pattern Examples</h1>
+            </div>
+        </div>
+
+
+
+
+
+        <form id="mainForm" onsubmit="return false">
+            <div id="wizard1">
+                <!-- Everything with class  groupWizard1  gets hidden first, upon header click  (like it's the 1st wizard step) -->
+                <div class="row mb-4 groupWizard1">
+                    <p class="text-center">Select one of the options</p>
+                </div>
+
+
+                <div class="row">
+                    <p id="flashyBits"><b>##<br>##</b></p>
+                    <br>
+                </div>
+
+
+                <div class="showOnHeaderClick">
+                    <!-- SYSTEM: LDS -->
+                    <!-- TODO:  Change class collapse.show to collapse to hide by default after programming/testing is done -->
+                    <!-- TIP:  Change class="row collapse  back to  class="row collapse.show  to start shown on page load -->
+                    <div class="row collapse.show groupWizard1 ldsBox groupLds groupAccessories" id="ldsBox">
+
+                        <!-- Example from:  https://getbootstrap.com/docs/5.0/forms/overview/ -->
+
+
+                        <!-- These group div classes are to hide or show certain divs depending on which header button is selected -->
+                        <div class="row groupWizard1 groupLds groupAccessories">
+                            <div class="col groupWizard1 groupLds">
+                                <!--  TODO:  Change valueLds to number of LDS, then add valueLdsSize for size? (hardcoded to 1 LDS in scripts) -->
+                                <label for="selectLds" class="form-label">Flash Pattern</label>
+                                <!-- Auto-include SCV of same size -->
+                                <!-- Auto-include CP, 12V PSU -->
+                                <select class="form-select" id="selectLds">
+                                    <option selected value=0><i>(select pattern)</i></i></option>
+                                    <option value=_1>1</option>
+                                    <option value=_1activated>1 (after ack)</option>
+                                    <option value=_2>2</option>
+                                    <option value=_3>3</option>
+                                    <option value=_3activated>3 (connected)</option>
+                                    <option value=_4>4</option>
+                                    <option value=_4activated>4 (connected)</option>
+                                    <option value="_5">5</option>
+                                    <option value="_6">6</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- FORM FOOTER -->
+            <!-- FUNCTION:  Wrap everything in a  startHidden  div to start collapsed before showing with top 3 toggles  (div 2 of 2)-->
+            <div class="startHidden showOnHeaderClick">
+                <div class="row collapse.show groupWizard1 formFooterBox groupLds groupPoldOnly groupAccessories"
+                    id="formFooterBox">
+                    <!-- font-weight-bold isn't working... -->
+
+                    <div class="row mt-1 mb-2">
+                        <div class="col">
+                            <div class="resetAndSubmitButtons" id="resetAndSubmitButtons">
+                                <!-- FUNCTION:  Submit button -->
+                                <!-- TIP:  Align right with float-end -->
+                                <!-- <button type="submit" class="btn btn-primary submitButton"
+                                    id="finalSubmitButton">Start</button>
+                            </div> -->
+                        </div>
+                        <div class="col">
+                            <!-- Submit button used to be here on the right -->
+                            <!-- May not actually need the rows and columns now -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </form>
+
+    </div>
+
+
+
+
+
+
+
+
+    <!-- JAVASCRIPT -->
+
+
+
+    <!-- Bootstrap 5 Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
+    </script>
+
+
+
+
+
+
+
+
+
+
+    <!-- Custom scripts -->
+    <script type="text/javascript">
+        // Flash text with different color at every ###ms javascript
+        // SOURCE:  https://stackoverflow.com/a/15693840/1263035
+
+        // Wait until the document is ready
+        window.onload = function () {
+            // Set default colors
+            document.body.style.backgroundColor = 'black';
+            flashyBits.style.color = 'transparent';
+        };
+
+
+        document.getElementById("selectLds").addEventListener("click", flashColors);
+        // document.getElementById("finalSubmitButton").addEventListener("click", flashColors);
+
+        function flashColors() {
+            // Stop previous flashing
+            // Not working
+            // clearInterval(flashyReturnValue);
+
+            // Set default colors
+            // document.body.style.backgroundColor = 'black';
+            // flashyBits.style.color = 'transparent';
+
+
+            // Alternate the colors
+            var _1 = ['yellow', 'transparent', 'transparent', 'transparent', 'transparent', 'transparent', ];
+            var _1activated = ['yellow', 'yellow', 'yellow', 'yellow', 'yellow', 'transparent', 'transparent',
+                'yellow', 'transparent', 'transparent', 'transparent', 'transparent', 'transparent',
+            ];
+            var _2 = ['red', 'transparent', 'red', 'transparent', 'transparent', 'transparent', 'transparent',
+                'transparent',
+            ];
+            var _3 = ['violet', 'transparent', 'violet', 'transparent', 'violet', 'transparent', 'transparent',
+                'transparent', 'transparent', 'transparent',
+            ];
+            var _3activated = ['violet', 'violet', 'violet', 'violet', 'violet', 'transparent', 'transparent',
+                'violet', 'transparent', 'violet', 'transparent', 'violet', 'transparent',
+                'transparent', 'transparent', 'transparent', 'transparent', 'transparent'
+            ];
+            var _4 = ['green', 'transparent', 'green', 'transparent', 'green', 'transparent', 'green',
+                'transparent', 'transparent', 'transparent', 'transparent', 'transparent',
+            ];
+            var _4activated = ['green', 'green', 'green', 'green', 'green', 'transparent', 'transparent',
+                'green', 'transparent', 'green', 'transparent', 'green', 'transparent', 'green',
+                'transparent', 'transparent', 'transparent', 'transparent', 'transparent',
+            ];
+            var _5 = ['blue', 'transparent', 'blue', 'transparent', 'blue', 'transparent', 'blue', 'transparent',
+                'blue',
+                'transparent', 'transparent', 'transparent', 'transparent', 'transparent',
+            ];
+            var _6 = ['white', 'transparent', 'white', 'transparent', 'white', 'transparent', 'white',
+                'transparent',
+                'white', 'transparent', 'white',
+                'transparent', 'transparent', 'transparent', 'transparent', 'transparent',
+            ];
+
+
+            // var colors = _1activated;
+            // TODO: Change from eval
+            var colors = eval(document.getElementById("selectLds").value);
+            // var colors = `${document.getElementById("selectLds").value}[]`;
+            // var colors = document.getElementById("selectLds").value;
+            // console.log("colors = " + colors);
+            var current = 0;
+
+            // setInterval(function () {
+            //     // Update element's style with the new color
+            //     flashyBits.style.color = colors[current];
+            //     // console.log("colors[current] = " + colors[current]);
+
+            //     // Go to the next color
+            //     current = (current + 1) % colors.length;
+            // }, 200);
+
+            var flashyReturnValue = setInterval(flashyFunction, 200);
+
+            function flashyFunction() {
+                // Update element's style with the new color
+                flashyBits.style.color = colors[current];
+                // console.log("colors[current] = " + colors[current]);
+
+                // Go to the next color
+                current = (current + 1) % colors.length;
+            };
+
+            // Stop previous flashing upon submit or clicking dropdown
+            document.getElementById("selectLds").addEventListener("click", stopFlashing);
+            // document.getElementById("finalSubmitButton").addEventListener("click", stopFlashing);
+
+            function stopFlashing() {
+                clearInterval(flashyReturnValue);
+            };
+
+        };
+    </script>
+
+</body>
+
+</html>
