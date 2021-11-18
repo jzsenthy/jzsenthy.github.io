@@ -829,7 +829,7 @@
                             <!-- Version number -->
                             <!-- Text is not aligning right and idk why -->
                             <div class="">
-                                <p class="versionNumber text-muted text-right" id="versionNumber"><i>Version 3.2.0</i>
+                                <p class="versionNumber text-muted text-right" id="versionNumber"><i>Version 3.2.1</i>
                                 </p>
                             </div>
                             <div class="mb-3 form-check startHidden" id="debugDiv">
@@ -890,8 +890,8 @@
 
     <!-- Bootstrap 5 Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
-        crossorigin="anonymous"></script>
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
+    </script>
 
 
 
@@ -930,7 +930,9 @@
 
             // HISTORY:  This was only updating the time when you refreshed the page.
             // I moved the variable creation of the filename in htm2pdf options into the function that calls html2pdf, so it doesn't fetch the date on page load.
-            var luxonDateTimeString = "" + dt.year + "_" + dt.month.toString().padStart(2, "0") + "_" + dt.day.toString().padStart(2, "0") + "_" + dt.hour.toString().padStart(2, "0") + dt.minute.toString().padStart(2, "0") + dt.second.toString().padStart(2, "0");  // 2021_7_19_1445
+            var luxonDateTimeString = "" + dt.year + "_" + dt.month.toString().padStart(2, "0") + "_" + dt.day
+                .toString().padStart(2, "0") + "_" + dt.hour.toString().padStart(2, "0") + dt.minute.toString()
+                .padStart(2, "0") + dt.second.toString().padStart(2, "0"); // 2021_7_19_1445
             console.log("luxonDateTimeString = " + luxonDateTimeString);
 
             // Returning the value of luxonDateTimeString so you can call the function and get the value
@@ -985,7 +987,6 @@
 
 
     <script type="text/javascript">
-
         // SAVE PDF
 
         // To enable png image compression, try using the canvas-png-compression shim  // Didn't work, disabled
@@ -1019,11 +1020,20 @@
                 margin: 0.2,
                 // TODO:  Add date/time and package info to filename
                 filename: 'PFP_' + luxonDateTimeFunc() + '.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 4 },  // Doubled the scale to 4 to increase print quality on thermal printer
+                image: {
+                    type: 'jpeg',
+                    quality: 0.98
+                },
+                html2canvas: {
+                    scale: 4
+                }, // Doubled the scale to 4 to increase print quality on thermal printer
                 // pagebreak: { before: '.newBox' },
                 // Width in Inches
-                jsPDF: { unit: 'in', format: [4, 6], orientation: 'portrait' }
+                jsPDF: {
+                    unit: 'in',
+                    format: [4, 6],
+                    orientation: 'portrait'
+                }
                 // Width in px (203 dpi/ppi ZP500 thermal printer) // Doesn't show up right
                 ////jsPDF: { unit: 'px', format: [812, 1218], orientation: 'portrait' }
             };
@@ -1039,16 +1049,21 @@
             // Uses .then (promises) to only remove the css after the async saving task is done, 
             // then sets padding-top on each page back to a standard value, then scrolls to bottom
             // REFERENCE: https://github.com/eKoopmans/html2pdf.js/issues/79#issuecomment-552126785
-            html2pdf().set(html2pdfOpt).from(html2pdfElement).save().then(removePrintCss).then(changeCSSRemovePadding).then(function () {
-                // Scroll back to bottom (backButton div) after saving and reloading good css
-                // SOURCE:  https://stackoverflow.com/a/22292000/1263035
-                var element = document.getElementById('backButton');
-                element.scrollIntoView();
-                // Scroll to actual bottom of page
-                // SOURCE:  https://stackoverflow.com/a/58109049/1263035
-                window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "auto" });
+            html2pdf().set(html2pdfOpt).from(html2pdfElement).save().then(removePrintCss).then(changeCSSRemovePadding)
+                .then(function () {
+                    // Scroll back to bottom (backButton div) after saving and reloading good css
+                    // SOURCE:  https://stackoverflow.com/a/22292000/1263035
+                    var element = document.getElementById('backButton');
+                    element.scrollIntoView();
+                    // Scroll to actual bottom of page
+                    // SOURCE:  https://stackoverflow.com/a/58109049/1263035
+                    window.scrollTo({
+                        left: 0,
+                        top: document.body.scrollHeight,
+                        behavior: "auto"
+                    });
 
-            });
+                });
 
         };
 
@@ -1068,7 +1083,7 @@
 
             // document.body.classList.add("printCss");  // Use this to directly add to body tag
             // SOURCE:  https://stackoverflow.com/a/46980378
-            document.documentElement.classList.add("printCss");  // Use this to directly add to html tag
+            document.documentElement.classList.add("printCss"); // Use this to directly add to html tag
         };
 
         // USAGE: Call this function after running html2pdf (might need to use .then(function))
@@ -1086,7 +1101,7 @@
 
             // document.body.classList.remove("printCss");  // Use this to directly affect body tag
             // SOURCE:  https://stackoverflow.com/a/46980378
-            document.documentElement.classList.remove("printCss");  // Use this to directly affect html tag
+            document.documentElement.classList.remove("printCss"); // Use this to directly affect html tag
         };
 
         // FUNCTION: Adding @media print css options to html2pdf output
@@ -1148,9 +1163,6 @@
                 elements[i].style.paddingTop = elements[i].style.paddingTop = "20px";
             };
         };
-
-
-
     </script>
 
 
@@ -1164,14 +1176,6 @@
 
     <!-- Custom scripts -->
     <script type="text/javascript">
-
-
-
-
-
-
-
-
         // Change checkbox values from On/NaN to 1 or 0
         // SOURCE:  https://stackoverflow.com/questions/18295811/checkbox-value-0-or-1
         // SOURCE:  https://stackoverflow.com/a/63962842
@@ -1236,10 +1240,13 @@
         // REFERENCE:  https://www.w3schools.com/howto/howto_js_toggle_hide_show.asp
         // SAMPLE:  https://www.w3schools.com/jsref/event_onchange.asp
         document.getElementById("selectSplitSystem").addEventListener("change", alertUnfinishedFeature1);
+
         function alertUnfinishedFeature1() {
             var elementSelectSplitSystem = document.getElementById("selectSplitSystem");
             if (selectSplitSystem.value == 3) {
-                window.alert("Rules for B3 systems are not complete. Ask the warehouse for the proper packaging configuration");
+                window.alert(
+                    "Rules for B3 systems are not complete. Ask the warehouse for the proper packaging configuration"
+                    );
             }
         }
 
@@ -1250,6 +1257,7 @@
         // REFERENCE:  https://www.w3schools.com/howto/howto_js_toggle_hide_show.asp
         // SAMPLE:  https://www.w3schools.com/jsref/event_onchange.asp
         document.getElementById("checkHiddenWire").addEventListener("change", setHiddenWire);
+
         function setHiddenWire() {
             var idHiddenWire = document.getElementById("checkHiddenWire");
             var elementHiddenWire;
@@ -1259,8 +1267,7 @@
                 elementHiddenWire = document.getElementById("hiddenWireHelp");
                 elementHiddenWire.style.display = "block";
                 // window.alert("idHiddenWire.value == 0  " + idHiddenWire.value);
-            }
-            else if (idHiddenWire.value > 0) {
+            } else if (idHiddenWire.value > 0) {
                 elementHiddenWire = document.getElementById("inputHiddenWireLength");
                 elementHiddenWire.style.display = "none";
                 elementHiddenWire = document.getElementById("hiddenWireHelp");
@@ -1278,6 +1285,7 @@
         // SAMPLE:  https://www.w3schools.com/jsref/event_onchange.asp
         // REFERENCE:  (for checkboxes) https://stackoverflow.com/questions/14544104/checkbox-check-event-listener
         document.getElementById("checkLeakRope").addEventListener("change", setLeakRope);
+
         function setLeakRope() {
             var elementLeakRope = document.getElementById("checkLeakRope");
             var elementPrefix;
@@ -1302,8 +1310,7 @@
                 elementPrefix.setAttribute("readonly", "readonly");
                 // Change POLD input title
                 document.getElementById("inputPoldLabel").innerHTML = "POLDs (total)";
-            }
-            else if (elementLeakRope.checked == false) {
+            } else if (elementLeakRope.checked == false) {
                 // Hide all extra POLD/Rope sections
                 elementPrefix = document.getElementById("expandPold1");
                 elementPrefix.style.display = "none";
@@ -1338,6 +1345,7 @@
         // Disable/enable readonly state on POLD Total input box, from checkbox
         // SAMPLE:  https://www.w3schools.com/jsref/event_onchange.asp
         document.getElementById("checkCalcPoldTotal").addEventListener("change", setPoldTotalReadOnly);
+
         function setPoldTotalReadOnly() {
             var elementCheckCalcPoldTotal = document.getElementById("checkCalcPoldTotal");
             var elementPrefix;
@@ -1346,8 +1354,7 @@
                 elementPrefix.setAttribute("readonly", "readonly");
                 // Immediately calculate the total if the checkbox is checked again
                 calcPoldTotal();
-            }
-            else if (elementCheckCalcPoldTotal.checked == false) {
+            } else if (elementCheckCalcPoldTotal.checked == false) {
                 elementPrefix = document.getElementById("inputPold");
                 elementPrefix.removeAttribute("readonly");
             }
@@ -1360,14 +1367,16 @@
         document.getElementById("inputPoldLeakRope2ft").addEventListener("change", calcPoldTotal);
         document.getElementById("inputPoldLeakRope5ft").addEventListener("change", calcPoldTotal);
         document.getElementById("inputPoldLeakRope10ft").addEventListener("change", calcPoldTotal);
+
         function calcPoldTotal() {
             var idInputPold = document.getElementById("inputPold");
             if (checkCalcPoldTotal.checked == true) {
                 // Add together the values of all the pold input boxes (POLDs with pins, POLDs with leak rope 2ft, 5ft, 10ft)
                 // They were showing/adding as strings so I had to wrap them in Number()
-                idInputPold.value = Number(document.getElementById("inputPoldPin").value) + Number(document.getElementById("inputPoldLeakRope2ft").value) + Number(document.getElementById("inputPoldLeakRope5ft").value) + Number(document.getElementById("inputPoldLeakRope10ft").value);
-            }
-            else if (checkCalcPoldTotal.checked == false) {
+                idInputPold.value = Number(document.getElementById("inputPoldPin").value) + Number(document
+                    .getElementById("inputPoldLeakRope2ft").value) + Number(document.getElementById(
+                    "inputPoldLeakRope5ft").value) + Number(document.getElementById("inputPoldLeakRope10ft").value);
+            } else if (checkCalcPoldTotal.checked == false) {
                 // idk. do nothing i guess
             }
         }
@@ -1391,6 +1400,7 @@
         // HISTORY:  I changed this to just get the checked state instead of calculated value, so it's no longer reversed.
         // SAMPLE:  https://www.w3schools.com/jsref/event_onchange.asp
         document.getElementById("checkSplitSystem").addEventListener("change", setSplitSystem);
+
         function setSplitSystem() {
             var idSplitSystem = document.getElementById("checkSplitSystem");
             var elementSplitSystem = document.getElementById("selectSplitSystem");
@@ -1398,8 +1408,7 @@
             if (idSplitSystem.checked == true) {
                 elementSplitSystem.style.display = "block";
                 // window.alert("idSplitSystem.value == 0  " + idSplitSystem.value);
-            }
-            else if (idSplitSystem.checked == false) {
+            } else if (idSplitSystem.checked == false) {
                 elementSplitSystem.style.display = "none";
                 // window.alert("idSplitSystem.value > 0  " + idSplitSystem.value);
             }
@@ -1418,8 +1427,7 @@
             var elementId = document.getElementById("inputScv");
             if (valueLds.value > 0) {
                 elementId.value = "1";
-            }
-            else if (valueLds.value == 0) {
+            } else if (valueLds.value == 0) {
                 elementId.value = "";
             }
         }
@@ -1435,8 +1443,7 @@
             var elementId = document.getElementById("inputCp");
             if (valueLds.value > 0) {
                 elementId.value = "1";
-            }
-            else if (valueLds.value == 0) {
+            } else if (valueLds.value == 0) {
                 elementId.value = "";
             }
         }
@@ -1497,6 +1504,7 @@
         // HISTORY:  I'm not sure why it's reversed. Maybe it's checking the value on click, instead of seeing what it changes to
         // SAMPLE:  https://www.w3schools.com/jsref/event_onchange.asp
         document.getElementById("versionNumber").addEventListener("click", showDebugCheck);
+
         function showDebugCheck() {
             // Testing changing css dynamically
             // changeCSS();
@@ -1528,14 +1536,14 @@
         // HISTORY:  I'm not sure why it's reversed. Maybe it's checking the value on click, instead of seeing what it changes to
         // SAMPLE:  https://www.w3schools.com/jsref/event_onchange.asp
         document.getElementById("checkDebug").addEventListener("change", setKnownIssues);
+
         function setKnownIssues() {
             var idCheckDebug = document.getElementById("checkDebug");
             if (idCheckDebug.value == 0) {
                 var elementKnownIssues = document.getElementById("knownIssues");
                 elementKnownIssues.style.display = "block";
                 // window.alert("idCheckDebug.value == 0  " + idCheckDebug.value);
-            }
-            else if (idCheckDebug.value > 0) {
+            } else if (idCheckDebug.value > 0) {
                 var elementKnownIssues = document.getElementById("knownIssues");
                 elementKnownIssues.style.display = "none";
                 // window.alert("idCheckDebug.value > 0  " + idCheckDebug.value);
@@ -1586,7 +1594,7 @@
             pam1: 0,
 
             juncBox: 36,
-            insulPouch: 6,  // Defaults to an additional Medium Shipper
+            insulPouch: 6, // Defaults to an additional Medium Shipper
             hiddenWire: 3,
 
 
@@ -1600,6 +1608,8 @@
 
             // Panel Box (10x7x3) = 6
             boxCp: 6,
+            // Medium Accessory Box (14x14x8) = (Use only for Electrical Junction Box)
+            box14x14x8: 36,
             // Large Accessory Box (14x14x14) = 48 (Use only if EJB is included or if Point total is greater than or equal to 49)
             box14x14: 48,
             // Recirc/4 hr Box (9x4x3) = 6 (Only to be used for single Recirc Pump Switch or 4hr Timer)
@@ -1626,14 +1636,15 @@
         // Initial weight list copied from jesse's pfp2 app
         var packingItemWeight = {
             lds: 0,
-            lds075: 4.55 + 1.75 + 0.5,    // me + 24V PSU 1.75 + scv  // jesse 9.05 + 0.5 (scv)
-            lds100: 5.35 + 1.75 + 0.75,   // me + 24V PSU 1.75 + scv  // jesse 9.95 + 0.75 (scv)
-            lds125: 6.10 + 1.75 + 1.2,    // me + 24V PSU 1.75 + scv  // jesse 10.6 + 1.2 (scv)
-            lds150: 7.60 + 1.75 + 1.6,    // me + 24V PSU 1.75 + scv  // jesse 12.2 + 1.6 (scv)
-            lds200: 12.05 + 1.75 + 2.35,  // me + 24V PSU 1.75  (12.05 weighed vs 11.75 guess [VB030 4.65 + Pipe/Valve 2.00 7.10]) // jesse 17.4 + 2.35 (scv)
+            lds075: 4.55 + 1.75 + 0.5, // me + 24V PSU 1.75 + scv  // jesse 9.05 + 0.5 (scv)
+            lds100: 5.35 + 1.75 + 0.75, // me + 24V PSU 1.75 + scv  // jesse 9.95 + 0.75 (scv)
+            lds125: 6.10 + 1.75 + 1.2, // me + 24V PSU 1.75 + scv  // jesse 10.6 + 1.2 (scv)
+            lds150: 7.60 + 1.75 + 1.6, // me + 24V PSU 1.75 + scv  // jesse 12.2 + 1.6 (scv)
+            lds200: 12.05 + 1.75 +
+                2.35, // me + 24V PSU 1.75  (12.05 weighed vs 11.75 guess [VB030 4.65 + Pipe/Valve 2.00 7.10]) // jesse 17.4 + 2.35 (scv)
             lds250: 7.15 + 1.75 + 11 + 3, // VB060 7.15 + 24V PSU 1.75 +  Pipe/Valve ? +  scv ?  // guess
             lds300: 7.15 + 1.75 + 18 + 4, // VB060 7.15 + 24V PSU 1.75 +  Pipe/Valve ? +  scv ?  // guess
-            lds400: 35.7 + 1.75 + 5,      // me + 24V PSU 1.75 + scv ?
+            lds400: 35.7 + 1.75 + 5, // me + 24V PSU 1.75 + scv ?
 
             splitSystem: 0,
             splitSystemB0: 0, // fallback in case you check split-system but don't select one
@@ -1661,6 +1672,7 @@
             ssr: 0.17, // me 0.1625
             pam1: 0.16, // me
 
+            // TODO: weigh current junction box
             juncBox: 5.45, // jesse // We have a temporary alternative junction box so i'm waiting for real weight. we install LDS <= 1.5" in them
             insulPouch: 1.92, // me
             hiddenWire: 0.18, // averaged the weights to the formula:  0.18 * length ft (valueHiddenWireLength)
@@ -1682,6 +1694,8 @@
             boxCp: 1, // guess
             // Large Accessory Box (14x14x14) = (Use only if EJB is included or if Point total is greater than or equal to 49)
             box14x14: 2, // guess
+            // Medium Accessory Box (14x14x8) = (Use only for Electrical Junction Box)
+            box14x14x8: 1.5, // guess
             // Recirc/4 hr Box (9x4x3) = (Only to be used for single Recirc Pump Switch or 4hr Timer)
             boxRecirc: 0.5, // guess
             // Accessory Box (13x10x5) = 
@@ -1699,6 +1713,7 @@
 
         // FUNCTION:  Go back to form input from results page, if you want to modify more
         document.getElementById("backButton").addEventListener("click", showMainPage);
+
         function showMainPage() {
 
             // FUNCTION:  Show form
@@ -1786,6 +1801,7 @@
 
         /// SUBMIT BUTTON (using addEventListener instead of onclick)
         document.getElementById("finalSubmitButton").addEventListener("click", functionOnSubmit);
+
         function functionOnSubmit() {
             // document.getElementById("demo").innerHTML = "Hello World";
             // window.alert("finalSubmitButton was pressed");
@@ -1837,8 +1853,7 @@
             //  (probably more reliable than relying on my checked||unchecked to 1||0 script)
             if (document.getElementById("checkSplitSystem").checked == true) {
                 valueSplitSystemCheck = Number(1);
-            }
-            else if (document.getElementById("checkSplitSystem").checked == false) {
+            } else if (document.getElementById("checkSplitSystem").checked == false) {
                 valueSplitSystemCheck = Number(0);
             }
             var valueSplitSystemSelect = Number(document.getElementById("selectSplitSystem").value);
@@ -1893,7 +1908,10 @@
             if (valueLeakRopeCheck == 0) {
                 valuePoldPin = valuePold;
             }
-            var valueTotal = valueSplitSystemCheck + valueScv + valueCp + valuePoldPin + valuePoldLeakRope2ft + valuePoldLeakRope5ft + valuePoldLeakRope10ft + valueLeakRope2ft + valueLeakRope5ft + valueLeakRope10ft + valueApi + valueRecirc + valueFourHour + valueSsr + valuePam1 + valueJuncBox + valueInsulPouch + valueHiddenWire;
+            var valueTotal = valueSplitSystemCheck + valueScv + valueCp + valuePoldPin + valuePoldLeakRope2ft +
+                valuePoldLeakRope5ft + valuePoldLeakRope10ft + valueLeakRope2ft + valueLeakRope5ft + valueLeakRope10ft +
+                valueApi + valueRecirc + valueFourHour + valueSsr + valuePam1 + valueJuncBox + valueInsulPouch +
+                valueHiddenWire;
             // Debugging
             //window.alert("yo valueTotal (form input)= " + valueTotal);
 
@@ -1932,7 +1950,11 @@
             if (valueLeakRopeCheck == 0) {
                 totalValuePoldPin = totalValuePold
             }
-            var totalValueTotal = totalValueSplitSystemCheck + totalValueLds + totalValueScv + totalValueCp + totalValuePoldPin + totalValuePoldLeakRope2ft + totalValuePoldLeakRope5ft + totalValuePoldLeakRope10ft + totalValueLeakRope2ft + totalValueLeakRope5ft + totalValueLeakRope10ft + totalValueApi + totalValueRecirc + totalValueFourHour + totalValueSsr + totalValuePam1 + totalValueJuncBox + totalValueInsulPouch + totalValueHiddenWire;
+            var totalValueTotal = totalValueSplitSystemCheck + totalValueLds + totalValueScv + totalValueCp +
+                totalValuePoldPin + totalValuePoldLeakRope2ft + totalValuePoldLeakRope5ft + totalValuePoldLeakRope10ft +
+                totalValueLeakRope2ft + totalValueLeakRope5ft + totalValueLeakRope10ft + totalValueApi +
+                totalValueRecirc + totalValueFourHour + totalValueSsr + totalValuePam1 + totalValueJuncBox +
+                totalValueInsulPouch + totalValueHiddenWire;
 
 
             // HISTORY:  Changed from using this variable to calculate how much total space value was left to pack, to how many total items are left to pack (since some items have 0 space value)
@@ -1970,7 +1992,8 @@
 
                 // FUNCTION:  Call function to build list of all items and what boxes they go in (displayed later through hidden div)
                 // Pass the box name as a function argument (list of items is returned, and stored as the variable)
-                outputStringFunc = buildOutputString("Standard Shipper (19x12x7)", packingItem.boxLds, packingItemWeight.boxLds);
+                outputStringFunc = buildOutputString("Standard Shipper (19x12x7)", packingItem.boxLds, packingItemWeight
+                    .boxLds);
 
             }
             // Large Shipper (18x18x14) = 18 (Used only for 2.5" and 3" systems) -Bryce
@@ -1978,30 +2001,34 @@
             // (may not apply anymore since insulated pouch gets additional medium shipper instead of changing primary box)
             else if (valueLds == 2.5 || valueLds == 3) {
                 // FUNCTION:  Call function to build list of all items and what boxes they go in (displayed later through hidden div)
-                outputStringFunc = buildOutputString("Large Shipper (18x18x14)", packingItem.boxLdsLarge, packingItemWeight.boxLdsLarge);
+                outputStringFunc = buildOutputString("Large Shipper (18x18x14)", packingItem.boxLdsLarge,
+                    packingItemWeight.boxLdsLarge);
             }
             // Medium Shipper (20x12x8)  (Used for 2" systems or Insulated Pouch only) -Bryce
             // HISTORY:  Changed this to only apply to 2" system as primary box. If insulated pouch, medium shipper should be an additional box
             // else if (valueLds == 2 || valueInsulPouch > 0) {
             else if (valueLds == 2) {
                 // FUNCTION:  Call function to build list of all items and what boxes they go in (displayed later through hidden div)
-                outputStringFunc = buildOutputString("Medium Shipper (20x12x8)", packingItem.boxLdsMedium, packingItemWeight.boxLdsMedium);
+                outputStringFunc = buildOutputString("Medium Shipper (20x12x8)", packingItem.boxLdsMedium,
+                    packingItemWeight.boxLdsMedium);
             }
 
             // FUNCTION:  If LDS is 0 (POLD-Only).
             // NOTE: Accessory box is the default primary box for POLD-Only -Bryce
-            // TODO:  Don't show the accessory box on results if it's empty and your first box is medium shipper for 1 Insulated Pouch or something
             // TODO:  Maybe add:  || valueLds == '' || valueLds == 'undefined'
             else if (valueLds == 0) {
 
                 // If there's no LDS, determine the first box here
+                /*
+                // HISTORY:  Removing this since we're not packing junction boxes into 14x14 and trying to share room with other accessories anymore (putting juncBox in separate 14x14x8 box)
                 // See if we have 1 or more juncBox present first:
                 if (valueJuncBox >= 1) {
-                    // then subtracTing the value of the juncBoxes and insulPouches from the totalValueCurrent (since we're only worried about the other accessories that will be packed in this box), 
+                    // then subtracting the value of the juncBoxes and insulPouches from the totalValueCurrent (since we're only worried about the other accessories that will be packed in this box), 
                     // and see if it's less than the space remaining in a 14x14 after packing a juncBox:
                     // TODO:  Make sure the subtraction on the left is working as expected
                     // This should allow packing up to 12pt of accessories in a 14x14 plus a juncBox
-                    if ((totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) <= (packingItem.box14x14 - packingItem.juncBox)) {
+                    if ((totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) <= (packingItem.box14x14 -
+                            packingItem.juncBox)) {
                         nextBox = "Large Accessory Box (14x14x14)";
                         nextBoxValue = packingItem.box14x14;
                         nextBoxWeightSingle = packingItemWeight.box14x14;
@@ -2012,7 +2039,8 @@
                     }
                     // or if the total accessories (minus juncBox and insulPouch) are greater than or equal to 3 accessory boxes, then pack in a 14x14 instead
                     // TODO:  Make sure the subtraction on the left is working as expected
-                    else if ((totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) >= (packingItem.boxAccessories * 3)) {
+                    else if ((totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) >= (packingItem
+                            .boxAccessories * 3)) {
                         nextBox = "Large Accessory Box (14x14x14)";
                         nextBoxValue = packingItem.box14x14;
                         nextBoxWeightSingle = packingItemWeight.box14x14;
@@ -2020,8 +2048,7 @@
                         // if (valueDebug >= 1) {
                         //     window.alert("4 INSIDE IF2:\n (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) == " + tempWindowalertVariable98sfhn + "\n currentItemName == " + currentItemName);
                         // }
-                    }
-                    else {
+                    } else {
                         // Default back to an accessory box
                         // TODO:  Check to make sure this isn't overriding other special circumstances like recirc pump box (it probably is. may need to move those if cases here)
                         nextBox = "Accessory Box (13x10x5)";
@@ -2034,10 +2061,15 @@
                         // }
                     }
                 }
+                */
+                // If there's no LDS, determine the first box here (continued)
                 //// Duplicated many of these from above, since they apply whether or not there's no juncBox (if the accessories total is within range)
+                // TODO:  Hide weight display for first empty box with only insulated pouch 
+                // (actually no. just avoid using the first empty box. if i just hide title and weight, the first box will be box 2)
                 // TODO:  Make sure the subtraction on the left is working as expected
                 // or if the total accessories (minus juncBox and insulPouch) are greater than or equal to 3 accessory boxes, then pack in a 14x14 instead
-                else if ((totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) >= (3 * packingItem.boxAccessories)) {
+                if ((totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) >= (3 * packingItem
+                        .boxAccessories)) {
                     // DEBUGGING level 3
                     // if (valueDebug >= 1) {
                     //     window.alert("7 INSIDE ELSE IF:\n (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) == " + tempWindowalertVariable98sfhn + "\n (packingItem.boxAccessories * 3) == " + tempWindowalertVariable354drt);
@@ -2045,20 +2077,17 @@
                     nextBox = "Large Accessory Box (14x14x14)";
                     nextBoxValue = packingItem.box14x14;
                     nextBoxWeightSingle = packingItemWeight.box14x14;
-                }
-                else if ((valueRecirc == 1 && valueFourHour == 0) && (totalValueCurrent == packingItem.recirc)) {
+                } else if ((valueRecirc == 1 && valueFourHour == 0) && (totalValueCurrent == packingItem.recirc)) {
                     // FUNCTION:  Puts the Recirc or Four hour timer into its own box if this is the only overflow item
                     nextBox = "Recirc/Four Hour Box (9x4x3)";
                     nextBoxValue = packingItem.boxRecirc;
                     nextBoxWeightSingle = packingItemWeight.boxRecirc;
-                }
-                else if ((valueRecirc == 0 && valueFourHour == 1) && (totalValueCurrent == packingItem.fourHour)) {
+                } else if ((valueRecirc == 0 && valueFourHour == 1) && (totalValueCurrent == packingItem.fourHour)) {
                     // FUNCTION:  Puts the Recirc or Four hour timer into its own box if this is the only overflow item
                     nextBox = "Recirc/Four Hour Box (9x4x3)";
                     nextBoxValue = packingItem.boxRecirc;
                     nextBoxWeightSingle = packingItemWeight.boxRecirc;
-                }
-                else {
+                } else {
                     // Default back to an accessory box
                     // TODO:  Check to make sure this isn't overriding other special circumstances like recirc pump box (it probably is. may need to move those if cases here)
                     nextBox = "Accessory Box (13x10x5)";
@@ -2075,11 +2104,11 @@
                 // Use the values found in conditions directly above to determine first box
                 outputStringFunc = buildOutputString(nextBox, nextBoxValue, nextBoxWeightSingle);
                 // outputStringFunc = buildOutputString("Accessory Box (13x10x5)", packingItem.boxAccessories, packingItemWeight.boxAccessories);
-            }
-            else {
+            } else {
                 window.alert("yo something is wrong with the LDS value.\n valueLds = " + valueLds);
                 // FUNCTION:  Call function to build list of all items and what boxes they go in (displayed later through hidden div)
-                outputStringFunc = buildOutputString("Accessory Box (13x10x5)", packingItem.boxAccessories, packingItemWeight.boxAccessories);
+                outputStringFunc = buildOutputString("Accessory Box (13x10x5)", packingItem.boxAccessories,
+                    packingItemWeight.boxAccessories);
             }
 
 
@@ -2096,28 +2125,34 @@
             // TODO: May wanna move this above the conditions above that call the  buildOutputString  function
             // (would have to rewrite a bit to call the conditions above instead of calling the  resultsOutput  function)
             formValidation();
+
             function formValidation() {
                 // FUNCTION:  Show warning that B3 isn't done, if selected
                 alertUnfinishedFeature1();
+
                 function alertUnfinishedFeature1() {
                     var elementSelectSplitSystem = document.getElementById("selectSplitSystem");
                     if (selectSplitSystem.value == 3) {
-                        window.alert("Rules for B3 systems are not complete. Ask the warehouse for the proper packaging configuration");
+                        window.alert(
+                            "Rules for B3 systems are not complete. Ask the warehouse for the proper packaging configuration"
+                        );
                     }
                 }
 
                 // Form validation for number of POLDs
                 // Only validate the number of polds if you're dealing with leak rope, otherwise it's fine
                 if (valueLeakRopeCheck == 1) {
-                    var totalPoldInputCalculated = valuePoldPin + valuePoldLeakRope2ft + valuePoldLeakRope5ft + valuePoldLeakRope10ft;
+                    var totalPoldInputCalculated = valuePoldPin + valuePoldLeakRope2ft + valuePoldLeakRope5ft +
+                        valuePoldLeakRope10ft;
                     if (valuePold == totalPoldInputCalculated) {
                         // Leak rope validation passed, so go to the next validation function
                         // window.alert("You chose wisely.\nvaluePold, totalPoldInputCalculated\n" + valuePold + ", " + totalPoldInputCalculated);
                         formValidation2();
-                    }
-                    else {
+                    } else {
                         // Form validation failed, so it doesn't go to the next form validation function
-                        window.alert("POLD values are incorrect. \n\nMake sure the number of POLDs (with pins) plus the number of POLDs (with leak rope) equals the total number of POLDs.");
+                        window.alert(
+                            "POLD values are incorrect. \n\nMake sure the number of POLDs (with pins) plus the number of POLDs (with leak rope) equals the total number of POLDs."
+                        );
                         //\nvaluePold, totalPoldInputCalculated\n" + valuePold + ", " + totalPoldInputCalculated
                     }
                 }
@@ -2140,7 +2175,9 @@
                         else {
                             // FUNCTION:  Shows an Ok/Cancel popup
                             // SOURCE:  https://stackoverflow.com/a/9334679
-                            var answer = window.confirm("Alert:\nSolid State Relays (SSR) are typically sent in groups of 2.\nAre you sure you want to send an odd number of SSR?");
+                            var answer = window.confirm(
+                                "Alert:\nSolid State Relays (SSR) are typically sent in groups of 2.\nAre you sure you want to send an odd number of SSR?"
+                            );
                             // If they click Ok
                             if (answer) {
                                 resultsOutput();
@@ -2188,8 +2225,7 @@
                     idPrintButton.style.display = "none";
                     // window.alert("boxTotal < 2  " + idPrintButton.value);
                     idSaveButton.style.display = "none";
-                }
-                else if (boxTotal >= 2) {
+                } else if (boxTotal >= 2) {
                     idPrintButton.style.display = "block";
                     // window.alert("boxTotal >= 2  " + idPrintButton.value);
                     idSaveButton.style.display = "block";
@@ -2313,9 +2349,12 @@
                 // Add the first box name, and current/total box numbers
                 // TODO:  Might want to change this to only display once things are packed in this box (maybe show later in the packing function/loop)
                 // HISTORY:  It was showing an empty accessory box if only junction box/insulated pouch is being sent
-                // FIX:  IF statement added, to only show this first box line if there's an item to pack besides junction box or insulated pouch (which don't go into an accessory or LDS box)
-                if (valueLds >= 1 || valueApi >= 1 || valueCp >= 1 || valueFourHour >= 1 || valueLeakRopeCheck >= 1 || valuePam1 >= 1 || valuePold >= 1 || valuePoldPin >= 1 || valueRecirc >= 1 || valueScv >= 1 || valueSsr >= 1) {
-                    outputString = outputString + "<b>" + initialBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i><br>";
+                // FIX:  "IF statement" added, to only show this first box line if there's an item to pack besides junction box or insulated pouch (which don't go into an accessory or LDS box)
+                if (valueLds >= 1 || valueApi >= 1 || valueCp >= 1 || valueFourHour >= 1 || valueLeakRopeCheck >= 1 ||
+                    valuePam1 >= 1 || valuePold >= 1 || valuePoldPin >= 1 || valueRecirc >= 1 || valueScv >= 1 ||
+                    valueSsr >= 1) {
+                    outputString = outputString + "<b>" + initialBox + "</b><i>&nbsp; [Box " + boxNumber +
+                        "<span class='boxTotal'>boxTotal</span>" + "]: </i><br>";
                 }
 
 
@@ -2323,7 +2362,7 @@
                 // Initialize a variable to tell how many items are left to pack (to know when you're done, and display info like the final box weight)
                 var itemsTotalLeft = valueTotal;
                 // HISTORY:  Changed from using this variable to calculate how much total space value was left to pack, to how many total items are left to pack (since some items have 0 space value)
-                // I still need this variable though because I'm doing other calculations like seeing if I can fit leftovers in 14x14  if ((totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) <= (packingItem.box14x14 - packingItem.juncBox)) 
+                // I still need this variable though because I'm doing other calculations like seeing if I can fit leftovers in 14x14  if ((totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) <= (packingItem.box14x14 - packingItem.juncBox))  (not anymore though. juncbox not sharing box anymore)
                 totalValueCurrent = totalValueTotal;
 
                 // Initialze a variable to track how much space is left in each box, so once it hits a low number, it moves on to next box
@@ -2373,14 +2412,17 @@
                         console.log("weightCurrentBox = " + weightCurrentBox + "  weightTotal = " + weightTotal);
                         // REFERENCE:  (correcting display of inaccurate floating point math)  https://stackoverflow.com/a/28856155/1263035
                         // EXAMPLE:    parseFloat((a-b).toFixed(2));
-                        console.log("parseFloat((weightCurrentBox).toFixed(2)) = " + parseFloat((weightCurrentBox).toFixed(2)) + "\nparseFloat((weightTotal).toFixed(2)) = " + parseFloat((weightTotal).toFixed(2)));
+                        console.log("parseFloat((weightCurrentBox).toFixed(2)) = " + parseFloat((weightCurrentBox)
+                            .toFixed(2)) + "\nparseFloat((weightTotal).toFixed(2)) = " + parseFloat((
+                            weightTotal).toFixed(2)));
                     };
 
 
                     // If split system, add that info
                     if (valueSplitSystemCheck > 0) {
                         // Add item to string to be displayed at the end for what to pack
-                        outputString = outputString + "• LDS (" + valueLds + "\") (Split-System B" + valueSplitSystemSelect + ")<br>";
+                        outputString = outputString + "• LDS (" + valueLds + "\") (Split-System B" +
+                            valueSplitSystemSelect + ")<br>";
 
                         /// ADD WEIGHT: SPLIT-SYSTEM 
 
@@ -2405,7 +2447,8 @@
                         // Working (Short version):
                         // REFERENCE:  (variable as part of a variable, within global window.Function())  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_eval!
                         // Additional weight for split system extras like extra pipe for probe
-                        weightCurrentBox += Function('return packingItemWeight.splitSystemB' + valueSplitSystemSelect)();
+                        weightCurrentBox += Function('return packingItemWeight.splitSystemB' + valueSplitSystemSelect)
+                            ();
                         // MEANING:  weightCurrentBox += packingItemWeight.splitSystemB[valueSplitSystemSelect];
                         weightTotal += Function('return packingItemWeight.splitSystemB' + valueSplitSystemSelect)();
 
@@ -2459,7 +2502,8 @@
                     totalValueCurrent = totalValueCurrent - totalValueHiddenWire;
                     boxValueLeft = boxValueLeft - totalValueHiddenWire;
                     // Add item to string to be displayed at the end for what to pack
-                    outputString = outputString + "• " + valueHiddenWire + " Hidden Wire (" + valueHiddenWireLength + "ft)<br>";
+                    outputString = outputString + "• " + valueHiddenWire + " Hidden Wire (" + valueHiddenWireLength +
+                        "ft)<br>";
 
                     /// ADD WEIGHT
                     // Multiply the number of hidden wires (currently just a 1||0 checkbox) with the length, to calculate weight by cable length
@@ -2481,20 +2525,26 @@
                 }
                 // All items above always go into box 1 (according to Bryce)
 
+
                 // Show box weight if items are all packed before moving on to the next items
+                // TODO:  This may not actually work. Logically it seems like this will only show first box weight if there is nothing left to pack at all.
+                // Actually that may be exactly what I wanted, since if there is more to pack, the next back should start by showing the last box weight
                 if (itemsTotalLeft <= 0) {
-                    // Only show weight if there was more than 0 items to pack
+                    // Only show weight if there were more than 0 items to pack
                     if (valueTotal > 0 || valueLds > 0) {
                         // Add the box/packaging weight to the total
                         weightCurrentBox += boxWeightSingle;
                         weightTotal += boxWeightSingle;
-                        outputString += " <div class='weightCurrentBox text-muted'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(0)) + " lbs)</i><br></div>";
+                        outputString +=
+                            " <div class='weightCurrentBox text-muted'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " +
+                            parseFloat((weightCurrentBox).toFixed(0)) + " lbs)</i><br></div>";
                         // DEBUGGING to show info every time a single item is packed (1 line)
                         if (valueDebug >= 1) {
-                            outputString = outputString + "<br> DEBUGGING INFO: weight1  itemsTotalLeft = " + itemsTotalLeft + ".  boxValueLeft = " + boxValueLeft + ".  weightCurrentBox = " + weightCurrentBox + "<br>";
+                            outputString = outputString + "<br> DEBUGGING INFO: weight1  itemsTotalLeft = " +
+                                itemsTotalLeft + ".  boxValueLeft = " + boxValueLeft + ".  weightCurrentBox = " +
+                                weightCurrentBox + "<br>";
                         }
-                    }
-                    else {
+                    } else {
                         outputString += "<br><i>Nothing to pack?</i><br>&nbsp;";
                     }
                 }
@@ -2540,7 +2590,8 @@
                 // The four hour timer box is only used if a single timer or recirc switch is sent, or it's the only overflow item,
                 //  but if both are sent, then they'll be in an accessory box like any other scenario
                 // TODO:  Make case for determining if this is the only overflow item (I think i did this already?)
-                if ((valueFourHour == 1 || valueRecirc == 1) && (totalValueTotal == packingItem.fourHour || totalValueTotal == packingItem.recirc)) {
+                if ((valueFourHour == 1 || valueRecirc == 1) && (totalValueTotal == packingItem.fourHour ||
+                        totalValueTotal == packingItem.recirc)) {
                     nextBox = "Recirc/Four Hour Box (9x4x3)";
                     nextBoxValue = packingItem.boxRecirc;
                     nextBoxWeightSingle = packingItemWeight.boxRecirc;
@@ -2569,7 +2620,8 @@
                 // FUNCTION:  PACK ITEM FUNCTION (one at a time, instead of item bundles)
                 // (Called below, after the function)
                 // (valueCurrentItem = how many, subtracted every time one is packed)
-                function putInBox(valueCurrentItem, spaceSingleCurrentItem, spaceSingleCurrentItemVariableName, totalValueCurrentItem, currentItemName) {
+                function putInBox(valueCurrentItem, spaceSingleCurrentItem, spaceSingleCurrentItemVariableName,
+                    totalValueCurrentItem, currentItemName) {
 
                     if (valueCurrentItem > 0) {
 
@@ -2578,8 +2630,10 @@
                         currentItemCountInBoxOfCurrentItem = 0;
 
                         // Change the variable name from retrieving item space to weight
-                        var weightSingleCurrentItemVariableName = spaceSingleCurrentItemVariableName.replace('packingItem', 'packingItemWeight');
+                        var weightSingleCurrentItemVariableName = spaceSingleCurrentItemVariableName.replace(
+                            'packingItem', 'packingItemWeight');
                         // Replacement code for eval(), to resolve variable name to a variable. (or to use variable values in variable name). made by me
+                        // I think this was needed because the single item variable name changes every time this function is called (built/modified above)
                         // REFERENCE:  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_eval!
                         weightSingleCurrentItem = Function('return ' + weightSingleCurrentItemVariableName)();
 
@@ -2616,8 +2670,13 @@
                                 // Debugging level 0
                                 // REFERENCE:  (correcting display of inaccurate floating point math)  https://stackoverflow.com/a/28856155/1263035
                                 // EXAMPLE:    parseFloat((a-b).toFixed(2));
-                                console.log("spaceSingleCurrentItemVariableName = " + spaceSingleCurrentItemVariableName + "  weightSingleCurrentItem = " + weightSingleCurrentItem);
-                                console.log("parseFloat((weightCurrentBox).toFixed(2)) = " + parseFloat((weightCurrentBox).toFixed(2)) + "\nparseFloat((weightTotal).toFixed(2)) = " + parseFloat((weightTotal).toFixed(2)));
+                                console.log("spaceSingleCurrentItemVariableName = " +
+                                    spaceSingleCurrentItemVariableName + "  weightSingleCurrentItem = " +
+                                    weightSingleCurrentItem);
+                                console.log("parseFloat((weightCurrentBox).toFixed(2)) = " + parseFloat((
+                                        weightCurrentBox).toFixed(2)) +
+                                    "\nparseFloat((weightTotal).toFixed(2)) = " + parseFloat((weightTotal).toFixed(
+                                        2)));
 
                                 // It outputs which items were just packed near the end of this function, just outside the while loop
 
@@ -2625,7 +2684,12 @@
 
                                 // DEBUGGING to show info every time a single item is packed (1 line)
                                 if (valueDebug >= 1) {
-                                    outputString = outputString + "<br> DEBUGGING INFO: itemsTotalLeft = " + itemsTotalLeft + ".  boxValueLeft = " + boxValueLeft + ".  totalValueCurrentItem = " + totalValueCurrentItem + ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem + ".  totalValueCurrent = " + totalValueCurrent + ". weightCurrentBox = " + weightCurrentBox + "<br>";
+                                    outputString = outputString + "<br> DEBUGGING INFO: itemsTotalLeft = " +
+                                        itemsTotalLeft + ".  boxValueLeft = " + boxValueLeft +
+                                        ".  totalValueCurrentItem = " + totalValueCurrentItem +
+                                        ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem +
+                                        ".  totalValueCurrent = " + totalValueCurrent + ". weightCurrentBox = " +
+                                        weightCurrentBox + "<br>";
                                 }
                             }
                             // Otherwise, show how many have been packed into this box, then move on to the next box and keep packing
@@ -2637,7 +2701,8 @@
                                 // I think I eliminated some of those external copied statements by bringing more nextBox calculations into this putInBox function (below)
                                 // Display how many of this item has been packed into the current box, before switching boxes (if there are 1 or more in there)
                                 if (currentItemCountInBoxOfCurrentItem >= 1) {
-                                    outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
+                                    outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " +
+                                        currentItemName + "<br>";
                                 }
 
                                 // Debugging level 0
@@ -2646,29 +2711,43 @@
                                 // REFERENCE:  (correcting display of inaccurate floating point math)  https://stackoverflow.com/a/28856155/1263035
                                 // EXAMPLE:    parseFloat((a-b).toFixed(2));
                                 if (valueDebug >= 1) {
-                                    console.log("parseFloat((weightCurrentBox).toFixed(2)) = " + parseFloat((weightCurrentBox).toFixed(2)) + "\nparseFloat((weightTotal).toFixed(2)) = " + parseFloat((weightTotal).toFixed(2)));
+                                    console.log("parseFloat((weightCurrentBox).toFixed(2)) = " + parseFloat((
+                                            weightCurrentBox).toFixed(2)) +
+                                        "\nparseFloat((weightTotal).toFixed(2)) = " + parseFloat((weightTotal)
+                                            .toFixed(2)));
                                 }
 
 
                                 /// Show weight (before new box)
+                                // Copied this to the  // Pack  Insulated Pouch  section as well (since it has a copy of this else statement)
+                                // Keep the copy there updated!
                                 // If nothing has been packed yet, don't show info for an empty accessory box first
                                 if (itemsTotalLeft == valueTotal) {
                                     // Don't show the weight (if nothing has been packed yet)
-                                }
-                                else {
-                                    // Copied this to the  // Pack  Insulated Pouch  section as well (since it has a copy of this else statement)
+                                } else {
                                     // Add the box/packaging weight to the total
                                     weightCurrentBox += boxWeightSingle;
                                     weightTotal += boxWeightSingle;
-                                    outputString += " <div class='weightCurrentBox text-muted'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(0)) + " lbs)</i><br></div>";
+                                    outputString +=
+                                        " <div class='weightCurrentBox text-muted'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " +
+                                        parseFloat((weightCurrentBox).toFixed(0)) + " lbs)</i><br></div>";
                                     // DEBUGGING to show which code is displaying weight
                                     if (valueDebug >= 1) {
-                                        outputString = outputString + "<br> DEBUGGING INFO: weight3  else (newbox) itemsTotalLeft = " + itemsTotalLeft + ".  boxValueLeft = " + boxValueLeft + ".  totalValueCurrentItem = " + totalValueCurrentItem + ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem + ".  totalValueCurrent = " + totalValueCurrent + ". weightCurrentBox = " + weightCurrentBox + ". weightSingleCurrentItem = " + weightSingleCurrentItem + "<br>";
+                                        outputString = outputString +
+                                            "<br> DEBUGGING INFO: weight3  else (newbox) itemsTotalLeft = " +
+                                            itemsTotalLeft + ".  boxValueLeft = " + boxValueLeft +
+                                            ".  totalValueCurrentItem = " + totalValueCurrentItem +
+                                            ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem +
+                                            ".  totalValueCurrent = " + totalValueCurrent + ". weightCurrentBox = " +
+                                            weightCurrentBox + ". weightSingleCurrentItem = " +
+                                            weightSingleCurrentItem + "<br>";
                                     }
                                 }
                                 // DEBUGGING
                                 if (valueDebug >= 1) {
-                                    outputString = outputString + "<br> DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft + ". weightCurrentBox = " + weightCurrentBox + ". weightTotal = " + weightTotal + "<br>";
+                                    outputString = outputString + "<br> DEBUGGING INFO: last boxValue = " + boxValue +
+                                        ".  boxValueLeft = " + boxValueLeft + ". weightCurrentBox = " +
+                                        weightCurrentBox + ". weightTotal = " + weightTotal + "<br>";
                                 }
 
 
@@ -2685,11 +2764,14 @@
 
                                 //// START THE NEXT BOX
 
+                                /*
+                                // HISTORY:  Removed this section so we don't pack accessories and juncBox into a 14x14x14. Using rules below instead
+                                // Can delete entire commented section
                                 //// EXCEPTION FOR SELECTING 14X14 AS NEXTBOX RIGHT AFTER FILLING THE FIRST BOX ////
 
                                 // Change rules to prevent 2 14x14s when packing EJB with second mostly empty.
                                 // (actually we won't have a negative value because the juncBoxes are all added to the total, so using totalValueJuncBox should work)
-                                // This should pack juncBox plus up to 12pt of accessories in a 14x14.
+                                // This should pack juncBox plus up to 12 points of accessories in a 14x14.
 
                                 // Run only directly after the first box is filled (standard shipper, large shipper, or medium shipper not with insulated pouch)
                                 // TODO:  This is also running after packing an Accessory Box, since it has the same value as Standard Shipper / boxLds (12)
@@ -2709,17 +2791,19 @@
 
                                 // DEBUGGING
                                 // For last Else If (putting it right above the else if causes an error. prob not supposed to have statements in between if/elses) (may not need this anymore)
-                                var tempWindowalertVariable98sfhn = (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch);
+                                var tempWindowalertVariable98sfhn = (totalValueCurrent - totalValueJuncBox -
+                                    totalValueInsulPouch);
                                 var tempWindowalertVariable354drt = (3 * packingItem.boxAccessories);
                                 // window.alert("6 BEFORE ELSE IF:\n (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) == " + tempWindowalertVariable98sfhn + "\n (packingItem.boxAccessories * 3) == " + tempWindowalertVariable354drt);
 
                                 // See if we have 1 or more juncBox present first:
                                 if (valueJuncBox >= 1) {
-                                    // then subtracTing the value of the juncBoxes and insulPouches from the totalValueCurrent (since we're only worried about the other accessories that will be packed in this box), 
+                                    // then subtracting the value of the juncBoxes and insulPouches from the totalValueCurrent (since we're only worried about the other accessories that will be packed in this box), 
                                     // and see if it's less than the space remaining in a 14x14 after packing a juncBox:
                                     // TODO:  Make sure the subtraction on the left is working as expected
-                                    // This should allow packing up to 12pt of accessories in a 14x14 plus a juncBox
-                                    if ((totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) <= (packingItem.box14x14 - packingItem.juncBox)) {
+                                    // This should allow packing up to 12 points of accessories in a 14x14 plus a juncBox
+                                    if ((totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) <= (packingItem
+                                            .box14x14 - packingItem.juncBox)) {
                                         nextBox = "Large Accessory Box (14x14x14)";
                                         nextBoxValue = packingItem.box14x14;
                                         nextBoxWeightSingle = packingItemWeight.box14x14;
@@ -2730,7 +2814,8 @@
                                     }
                                     // or if the total accessories (minus juncBox and insulPouch) are greater than or equal to 3 accessory boxes, then pack in a 14x14 instead
                                     // TODO:  Make sure the subtraction on the left is working as expected
-                                    else if ((totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) >= (packingItem.boxAccessories * 3)) {
+                                    else if ((totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) >= (
+                                            packingItem.boxAccessories * 3)) {
                                         nextBox = "Large Accessory Box (14x14x14)";
                                         nextBoxValue = packingItem.box14x14;
                                         nextBoxWeightSingle = packingItemWeight.box14x14;
@@ -2738,8 +2823,7 @@
                                         // if (valueDebug >= 1) {
                                         //     window.alert("4 INSIDE IF2:\n (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) == " + tempWindowalertVariable98sfhn + "\n currentItemName == " + currentItemName);
                                         // }
-                                    }
-                                    else {
+                                    } else {
                                         // Default back to an accessory box
                                         // TODO:  Check to make sure this isn't overriding other special circumstances like recirc pump box (it probably is. may need to move those if cases here)
                                         nextBox = "Accessory Box (13x10x5)";
@@ -2755,6 +2839,8 @@
                                     //// CONDITIONS PER ITEM TYPE
                                     // If current item is Junction Box, Set as Large Accessory Box
                                     if (spaceSingleCurrentItemVariableName == "packingItem.juncBox") {
+                                        // HISTORY:  THIS IS NOW CHANGED to Medium Accessory Box (14x14x8). (updated in below section)
+                                        // This section removed so we don't pack accessories and juncBox into a 14x14x14. Using rules below instead
                                         // Large Accessory Box (14x14x14) = 48 (Use only if EJB is included or if Point total is greater than or equal to 49) -Bryce
                                         // Might need to reset it back to accessory box afterward
                                         nextBox = "Large Accessory Box (14x14x14)";
@@ -2772,7 +2858,8 @@
                                     // If current item is recirc pump, see if it's the only overflow item (and put it in its own box if so)
                                     else if (spaceSingleCurrentItemVariableName == "packingItem.recirc") {
                                         // FUNCTION:  Puts the Recirc or Four hour timer into its own box if this is the only overflow item
-                                        if ((valueRecirc == 1 && valueFourHour == 0) && (totalValueCurrent == packingItem.recirc) && (boxValueLeft < packingItem.recirc)) {
+                                        if ((valueRecirc == 1 && valueFourHour == 0) && (totalValueCurrent ==
+                                                packingItem.recirc) && (boxValueLeft < packingItem.recirc)) {
                                             nextBox = "Recirc/Four Hour Box (9x4x3)";
                                             nextBoxValue = packingItem.boxRecirc;
                                             nextBoxWeightSingle = packingItemWeight.boxRecirc;
@@ -2780,18 +2867,23 @@
                                     }
                                     // If current item is four hour timer, see if it's the only overflow item (and put it in its own box if so)
                                     else if (spaceSingleCurrentItemVariableName == "packingItem.fourHour") {
-                                        if ((valueRecirc == 0 && valueFourHour == 1) && (totalValueCurrent == packingItem.fourHour) && (boxValueLeft < packingItem.fourHour)) {
+                                        if ((valueRecirc == 0 && valueFourHour == 1) && (totalValueCurrent ==
+                                                packingItem.fourHour) && (boxValueLeft < packingItem.fourHour)) {
                                             nextBox = "Recirc/Four Hour Box (9x4x3)";
                                             nextBoxValue = packingItem.boxRecirc;
                                             nextBoxWeightSingle = packingItemWeight.boxRecirc;
                                         }
                                     }
                                 }
+                                */
 
+                                //// START THE NEXT BOX (continued)
                                 //// Duplicated many of these from above, since they apply whether or not there's no juncBox (if the accessories total is within range)
+                                // HISTORY:  These are the only rules running now that junction boxes aren't going into 14x14x14, so rules above disabled
                                 // TODO:  Make sure the subtraction on the left is working as expected
                                 // or if the total accessories (minus juncBox and insulPouch) are greater than or equal to 3 accessory boxes, then pack in a 14x14 instead
-                                else if ((totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) >= (3 * packingItem.boxAccessories)) {
+                                else if ((totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) >= (3 *
+                                        packingItem.boxAccessories)) {
                                     // DEBUGGING level 3
                                     // if (valueDebug >= 1) {
                                     //     window.alert("7 INSIDE ELSE IF:\n (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) == " + tempWindowalertVariable98sfhn + "\n (packingItem.boxAccessories * 3) == " + tempWindowalertVariable354drt);
@@ -2799,8 +2891,7 @@
                                     nextBox = "Large Accessory Box (14x14x14)";
                                     nextBoxValue = packingItem.box14x14;
                                     nextBoxWeightSingle = packingItemWeight.box14x14;
-                                }
-                                else {
+                                } else {
                                     // Default back to an accessory box
                                     // TODO:  Check to make sure this isn't overriding other special circumstances like recirc pump box (it probably is. may need to move those if cases here)
                                     nextBox = "Accessory Box (13x10x5)";
@@ -2814,13 +2905,13 @@
                                 }
 
                                 //// CONDITIONS PER ITEM TYPE
-                                // If current item is Junction Box, Set as Large Accessory Box
+                                // If current item is Junction Box, Set as Medium Accessory Box (14x14x8)
                                 if (spaceSingleCurrentItemVariableName == "packingItem.juncBox") {
-                                    // Large Accessory Box (14x14x14) = 48 (Use only if EJB is included or if Point total is greater than or equal to 49) -Bryce
+                                    // Medium Accessory Box (14x14x8) = (Use only for Electrical Junction Box)
                                     // Might need to reset it back to accessory box afterward
-                                    nextBox = "Large Accessory Box (14x14x14)";
-                                    nextBoxValue = packingItem.box14x14;
-                                    nextBoxWeightSingle = packingItemWeight.box14x14;
+                                    nextBox = "Medium Accessory Box (14x14x8)";
+                                    nextBoxValue = packingItem.box14x14x8;
+                                    nextBoxWeightSingle = packingItemWeight.box14x14x8;
                                 }
                                 // If current item is insulated pouch, Set as medium shipper
                                 else if (spaceSingleCurrentItemVariableName == "packingItem.insulPouch") {
@@ -2835,7 +2926,8 @@
                                     // FUNCTION:  Puts the Recirc or Four hour timer into its own box if this is the only overflow item
                                     // Changed IF condition to work when there's one recirc left, even if there were recircs packed already
                                     // if ((valueRecirc == 1 && valueFourHour == 0) && (totalValueCurrent == packingItem.recirc) && (boxValueLeft < packingItem.recirc)) {
-                                    if ((totalValueCurrent == packingItem.recirc) && (boxValueLeft < packingItem.recirc)) {
+                                    if ((totalValueCurrent == packingItem.recirc) && (boxValueLeft < packingItem
+                                            .recirc)) {
                                         nextBox = "Recirc/Four Hour Box (9x4x3)";
                                         nextBoxValue = packingItem.boxRecirc;
                                         nextBoxWeightSingle = packingItemWeight.boxRecirc;
@@ -2845,14 +2937,15 @@
                                 else if (spaceSingleCurrentItemVariableName == "packingItem.fourHour") {
                                     // Changed IF condition to work when there's one fourHour left, even if there were recircs or fourHours packed already
                                     // if ((valueRecirc == 0 && valueFourHour == 1) && (totalValueCurrent == packingItem.fourHour) && (boxValueLeft < packingItem.fourHour)) {
-                                    if ((totalValueCurrent == packingItem.fourHour) && (boxValueLeft < packingItem.fourHour)) {
+                                    if ((totalValueCurrent == packingItem.fourHour) && (boxValueLeft < packingItem
+                                            .fourHour)) {
                                         nextBox = "Recirc/Four Hour Box (9x4x3)";
                                         nextBoxValue = packingItem.boxRecirc;
                                         nextBoxWeightSingle = packingItemWeight.boxRecirc;
                                     }
                                 }
 
-                                //// END EXCEPTION FOR 14X14 (then continue the packing loop) ////
+                                //// END NEXTBOX EXCEPTIONS (then continue the packing loop) ////
 
 
 
@@ -2861,8 +2954,7 @@
                                 // (Must have this statement above the  itemsTotalLeft--;  line below)
                                 if (itemsTotalLeft == valueTotal) {
                                     // Don't increase the box number (if nothing has been packed yet)
-                                }
-                                else {
+                                } else {
                                     // Add 1 to the boxTotal and boxNumber
                                     boxNumber++;
                                     boxTotal++;
@@ -2901,10 +2993,15 @@
                                 // If there's an SO#, add it to the top of the page for each box
                                 // NOTE:  Added newBoxBefore1 and newBoxBefore2 to fix html2pdf inserting the page break in wrong location (issue with nested divs)
                                 if (valueSoNum > 0) {
-                                    outputString = outputString + "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><div class='soBox text-end'><i>SO# " + valueSoNum + "</i></div><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
-                                }
-                                else {
-                                    outputString = outputString + "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                                    outputString = outputString +
+                                        "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><div class='soBox text-end'><i>SO# " +
+                                        valueSoNum + "</i></div><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber +
+                                        "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                                } else {
+                                    outputString = outputString +
+                                        "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><b>" +
+                                        nextBox + "</b><i>&nbsp; [Box " + boxNumber +
+                                        "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
                                 }
                                 // outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
 
@@ -2916,13 +3013,22 @@
 
                                 // DEBUGGING to show info every time a single item is packed (1 line)
                                 if (valueDebug == 1) {
-                                    outputString = outputString + "<br> DEBUGGING INFO: itemsTotalLeft = " + itemsTotalLeft + ".  boxValueLeft = " + boxValueLeft + ".  totalValueCurrentItem = " + totalValueCurrentItem + ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem + ".  totalValueCurrent = " + totalValueCurrent + "<br>";
+                                    outputString = outputString + "<br> DEBUGGING INFO: itemsTotalLeft = " +
+                                        itemsTotalLeft + ".  boxValueLeft = " + boxValueLeft +
+                                        ".  totalValueCurrentItem = " + totalValueCurrentItem +
+                                        ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem +
+                                        ".  totalValueCurrent = " + totalValueCurrent + "<br>";
                                 }
 
                                 loopCount++;
                                 loopCountElse++;
                                 if (loopCountElse >= 60) {
-                                    outputString = outputString + "<br><b><span style='color:red;'>WARNING:</span> I tried packing this item into a new box " + loopCount + " different times and gave up </b><br>(Actually what might be happening is this loop just stops after packing " + loopCount + " boxes with the same item, to avoid getting stuck in a possible infinite loop. If you really need this many boxes, just increase the value for this IF statement condition.)<br>";
+                                    outputString = outputString +
+                                        "<br><b><span style='color:red;'>WARNING:</span> I tried packing this item into a new box " +
+                                        loopCount +
+                                        " different times and gave up </b><br>(Actually what might be happening is this loop just stops after packing " +
+                                        loopCount +
+                                        " boxes with the same item, to avoid getting stuck in a possible infinite loop. If you really need this many boxes, just increase the value for this IF statement condition.)<br>";
                                     break;
                                 }
                                 // break;
@@ -2933,7 +3039,8 @@
                         }
 
                         // Display how many of this item has been packed into the box, before exiting while loop
-                        outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
+                        outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " +
+                            currentItemName + "<br>";
 
                         // Show the weight at the end of the final box (if the total number of items left to pack is 0 or less). (it was only showing weight when starting packing another box)
                         // (Moved this to the end of this function, where it's outputting the line for the items packed)
@@ -2944,13 +3051,19 @@
                                 // Add the box/packaging weight to the total
                                 weightCurrentBox += boxWeightSingle;
                                 weightTotal += boxWeightSingle;
-                                outputString += " <div class='weightCurrentBox text-muted'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(0)) + " lbs)</i><br></div>";
+                                outputString +=
+                                    " <div class='weightCurrentBox text-muted'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " +
+                                    parseFloat((weightCurrentBox).toFixed(0)) + " lbs)</i><br></div>";
                                 // DEBUGGING to show info every time a single item is packed (1 line)
                                 if (valueDebug >= 1) {
-                                    outputString = outputString + "<br> DEBUGGING INFO: weight2  itemsTotalLeft = " + itemsTotalLeft + ".  boxValueLeft = " + boxValueLeft + ".  totalValueCurrentItem = " + totalValueCurrentItem + ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem + ".  totalValueCurrent = " + totalValueCurrent + ". weightCurrentBox = " + weightCurrentBox + "<br>";
+                                    outputString = outputString + "<br> DEBUGGING INFO: weight2  itemsTotalLeft = " +
+                                        itemsTotalLeft + ".  boxValueLeft = " + boxValueLeft +
+                                        ".  totalValueCurrentItem = " + totalValueCurrentItem +
+                                        ".  spaceSingleCurrentItem = " + spaceSingleCurrentItem +
+                                        ".  totalValueCurrent = " + totalValueCurrent + ". weightCurrentBox = " +
+                                        weightCurrentBox + "<br>";
                                 }
-                            }
-                            else {
+                            } else {
                                 outputString += "<br><i>Nothing to pack?</i><br>&nbsp;";
                             }
                         }
@@ -2982,25 +3095,33 @@
                 }
                 // Use POLD with pins input value (valuePoldPin), if leak rope
                 else if (valueLeakRopeCheck == 1) {
-                    putInBox(valuePoldPin, packingItem.poldPin, "packingItem.poldPin", totalValuePoldPin, "POLD (with pins)");
-                }
-                else {
-                    window.alert("The value for the leak rope checkbox is not 1 or 0, so no POLDs or leak rope got packed. Gotta fix this IF statement or the function that changes checkbox value to 1 or 0.\nvalueLeakRopeCheck = " + valueLeakRopeCheck)
+                    putInBox(valuePoldPin, packingItem.poldPin, "packingItem.poldPin", totalValuePoldPin,
+                        "POLD (with pins)");
+                } else {
+                    window.alert(
+                        "The value for the leak rope checkbox is not 1 or 0, so no POLDs or leak rope got packed. Gotta fix this IF statement or the function that changes checkbox value to 1 or 0.\nvalueLeakRopeCheck = " +
+                        valueLeakRopeCheck)
                 }
 
                 // Pack  POLD with Leak Rope (2ft)
-                putInBox(valuePoldLeakRope2ft, packingItem.poldLeakRope2ft, "packingItem.poldLeakRope2ft", totalValuePoldLeakRope2ft, "POLD with Leak Rope (2ft)");
+                putInBox(valuePoldLeakRope2ft, packingItem.poldLeakRope2ft, "packingItem.poldLeakRope2ft",
+                    totalValuePoldLeakRope2ft, "POLD with Leak Rope (2ft)");
                 // Pack  POLD with Leak Rope (5ft)
-                putInBox(valuePoldLeakRope5ft, packingItem.poldLeakRope5ft, "packingItem.poldLeakRope5ft", totalValuePoldLeakRope5ft, "POLD with Leak Rope (5ft)");
+                putInBox(valuePoldLeakRope5ft, packingItem.poldLeakRope5ft, "packingItem.poldLeakRope5ft",
+                    totalValuePoldLeakRope5ft, "POLD with Leak Rope (5ft)");
                 // Pack  POLD with Leak Rope (10ft)
-                putInBox(valuePoldLeakRope10ft, packingItem.poldLeakRope10ft, "packingItem.poldLeakRope10ft", totalValuePoldLeakRope10ft, "POLD with Leak Rope (10ft)");
+                putInBox(valuePoldLeakRope10ft, packingItem.poldLeakRope10ft, "packingItem.poldLeakRope10ft",
+                    totalValuePoldLeakRope10ft, "POLD with Leak Rope (10ft)");
 
                 // Pack  Leak Rope (2ft)
-                putInBox(valueLeakRope2ft, packingItem.leakRope2ft, "packingItem.leakRope2ft", totalValueLeakRope2ft, "Leak Rope (2ft)");
+                putInBox(valueLeakRope2ft, packingItem.leakRope2ft, "packingItem.leakRope2ft", totalValueLeakRope2ft,
+                    "Leak Rope (2ft)");
                 // Pack  Leak Rope (5ft)
-                putInBox(valueLeakRope5ft, packingItem.leakRope5ft, "packingItem.leakRope5ft", totalValueLeakRope5ft, "Leak Rope (5ft)");
+                putInBox(valueLeakRope5ft, packingItem.leakRope5ft, "packingItem.leakRope5ft", totalValueLeakRope5ft,
+                    "Leak Rope (5ft)");
                 // Pack  Leak Rope (10ft)
-                putInBox(valueLeakRope10ft, packingItem.leakRope10ft, "packingItem.leakRope10ft", totalValueLeakRope10ft, "Leak Rope (10ft)");
+                putInBox(valueLeakRope10ft, packingItem.leakRope10ft, "packingItem.leakRope10ft",
+                    totalValueLeakRope10ft, "Leak Rope (10ft)");
 
                 // Pack  Solid State Relay
                 // TODO:  "Solid State Relays included with box carrying most POLDs"  (although putting it in the last box a pold or leak rope went into is a lot easier)
@@ -3066,7 +3187,8 @@
                     // // Otherwise pack it as normal
                     // else {
                     // Pack the item (call the function)
-                    putInBox(valueRecirc, packingItem.recirc, "packingItem.recirc", totalValueRecirc, "Recirc Pump Switch");
+                    putInBox(valueRecirc, packingItem.recirc, "packingItem.recirc", totalValueRecirc,
+                        "Recirc Pump Switch");
                     // }
                 }
 
@@ -3131,7 +3253,8 @@
                     // // Otherwise pack it as normal
                     // else {
                     // Pack the item (call the function)
-                    putInBox(valueFourHour, packingItem.fourHour, "packingItem.fourHour", totalValueFourHour, "Four Hour Timer");
+                    putInBox(valueFourHour, packingItem.fourHour, "packingItem.fourHour", totalValueFourHour,
+                        "Four Hour Timer");
                     // }
                 }
 
@@ -3149,7 +3272,8 @@
                     // nextBoxWeightSingle = packingItemWeight.box14x14;
 
                     // Pack the item (call the function)
-                    putInBox(valueJuncBox, packingItem.juncBox, "packingItem.juncBox", totalValueJuncBox, "Junction Box");
+                    putInBox(valueJuncBox, packingItem.juncBox, "packingItem.juncBox", totalValueJuncBox,
+                        "Junction Box");
 
                     // Reset nextBox back to accessory box for other items
                     nextBox = "Accessory Box (13x10x5)";
@@ -3177,42 +3301,70 @@
                     // But removed the parts about packing an item. (just showing the new box title)
 
 
+                    // Show box weight if items are all packed before moving on to the next items
+                    // TODO: Fix this box showing even if empty (even if i hide this weight output, it's still showing box 2 for the next box shown)
                     // Show weight (before new box)
-                    // Add the box/packaging weight to the total
-                    weightCurrentBox += boxWeightSingle;
-                    weightTotal += boxWeightSingle;
-                    outputString += " <div class='weightCurrentBox text-muted'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(0)) + " lbs)</i><br></div>";
-                    // Reset box weight 
-                    weightCurrentBox = 0;
-                    // DEBUGGING to show info every time a single item is packed (1 line)
-                    if (valueDebug >= 1) {
-                        outputString = outputString + "<br> DEBUGGING INFO: weight4  else (newbox) totalValueCurrent = " + totalValueCurrent + ".  boxValueLeft = " + boxValueLeft + ". weightCurrentBox = " + weightCurrentBox + ". weightSingleCurrentItem = " + weightSingleCurrentItem + "<br>";
+                    // If nothing has been packed yet, don't show info for an empty accessory box first
+                    if (itemsTotalLeft == valueTotal) {
+                        // Don't show the weight (if nothing has been packed yet)
+                    } else {
+                        // Add the box/packaging weight to the total
+                        weightCurrentBox += boxWeightSingle;
+                        weightTotal += boxWeightSingle;
+                        outputString +=
+                            " <div class='weightCurrentBox text-muted'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " +
+                            parseFloat((weightCurrentBox).toFixed(0)) + " lbs)</i><br></div>";
+                        // Reset box weight (TODO: Is this needed here or in the putinbox function? it's not there)
+                        weightCurrentBox = 0;
+                        // DEBUGGING to show info every time a single item is packed (1 line)
+                        if (valueDebug >= 1) {
+                            outputString = outputString +
+                                "<br> DEBUGGING INFO: weight4  else (newbox) totalValueCurrent = " + totalValueCurrent +
+                                ".  boxValueLeft = " + boxValueLeft + ". weightCurrentBox = " + weightCurrentBox +
+                                ". weightSingleCurrentItem = " + weightSingleCurrentItem + "<br>";
+                        }
                     }
 
-
-                    // Change current box to next box
+                    // Copied from nextBox function, after the line:  //// END NEXTBOX EXCEPTIONS
+                    // If nothing has been packed yet, don't increase the box number (for an empty accessory box)
+                    // (Must have this statement above the  itemsTotalLeft--;  line below)
+                    if (itemsTotalLeft == valueTotal) {
+                        // Don't increase the box number (if nothing has been packed yet)
+                    } else {
+                        // Add 1 to the boxTotal and boxNumber
+                        boxNumber++;
+                        boxTotal++;
+                    }
+                    // Change current box to whatever box is next (like accessory box or 14x14)
                     boxValue = nextBoxValue;
                     // Change current box packaging weight to next box packaging weight
                     boxWeightSingle = nextBoxWeightSingle;
                     // Resets the space remaining in the box to the full total of the new empty box
                     boxValueLeft = boxValue;
-                    // Add 1 to the boxTotal and boxNumber
-                    boxNumber++;
-                    boxTotal++;
+                    // NOTE:  Do not include this, since it seems to be running properly during the putInBox function called below
+                    // Reduce number of all combined items to see if you have any leftovers at the very end that never got packed
+                    //itemsTotalLeft--;
+
                     // Add box name to string to be displayed at the end
                     // If there's an SO#, add it to the top of the page for each box
                     // NOTE:  Added newBoxBefore1 and newBoxBefore2 to fix html2pdf inserting the page break in wrong location (issue with nested divs)
                     if (valueSoNum > 0) {
-                        outputString = outputString + "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><div class='soBox text-end'><i>SO# " + valueSoNum + "</i></div><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
-                    }
-                    else {
-                        outputString = outputString + "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                        outputString = outputString +
+                            "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><div class='soBox text-end'><i>SO# " +
+                            valueSoNum + "</i></div><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber +
+                            "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                    } else {
+                        outputString = outputString +
+                            "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><b>" +
+                            nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" +
+                            "]: </i></div>";
                     }
                     // outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
 
 
                     // Pack the item (call the function)
-                    putInBox(valueInsulPouch, packingItem.insulPouch, "packingItem.insulPouch", totalValueInsulPouch, "Insulated Pouch");
+                    putInBox(valueInsulPouch, packingItem.insulPouch, "packingItem.insulPouch", totalValueInsulPouch,
+                        "Insulated Pouch");
 
                     // Reset nextBox back to accessory box for other items
                     nextBox = "Accessory Box (13x10x5)";
@@ -3229,7 +3381,9 @@
 
                 if (itemsTotalLeft > 0) {
                     // Add item to string to be displayed at the end for what to pack
-                    outputString = outputString + "<br> <b><span style='color:red;'>WARNING: </span>Hmm there seems to be something left over.</b> Did I forget something in my calculations?<br> Contact jake and tell him you'll give him an ice cream if he fixes it.<br> DEBUGGING INFO (for leftovers): totalValueTotal = " + totalValueTotal + ". itemsTotalLeft = " + itemsTotalLeft;
+                    outputString = outputString +
+                        "<br> <b><span style='color:red;'>WARNING: </span>Hmm there seems to be something left over.</b> Did I forget something in my calculations?<br> Contact jake and tell him you'll give him an ice cream if he fixes it.<br> DEBUGGING INFO (for leftovers): totalValueTotal = " +
+                        totalValueTotal + ". itemsTotalLeft = " + itemsTotalLeft;
                 }
 
 
@@ -3237,8 +3391,10 @@
                 // For debugging (level 1)
                 // TODO:  Maybe add level 1 and level 2 debugging levels, for basic info like these 2 lines, versus a line after each and every item is packed
                 if (valueDebug == 1) {
-                    outputString = outputString + "<br><br> DEBUGGING INFO: last boxValue = " + boxValue + ".  boxValueLeft = " + boxValueLeft;
-                    outputString = outputString + "<br> DEBUGGING INFO: totalValueTotal = " + totalValueTotal + ".  itemsTotalLeft = " + itemsTotalLeft;
+                    outputString = outputString + "<br><br> DEBUGGING INFO: last boxValue = " + boxValue +
+                        ".  boxValueLeft = " + boxValueLeft;
+                    outputString = outputString + "<br> DEBUGGING INFO: totalValueTotal = " + totalValueTotal +
+                        ".  itemsTotalLeft = " + itemsTotalLeft;
                 }
 
                 return outputString;
@@ -3263,9 +3419,11 @@
         var whichButtonClicked;
         document.getElementById("saveButton").addEventListener("click", saveButtonClicked);
         document.getElementById("printButton").addEventListener("click", printButtonClicked);
+
         function saveButtonClicked() {
             whichButtonClicked = "save";
         };
+
         function printButtonClicked() {
             whichButtonClicked = "print";
         };
@@ -3274,6 +3432,7 @@
         // Only when clicking save/print
         document.getElementById("saveButton").addEventListener("click", functionOnPrint);
         document.getElementById("printButton").addEventListener("click", functionOnPrint);
+
         function functionOnPrint() {
             // var value2SoNum = Number(document.getElementById("inputSoNum").value);
 
@@ -3290,12 +3449,12 @@
                     // FUNCTION: IF statements to decide whether to print or save
                     if (whichButtonClicked == "print") {
                         window.print();
-                    }
-                    else if (whichButtonClicked == "save") {
+                    } else if (whichButtonClicked == "save") {
                         html2pdfAndPrintCss();
-                    }
-                    else {
-                        window.alert("ERROR: It appears the save or print button was clicked but the whichButtonClicked variable is not either of those options.")
+                    } else {
+                        window.alert(
+                            "ERROR: It appears the save or print button was clicked but the whichButtonClicked variable is not either of those options."
+                        )
                     }
                 }
                 // If SO# doesn't have a value
@@ -3304,7 +3463,9 @@
 
                     // FUNCTION:  Shows an Ok/Cancel popup
                     // SOURCE:  https://stackoverflow.com/a/9334679
-                    var answer = window.confirm("ALERT:\nSO# is required when printing labels with more than 1 box.\n\nPlease click Ok then enter Sales Order Number (SO#)");
+                    var answer = window.confirm(
+                        "ALERT:\nSO# is required when printing labels with more than 1 box.\n\nPlease click Ok then enter Sales Order Number (SO#)"
+                    );
                     // If they click Ok
                     if (answer) {
                         // Go back to form
@@ -3317,12 +3478,12 @@
                         // FUNCTION: IF statements to decide whether to print or save
                         if (whichButtonClicked == "print") {
                             window.print();
-                        }
-                        else if (whichButtonClicked == "save") {
+                        } else if (whichButtonClicked == "save") {
                             html2pdfAndPrintCss();
-                        }
-                        else {
-                            window.alert("ERROR: It appears the save or print button was clicked but the whichButtonClicked variable is not either of those options.")
+                        } else {
+                            window.alert(
+                                "ERROR: It appears the save or print button was clicked but the whichButtonClicked variable is not either of those options."
+                            )
                         }
                     }
                 }
@@ -3334,18 +3495,15 @@
                 // FUNCTION: IF statements to decide whether to print or save
                 if (whichButtonClicked == "print") {
                     window.print();
-                }
-                else if (whichButtonClicked == "save") {
+                } else if (whichButtonClicked == "save") {
                     html2pdfAndPrintCss();
-                }
-                else {
-                    window.alert("ERROR: It appears the save or print button was clicked but the whichButtonClicked variable is not either of those options.")
+                } else {
+                    window.alert(
+                        "ERROR: It appears the save or print button was clicked but the whichButtonClicked variable is not either of those options."
+                    )
                 }
             }
         }
-
-
-
     </script>
 
 </body>

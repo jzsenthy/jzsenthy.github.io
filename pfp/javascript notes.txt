@@ -208,6 +208,17 @@ EVAL ALTERNATIVE (referencing variable value in a variable)
 // Alternative:  https://stackoverflow.com/a/52246274/1263035  // window[dynamicname + '2'] = 'myvalue'
 weightCurrentBox += Function('return packingItemWeight.lds' + valueLdsMinusPeriod)();
 
+EXAMPLE:
+function putInBox(valueCurrentItem, spaceSingleCurrentItem, spaceSingleCurrentItemVariableName, totalValueCurrentItem, currentItemName) {
+// Change the variable name from retrieving item space to weight
+var weightSingleCurrentItemVariableName = spaceSingleCurrentItemVariableName.replace('packingItem', 'packingItemWeight');
+//// Replacement code for eval(), to resolve variable name to a variable. (or to use variable values in variable name). made by me
+// I think this was needed because the single item variable name changes every time this function is called (built/modified above)
+// REFERENCE:  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_eval!
+weightSingleCurrentItem = Function('return ' + weightSingleCurrentItemVariableName)();
+
+
+
 
 
 
