@@ -2,17 +2,17 @@
 TODO
 ---
 
+Finish split-system rules (b3 especially).
+
 Single panel should be in padded mailer, not accessory box:
   Accessory Box (13x10x5)  [Box 1 of 1]:
   • 1 Control Panel
 
-Finish split-system rules (b3 especially).
-
-Make Split System B3 = 30 (defaults to an additional 14x14 like EJB. inform user to double-check with warehouse on specifics, since 30 is an average value)
-
 [EW] Add lds power wire length option, since it has the potential to spill into another box. //Warehouse has to come up with a rule for it.
 
 Weigh the current junction box
+
+Add Wireless POLD Repeater as a product option?
 
 
 Maybe change 0 space value items like SCV to have a value or a maximum item limit (per box?), to avoid results like saying 10,000 SCV fit in one accessory box
@@ -152,13 +152,23 @@ DONE
 ---------------------------------
 
 
+3.2.2  2021-11-18 ---
+Add Split System B3 logic, Bootstrap saved locally
+---
+Make Split System B3 = 30 (Defaults to a Large Accessory Box (14x14x14) = 48, 18 points free. Inform user to double-check with warehouse on specifics, since 30 is an average value)
+
+Downloaded bootstrap dark/night css file and bootstrap+popper script for backup and potentially running locally.
+Added a line for each in the code for local loading (instead of CDN) but commented them both out for now.
+
+
+
 
 3.2.1  2021-11-17 ---
 Changed EJB to separate 14x14x8 box, fixed some empty box 1 bugs
 ---
 Updated these two rules from Bryce's box logic changes:
   Electrical Junction Box = (Defaults to a full 14x14x8 box. changed from 36 points in a Medium Shipper)
-  Insulated Pouch = (Defaults to a full Medium Shipper. changed from 6 points) (seems to already be working this way. maybe cuz it's packed last)
+  Insulated Pouch = (Defaults to a full Medium Shipper. changed from 6 points) (seems to already be working this way)
 
 Fixed bug where an empty box 1 was showing (only when packing insulated pouches with no LDS).
 Insulated pouch has a special case with code copied from the putInBox function, but it was missing a line to check if previous box was empty.

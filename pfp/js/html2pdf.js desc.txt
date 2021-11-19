@@ -32,7 +32,7 @@ NEGATIVES:
 
 FIXES:
 
-Be more specific in the div you you output  (resultsBox vs resultsBoxContainer):
+Be more specific in the div you output  (resultsBox vs resultsBoxContainer):
    var html2pdfElement = document.getElementById('resultsBox');
 
 
