@@ -15,6 +15,12 @@ Weigh the current junction box
 Add Wireless POLD Repeater as a product option?
 
 
+Maybe make error if you check the box for split system but don't select a split system type. (Currently showing B0).
+
+Maybe make specific error if you check the box for split system but don't select an LDS size. (Currently showing an item leftover error).
+
+Maybe reset split system type to 0 when unchecking split system box or switching tabs to pold only or accessories only (I don't think this is currently causing issues though).
+
 Maybe change 0 space value items like SCV to have a value or a maximum item limit (per box?), to avoid results like saying 10,000 SCV fit in one accessory box
 
 Maybe add a pold to split systems by default (since this happens).
@@ -150,6 +156,47 @@ Show up/down number buttons by default, before entering anything?
 ---------------------------------
 DONE
 ---------------------------------
+
+
+
+3.2.3  2021-11-19 ---
+Solved totalValueCurrent = NaN. Reordered functions chronologically
+---
+* Reordered functions so they appear in the code according to how they execute chronologically (to make code easier to understand).
+
+* Solved an issue with  totalValueCurrent = NaN 
+
+This was preventing calculations like figuring whether to pack lots of accessories into a 14x14x14 instead of lots of small accessory boxes.
+
+When I was dynamically retrieving a variable name/value based on the value of the Split System dropdown selection, 
+for example:  valueSplitSystemSelect == 3, then variable name is  packingItem.splitSystemB3
+the issue was that if nothing was selected in the dropdown, the variable name I was resolving was  packingItem.splitSystemB0  
+and that didn't exist (my default variable name was packingItem.splitSystem).
+After attempting other methods of resolving the variable name, I realized the actual issue and then added  packingItem.splitSystemB0  as a default variable.
+
+Relevant code:
+
+var packingItem = {
+    splitSystem: 0,
+    splitSystemB0: 0, // Doesn't exist, just a default placeholder. Needed for dynamic variable retrieval
+    splitSystemB1: 0,
+    splitSystemB2: 0,
+    splitSystemB3: 30,
+};
+
+var valueSplitSystemSelect = Number(document.getElementById("selectSplitSystem").value);
+
+var totalValueSplitSystemCheck = valueSplitSystemCheck * Function('return packingItem.splitSystemB' + valueSplitSystemSelect)();
+
+var totalValueTotal = totalValueSplitSystemCheck + totalValueLds + totalValueScv + totalValueCp +
+    totalValuePoldPin + totalValuePoldLeakRope2ft + totalValuePoldLeakRope5ft + totalValuePoldLeakRope10ft +
+    totalValueLeakRope2ft + totalValueLeakRope5ft + totalValueLeakRope10ft + totalValueApi +
+    totalValueRecirc + totalValueFourHour + totalValueSsr + totalValuePam1 + totalValueJuncBox +
+    totalValueInsulPouch + totalValueHiddenWire;
+
+var totalValueCurrent = totalValueTotal;
+
+
 
 
 3.2.2  2021-11-18 ---

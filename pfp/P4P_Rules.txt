@@ -13,7 +13,7 @@ Recirc Pump Switch = 6
 4 hr Timer = 6
 Electrical Junction Box = (Defaults to a full 14x14x8 box. changed from 36 points in a Medium Shipper)
 Insulated Pouch = (Defaults to a full Medium Shipper. changed from 6 points)
- Split System B3 = 30 (Defaults to an additional Large Accessory Box (14x14x14) = 48, 18 points free. Inform user to double-check with warehouse on specifics, since 30 is an average value)
+Split System B3 = 30 (Defaults to an additional Large Accessory Box (14x14x14) = 48, 18 points free. Inform user to double-check with warehouse on specifics, since 30 is an average value)
 
 Boxes Point total:
 Standard Shipper (19x12x7) = 12 (For .75-1.5" systems only)
@@ -27,7 +27,7 @@ Large Shipper (18x18x14) = 18 (Used only for 2.5" and 3" systems)
 Large Accessory Box (14x14x14) = 48 (Use only if point total is greater than or equal to 49)
 
 Order of Priority:
-Panel, SCV, Hidden Wire and Pam1 always in Box 1
+Panel, Hidden Wire, SCV, and Pam1 always in Box 1
 1. API
 2. POLD
 3. Recirc Pump Switch
