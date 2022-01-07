@@ -149,7 +149,7 @@ Note that it is a backtick, not a quote.
 
 
 
-Use a variable value as part of a variable name:
+Use a variable value as part of a variable name (eval alternative):
 I have an object with a long list of items and their weights, and I want to retrieve the value dynamically depending on which one is chosen, 
 
 <!-- Form dropdown selector -->
@@ -187,6 +187,24 @@ var weightCurrentBox = Function('return itemWeight.alternateOption' + valueAlter
 
 
 
+EVAL ALTERNATIVE (referencing variable value in a variable)
+// Not calling a function, just referencing a variable dynamically (packingItemWeight.lds[valueLdsMinusPeriod] aka packingItemWeight.lds200)
+// REFERENCE:  (variable as part of a variable, within global window.Function())  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_eval!
+// Alternative:  https://stackoverflow.com/a/52246274/1263035  // window[dynamicname + '2'] = 'myvalue'
+weightCurrentBox += Function('return packingItemWeight.lds' + valueLdsMinusPeriod)();
+
+EXAMPLE:
+function putInBox(valueCurrentItem, spaceSingleCurrentItem, spaceSingleCurrentItemVariableName, totalValueCurrentItem, currentItemName) {
+// Change the variable name from retrieving item space to weight
+var weightSingleCurrentItemVariableName = spaceSingleCurrentItemVariableName.replace('packingItem', 'packingItemWeight');
+//// Replacement code for eval(), to resolve variable name to a variable. (or to use variable values in variable name). made by me
+// I think this was needed because the single item variable name changes every time this function is called (built/modified above)
+// REFERENCE:  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_eval!
+weightSingleCurrentItem = Function('return ' + weightSingleCurrentItemVariableName)();
+
+
+
+
 
 
 
@@ -198,16 +216,6 @@ in between the  if  and  else if. You can't do things in between if and else. (t
 
 innerHTML and newlines  (\n and <pre> vs <br>)
 https://www.reddit.com/r/javascript/comments/22ralo/innerhtml_and_newlines/
-
-
-
-
-EVAL ALTERNATIVE (referencing variable value in a variable)
-// Not calling a function, just referencing a variable dynamically (packingItemWeight.lds[valueLdsMinusPeriod] aka packingItemWeight.lds200)
-// REFERENCE:  (variable as part of a variable, within global window.Function())  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_eval!
-// Alternative:  https://stackoverflow.com/a/52246274/1263035  // window[dynamicname + '2'] = 'myvalue'
-weightCurrentBox += Function('return packingItemWeight.lds' + valueLdsMinusPeriod)();
-
 
 
 

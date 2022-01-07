@@ -2,22 +2,26 @@
 TODO
 ---
 
-Update these two rules from Bryce's box logic changes:
-  Electrical Junction Box = (Defaults to a full 14x14x8 box. changed from 36 points in a Medium Shipper)
-  Insulated Pouch = (Defaults to a full Medium Shipper. changed from 6 points)
+Finish split-system rules (b3 especially).
 
 Single panel should be in padded mailer, not accessory box:
   Accessory Box (13x10x5)  [Box 1 of 1]:
   • 1 Control Panel
 
-Finish split-system rules (b3 especially).
-
-Make Split System B3 = 30 (defaults to an additional 14x14 like EJB. inform user to double-check with warehouse on specifics, since 30 is an average value)
-
 [EW] Add lds power wire length option, since it has the potential to spill into another box. //Warehouse has to come up with a rule for it.
 
-Empty box 1 if only packing insulated pouches.
+Weigh the current junction box
 
+Add Wireless POLD Repeater as a product option?
+
+
+Maybe make error if you check the box for split system but don't select a split system type. (Currently showing B0).
+
+Maybe make specific error if you check the box for split system but don't select an LDS size. (Currently showing an item leftover error).
+
+Maybe reset split system type to 0 when unchecking split system box or switching tabs to pold only or accessories only (I don't think this is currently causing issues though).
+
+Maybe change 0 space value items like SCV to have a value or a maximum item limit (per box?), to avoid results like saying 10,000 SCV fit in one accessory box
 
 Maybe add a pold to split systems by default (since this happens).
 
@@ -152,6 +156,76 @@ Show up/down number buttons by default, before entering anything?
 ---------------------------------
 DONE
 ---------------------------------
+
+
+
+3.2.3  2021-11-19 ---
+Solved totalValueCurrent = NaN. Reordered functions chronologically
+---
+* Reordered functions so they appear in the code according to how they execute chronologically (to make code easier to understand).
+
+* Solved an issue with  totalValueCurrent = NaN 
+
+This was preventing calculations like figuring whether to pack lots of accessories into a 14x14x14 instead of lots of small accessory boxes.
+
+When I was dynamically retrieving a variable name/value based on the value of the Split System dropdown selection, 
+for example:  valueSplitSystemSelect == 3, then variable name is  packingItem.splitSystemB3
+the issue was that if nothing was selected in the dropdown, the variable name I was resolving was  packingItem.splitSystemB0  
+and that didn't exist (my default variable name was packingItem.splitSystem).
+After attempting other methods of resolving the variable name, I realized the actual issue and then added  packingItem.splitSystemB0  as a default variable.
+
+Relevant code:
+
+var packingItem = {
+    splitSystem: 0,
+    splitSystemB0: 0, // Doesn't exist, just a default placeholder. Needed for dynamic variable retrieval
+    splitSystemB1: 0,
+    splitSystemB2: 0,
+    splitSystemB3: 30,
+};
+
+var valueSplitSystemSelect = Number(document.getElementById("selectSplitSystem").value);
+
+var totalValueSplitSystemCheck = valueSplitSystemCheck * Function('return packingItem.splitSystemB' + valueSplitSystemSelect)();
+
+var totalValueTotal = totalValueSplitSystemCheck + totalValueLds + totalValueScv + totalValueCp +
+    totalValuePoldPin + totalValuePoldLeakRope2ft + totalValuePoldLeakRope5ft + totalValuePoldLeakRope10ft +
+    totalValueLeakRope2ft + totalValueLeakRope5ft + totalValueLeakRope10ft + totalValueApi +
+    totalValueRecirc + totalValueFourHour + totalValueSsr + totalValuePam1 + totalValueJuncBox +
+    totalValueInsulPouch + totalValueHiddenWire;
+
+var totalValueCurrent = totalValueTotal;
+
+
+
+
+3.2.2  2021-11-18 ---
+Add Split System B3 logic, Bootstrap saved locally
+---
+Make Split System B3 = 30 (Defaults to a Large Accessory Box (14x14x14) = 48, 18 points free. Inform user to double-check with warehouse on specifics, since 30 is an average value)
+
+Downloaded bootstrap dark/night css file and bootstrap+popper script for backup and potentially running locally.
+Added a line for each in the code for local loading (instead of CDN) but commented them both out for now.
+
+
+
+
+3.2.1  2021-11-17 ---
+Changed EJB to separate 14x14x8 box, fixed some empty box 1 bugs
+---
+Updated these two rules from Bryce's box logic changes:
+  Electrical Junction Box = (Defaults to a full 14x14x8 box. changed from 36 points in a Medium Shipper)
+  Insulated Pouch = (Defaults to a full Medium Shipper. changed from 6 points) (seems to already be working this way)
+
+Fixed bug where an empty box 1 was showing (only when packing insulated pouches with no LDS).
+Insulated pouch has a special case with code copied from the putInBox function, but it was missing a line to check if previous box was empty.
+
+Fixed bug with box 1 title not showing with no LDS but with junction box etc.
+Had to comment out special junction box code section, now that we aren't packing it that way.
+
+VSCodeBeautify added tons of unnecessary line breaks between my code (and deleted some of my intentional whitespace).
+
+
 
 
 3.2.0  2021-07-20 ---

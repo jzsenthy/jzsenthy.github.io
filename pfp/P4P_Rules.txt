@@ -2,30 +2,32 @@ Packing 4 Peanuts Rules
 
 Point System:
 Control Panel = 0  (changed from 1)
+SCV = 0
+PAM-1 = 0
+Hidden Wire = 3  (changed from 4.5)
 API = 3
 POLD (Pins) 1
 POLD (2') = 1.5 
 POLD (5" + 10") = 2
 Recirc Pump Switch = 6
 4 hr Timer = 6
-Hidden Wire = 3  (changed from 4.5)
 Electrical Junction Box = (Defaults to a full 14x14x8 box. changed from 36 points in a Medium Shipper)
 Insulated Pouch = (Defaults to a full Medium Shipper. changed from 6 points)
- Split System B3 = 30 (Defaults to an additional 14x14x14 like EJB. inform user to double-check with warehouse on specifics, since 30 is an average value)
+Split System B3 = 30 (Defaults to an additional Large Accessory Box (14x14x14) = 48, 18 points free. Inform user to double-check with warehouse on specifics, since 30 is an average value)
 
 Boxes Point total:
 Standard Shipper (19x12x7) = 12 (For .75-1.5" systems only)
 Panel Box (10x7x3) = 6
 Recirc/4 hr Box (9x4x3) = 6 (Only to be used for single Recirc Pump Switch or 4hr Timer)
 Accessory Box (13x10x5) = 12
-Bubble Mailer (11x9x1) = 2.5 (Use for shipments of accesory only)
+Bubble Mailer (11x9x1) = 2.5 (Use for shipments of accessories only)
 Medium Shipper (20x12x8) = 6 (Used for 2" systems or Insulated Pouch only)
- Medium Accessory Box (14x14x8) = (Use only for Electrical Junction Box)
+Medium Accessory Box (14x14x8) = (Use only for Electrical Junction Box)
 Large Shipper (18x18x14) = 18 (Used only for 2.5" and 3" systems)
 Large Accessory Box (14x14x14) = 48 (Use only if point total is greater than or equal to 49)
 
 Order of Priority:
-Panel, SCV, Hidden Wire and Pam1 always in Box 1
+Panel, Hidden Wire, SCV, and Pam1 always in Box 1
 1. API
 2. POLD
 3. Recirc Pump Switch
