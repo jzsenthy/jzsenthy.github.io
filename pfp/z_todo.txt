@@ -159,6 +159,14 @@ DONE
 
 
 
+3.2.4  2022-01-27 ---
+Updated POLD max value description
+---
+Updated POLD max value description from 30 to "if more than 30, contact warehouse".
+
+
+
+
 3.2.3  2021-11-19 ---
 Solved totalValueCurrent = NaN. Reordered functions chronologically
 ---
