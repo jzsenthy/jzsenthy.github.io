@@ -160,6 +160,14 @@ DONE
 
 
 
+3.2.8  2022-11-15 ---
+set fourHour/recirc = 0 on POLD-Only tab
+---
+Fixed four hour timer / recirc pump values not blanking to 0 when going to POLD-Only tab (which hides those fields)
+
+
+
+
 3.2.7  2022-11-15 ---
 fixed fourHour/recirc box w/juncBox/insulPouch
 ---

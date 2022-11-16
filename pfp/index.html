@@ -840,10 +840,10 @@
 
                     <div class="mt-3">
                         <div class="float-end">
-                            <!-- Version number -->
+                            <!-- VERSION number -->
                             <!-- Text is not aligning right and idk why -->
                             <div class="">
-                                <p class="versionNumber text-muted text-right" id="versionNumber"><i>Version 3.2.7</i>
+                                <p class="versionNumber text-muted text-right" id="versionNumber"><i>Version 3.2.8</i>
                                 </p>
                             </div>
                             <div class="mb-3 form-check startHidden" id="debugDiv">
@@ -1482,9 +1482,62 @@
             }
         }
 
+
+        // Set LDS = 0 if POLD-Only is selected
+        // NOTE:  Using inline onclick to call this (sigh)
+        // TODO:  Maybe change  var elementId  to a unique var
+        // SAMPLE:  https://www.w3schools.com/jsref/event_onchange.asp
+        function setLds(ldsValueToSet) {
+            var elementId = document.getElementById("selectLds");
+            elementId.value = ldsValueToSet;
+            // Set SCV value to 0 as well (the function will choose 0 when it evaluates that LDS is zero)
+            setScv();
+            setCp();
+            // Blank out the split system selection and checkbox when switching to POLD tab, so there isn't a leftover ghost item that doesn't get packed
+            setSplitSystemBlank();
+            // Set largePSU value to 0 as well
+            setLargePSU();
+
+            // Set recirc value to 0 as well, only if POLD-Only tab selected
+            setRecirc();
+            // Set fourHour value to 0 as well, only if POLD-Only tab selected
+            setFourHour();
+        }
+
+        // Set Recirc = 0 if POLD-Only is selected
+        // NOTE:  Called in setLds above
+        function setRecirc() {
+            // If POLD-Only is checked/selected
+            if (document.getElementById('btnradio2').checked) {
+                var valueLds = document.getElementById("selectLds");
+                var elementId = document.getElementById("inputRecirc");
+                if (valueLds.value > 0) {
+                    elementId.value = "1";
+                } else if (valueLds.value == 0) {
+                    elementId.value = "";
+                }
+            }
+        }
+
+        // Set Recirc = 0 if POLD-Only is selected
+        // NOTE:  Called in setLds above
+        function setFourHour() {
+            // If POLD-Only is checked/selected
+            if (document.getElementById('btnradio2').checked) {
+                var valueLds = document.getElementById("selectLds");
+                var elementId = document.getElementById("inputFourHour");
+                if (valueLds.value > 0) {
+                    elementId.value = "1";
+                } else if (valueLds.value == 0) {
+                    elementId.value = "";
+                }
+            }
+        }
+
         // Set Split System = blank if switched to POLD tab (or if LDS is set to 0), so there isn't a leftover ghost item that doesn't get packed
         // TODO:  Maybe change  var elementId  to a unique var
         // SAMPLE:  https://www.w3schools.com/jsref/event_onchange.asp
+        // NOTE:  Called in setLds above
         document.getElementById("selectLds").addEventListener("change", setSplitSystemBlank);
         //document.getElementById("selectLds").onchange = function () { setCp() };
         function setSplitSystemBlank() {
@@ -1494,7 +1547,7 @@
                 // Uncheck split system checkbox
                 var elementId1 = document.getElementById("checkSplitSystem");
                 elementId1.checked = false;
-                // Manually setting the value to 0 to fix the valueSplitSystmCheck value still being at 1 after being unchecked) (Unneeded now, fixed by retrieving the checked value later)
+                // Manually setting the value to 0 to fix the valueSplitSystemCheck value still being at 1 after being unchecked) (Unneeded now, fixed by retrieving the checked value later)
                 elementId1.value = 0;
                 // Hide the split system dropdown (since checkbox was unchecked)
                 var elementSplitSystem = document.getElementById("selectSplitSystem");
@@ -1517,22 +1570,6 @@
                 var elementId2 = document.getElementById("selectSplitSystem");
                 elementId2.value = "";
             }
-        }
-
-
-        // Set LDS = 0 if POLD-Only is selected
-        // TODO:  Maybe change  var elementId  to a unique var
-        // SAMPLE:  https://www.w3schools.com/jsref/event_onchange.asp
-        function setLds(ldsValueToSet) {
-            var elementId = document.getElementById("selectLds");
-            elementId.value = ldsValueToSet;
-            // Set SCV value to 0 as well (the function will choose 0 when it evaluates that LDS is zero)
-            setScv();
-            setCp();
-            // Blank out the split system selection and checkbox when switching to POLD tab, so there isn't a leftover ghost item that doesn't get packed
-            setSplitSystemBlank();
-            // Set largePSU value to 0 as well
-            setLargePSU();
         }
 
 
@@ -2837,10 +2874,13 @@
                                 // TODO:  Make case for determining if this is the only overflow item (I think i did this already?)
                                 // HISTORY: Added calculations to ignore if insulated pouch or junction box is still left to pack (since they're in their own box and irrelevant)
                                 // HISTORY: Changed  totalValueTotal  to  totalValueCurrent  and made sure current item is 1 fourHour or 1 recirc
-                                else if (((spaceSingleCurrentItemVariableName == 'packingItem.fourHour') || (spaceSingleCurrentItemVariableName == 'packingItem.recirc')) && (valueCurrentItem == 1) &&
+                                else if (((spaceSingleCurrentItemVariableName == 'packingItem.fourHour') || (
+                                        spaceSingleCurrentItemVariableName == 'packingItem.recirc')) && (
+                                        valueCurrentItem == 1) &&
                                     ((totalValueCurrent - (valueInsulPouch * packingItem.insulPouch) - (valueJuncBox *
                                             packingItem.juncBox)) == packingItem.fourHour ||
-                                        (totalValueCurrent - (valueInsulPouch * packingItem.insulPouch) - (valueJuncBox *
+                                        (totalValueCurrent - (valueInsulPouch * packingItem.insulPouch) - (
+                                            valueJuncBox *
                                             packingItem.juncBox) == packingItem.recirc))) {
                                     nextBox = "Recirc/Four Hour Box (9x4x3)";
                                     nextBoxValue = packingItem.boxRecirc;
