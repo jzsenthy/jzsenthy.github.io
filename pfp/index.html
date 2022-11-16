@@ -729,6 +729,14 @@
 
 
 
+                    <!-- Hidden input field for largePSU, to keep logic working the same -->
+                    <div class="mt-5 mb-3 startHidden groupWizard1 groupLds groupAccessories">
+                        <label for="inputLargePSU" class="form-label">Large PSU (24V Power Supply w/Enclosure)</label>
+                        <input type="number" class="form-control" id="inputLargePSU">
+                    </div>
+
+
+
                     <div class="mb-3 groupWizard1 groupLds groupAccessories">
                         <label for="inputRecirc" class="form-label">Recirculation Pump Switch</label>
                         <input type="number" class="form-control" id="inputRecirc">
@@ -737,16 +745,20 @@
                         <label for="inputFourHour" class="form-label">Four Hour Timer</label>
                         <input type="number" class="form-control" id="inputFourHour">
                     </div>
+                    <!-- Why does this not have  class="mb-3 groupWizard1 groupLds groupAccessories"  ?  I guess to always show, even on pold-only? -->
                     <div class="mb-3">
                         <label for="inputPam1" class="form-label">PAM-1 Relay</label>
                         <input type="number" class="form-control" id="inputPam1">
                     </div>
+                    <!-- Why does this not have  class="mb-3 groupWizard1 groupLds groupAccessories"  ?  I guess to always show, even on pold-only? -->
                     <div class="mb-3">
                         <label for="inputSsr" class="form-label">Solid State Relay</label>
                         <!-- If you want to constrain to even numbers and fail validation if not:  step="2" -->
                         <input type="number" class="form-control" id="inputSsr" step="2">
                         <div id="ssrHelp" class="form-text"><i>Typically sent in multiples of 2.</i></div>
                     </div>
+
+
 
                     <div class="mt-5 mb-3 groupWizard1 groupLds groupAccessories">
                         <label for="inputJuncBox" class="form-label">Junction Box</label>
@@ -831,7 +843,7 @@
                             <!-- Version number -->
                             <!-- Text is not aligning right and idk why -->
                             <div class="">
-                                <p class="versionNumber text-muted text-right" id="versionNumber"><i>Version 3.2.4</i>
+                                <p class="versionNumber text-muted text-right" id="versionNumber"><i>Version 3.2.5</i>
                                 </p>
                             </div>
                             <div class="mb-3 form-check startHidden" id="debugDiv">
@@ -1456,6 +1468,20 @@
             }
         }
 
+        // Set largePSU = 1 if a large LDS is selected (2.5"-3")
+        // TODO:  Maybe change  var elementId  to a unique var
+        document.getElementById("selectLds").addEventListener("change", setLargePSU);
+
+        function setLargePSU() {
+            var valueLds = document.getElementById("selectLds");
+            var elementId = document.getElementById("inputLargePSU");
+            if (valueLds.value > 2) {
+                elementId.value = "1";
+            } else if (valueLds.value <= 2) {
+                elementId.value = "";
+            }
+        }
+
         // Set Split System = blank if switched to POLD tab (or if LDS is set to 0), so there isn't a leftover ghost item that doesn't get packed
         // TODO:  Maybe change  var elementId  to a unique var
         // SAMPLE:  https://www.w3schools.com/jsref/event_onchange.asp
@@ -1588,6 +1614,8 @@
             cp: 0,
             hiddenWire: 3,
 
+            largePSU: 19, // (for 2.5"-3" systems) (made up value to force it into 2nd box -jz)
+
             api: 3,
             pold: 1,
 
@@ -1663,6 +1691,8 @@
             splitSystemB3: 15, // ~1.35 from weighing just a grey box from dual valve (add wires and extra long pipe etc to this weight)
 
             dualValve075: 9, // me. (not using yet). weighed one with two 0.75" pipe/valves and small orange actuators, and grey box, with a decent length of wire
+
+            largePSU: 19, // (for 2.5"-3" systems) (made up value placeholder -jz)
 
             scv: 0.5, // depends on size. 0.5-2.35lb for 0.75"-2.00" // currently including proper scv weight with lds weight as well
             cp: 0.5, // CP 0.3  +  12V PSU 0.2  +  CP+PSU 0.5
@@ -1880,6 +1910,7 @@
             // Changed inputHiddenWire to checkHiddenWire and added a new input inputHiddenWireLength, and a new variable valueHiddenWireLength
             var valueHiddenWire = Number(document.getElementById("checkHiddenWire").value);
             var valueHiddenWireLength = Number(document.getElementById("inputHiddenWireLength").value);
+            var valueLargePSU = Number(document.getElementById("inputLargePSU").value);
             var valueApi = Number(document.getElementById("inputApi").value);
             var valuePold = Number(document.getElementById("inputPold").value);
             var valuePoldPin = Number(document.getElementById("inputPoldPin").value);
@@ -1920,7 +1951,8 @@
             }
             var valueTotal = valueSplitSystemCheck + valueScv + valueCp + valuePoldPin + valuePoldLeakRope2ft +
                 valuePoldLeakRope5ft + valuePoldLeakRope10ft + valueLeakRope2ft + valueLeakRope5ft + valueLeakRope10ft +
-                valueApi + valueRecirc + valueFourHour + valueSsr + valuePam1 + valueJuncBox + valueInsulPouch +
+                valueLargePSU + valueApi + valueRecirc + valueFourHour + valueSsr + valuePam1 + valueJuncBox +
+                valueInsulPouch +
                 valueHiddenWire;
             // Debugging
             //window.alert("yo valueTotal (form input)= " + valueTotal);
@@ -1989,6 +2021,7 @@
             var totalValueLeakRope2ft = valueLeakRope2ft * packingItem.leakRope2ft;
             var totalValueLeakRope5ft = valueLeakRope5ft * packingItem.leakRope5ft;
             var totalValueLeakRope10ft = valueLeakRope10ft * packingItem.leakRope10ft;
+            var totalValueLargePSU = valueLargePSU * packingItem.largePSU;
             var totalValueApi = valueApi * packingItem.api;
             var totalValueRecirc = valueRecirc * packingItem.recirc;
             var totalValueFourHour = valueFourHour * packingItem.fourHour;
@@ -2004,10 +2037,11 @@
             if (valueLeakRopeCheck == 0) {
                 totalValuePoldPin = totalValuePold
             }
-            var totalValueTotal = totalValueSplitSystemCheck + totalValueLds + totalValueScv + totalValueCp +
-                totalValuePoldPin + totalValuePoldLeakRope2ft + totalValuePoldLeakRope5ft + totalValuePoldLeakRope10ft +
-                totalValueLeakRope2ft + totalValueLeakRope5ft + totalValueLeakRope10ft + totalValueApi +
-                totalValueRecirc + totalValueFourHour + totalValueSsr + totalValuePam1 + totalValueJuncBox +
+            var totalValueTotal = totalValueSplitSystemCheck + totalValueLds + totalValueScv + totalValueCp + 
+                totalValuePoldPin + totalValuePoldLeakRope2ft + totalValuePoldLeakRope5ft + totalValuePoldLeakRope10ft + 
+                totalValueLeakRope2ft + totalValueLeakRope5ft + totalValueLeakRope10ft + totalValueApi + 
+                totalValueLargePSU + totalValueRecirc + totalValueFourHour + totalValueSsr + totalValuePam1 + 
+                totalValueJuncBox + 
                 totalValueInsulPouch + totalValueHiddenWire;
 
 
@@ -2020,12 +2054,13 @@
 
             /*                Order of Priority:
             Panel, SCV, Hidden Wire and Pam1 always in Box 1
+            1a. Large PSU (24V Power Supply w/Enclosure) (for 2.5"-3" systems)
             1. API
             2. POLD
             3. Recirc Pump Switch
-            4. 4hr Time
+            4. 4hr Timer
             5. Enclosures (Pouch + EJB)
-            Solid State Relays included with box carrying most POLDs
+            Solid State Relays included with box carrying most POLDs (does not actually apply. too complicated)
             */
 
 
@@ -2411,7 +2446,7 @@
 
                 // Show box weight if items are all packed before moving on to the next items
                 // TODO:  This may not actually work. Logically it seems like this will only show first box weight if there is nothing left to pack at all.
-                // Actually that may be exactly what I wanted, since if there is more to pack, the next back should start by showing the last box weight
+                // Actually that may be exactly what I wanted, since if there is more to pack, the next box should start by showing the last box weight
                 if (itemsTotalLeft <= 0) {
                     // Only show weight if there were more than 0 items to pack
                     if (valueTotal > 0 || valueLds > 0) {
@@ -2767,8 +2802,21 @@
                                 // HISTORY:  These are the only rules running now that junction boxes aren't going into 14x14x14, so rules above disabled
                                 // TODO:  Make sure the subtraction on the left is working as expected
                                 // or if the total accessories (minus juncBox and insulPouch) are greater than or equal to 3 accessory boxes, then pack in a 14x14 instead
-                                else if ((totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) >= (3 *
-                                        packingItem.boxAccessories)) {
+                                // NOTE: 3 accessory boxes worth of items should go in 1 large accessory box instead
+                                var threeAccessoryBoxWorthShouldBeLargeAcessoryBox = 3 * Number(packingItem
+                                    .boxAccessories);
+                                // if ((totalValueCurrent - totalValueLargePSU - totalValueJuncBox - totalValueInsulPouch) >= (threeAccessoryBoxWorthShouldBeLargeAcessoryBox)) {
+                                if ((totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) >= (
+                                        threeAccessoryBoxWorthShouldBeLargeAcessoryBox)) {
+                                    // DEBUGGING level 3
+                                    // if (valueDebug >= 1) {
+                                    //     window.alert("7 INSIDE ELSE IF:\n (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) == " + tempWindowalertVariable98sfhn + "\n (packingItem.boxAccessories * 3) == " + tempWindowalertVariable354drt);
+                                    // }
+                                    nextBox = "Large Accessory Box (14x14x14)";
+                                    nextBoxValue = packingItem.box14x14;
+                                    nextBoxWeightSingle = packingItemWeight.box14x14;
+                                    // If current item is larger than an Accessory Box, choose a Large Accessory Box (exception for items like Large PSU). Need to pack before smaller things
+                                } else if (spaceSingleCurrentItem >= packingItem.boxAccessories) {
                                     // DEBUGGING level 3
                                     // if (valueDebug >= 1) {
                                     //     window.alert("7 INSIDE ELSE IF:\n (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) == " + tempWindowalertVariable98sfhn + "\n (packingItem.boxAccessories * 3) == " + tempWindowalertVariable354drt);
@@ -2968,6 +3016,10 @@
                 // FUNCTION:  Call item packing function (above), for each item
                 // FORMAT:  (valueCurrentItem, spaceSingleCurrentItem, totalValueCurrentItem, currentItemName)
                 // TODO:  Maybe wrap each in an IF statement to avoid calling the function every time even with 0 items from that type
+
+                // Pack largePSU
+                // Don't need an  if > 0  statement since it's included in the referenced function
+                putInBox(valueLargePSU, packingItem.largePSU, "packingItem.largePSU", totalValueLargePSU, "Large PSU (24V Power Supply w/Enclosure)");
 
                 // Pack  API
                 // Don't need an  if > 0  statement since it's included in the referenced function

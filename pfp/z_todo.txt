@@ -159,6 +159,18 @@ DONE
 
 
 
+3.2.5
+added largePSU for 2.5-3" LDS. value 19
+---
+Added automatic Large PSU with LDS 2.5-3" systems, in separate box (which can include accessories). 
+
+Packing it first after primary box (defaulting to 14x14x14 for any item larger than an Accessory Box--12pt). Thus my random 19pt value does have meaning. If we change this space value, we need to make sure it still defaults into a box it'll fit in.
+
+Weight is also random currently (19lb).
+
+
+
+
 3.2.4  2022-01-27 ---
 Updated POLD max value description
 ---
