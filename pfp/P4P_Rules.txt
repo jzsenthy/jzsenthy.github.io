@@ -12,7 +12,7 @@ POLD (5" + 10") = 2
 Recirc Pump Switch = 6
 4 hr Timer = 6
 SSR = 0
-Large PSU = 19? (for 2.5"-3" systems) (made up value to force it into 2nd box)
+Large PSU = 30 (for 2.5"-3" systems)
 Electrical Junction Box = (Defaults to a full 14x14x8 box. changed from 36 points in a Medium Shipper)
 Insulated Pouch = (Defaults to a full Medium Shipper. changed from 6 points)
 Split System B3 = 30 (Defaults to an additional Large Accessory Box (14x14x14) = 48, 18 points free. Inform user to double-check with warehouse on specifics, since 30 is an average value)

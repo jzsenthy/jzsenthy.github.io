@@ -160,6 +160,12 @@ DONE
 
 
 
+3.2.9  2022-11-15 ---
+Changed largePSU value to 30
+
+
+
+
 3.2.8  2022-11-15 ---
 set fourHour/recirc = 0 on POLD-Only tab
 ---

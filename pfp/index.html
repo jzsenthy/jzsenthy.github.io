@@ -843,7 +843,7 @@
                             <!-- VERSION number -->
                             <!-- Text is not aligning right and idk why -->
                             <div class="">
-                                <p class="versionNumber text-muted text-right" id="versionNumber"><i>Version 3.2.8</i>
+                                <p class="versionNumber text-muted text-right" id="versionNumber"><i>Version 3.2.9</i>
                                 </p>
                             </div>
                             <div class="mb-3 form-check startHidden" id="debugDiv">
@@ -1653,7 +1653,7 @@
             cp: 0,
             hiddenWire: 3,
 
-            largePSU: 19, // (for 2.5"-3" systems) (made up value to force it into 2nd box -jz)
+            largePSU: 30, // (for 2.5"-3" systems)
 
             api: 3,
             pold: 1,
@@ -1687,7 +1687,7 @@
             boxCp: 6,
             // Medium Accessory Box (14x14x8) = (Use only for Electrical Junction Box)
             box14x14x8: 36,
-            // Large Accessory Box (14x14x14) = 48 (Use only if EJB is included or if Point total is greater than or equal to 49)
+            // Large Accessory Box (14x14x14) = 48 (Use only if EJB is included or if Point total is greater than or equal to 49. or if next item is larger than an accessory box)
             box14x14: 48,
             // Recirc/4 hr Box (9x4x3) = 6 (Only to be used for single Recirc Pump Switch or 4hr Timer)
             boxRecirc: 6,
@@ -3014,6 +3014,7 @@
                                         ".  totalValueCurrent = " + totalValueCurrent + "<br>";
                                 }
 
+                                
                                 loopCount++;
                                 loopCountElse++;
                                 if (loopCountElse >= 60) {
