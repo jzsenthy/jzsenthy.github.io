@@ -159,7 +159,13 @@ DONE
 
 
 
-3.2.5
+3.2.6  2022-11-15 ---
+fixed largePSU not blanking on pold-only/accessories tab
+
+
+
+
+3.2.5  2022-11-15 ---
 added largePSU for 2.5-3" LDS. value 19
 ---
 Added automatic Large PSU with LDS 2.5-3" systems, in separate box (which can include accessories). 

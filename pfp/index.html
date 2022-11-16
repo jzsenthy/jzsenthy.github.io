@@ -843,7 +843,7 @@
                             <!-- Version number -->
                             <!-- Text is not aligning right and idk why -->
                             <div class="">
-                                <p class="versionNumber text-muted text-right" id="versionNumber"><i>Version 3.2.5</i>
+                                <p class="versionNumber text-muted text-right" id="versionNumber"><i>Version 3.2.6</i>
                                 </p>
                             </div>
                             <div class="mb-3 form-check startHidden" id="debugDiv">
@@ -1531,6 +1531,8 @@
             setCp();
             // Blank out the split system selection and checkbox when switching to POLD tab, so there isn't a leftover ghost item that doesn't get packed
             setSplitSystemBlank();
+            // Set largePSU value to 0 as well
+            setLargePSU();
         }
 
 
