@@ -843,7 +843,7 @@
                             <!-- Version number -->
                             <!-- Text is not aligning right and idk why -->
                             <div class="">
-                                <p class="versionNumber text-muted text-right" id="versionNumber"><i>Version 3.2.6</i>
+                                <p class="versionNumber text-muted text-right" id="versionNumber"><i>Version 3.2.7</i>
                                 </p>
                             </div>
                             <div class="mb-3 form-check startHidden" id="debugDiv">
@@ -2039,11 +2039,11 @@
             if (valueLeakRopeCheck == 0) {
                 totalValuePoldPin = totalValuePold
             }
-            var totalValueTotal = totalValueSplitSystemCheck + totalValueLds + totalValueScv + totalValueCp + 
-                totalValuePoldPin + totalValuePoldLeakRope2ft + totalValuePoldLeakRope5ft + totalValuePoldLeakRope10ft + 
-                totalValueLeakRope2ft + totalValueLeakRope5ft + totalValueLeakRope10ft + totalValueApi + 
-                totalValueLargePSU + totalValueRecirc + totalValueFourHour + totalValueSsr + totalValuePam1 + 
-                totalValueJuncBox + 
+            var totalValueTotal = totalValueSplitSystemCheck + totalValueLds + totalValueScv + totalValueCp +
+                totalValuePoldPin + totalValuePoldLeakRope2ft + totalValuePoldLeakRope5ft + totalValuePoldLeakRope10ft +
+                totalValueLeakRope2ft + totalValueLeakRope5ft + totalValueLeakRope10ft + totalValueApi +
+                totalValueLargePSU + totalValueRecirc + totalValueFourHour + totalValueSsr + totalValuePam1 +
+                totalValueJuncBox +
                 totalValueInsulPouch + totalValueHiddenWire;
 
 
@@ -2472,7 +2472,7 @@
 
 
 
-                //// CHOOSING NEXT BOX /////
+                //// CHOOSING NEXT(SECOND) BOX /////
 
                 //// Accessory Box (13x10x5)
                 // The following items will fit in current box or create a new box (accessories box is default extra)
@@ -2510,13 +2510,17 @@
                 // The four hour timer box is only used if a single timer or recirc switch is sent, or it's the only overflow item,
                 //  but if both are sent, then they'll be in an accessory box like any other scenario
                 // TODO:  Make case for determining if this is the only overflow item (I think i did this already?)
-                if ((valueFourHour == 1 || valueRecirc == 1) && (totalValueTotal == packingItem.fourHour ||
-                        totalValueTotal == packingItem.recirc)) {
+                // HISTORY: Added calculations to ignore if insulated pouch or junction box is still left to pack (since they're in their own box and irrelevant)
+                // NOTE: This section only applies to the SECOND box
+                if ((valueFourHour == 1 || valueRecirc == 1) && ((totalValueTotal - (valueInsulPouch * packingItem
+                            .insulPouch) - (valueJuncBox * packingItem.juncBox)) == packingItem.fourHour ||
+                        (totalValueTotal - (valueInsulPouch * packingItem.insulPouch) - (valueJuncBox * packingItem
+                            .juncBox) == packingItem.recirc))) {
                     nextBox = "Recirc/Four Hour Box (9x4x3)";
                     nextBoxValue = packingItem.boxRecirc;
                     nextBoxWeightSingle = packingItemWeight.boxRecirc;
                 }
-                // End choosing next box 
+                // End choosing next(second) box 
                 //  after first box (and packing items that always go in first box: LDS, Panel, Hidden Wire, SCV, and Pam1)
 
 
@@ -2817,8 +2821,9 @@
                                     nextBox = "Large Accessory Box (14x14x14)";
                                     nextBoxValue = packingItem.box14x14;
                                     nextBoxWeightSingle = packingItemWeight.box14x14;
-                                    // If current item is larger than an Accessory Box, choose a Large Accessory Box (exception for items like Large PSU). Need to pack before smaller things
-                                } else if (spaceSingleCurrentItem >= packingItem.boxAccessories) {
+
+                                } // If current item is larger than an Accessory Box, choose a Large Accessory Box (exception for items like Large PSU). Need to pack before smaller things
+                                else if (spaceSingleCurrentItem >= packingItem.boxAccessories) {
                                     // DEBUGGING level 3
                                     // if (valueDebug >= 1) {
                                     //     window.alert("7 INSIDE ELSE IF:\n (totalValueCurrent - totalValueJuncBox - totalValueInsulPouch) == " + tempWindowalertVariable98sfhn + "\n (packingItem.boxAccessories * 3) == " + tempWindowalertVariable354drt);
@@ -2826,6 +2831,20 @@
                                     nextBox = "Large Accessory Box (14x14x14)";
                                     nextBoxValue = packingItem.box14x14;
                                     nextBoxWeightSingle = packingItemWeight.box14x14;
+                                } //// Recirc/Four Hour Box (9x4x3)
+                                // The four hour timer box is only used if a single timer or recirc switch is sent, or it's the only overflow item,
+                                //  but if both are sent, then they'll be in an accessory box like any other scenario
+                                // TODO:  Make case for determining if this is the only overflow item (I think i did this already?)
+                                // HISTORY: Added calculations to ignore if insulated pouch or junction box is still left to pack (since they're in their own box and irrelevant)
+                                // HISTORY: Changed  totalValueTotal  to  totalValueCurrent  and made sure current item is 1 fourHour or 1 recirc
+                                else if (((spaceSingleCurrentItemVariableName == 'packingItem.fourHour') || (spaceSingleCurrentItemVariableName == 'packingItem.recirc')) && (valueCurrentItem == 1) &&
+                                    ((totalValueCurrent - (valueInsulPouch * packingItem.insulPouch) - (valueJuncBox *
+                                            packingItem.juncBox)) == packingItem.fourHour ||
+                                        (totalValueCurrent - (valueInsulPouch * packingItem.insulPouch) - (valueJuncBox *
+                                            packingItem.juncBox) == packingItem.recirc))) {
+                                    nextBox = "Recirc/Four Hour Box (9x4x3)";
+                                    nextBoxValue = packingItem.boxRecirc;
+                                    nextBoxWeightSingle = packingItemWeight.boxRecirc;
                                 } else {
                                     // Default back to an accessory box
                                     // TODO:  Check to make sure this isn't overriding other special circumstances like recirc pump box (it probably is. may need to move those if cases here)
@@ -3021,7 +3040,8 @@
 
                 // Pack largePSU
                 // Don't need an  if > 0  statement since it's included in the referenced function
-                putInBox(valueLargePSU, packingItem.largePSU, "packingItem.largePSU", totalValueLargePSU, "Large PSU (24V Power Supply w/Enclosure)");
+                putInBox(valueLargePSU, packingItem.largePSU, "packingItem.largePSU", totalValueLargePSU,
+                    "Large PSU (24V Power Supply w/Enclosure)");
 
                 // Pack  API
                 // Don't need an  if > 0  statement since it's included in the referenced function

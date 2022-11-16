@@ -159,6 +159,17 @@ DONE
 
 
 
+
+3.2.7  2022-11-15 ---
+fixed fourHour/recirc box w/juncBox/insulPouch
+---
+Fixed four hour timer / recirc pump not going into fourhour/recirc box if it's the only overflow item going into a new box (besides insulated pouch or junction box).
+(Having an extra insulPouch/juncBox was failing to consider it as the last item)
+(Was only considering using this box as the second box, not for subsequent/final box as well)
+
+
+
+
 3.2.6  2022-11-15 ---
 fixed largePSU not blanking on pold-only/accessories tab
 
