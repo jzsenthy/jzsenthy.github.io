@@ -843,7 +843,7 @@
                             <!-- VERSION number -->
                             <!-- Text is not aligning right and idk why -->
                             <div class="">
-                                <p class="versionNumber text-muted text-right" id="versionNumber"><i>Version 3.2.10</i>
+                                <p class="versionNumber text-muted text-right" id="versionNumber"><i>Version 3.2.11</i>
                                 </p>
                             </div>
                             <div class="mb-3 form-check startHidden" id="debugDiv">
@@ -2549,9 +2549,9 @@
                 // TODO:  Make case for determining if this is the only overflow item (I think i did this already?)
                 // HISTORY: Added calculations to ignore if insulated pouch or junction box is still left to pack (since they're in their own box and irrelevant)
                 // NOTE: This section only applies to the SECOND box
-                if ((valueFourHour == 1 || valueRecirc == 1) && ((totalValueTotal - (valueInsulPouch * packingItem
+                if ((valueFourHour == 1 || valueRecirc == 1) && ((totalValueCurrent - (valueInsulPouch * packingItem
                             .insulPouch) - (valueJuncBox * packingItem.juncBox)) == packingItem.fourHour ||
-                        (totalValueTotal - (valueInsulPouch * packingItem.insulPouch) - (valueJuncBox * packingItem
+                        (totalValueCurrent - (valueInsulPouch * packingItem.insulPouch) - (valueJuncBox * packingItem
                             .juncBox) == packingItem.recirc))) {
                     nextBox = "Recirc/Four Hour Box (9x4x3)";
                     nextBoxValue = packingItem.boxRecirc;
@@ -3093,21 +3093,30 @@
 
                     // Try packing Large PSU (only works after first box is full)
                     packLargePSU();
-                    var currentItemsLeftToPack = valueLargePSU;
+                    // Track how many of the current item is left to pack (only applies to largePSU currently)
+                    var currentItemCountLeftToPackOfCurrentItem = valueLargePSU;
 
                     // Pack largePSU
                     // Don't need an  if > 0  statement since it's included in the referenced function
                     function packLargePSU() {
                         // Only pack largePSU after filling the first box
                         if (boxNumber == 1) {
-                            // Don't pack Large PSU yet
+                            // Don't pack Large PSU yet, unless it's the only/last item left to pack besides juncBox/insulPouch
+                            if ((totalValueCurrent - (valueInsulPouch * packingItem.insulPouch) -
+                                    (valueJuncBox * packingItem.juncBox)) == packingItem.largePSU) {
+                                if (currentItemCountLeftToPackOfCurrentItem > 0) {
+                                    // Keep track of if it's already been packed (through putInBox function return value)
+                                    currentItemCountLeftToPackOfCurrentItem = putInBox(valueLargePSU, packingItem.largePSU,
+                                        "packingItem.largePSU", totalValueLargePSU,
+                                        "Large PSU (24V Power Supply w/Enclosure)");
+                                }
+                            }
                         } else if (boxNumber > 1) {
                             // If on 2nd or later box, pack largePSU
-                            if (currentItemsLeftToPack > 0) {
+                            if (currentItemCountLeftToPackOfCurrentItem > 0) {
                                 // Keep track of if it's already been packed (through putInBox function return value)
-                                currentItemsLeftToPack = putInBox(valueLargePSU, packingItem.largePSU,
-                                    "packingItem.largePSU",
-                                    totalValueLargePSU,
+                                currentItemCountLeftToPackOfCurrentItem = putInBox(valueLargePSU, packingItem.largePSU,
+                                    "packingItem.largePSU", totalValueLargePSU,
                                     "Large PSU (24V Power Supply w/Enclosure)");
                             }
                         } else {

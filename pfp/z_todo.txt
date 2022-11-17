@@ -160,6 +160,18 @@ DONE
 
 
 
+3.2.11  2022-11-16 ---
+Fixed largePSU not packing if no accessories to fill box1
+---
+It was skipping packing largePSU based on the logic that it first had to be on the second box.
+
+It wasn't going to the second box yet since the first wasn't filled.
+
+Added logic that if it's still on the first box, it will check if the largePSU is the only thing left to pack (minus the exceptions of juncBox/insulPouch)
+
+
+
+
 3.2.10  2022-11-16 ---
 Fixed 1st box not filling before packing largePSU
 ---
