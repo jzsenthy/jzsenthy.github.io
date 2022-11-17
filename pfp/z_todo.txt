@@ -160,7 +160,19 @@ DONE
 
 
 
-3.2.9  2022-11-15 ---
+3.2.10  2022-11-16 ---
+Fixed 1st box not filling before packing largePSU
+---
+Now first box will fill and it will try to pack the largePSU after each item type is fully packed.
+
+This typically means APIs can fill box 1, POLDs can finish box 1 and start box 2, then largePSU packs in box 2.
+
+Not the perfect way to do it, but breaking the while loop of packing one entire item type would be harder.
+
+
+
+
+3.2.9  2022-11-16 ---
 Changed largePSU value to 30
 
 

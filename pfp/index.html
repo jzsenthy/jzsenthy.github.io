@@ -843,7 +843,7 @@
                             <!-- VERSION number -->
                             <!-- Text is not aligning right and idk why -->
                             <div class="">
-                                <p class="versionNumber text-muted text-right" id="versionNumber"><i>Version 3.2.9</i>
+                                <p class="versionNumber text-muted text-right" id="versionNumber"><i>Version 3.2.10</i>
                                 </p>
                             </div>
                             <div class="mb-3 form-check startHidden" id="debugDiv">
@@ -3014,7 +3014,7 @@
                                         ".  totalValueCurrent = " + totalValueCurrent + "<br>";
                                 }
 
-                                
+
                                 loopCount++;
                                 loopCountElse++;
                                 if (loopCountElse >= 60) {
@@ -3033,7 +3033,7 @@
                             // break;
                         }
 
-                        // Display how many of this item has been packed into the box, before exiting while loop
+                        // Display how many of this item has been packed into the box, before (after?) exiting while loop
                         outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " +
                             currentItemName + "<br>";
 
@@ -3063,6 +3063,8 @@
                             }
                         }
                     }
+                    // Return how many of the current item is left to pack
+                    return valueCurrentItem;
                 }
                 // End function putInBox  (child of function buildOutputString)
 
@@ -3078,300 +3080,384 @@
                 // FUNCTION:  Call item packing function (above), for each item
                 // FORMAT:  (valueCurrentItem, spaceSingleCurrentItem, totalValueCurrentItem, currentItemName)
                 // TODO:  Maybe wrap each in an IF statement to avoid calling the function every time even with 0 items from that type
+                packAllItems();
+                // Run it again until largePSU gets packed
+                // ISSUE:  It's packing everything multiple times. I'd need to use different variables to track/control this
+                // while (itemsTotalLeft > 0) {
+                //     packAllItems();
+                // }
+                // I'm just going to switch to duplicating the packLargePSU function after every item
 
-                // Pack largePSU
-                // Don't need an  if > 0  statement since it's included in the referenced function
-                putInBox(valueLargePSU, packingItem.largePSU, "packingItem.largePSU", totalValueLargePSU,
-                    "Large PSU (24V Power Supply w/Enclosure)");
+                // START PACK ALL ITEMS FUNCTION
+                function packAllItems() {
 
-                // Pack  API
-                // Don't need an  if > 0  statement since it's included in the referenced function
-                putInBox(valueApi, packingItem.api, "packingItem.api", totalValueApi, "API");
+                    // Try packing Large PSU (only works after first box is full)
+                    packLargePSU();
+                    var currentItemsLeftToPack = valueLargePSU;
 
-
-                // Pack  POLD (w/pins)
-                // Use normal POLD input value (valuePold), if no leak rope
-                if (valueLeakRopeCheck == 0) {
-                    putInBox(valuePold, packingItem.pold, "packingItem.pold", totalValuePold, "POLD");
-                }
-                // Use POLD with pins input value (valuePoldPin), if leak rope
-                else if (valueLeakRopeCheck == 1) {
-                    putInBox(valuePoldPin, packingItem.poldPin, "packingItem.poldPin", totalValuePoldPin,
-                        "POLD (with pins)");
-                } else {
-                    window.alert(
-                        "The value for the leak rope checkbox is not 1 or 0, so no POLDs or leak rope got packed. Gotta fix this IF statement or the function that changes checkbox value to 1 or 0.\nvalueLeakRopeCheck = " +
-                        valueLeakRopeCheck)
-                }
-
-                // Pack  POLD with Leak Rope (2ft)
-                putInBox(valuePoldLeakRope2ft, packingItem.poldLeakRope2ft, "packingItem.poldLeakRope2ft",
-                    totalValuePoldLeakRope2ft, "POLD with Leak Rope (2ft)");
-                // Pack  POLD with Leak Rope (5ft)
-                putInBox(valuePoldLeakRope5ft, packingItem.poldLeakRope5ft, "packingItem.poldLeakRope5ft",
-                    totalValuePoldLeakRope5ft, "POLD with Leak Rope (5ft)");
-                // Pack  POLD with Leak Rope (10ft)
-                putInBox(valuePoldLeakRope10ft, packingItem.poldLeakRope10ft, "packingItem.poldLeakRope10ft",
-                    totalValuePoldLeakRope10ft, "POLD with Leak Rope (10ft)");
-
-                // Pack  Leak Rope (2ft)
-                putInBox(valueLeakRope2ft, packingItem.leakRope2ft, "packingItem.leakRope2ft", totalValueLeakRope2ft,
-                    "Leak Rope (2ft)");
-                // Pack  Leak Rope (5ft)
-                putInBox(valueLeakRope5ft, packingItem.leakRope5ft, "packingItem.leakRope5ft", totalValueLeakRope5ft,
-                    "Leak Rope (5ft)");
-                // Pack  Leak Rope (10ft)
-                putInBox(valueLeakRope10ft, packingItem.leakRope10ft, "packingItem.leakRope10ft",
-                    totalValueLeakRope10ft, "Leak Rope (10ft)");
-
-                // Pack  Solid State Relay
-                // TODO:  "Solid State Relays included with box carrying most POLDs"  (although putting it in the last box a pold or leak rope went into is a lot easier)
-                putInBox(valueSsr, packingItem.ssr, "packingItem.ssr", totalValueSsr, "Solid State Relay");
-
-                // Pack  Recirc Pump Switch
-                if (valueRecirc > 0) {
-                    //// Moved all this nextBox stuff to inside the putInBox function
-                    //     // FUNCTION:  Puts the Recirc or Four hour timer into its own box if this is the only overflow item
-                    //     if ((valueRecirc == 1 && valueFourHour == 0) && (totalValueCurrent == packingItem.recirc) && (boxValueLeft < packingItem.recirc)) {
-                    //         nextBox = "Recirc/Four Hour Box (9x4x3)";
-                    //         nextBoxValue = packingItem.boxRecirc;
-                    //         nextBoxWeightSingle = packingItemWeight.boxRecirc;
-
-
-                    //         // Basically copied the ELSE statement from the function about to be called, 
-                    //         // to make sure it changes boxes to Medium Shipper before packaging an Insulated Pouch
-                    //         // since that's apparently the only box it fits in.
-                    //         // But removed the parts about packing an item. (just showing the new box title)
-
-
-                    //         // Show weight (before new box)
-                    //         // Add the box/packaging weight to the total
-                    //         weightCurrentBox += boxWeightSingle;
-                    //         weightTotal += boxWeightSingle;
-                    //         outputString += " <div class='weightCurrentBox text-muted'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(2)) + " lbs)</i><br></div>";
-                    //         // Reset box weight 
-                    //         weightCurrentBox = 0;
-                    //         // DEBUGGING to show info every time a single item is packed (1 line)
-                    //         if (valueDebug >= 1) {
-                    //             outputString = outputString + "<br> DEBUGGING INFO: weight4  else (newbox) totalValueCurrent = " + totalValueCurrent + ".  boxValueLeft = " + boxValueLeft + ". weightCurrentBox = " + weightCurrentBox + ". weightSingleCurrentItem = " + weightSingleCurrentItem + "<br>";
-                    //         }
-
-
-                    //         // Change current box to next box
-                    //         boxValue = nextBoxValue;
-                    //         // Change current box packaging weight to next box packaging weight
-                    //         boxWeightSingle = nextBoxWeightSingle;
-                    //         // Resets the space remaining in the box to the full total of the new empty box
-                    //         boxValueLeft = boxValue;
-                    //         // Add 1 to the boxTotal and boxNumber
-                    //         boxNumber++;
-                    //         boxTotal++;
-                    //         // Add item to string to be displayed at the end for what to pack
-                    //         // If there's an SO#, add it to the top of the page for each box
-                    //         if (valueSoNum > 0) {
-                    //             outputString = outputString + "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><div class='soBox text-end'><i>SO# " + valueSoNum + "</i></div><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
-                    //         }
-                    //         else {
-                    //             outputString = outputString + "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
-                    //         }
-                    //         // outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
-
-
-                    //         // Pack the item (call the function)
-                    //         putInBox(valueRecirc, packingItem.recirc, "packingItem.recirc", totalValueRecirc, "Recirc Pump Switch");
-
-                    //         // Reset nextBox back to accessory box for other items
-                    //         nextBox = "Accessory Box (13x10x5)";
-                    //         nextBoxValue = packingItem.boxAccessories;
-                    //         nextBoxWeightSingle = packingItemWeight.boxAccessories;
-                    //     }
-                    // // Otherwise pack it as normal
-                    // else {
-                    // Pack the item (call the function)
-                    putInBox(valueRecirc, packingItem.recirc, "packingItem.recirc", totalValueRecirc,
-                        "Recirc Pump Switch");
-                    // }
-                }
-
-
-
-                // Pack  Four Hour Timer
-                if (valueFourHour > 0) {
-                    //// Moved all this nextBox stuff to inside the putInBox function
-                    // // FUNCTION:  Puts the Recirc or Four hour timer into its own box if this is the only overflow item
-                    // if ((valueRecirc == 0 && valueFourHour == 1) && (totalValueCurrent == packingItem.fourHour) && (boxValueLeft < packingItem.fourHour)) {
-                    //     nextBox = "Recirc/Four Hour Box (9x4x3)";
-                    //     nextBoxValue = packingItem.boxRecirc;
-                    //     nextBoxWeightSingle = packingItemWeight.boxRecirc;
-
-
-                    //     // Basically copied the ELSE statement from the function about to be called, 
-                    //     // to make sure it changes boxes to Medium Shipper before packaging an Insulated Pouch
-                    //     // since that's apparently the only box it fits in.
-                    //     // But removed the parts about packing an item. (just showing the new box title)
-
-
-                    //     // Show weight (before new box)
-                    //     // Add the box/packaging weight to the total
-                    //     weightCurrentBox += boxWeightSingle;
-                    //     weightTotal += boxWeightSingle;
-                    //     outputString += " <div class='weightCurrentBox text-muted'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(2)) + " lbs)</i><br></div>";
-                    //     // Reset box weight 
-                    //     weightCurrentBox = 0;
-                    //     // DEBUGGING to show info every time a single item is packed (1 line)
-                    //     if (valueDebug >= 1) {
-                    //         outputString = outputString + "<br> DEBUGGING INFO: weight4  else (newbox) totalValueCurrent = " + totalValueCurrent + ".  boxValueLeft = " + boxValueLeft + ". weightCurrentBox = " + weightCurrentBox + ". weightSingleCurrentItem = " + weightSingleCurrentItem + "<br>";
-                    //     }
-
-
-                    //     // Change current box to next box
-                    //     boxValue = nextBoxValue;
-                    //     // Change current box packaging weight to next box packaging weight
-                    //     boxWeightSingle = nextBoxWeightSingle;
-                    //     // Resets the space remaining in the box to the full total of the new empty box
-                    //     boxValueLeft = boxValue;
-                    //     // Add 1 to the boxTotal and boxNumber
-                    //     boxNumber++;
-                    //     boxTotal++;
-                    //     // Add item to string to be displayed at the end for what to pack
-                    //     // If there's an SO#, add it to the top of the page for each box
-                    //     if (valueSoNum > 0) {
-                    //         outputString = outputString + "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><div class='soBox text-end'><i>SO# " + valueSoNum + "</i></div><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
-                    //     }
-                    //     else {
-                    //         outputString = outputString + "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
-                    //     }
-                    //     // outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
-
-
-                    //     // Pack the item (call the function)
-                    //     putInBox(valueFourHour, packingItem.fourHour, "packingItem.fourHour", totalValueFourHour, "Four Hour Timer");
-
-                    //     // Reset nextBox back to accessory box for other items
-                    //     nextBox = "Accessory Box (13x10x5)";
-                    //     nextBoxValue = packingItem.boxAccessories;
-                    // }
-                    // // Otherwise pack it as normal
-                    // else {
-                    // Pack the item (call the function)
-                    putInBox(valueFourHour, packingItem.fourHour, "packingItem.fourHour", totalValueFourHour,
-                        "Four Hour Timer");
-                    // }
-                }
-
-
-
-
-                // Pack  Junction Box
-                if (valueJuncBox > 0) {
-                    //// Moved all this nextBox stuff to inside the putInBox function
-
-                    // // Large Accessory Box (14x14x14) = 48 (Use only if EJB is included or if Point total is greater than or equal to 49) -Bryce
-                    // // Might need to reset it back to accessory box afterward
-                    // nextBox = "Large Accessory Box (14x14x14)";
-                    // nextBoxValue = packingItem.box14x14;
-                    // nextBoxWeightSingle = packingItemWeight.box14x14;
-
-                    // Pack the item (call the function)
-                    putInBox(valueJuncBox, packingItem.juncBox, "packingItem.juncBox", totalValueJuncBox,
-                        "Junction Box");
-
-                    // Reset nextBox back to accessory box for other items
-                    nextBox = "Accessory Box (13x10x5)";
-                    nextBoxValue = packingItem.boxAccessories;
-                    nextBoxWeightSingle = packingItemWeight.boxAccessories;
-                }
-
-
-
-                // Pack  Insulated Pouch
-                if (valueInsulPouch > 0) {
-                    // HISTORY: Moved all this nextBox stuff to inside the putInBox function, then moved back since it was packing insulPouch with juncBox (needs to force separate box.)
-                    // Just hide all this nextBox stuff if you want to fit insulPouch in other boxes it will fit in
-
-                    // Medium Shipper (20x12x8) = 6 (Used for 2" systems or Insulated Pouch only) -Bryce
-                    // NOTE:  Insulated Pouch will always only fit into the medium shipper. -Bryce
-                    nextBox = "Medium Shipper (20x12x8)";
-                    nextBoxValue = packingItem.boxLdsMedium;
-                    nextBoxWeightSingle = packingItemWeight.boxLdsMedium;
-
-
-                    // Basically copied the ELSE statement from the function about to be called, 
-                    // to make sure it changes boxes to Medium Shipper before packaging an Insulated Pouch
-                    // since that's apparently the only box it fits in.
-                    // But removed the parts about packing an item. (just showing the new box title)
-
-
-                    // Show box weight if items are all packed before moving on to the next items
-                    // TODO: Fix this box showing even if empty (even if i hide this weight output, it's still showing box 2 for the next box shown)
-                    // Show weight (before new box)
-                    // If nothing has been packed yet, don't show info for an empty accessory box first
-                    if (itemsTotalLeft == valueTotal) {
-                        // Don't show the weight (if nothing has been packed yet)
-                    } else {
-                        // Add the box/packaging weight to the total
-                        weightCurrentBox += boxWeightSingle;
-                        weightTotal += boxWeightSingle;
-                        outputString +=
-                            " <div class='weightCurrentBox text-muted'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " +
-                            parseFloat((weightCurrentBox).toFixed(0)) + " lbs)</i><br></div>";
-                        // Reset box weight (TODO: Is this needed here or in the putinbox function? it's not there)
-                        weightCurrentBox = 0;
-                        // DEBUGGING to show info every time a single item is packed (1 line)
-                        if (valueDebug >= 1) {
-                            outputString = outputString +
-                                "<br> DEBUGGING INFO: weight4  else (newbox) totalValueCurrent = " + totalValueCurrent +
-                                ".  boxValueLeft = " + boxValueLeft + ". weightCurrentBox = " + weightCurrentBox +
-                                ". weightSingleCurrentItem = " + weightSingleCurrentItem + "<br>";
+                    // Pack largePSU
+                    // Don't need an  if > 0  statement since it's included in the referenced function
+                    function packLargePSU() {
+                        // Only pack largePSU after filling the first box
+                        if (boxNumber == 1) {
+                            // Don't pack Large PSU yet
+                        } else if (boxNumber > 1) {
+                            // If on 2nd or later box, pack largePSU
+                            if (currentItemsLeftToPack > 0) {
+                                // Keep track of if it's already been packed (through putInBox function return value)
+                                currentItemsLeftToPack = putInBox(valueLargePSU, packingItem.largePSU,
+                                    "packingItem.largePSU",
+                                    totalValueLargePSU,
+                                    "Large PSU (24V Power Supply w/Enclosure)");
+                            }
+                        } else {
+                            // Error: Invalid boxNumber value
+                            window.alert("Error: Invalid boxNumber value. boxNumber == " + boxNumber)
                         }
                     }
 
-                    // Copied from nextBox function, after the line:  //// END NEXTBOX EXCEPTIONS
-                    // If nothing has been packed yet, don't increase the box number (for an empty accessory box)
-                    // (Must have this statement above the  itemsTotalLeft--;  line below)
-                    if (itemsTotalLeft == valueTotal) {
-                        // Don't increase the box number (if nothing has been packed yet)
-                    } else {
-                        // Add 1 to the boxTotal and boxNumber
-                        boxNumber++;
-                        boxTotal++;
+                    // Pack  API
+                    // Don't need an  if > 0  statement since it's included in the referenced function
+                    putInBox(valueApi, packingItem.api, "packingItem.api", totalValueApi, "API");
+
+                    // -- Try packing Large PSU again (only works after first box is full)
+                    packLargePSU();
+
+
+                    // Pack  POLD (w/pins)
+                    // Use normal POLD input value (valuePold), if no leak rope
+                    if (valueLeakRopeCheck == 0) {
+                        putInBox(valuePold, packingItem.pold, "packingItem.pold", totalValuePold, "POLD");
                     }
-                    // Change current box to whatever box is next (like accessory box or 14x14)
-                    boxValue = nextBoxValue;
-                    // Change current box packaging weight to next box packaging weight
-                    boxWeightSingle = nextBoxWeightSingle;
-                    // Resets the space remaining in the box to the full total of the new empty box
-                    boxValueLeft = boxValue;
-                    // NOTE:  Do not include this, since it seems to be running properly during the putInBox function called below
-                    // Reduce number of all combined items to see if you have any leftovers at the very end that never got packed
-                    //itemsTotalLeft--;
-
-                    // Add box name to string to be displayed at the end
-                    // If there's an SO#, add it to the top of the page for each box
-                    // NOTE:  Added newBoxBefore1 and newBoxBefore2 to fix html2pdf inserting the page break in wrong location (issue with nested divs)
-                    if (valueSoNum > 0) {
-                        outputString = outputString +
-                            "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><div class='soBox text-end'><i>SO# " +
-                            valueSoNum + "</i></div><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber +
-                            "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                    // Use POLD with pins input value (valuePoldPin), if leak rope
+                    else if (valueLeakRopeCheck == 1) {
+                        putInBox(valuePoldPin, packingItem.poldPin, "packingItem.poldPin", totalValuePoldPin,
+                            "POLD (with pins)");
                     } else {
-                        outputString = outputString +
-                            "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><b>" +
-                            nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" +
-                            "]: </i></div>";
+                        window.alert(
+                            "The value for the leak rope checkbox is not 1 or 0, so no POLDs or leak rope got packed. Gotta fix this IF statement or the function that changes checkbox value to 1 or 0.\nvalueLeakRopeCheck = " +
+                            valueLeakRopeCheck)
                     }
-                    // outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
+
+                    // -- Try packing Large PSU again (only works after first box is full)
+                    packLargePSU();
 
 
-                    // Pack the item (call the function)
-                    putInBox(valueInsulPouch, packingItem.insulPouch, "packingItem.insulPouch", totalValueInsulPouch,
-                        "Insulated Pouch");
+                    // Pack  POLD with Leak Rope (2ft)
+                    putInBox(valuePoldLeakRope2ft, packingItem.poldLeakRope2ft, "packingItem.poldLeakRope2ft",
+                        totalValuePoldLeakRope2ft, "POLD with Leak Rope (2ft)");
 
-                    // Reset nextBox back to accessory box for other items
-                    nextBox = "Accessory Box (13x10x5)";
-                    nextBoxValue = packingItem.boxAccessories;
-                    nextBoxWeightSingle = packingItemWeight.boxAccessories;
-                }
+                    // -- Try packing Large PSU again (only works after first box is full)
+                    packLargePSU();
+
+                    // Pack  POLD with Leak Rope (5ft)
+                    putInBox(valuePoldLeakRope5ft, packingItem.poldLeakRope5ft, "packingItem.poldLeakRope5ft",
+                        totalValuePoldLeakRope5ft, "POLD with Leak Rope (5ft)");
+
+                    // -- Try packing Large PSU again (only works after first box is full)
+                    packLargePSU();
+
+                    // Pack  POLD with Leak Rope (10ft)
+                    putInBox(valuePoldLeakRope10ft, packingItem.poldLeakRope10ft, "packingItem.poldLeakRope10ft",
+                        totalValuePoldLeakRope10ft, "POLD with Leak Rope (10ft)");
+
+                    // -- Try packing Large PSU again (only works after first box is full)
+                    packLargePSU();
+
+
+                    // Pack  Leak Rope (2ft)
+                    putInBox(valueLeakRope2ft, packingItem.leakRope2ft, "packingItem.leakRope2ft",
+                        totalValueLeakRope2ft,
+                        "Leak Rope (2ft)");
+
+                    // -- Try packing Large PSU again (only works after first box is full)
+                    packLargePSU();
+
+                    // Pack  Leak Rope (5ft)
+                    putInBox(valueLeakRope5ft, packingItem.leakRope5ft, "packingItem.leakRope5ft",
+                        totalValueLeakRope5ft,
+                        "Leak Rope (5ft)");
+
+                    // -- Try packing Large PSU again (only works after first box is full)
+                    packLargePSU();
+
+                    // Pack  Leak Rope (10ft)
+                    putInBox(valueLeakRope10ft, packingItem.leakRope10ft, "packingItem.leakRope10ft",
+                        totalValueLeakRope10ft, "Leak Rope (10ft)");
+
+                    // -- Try packing Large PSU again (only works after first box is full)
+                    packLargePSU();
+
+
+                    // Pack  Solid State Relay
+                    // TODO:  "Solid State Relays included with box carrying most POLDs"  (although putting it in the last box a pold or leak rope went into is a lot easier)
+                    putInBox(valueSsr, packingItem.ssr, "packingItem.ssr", totalValueSsr, "Solid State Relay");
+
+                    // -- Try packing Large PSU again (only works after first box is full)
+                    packLargePSU();
+
+
+                    // Pack  Recirc Pump Switch
+                    if (valueRecirc > 0) {
+                        //// Moved all this nextBox stuff to inside the putInBox function
+                        //     // FUNCTION:  Puts the Recirc or Four hour timer into its own box if this is the only overflow item
+                        //     if ((valueRecirc == 1 && valueFourHour == 0) && (totalValueCurrent == packingItem.recirc) && (boxValueLeft < packingItem.recirc)) {
+                        //         nextBox = "Recirc/Four Hour Box (9x4x3)";
+                        //         nextBoxValue = packingItem.boxRecirc;
+                        //         nextBoxWeightSingle = packingItemWeight.boxRecirc;
+
+
+                        //         // Basically copied the ELSE statement from the function about to be called, 
+                        //         // to make sure it changes boxes to Medium Shipper before packaging an Insulated Pouch
+                        //         // since that's apparently the only box it fits in.
+                        //         // But removed the parts about packing an item. (just showing the new box title)
+
+
+                        //         // Show weight (before new box)
+                        //         // Add the box/packaging weight to the total
+                        //         weightCurrentBox += boxWeightSingle;
+                        //         weightTotal += boxWeightSingle;
+                        //         outputString += " <div class='weightCurrentBox text-muted'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(2)) + " lbs)</i><br></div>";
+                        //         // Reset box weight 
+                        //         weightCurrentBox = 0;
+                        //         // DEBUGGING to show info every time a single item is packed (1 line)
+                        //         if (valueDebug >= 1) {
+                        //             outputString = outputString + "<br> DEBUGGING INFO: weight4  else (newbox) totalValueCurrent = " + totalValueCurrent + ".  boxValueLeft = " + boxValueLeft + ". weightCurrentBox = " + weightCurrentBox + ". weightSingleCurrentItem = " + weightSingleCurrentItem + "<br>";
+                        //         }
+
+
+                        //         // Change current box to next box
+                        //         boxValue = nextBoxValue;
+                        //         // Change current box packaging weight to next box packaging weight
+                        //         boxWeightSingle = nextBoxWeightSingle;
+                        //         // Resets the space remaining in the box to the full total of the new empty box
+                        //         boxValueLeft = boxValue;
+                        //         // Add 1 to the boxTotal and boxNumber
+                        //         boxNumber++;
+                        //         boxTotal++;
+                        //         // Add item to string to be displayed at the end for what to pack
+                        //         // If there's an SO#, add it to the top of the page for each box
+                        //         if (valueSoNum > 0) {
+                        //             outputString = outputString + "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><div class='soBox text-end'><i>SO# " + valueSoNum + "</i></div><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                        //         }
+                        //         else {
+                        //             outputString = outputString + "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                        //         }
+                        //         // outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
+
+
+                        //         // Pack the item (call the function)
+                        //         putInBox(valueRecirc, packingItem.recirc, "packingItem.recirc", totalValueRecirc, "Recirc Pump Switch");
+
+                        //         // Reset nextBox back to accessory box for other items
+                        //         nextBox = "Accessory Box (13x10x5)";
+                        //         nextBoxValue = packingItem.boxAccessories;
+                        //         nextBoxWeightSingle = packingItemWeight.boxAccessories;
+                        //     }
+                        // // Otherwise pack it as normal
+                        // else {
+                        // Pack the item (call the function)
+                        putInBox(valueRecirc, packingItem.recirc, "packingItem.recirc", totalValueRecirc,
+                            "Recirc Pump Switch");
+                        // }
+                    }
+
+                    // -- Try packing Large PSU again (only works after first box is full)
+                    packLargePSU();
+
+
+
+                    // Pack  Four Hour Timer
+                    if (valueFourHour > 0) {
+                        //// Moved all this nextBox stuff to inside the putInBox function
+                        // // FUNCTION:  Puts the Recirc or Four hour timer into its own box if this is the only overflow item
+                        // if ((valueRecirc == 0 && valueFourHour == 1) && (totalValueCurrent == packingItem.fourHour) && (boxValueLeft < packingItem.fourHour)) {
+                        //     nextBox = "Recirc/Four Hour Box (9x4x3)";
+                        //     nextBoxValue = packingItem.boxRecirc;
+                        //     nextBoxWeightSingle = packingItemWeight.boxRecirc;
+
+
+                        //     // Basically copied the ELSE statement from the function about to be called, 
+                        //     // to make sure it changes boxes to Medium Shipper before packaging an Insulated Pouch
+                        //     // since that's apparently the only box it fits in.
+                        //     // But removed the parts about packing an item. (just showing the new box title)
+
+
+                        //     // Show weight (before new box)
+                        //     // Add the box/packaging weight to the total
+                        //     weightCurrentBox += boxWeightSingle;
+                        //     weightTotal += boxWeightSingle;
+                        //     outputString += " <div class='weightCurrentBox text-muted'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " + parseFloat((weightCurrentBox).toFixed(2)) + " lbs)</i><br></div>";
+                        //     // Reset box weight 
+                        //     weightCurrentBox = 0;
+                        //     // DEBUGGING to show info every time a single item is packed (1 line)
+                        //     if (valueDebug >= 1) {
+                        //         outputString = outputString + "<br> DEBUGGING INFO: weight4  else (newbox) totalValueCurrent = " + totalValueCurrent + ".  boxValueLeft = " + boxValueLeft + ". weightCurrentBox = " + weightCurrentBox + ". weightSingleCurrentItem = " + weightSingleCurrentItem + "<br>";
+                        //     }
+
+
+                        //     // Change current box to next box
+                        //     boxValue = nextBoxValue;
+                        //     // Change current box packaging weight to next box packaging weight
+                        //     boxWeightSingle = nextBoxWeightSingle;
+                        //     // Resets the space remaining in the box to the full total of the new empty box
+                        //     boxValueLeft = boxValue;
+                        //     // Add 1 to the boxTotal and boxNumber
+                        //     boxNumber++;
+                        //     boxTotal++;
+                        //     // Add item to string to be displayed at the end for what to pack
+                        //     // If there's an SO#, add it to the top of the page for each box
+                        //     if (valueSoNum > 0) {
+                        //         outputString = outputString + "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><div class='soBox text-end'><i>SO# " + valueSoNum + "</i></div><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                        //     }
+                        //     else {
+                        //         outputString = outputString + "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                        //     }
+                        //     // outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
+
+
+                        //     // Pack the item (call the function)
+                        //     putInBox(valueFourHour, packingItem.fourHour, "packingItem.fourHour", totalValueFourHour, "Four Hour Timer");
+
+                        //     // Reset nextBox back to accessory box for other items
+                        //     nextBox = "Accessory Box (13x10x5)";
+                        //     nextBoxValue = packingItem.boxAccessories;
+                        // }
+                        // // Otherwise pack it as normal
+                        // else {
+                        // Pack the item (call the function)
+                        putInBox(valueFourHour, packingItem.fourHour, "packingItem.fourHour", totalValueFourHour,
+                            "Four Hour Timer");
+                        // }
+                    }
+
+                    // -- Try packing Large PSU again (only works after first box is full)
+                    packLargePSU();
+
+
+
+
+                    // Pack  Junction Box
+                    if (valueJuncBox > 0) {
+                        //// Moved all this nextBox stuff to inside the putInBox function
+
+                        // // Large Accessory Box (14x14x14) = 48 (Use only if EJB is included or if Point total is greater than or equal to 49) -Bryce
+                        // // Might need to reset it back to accessory box afterward
+                        // nextBox = "Large Accessory Box (14x14x14)";
+                        // nextBoxValue = packingItem.box14x14;
+                        // nextBoxWeightSingle = packingItemWeight.box14x14;
+
+                        // Pack the item (call the function)
+                        putInBox(valueJuncBox, packingItem.juncBox, "packingItem.juncBox", totalValueJuncBox,
+                            "Junction Box");
+
+                        // Reset nextBox back to accessory box for other items
+                        nextBox = "Accessory Box (13x10x5)";
+                        nextBoxValue = packingItem.boxAccessories;
+                        nextBoxWeightSingle = packingItemWeight.boxAccessories;
+                    }
+
+                    // -- Try packing Large PSU again (only works after first box is full)
+                    packLargePSU();
+
+
+
+                    // Pack  Insulated Pouch
+                    if (valueInsulPouch > 0) {
+                        // HISTORY: Moved all this nextBox stuff to inside the putInBox function, then moved back since it was packing insulPouch with juncBox (needs to force separate box.)
+                        // Just hide all this nextBox stuff if you want to fit insulPouch in other boxes it will fit in
+
+                        // Medium Shipper (20x12x8) = 6 (Used for 2" systems or Insulated Pouch only) -Bryce
+                        // NOTE:  Insulated Pouch will always only fit into the medium shipper. -Bryce
+                        nextBox = "Medium Shipper (20x12x8)";
+                        nextBoxValue = packingItem.boxLdsMedium;
+                        nextBoxWeightSingle = packingItemWeight.boxLdsMedium;
+
+
+                        // Basically copied the ELSE statement from the function about to be called, 
+                        // to make sure it changes boxes to Medium Shipper before packaging an Insulated Pouch
+                        // since that's apparently the only box it fits in.
+                        // But removed the parts about packing an item. (just showing the new box title)
+
+
+                        // Show box weight if items are all packed before moving on to the next items
+                        // TODO: Fix this box showing even if empty (even if i hide this weight output, it's still showing box 2 for the next box shown)
+                        // Show weight (before new box)
+                        // If nothing has been packed yet, don't show info for an empty accessory box first
+                        if (itemsTotalLeft == valueTotal) {
+                            // Don't show the weight (if nothing has been packed yet)
+                        } else {
+                            // Add the box/packaging weight to the total
+                            weightCurrentBox += boxWeightSingle;
+                            weightTotal += boxWeightSingle;
+                            outputString +=
+                                " <div class='weightCurrentBox text-muted'><i> &nbsp;  &nbsp;  &nbsp;  &nbsp; (approximate box weight: " +
+                                parseFloat((weightCurrentBox).toFixed(0)) + " lbs)</i><br></div>";
+                            // Reset box weight (TODO: Is this needed here or in the putinbox function? it's not there)
+                            weightCurrentBox = 0;
+                            // DEBUGGING to show info every time a single item is packed (1 line)
+                            if (valueDebug >= 1) {
+                                outputString = outputString +
+                                    "<br> DEBUGGING INFO: weight4  else (newbox) totalValueCurrent = " +
+                                    totalValueCurrent +
+                                    ".  boxValueLeft = " + boxValueLeft + ". weightCurrentBox = " + weightCurrentBox +
+                                    ". weightSingleCurrentItem = " + weightSingleCurrentItem + "<br>";
+                            }
+                        }
+
+                        // Copied from nextBox function, after the line:  //// END NEXTBOX EXCEPTIONS
+                        // If nothing has been packed yet, don't increase the box number (for an empty accessory box)
+                        // (Must have this statement above the  itemsTotalLeft--;  line below)
+                        if (itemsTotalLeft == valueTotal) {
+                            // Don't increase the box number (if nothing has been packed yet)
+                        } else {
+                            // Add 1 to the boxTotal and boxNumber
+                            boxNumber++;
+                            boxTotal++;
+                        }
+                        // Change current box to whatever box is next (like accessory box or 14x14)
+                        boxValue = nextBoxValue;
+                        // Change current box packaging weight to next box packaging weight
+                        boxWeightSingle = nextBoxWeightSingle;
+                        // Resets the space remaining in the box to the full total of the new empty box
+                        boxValueLeft = boxValue;
+                        // NOTE:  Do not include this, since it seems to be running properly during the putInBox function called below
+                        // Reduce number of all combined items to see if you have any leftovers at the very end that never got packed
+                        //itemsTotalLeft--;
+
+                        // Add box name to string to be displayed at the end
+                        // If there's an SO#, add it to the top of the page for each box
+                        // NOTE:  Added newBoxBefore1 and newBoxBefore2 to fix html2pdf inserting the page break in wrong location (issue with nested divs)
+                        if (valueSoNum > 0) {
+                            outputString = outputString +
+                                "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><div class='soBox text-end'><i>SO# " +
+                                valueSoNum + "</i></div><b>" + nextBox + "</b><i>&nbsp; [Box " + boxNumber +
+                                "<span class='boxTotal'>boxTotal</span>" + "]: </i></div>";
+                        } else {
+                            outputString = outputString +
+                                "<br><div class='newBoxBefore1'>&nbsp;</div><div class='newBoxBefore2'>&nbsp;</div><div class='newBox'><b>" +
+                                nextBox + "</b><i>&nbsp; [Box " + boxNumber + "<span class='boxTotal'>boxTotal</span>" +
+                                "]: </i></div>";
+                        }
+                        // outputString = outputString + "• " + currentItemCountInBoxOfCurrentItem + " " + currentItemName + "<br>";
+
+
+                        // Pack the item (call the function)
+                        putInBox(valueInsulPouch, packingItem.insulPouch, "packingItem.insulPouch",
+                            totalValueInsulPouch,
+                            "Insulated Pouch");
+
+                        // Reset nextBox back to accessory box for other items
+                        nextBox = "Accessory Box (13x10x5)";
+                        nextBoxValue = packingItem.boxAccessories;
+                        nextBoxWeightSingle = packingItemWeight.boxAccessories;
+                    }
+
+                    // -- Try packing Large PSU again (only works after first box is full)
+                    packLargePSU();
+
+                };
+                // END PACK ALL ITEMS FUNCTION
 
 
 

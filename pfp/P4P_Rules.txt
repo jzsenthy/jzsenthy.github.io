@@ -30,7 +30,7 @@ Large Accessory Box (14x14x14) = 48 (Use only if point total is greater than or 
 
 Order of Priority:
 Panel, Hidden Wire, SCV, and Pam1 always in Box 1
-1a. Large PSU (24V Power Supply w/Enclosure) (for 2.5"-3" systems)
+1a. Large PSU (24V Power Supply w/Enclosure) (for 2.5"-3" systems) [trying to pack this after every item from here. works once we're on 2nd box or later]
 1. API
 2. POLD
 3. Recirc Pump Switch
