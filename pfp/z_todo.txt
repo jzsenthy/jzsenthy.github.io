@@ -159,6 +159,73 @@ DONE
 
 
 
+
+3.2.11  2022-11-16 ---
+Fixed largePSU not packing if no accessories to fill box1
+---
+It was skipping packing largePSU based on the logic that it first had to be on the second box.
+
+It wasn't going to the second box yet since the first wasn't filled.
+
+Added logic that if it's still on the first box, it will check if the largePSU is the only thing left to pack (minus the exceptions of juncBox/insulPouch)
+
+
+
+
+3.2.10  2022-11-16 ---
+Fixed 1st box not filling before packing largePSU
+---
+Now first box will fill and it will try to pack the largePSU after each item type is fully packed.
+
+This typically means APIs can fill box 1, POLDs can finish box 1 and start box 2, then largePSU packs in box 2.
+
+Not the perfect way to do it, but breaking the while loop of packing one entire item type would be harder.
+
+
+
+
+3.2.9  2022-11-16 ---
+Changed largePSU value to 30
+
+
+
+
+3.2.8  2022-11-15 ---
+set fourHour/recirc = 0 on POLD-Only tab
+---
+Fixed four hour timer / recirc pump values not blanking to 0 when going to POLD-Only tab (which hides those fields)
+
+
+
+
+3.2.7  2022-11-15 ---
+fixed fourHour/recirc box w/juncBox/insulPouch
+---
+Fixed four hour timer / recirc pump not going into fourhour/recirc box if it's the only overflow item going into a new box (besides insulated pouch or junction box).
+(Having an extra insulPouch/juncBox was failing to consider it as the last item)
+(Was only considering using this box as the second box, not for subsequent/final box as well)
+
+
+
+
+3.2.6  2022-11-15 ---
+fixed largePSU not blanking on pold-only/accessories tab
+
+
+
+
+3.2.5  2022-11-15 ---
+added largePSU for 2.5-3" LDS. value 19
+---
+Added automatic Large PSU with LDS 2.5-3" systems, in separate box (which can include accessories). 
+
+Packing it first after primary box (defaulting to 14x14x14 for any item larger than an Accessory Box--12pt). Thus my random 19pt value does have meaning. If we change this space value, we need to make sure it still defaults into a box it'll fit in.
+
+Weight is also random currently (19lb).
+
+
+
+
 3.2.4  2022-01-27 ---
 Updated POLD max value description
 ---
