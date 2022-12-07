@@ -160,6 +160,17 @@ DONE
 
 
 
+3.3.0  2022-12-06 ---
+Moving js to js files
+---
+Moving the javascript out of the html file and into separate javascript .js files to make sure it works, as a first step before converting to React or Typescript.
+
+Started to add a couple Next.JS template folders (haven't transitioned any code there). Templates in there are partial and broken.
+https://nextjs.org/learn/basics/create-nextjs-app/setup
+
+
+
+
 3.2.11  2022-11-16 ---
 Fixed largePSU not packing if no accessories to fill box1
 ---
