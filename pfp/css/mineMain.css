@@ -1,0 +1,290 @@
+/* <!-- My CSS --> */
+
+/* Hide these (ids) until shown */
+/* I'm also adding a class to these, to default them to hidden when Reset is pressed, and so I don't have to keep adding each id */
+.startHidden,
+#expandPold,
+#resultsBoxContainer,
+#inputHiddenWireLength,
+#hiddenWireHelp,
+#selectSplitSystem {
+  display: none;
+}
+
+.resultsBoxContainer {
+  max-width: 600px;
+  /* Setting div to 3.5in width works for html2pdf */
+  /* width: 3.5in; */
+  /* Setting div to 4x6 for printing didn't seem to work as expected */
+  /* width: 4in; */
+  /* height: 6in; */
+}
+
+/* Hide the SO# on boxes beyond the first, in the results window, until you print */
+.soBox {
+  display: none;
+}
+
+/* Page break after each new box */
+/* HISTORY:  Pulled this out of @media print so it works with html2pdf as well */
+/* NOTE:  Added newBoxBefore1 and newBoxBefore2 to fix html2pdf inserting the page break in wrong location (issue with nested divs) */
+.newBoxBefore2 {
+  /* page-break-before replaced by break-before (change 'always' to 'page'*/
+  /* page-break-before: always; */
+  break-before: page;
+  /* margin-top: 20px; */
+}
+
+/* Makes placeholder divs smaller so they don't create big gaps */
+/* TODO: Maybe remove this rule when saving/printing  */
+/* HISTORY:  html2pdf was having trouble with page break locations with unstandard div heights,
+     so i disabled this rule initially, but now that i'm not using external css it seems to work */
+.newBoxBefore1,
+.newBoxBefore2 {
+  height: 2px;
+}
+
+/* FUNCTION:  Makes the "Saving..." message div cover the whole window size, to prevent ugly css viewing */
+/* TODO:  Fix/add CSS so the width doesn't create scrollbars */
+/* REFERENCE:  https://stackoverflow.com/questions/1575141/how-to-make-a-div-100-height-of-the-browser-window */
+/* html,
+    body, */
+.savingMessage {
+  color: #e1e1e1;
+  background-color: #222222;
+  /* height: 100%; */
+  height: 100vh;
+  /* height: calc(100vh - 300px); */
+  /* min-height: 100vh; */
+  /* width: 100%; */
+  width: 100vw;
+  /* width: calc(1000vw - 300px); */
+  /* min-width: 100vw; */
+  /* margin: 0; */
+  /* overflow-y: hidden; // hide vertical */
+  /* overflow-x: hidden; // hide horizontal */
+}
+
+/* FUNCTION:  Vertically aligns the "Saving..." text */
+.savingMessage h1 {
+  /* vertical-align: middle; */
+  /* FUNCTION:  Center the text on the page */
+  /* SOURCE:  https://www.w3docs.com/snippets/css/how-to-vertically-center-text-with-css.html#use-css-flexbox-8 */
+  display: flex;
+  width: 100%;
+  height: 100%;
+  /* margin: 0; */
+  /* margin: auto; */
+  /* border-radius: 10px; */
+  /* border: 3px dashed #1c87c9; */
+  align-items: center;
+  justify-content: center;
+  /* overflow-y: hidden; // hide vertical */
+  /* overflow-x: hidden; // hide horizontal */
+}
+
+/* Testing changing css dynamically */
+/* Run changeCSS(); in showDebugCheck() function (clicking version number)  */
+/* #pageTitle {
+border-style: solid;
+border-color: aqua;
+border-radius: 5px;
+} */
+
+/* Testing changing css dynamically */
+/* Run changeCSS(); in showDebugCheck() function (clicking version number)  */
+/* .newBox {
+        border-style: solid;
+        border-color: rgb(2, 0, 114);
+        border-radius: 5px;
+        border-width: 5px;
+    } */
+
+/*  PRINT OPTIONS (onprint) */
+@media print {
+  /* Show the SO# on boxes beyond the first when you print */
+  /* Unhide the divs used for making page breaks (compatible with html2pdf) */
+  /* .soBox, .newBoxBefore1, .newBoxBefore2 { */
+  .soBox {
+    display: block;
+  }
+
+  /* Hide the weights when printing */
+  .weightCurrentBox {
+    display: none;
+  }
+
+  /*  Defines colors for printing as: white background, black text */
+  /*  HISTORY:  It was printing with gray text as default in dark mode*/
+  /*  HISTORY:  Color was not working on <pre> text until i changed .pre to pre (duh, it's not a class) */
+  .resultsBoxContainer,
+  pre,
+  html,
+  body,
+  .newBox,
+  .container,
+  .container-sm {
+    color: black;
+    background-color: white;
+  }
+
+  @page {
+    color: black;
+    background-color: white;
+  }
+
+  /* FUNCTION:  Hide the added header/footer page details that get printed by browser */
+  /* This is done by making a 0 or negative margin on the print version of the page,
+        which overrides the headers/footers added in the margins by the browser,
+        you then add margin back to the html element.
+        The downside is pages beyond the first won't be styled correctly, 
+        so i added margin on my divs specific to the results box */
+  /* SOURCE:  https://stackoverflow.com/a/38506980 */
+  @page {
+    margin: 0 0cm;
+  }
+
+  html {
+    margin: 0cm 0cm;
+  }
+
+  /* Fixes the page if it's firefox */
+  /* Not really an issue now. 0 padding seems to be working in chrome, firefox, and edge. */
+  /* @-moz-document url-prefix() {
+            @page {
+                margin: 0 0cm
+            }
+        } */
+
+  /* Fixes the page if it's firefox */
+  /* @-moz-document url-prefix() {
+            html {
+                margin: 0cm 0cm
+            }
+        } */
+
+  /* Margin added to results divs to make pages after the first not hit the edge of page */
+  .resultsBoxContainer {
+    /* margin: 2cm 2cm; */
+    padding-top: 20px;
+    /* margin-right: 20px; */
+    /* margin-bottom: 20px; */
+    padding-left: 20px;
+  }
+
+  /* Margin added to results divs to make pages after the first not hit the edge of page */
+  .newBox {
+    /* margin: 2cm 2cm; */
+    padding-top: 20px;
+    /* margin-right: 20px; */
+    /* margin-bottom: 20px; */
+    /* margin-left: 20px; */
+  }
+
+  /* Adding elements with bootstrap d-print-none class added, so external stylesheet for html2pdf works */
+  .d-print-none {
+    display: none;
+  }
+}
+
+/*  SAVE/PRINT OPTIONS (on save, addPrintCss()) */
+/*  Duplicating PRINT OPTIONS (onprint) for html2pdf saving*/
+
+/* Show Saving... message (to prevent weird css flash of white) */
+.printCss .savingMessage {
+  display: block;
+}
+
+/* Show the SO# on boxes beyond the first when you print */
+/* Unhide the divs used for making page breaks (compatible with html2pdf) */
+/* .soBox, .newBoxBefore1, .newBoxBefore2 { */
+.printCss .soBox {
+  display: block;
+}
+
+/* Hide the weights when printing */
+.printCss .weightCurrentBox {
+  display: none;
+}
+
+/*  Defines colors for printing as: white background, black text */
+/*  HISTORY:  It was printing with gray text as default in dark mode*/
+/*  HISTORY:  Color was not working on <pre> text until i changed .pre to pre (duh, it's not a class) */
+.printCss .resultsBoxContainer,
+.printCss pre,
+.printCss html,
+.printCss,
+.printCss body,
+.printCss .newBox,
+.printCss .container,
+.printCss .container-sm {
+  color: black;
+  background-color: white;
+}
+
+/* This rule may not work, I'm not sure if @page can have a parent div/class */
+/* .printCss @page {
+        color: black;
+        background-color: white;
+    } */
+
+/* FUNCTION:  Hide the added header/footer page details that get printed by browser */
+/* This is done by making a 0 or negative margin on the print version of the page,
+        which overrides the headers/footers added in the margins by the browser,
+        you then add margin back to the html element.
+        The downside is pages beyond the first won't be styled correctly, 
+        so i added margin on my divs specific to the results box */
+/* SOURCE:  https://stackoverflow.com/a/38506980 */
+/* This rule may not work, I'm not sure if @page can have a parent div/class */
+/* .printCss @page {
+        margin: 0 0cm
+    } */
+
+.printCss html,
+.printCss {
+  margin: 0cm 0cm;
+}
+
+/* Margin added to results divs to make pages after the first not hit the edge of page */
+.printCss .resultsBoxContainer {
+  /* margin: 2cm 2cm; */
+  padding-top: 20px;
+  /* margin-right: 20px; */
+  /* margin-bottom: 20px; */
+  padding-left: 20px;
+}
+
+/* Margin added to results divs to make pages after the first not hit the edge of page */
+/* NOTE:  Maybe delete. This may conflict with the changeCSSAddPadding function if you load it after calling the function  */
+.printCss .newBox {
+  /* margin: 2cm 2cm; */
+  /* border-style: solid; */
+  /* border-color: aqua; */
+  /* border-radius: calc(20px + boxNumber); */
+  /* padding-top: calc(20px + boxNumber); */
+  /* padding-top: calc(20px + (boxNumber * 10)); */
+  padding-top: 20px;
+  /* margin-top: 20px; */
+  /* margin-right: 20px; */
+  /* margin-bottom: 20px; */
+  /* margin-left: 20px; */
+}
+
+/* Makes placeholder divs smaller so they don't create big gaps */
+/* TODO: Maybe remove this rule when saving/printing  */
+/* HISTORY:  html2pdf was having trouble with page break locations with unstandard div heights,
+     so i disabled this rule initially, but now that i'm not using external css it seems to work */
+/* .printCss .newBoxBefore1,
+    .printCss .newBoxBefore2 {
+        height: auto;
+    } */
+
+/* Hiding elements with bootstrap d-print-none class, so it works with html2pdf */
+.printCss .d-print-none {
+  display: none;
+}
+
+/* This rule may not work, I'm not sure if @page can have a parent div/class */
+/* .printCss @page {
+        size: 4in 6in;
+    } */

@@ -160,6 +160,14 @@ DONE
 
 
 
+3.3.1  2022-12-08 ---
+Moved CSS to .css file
+---
+Moved my custom css from <head> to external stylesheet in preparation for react.
+
+
+
+
 3.3.0  2022-12-06 ---
 Moving js to js files
 ---
